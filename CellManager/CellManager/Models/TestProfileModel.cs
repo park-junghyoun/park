@@ -1,0 +1,36 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CellManager.Models.TestProfile;
+using System;
+
+namespace CellManager.Models
+{
+    public partial class TestProfileModel : ObservableObject
+    {
+        [ObservableProperty]
+        private int _id;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(DisplayNameAndId))]
+        private string _profileName;
+
+        [ObservableProperty]
+        private int _cellId;
+
+        public string DisplayNameAndId => $"ID: {Id} - {ProfileName}";
+
+        [ObservableProperty]
+        private ChargeProfile _chargeProfile = new ChargeProfile();
+
+        [ObservableProperty]
+        private DischargeProfile _dischargeProfile = new DischargeProfile();
+
+        [ObservableProperty]
+        private RestProfile _restProfile = new RestProfile();
+
+        [ObservableProperty]
+        private OCVProfile _ocvProfile = new OCVProfile();
+
+        [ObservableProperty]
+        private ECMPulseProfile _ecmPulseProfile = new ECMPulseProfile();
+    }
+}

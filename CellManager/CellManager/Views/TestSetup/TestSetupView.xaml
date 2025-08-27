@@ -1,0 +1,252 @@
+﻿<UserControl x:Class="CellManager.Views.TestSetup.TestSetupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:CellManager.ViewModels"
+             xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <!-- Editor templates: auto-switched by CurrentEditor instance type -->
+        <DataTemplate DataType="{x:Type tp:ChargeProfile}">
+            <StackPanel Margin="8" >
+                <TextBlock Text="Charge Profile" FontWeight="Bold" Margin="0,0,0,8"/>
+                <Grid Margin="0,4,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="Charge Current (A)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding ChargeCurrent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
+
+                    <TextBlock Text="Cutoff Voltage (V)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding ChargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
+
+                    <TextBlock Text="Cutoff Current (A)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding CutoffCurrent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type tp:DischargeProfile}">
+            <StackPanel Margin="8">
+                <TextBlock Text="Discharge Profile" FontWeight="Bold" Margin="0,0,0,8"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="Mode" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding DischargeMode, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
+
+                    <TextBlock Text="Current (A)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding DischargeCurrent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
+
+                    <TextBlock Text="Cutoff Voltage (V)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding DischargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"/>
+
+                    <TextBlock Text="Capacity (mAh)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type tp:ECMPulseProfile}">
+            <StackPanel Margin="8">
+                <TextBlock Text="ECM Pulse Profile" FontWeight="Bold" Margin="0,0,0,8"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="Pulse Current (A)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding PulseCurrent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
+
+                    <TextBlock Text="Pulse Duration (ms)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding PulseDuration, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
+
+                    <TextBlock Text="Reset Time After Pulse (ms)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding ResetTimeAfterPulse, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"/>
+
+                    <TextBlock Text="Sampling Rate (ms)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding SamplingRateMs, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type tp:OCVProfile}">
+            <StackPanel Margin="8">
+                <TextBlock Text="OCV Profile" FontWeight="Bold" Margin="0,0,0,8"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="Qmax" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Qmax, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
+
+                    <TextBlock Text="SOC Step (%)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding SocStepPercent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
+
+                    <TextBlock Text="Discharge Current (A)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding DischargeCurrent_OCV, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"/>
+
+                    <TextBlock Text="Rest Time (s)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding RestTime_OCV, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
+
+                    <TextBlock Text="Cutoff Voltage (V)" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding DischargeCutoffVoltage_OCV, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type tp:RestProfile}">
+            <StackPanel Margin="8">
+                <TextBlock Text="Rest Profile" FontWeight="Bold" Margin="0,0,0,8"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="Rest Time (s)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding RestTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="360"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT: Profile Libraries -->
+        <DockPanel Grid.Column="0" Margin="8">
+            <TextBlock DockPanel.Dock="Top" Text="Profile Libraries" FontWeight="Bold" Margin="0,0,0,8"/>
+            <TabControl>
+                <TabItem Header="Charge">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Button Content="New" Command="{Binding AddChargeProfileCommand}" Margin="0,0,6,0"/>
+                            <Button Content="Delete" Command="{Binding DeleteChargeProfileCommand}" />
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding ChargeProfiles}"
+                                 SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}"
+                                 DisplayMemberPath="Name"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Discharge">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Button Content="New" Command="{Binding AddDischargeProfileCommand}" Margin="0,0,6,0"/>
+                            <Button Content="Delete" Command="{Binding DeleteDischargeProfileCommand}" />
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding DischargeProfiles}"
+                                 SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}"
+                                 DisplayMemberPath="Name"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="ECM">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Button Content="New" Command="{Binding AddEcmProfileCommand}" Margin="0,0,6,0"/>
+                            <Button Content="Delete" Command="{Binding DeleteEcmProfileCommand}" />
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding EcmPulseProfiles}"
+                                 SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}"
+                                 DisplayMemberPath="Name"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="OCV">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Button Content="New" Command="{Binding AddOcvProfileCommand}" Margin="0,0,6,0"/>
+                            <Button Content="Delete" Command="{Binding DeleteOcvProfileCommand}" />
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding OcvProfiles}"
+                                 SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}"
+                                 DisplayMemberPath="Name"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Rest">
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Button Content="New" Command="{Binding AddRestProfileCommand}" Margin="0,0,6,0"/>
+                            <Button Content="Delete" Command="{Binding DeleteRestProfileCommand}" />
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding RestProfiles}"
+                                 SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}"
+                                 DisplayMemberPath="Name"/>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+
+        <!-- RIGHT: Auto-switched editor + Save -->
+        <DockPanel Grid.Column="1" Margin="8">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+                <TextBlock Text="Editor" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <Button Content="Save" Command="{Binding SaveCurrentCommand}" Margin="0,0,6,0"/>
+                <Button Content="Delete" Command="{Binding DeleteCurrentCommand}" />
+            </StackPanel>
+
+            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Padding="8">
+                <ContentControl Content="{Binding CurrentEditor}"/>
+            </Border>
+        </DockPanel>
+    </Grid>
+</UserControl>
+
