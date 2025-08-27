@@ -68,8 +68,8 @@
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Rated Capacity (mAh)" Margin="0,5,10,5"/>
                             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RatedCapacity, Mode=TwoWay}"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Normal Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding NormalVoltage, Mode=TwoWay}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Nominal Voltage (mV)" Margin="0,5,10,5"/>
+                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding NominalVoltage, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Self-Discharge (%/month)" Margin="0,5,10,5"/>
                             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelfDischarge, Mode=TwoWay}"/>

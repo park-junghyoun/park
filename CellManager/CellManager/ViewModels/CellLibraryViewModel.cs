@@ -9,6 +9,7 @@ using System.Windows.Data;
 using CellManager.Messages;
 using CellManager.Models;
 using CellManager.Services;
+using CellManager.Views.CellLibary;
 
 namespace CellManager.ViewModels
 {
@@ -123,13 +124,25 @@ namespace CellManager.ViewModels
         private void StartNewCell()
         {
             // 리스트에 추가하지 않고 임시 모델만 생성 → 우측 상세(CurrentCell)로 표시
-            EditingCell = new Cell
+            var newCell = new Cell
             {
                 ModelName = "New Cell",
-                Manufacturer = "",
-                SerialNumber = "",
-                PartNumber = ""
+                Manufacturer = string.Empty,
+                SerialNumber = string.Empty,
+                PartNumber = string.Empty
             };
+
+            var vm = new CellDetailsViewModel(_cellRepository, newCell);
+            vm.OnSaveCompleted += saved =>
+            {
+                ExecuteLoadData();
+                SelectedCell = CellModels.FirstOrDefault(x => x.Id == saved.Id);
+                WeakReferenceMessenger.Default.Send(new CellSelectedMessage(SelectedCell));
+                WeakReferenceMessenger.Default.Send(new CellAddedMessage(saved));
+            };
+
+            var view = new CellDetailsView { DataContext = vm };
+            view.ShowDialog();
         }
 
         private void SaveCurrent()
@@ -190,13 +203,32 @@ namespace CellManager.ViewModels
             if (EditingCell != null) return; // New 중에는 실수로 리스트 선택 바뀌지 않게 잠금
             if (cell == null) return;
             SelectedCell = cell;
+            cell.IsActive = true; // 선택된 셀은 활성화 표시
+            // 다른 셀들은 비활성화
+            foreach (var c in CellModels)
+            {
+                if (c.Id != cell.Id && c.IsActive)
+                    c.IsActive = false;
+            }
             WeakReferenceMessenger.Default.Send(new CellSelectedMessage(cell));
             FilteredCells.Refresh();
         }
 
         private void ExecuteOpenDetails(Cell cell)
         {
-            // 별도 상세 창 열 때만 필요 — 현재는 패널로 편집하므로 비워둠
+            if (cell == null) return;
+
+            var editCopy = new Cell(cell);
+            var vm = new CellDetailsViewModel(_cellRepository, editCopy);
+            vm.OnSaveCompleted += saved =>
+            {
+                ExecuteLoadData();
+                SelectedCell = CellModels.FirstOrDefault(x => x.Id == saved.Id);
+                WeakReferenceMessenger.Default.Send(new CellSelectedMessage(SelectedCell));
+            };
+
+            var view = new CellDetailsView { DataContext = vm };
+            view.ShowDialog();
         }
 
         private void UpdateCanExecutes()
