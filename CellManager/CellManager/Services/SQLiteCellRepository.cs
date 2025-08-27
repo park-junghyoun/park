@@ -71,11 +71,32 @@ namespace CellManager.Services
                             DischargeTempLow REAL,
                             ConstantCurrent_PreCharge REAL,
                             PreChargeStartVoltage REAL,
-                            PreChargeEndVoltage REAL
+                            PreChargeEndVoltage REAL,
+                            LastUpdated TEXT
                         );";
                     using (var cmd = new SQLiteCommand(createCellsTableSql, conn))
                     {
                         cmd.ExecuteNonQuery();
+                    }
+
+                    // Ensure LastUpdated column exists for older databases
+                    using (var checkCmd = new SQLiteCommand("PRAGMA table_info(Cells);", conn))
+                    using (var reader = checkCmd.ExecuteReader())
+                    {
+                        bool hasLastUpdated = false;
+                        while (reader.Read())
+                        {
+                            if (reader["name"].ToString() == "LastUpdated")
+                            {
+                                hasLastUpdated = true;
+                                break;
+                            }
+                        }
+                        if (!hasLastUpdated)
+                        {
+                            using var alterCmd = new SQLiteCommand("ALTER TABLE Cells ADD COLUMN LastUpdated TEXT;", conn);
+                            alterCmd.ExecuteNonQuery();
+                        }
                     }
                 }
             }
@@ -133,7 +154,8 @@ namespace CellManager.Services
                                 DischargeTempLow = !reader.IsDBNull(29) ? reader.GetDouble(29) : 0.0,
                                 ConstantCurrent_PreCharge = !reader.IsDBNull(30) ? reader.GetDouble(30) : 0.0,
                                 PreChargeStartVoltage = !reader.IsDBNull(31) ? reader.GetDouble(31) : 0.0,
-                                PreChargeEndVoltage = !reader.IsDBNull(32) ? reader.GetDouble(32) : 0.0
+                                PreChargeEndVoltage = !reader.IsDBNull(32) ? reader.GetDouble(32) : 0.0,
+                                LastUpdated = !reader.IsDBNull(33) ? DateTime.Parse(reader.GetString(33), CultureInfo.InvariantCulture) : DateTime.MinValue
                             });
                         }
                     }
@@ -154,6 +176,8 @@ namespace CellManager.Services
                 {
                     conn.Open();
 
+                    cell.LastUpdated = DateTime.Now;
+
                     if (cell.Id == 0)
                     {
                         string insertSql = @"
@@ -164,7 +188,7 @@ namespace CellManager.Services
                                 ExpansionBehavior, ChargingVoltage, CutOffCurrent_Charge, MaxChargingCurrent,
                                 MaxChargingTemp, ChargeTempHigh, ChargeTempLow, DischargeCutOffVoltage,
                                 MaxDischargingCurrent, DischargeTempHigh, DischargeTempLow,
-                                ConstantCurrent_PreCharge, PreChargeStartVoltage, PreChargeEndVoltage
+                                ConstantCurrent_PreCharge, PreChargeStartVoltage, PreChargeEndVoltage, LastUpdated
                             ) VALUES (
                                 @ModelName, @Manufacturer, @SerialNumber, @PartNumber, @RatedCapacity, @NominalVoltage,
                                 @SelfDischarge, @MaxVoltage, @CycleLife, @InitialACImpedance, @InitialDCResistance,
@@ -172,7 +196,7 @@ namespace CellManager.Services
                                 @ExpansionBehavior, @ChargingVoltage, @CutOffCurrent_Charge, @MaxChargingCurrent,
                                 @MaxChargingTemp, @ChargeTempHigh, @ChargeTempLow, @DischargeCutOffVoltage,
                                 @MaxDischargingCurrent, @DischargeTempHigh, @DischargeTempLow,
-                                @ConstantCurrent_PreCharge, @PreChargeStartVoltage, @PreChargeEndVoltage
+                                @ConstantCurrent_PreCharge, @PreChargeStartVoltage, @PreChargeEndVoltage, @LastUpdated
                                 )";
                         using (var cmd = new SQLiteCommand(insertSql, conn))
                         {
@@ -208,6 +232,7 @@ namespace CellManager.Services
                             cmd.Parameters.AddWithValue("@ConstantCurrent_PreCharge", cell.ConstantCurrent_PreCharge);
                             cmd.Parameters.AddWithValue("@PreChargeStartVoltage", cell.PreChargeStartVoltage);
                             cmd.Parameters.AddWithValue("@PreChargeEndVoltage", cell.PreChargeEndVoltage);
+                            cmd.Parameters.AddWithValue("@LastUpdated", cell.LastUpdated.ToString("o"));
                             cmd.ExecuteNonQuery();
                         }
                         using (var cmd = new SQLiteCommand("SELECT last_insert_rowid();", conn))
@@ -217,24 +242,6 @@ namespace CellManager.Services
                     }
                     else
                     {
-                        /*
-                        string updateSql = @"
-                            UPDATE Cells SET
-                                ModelName = @ModelName, Manufacturer = @Manufacturer, SerialNumber = @SerialNumber,
-                                PartNumber = @PartNumber, RatedCapacity = @RatedCapacity, NominalVoltage = @NominalVoltage,
-                                SelfDischarge = @SelfDischarge, MaxVoltage = @MaxVoltage, CycleLife = @CycleLife,
-                                InitialACImpedance = @InitialACImpedance, InitialDCResistance = @InitialDCResistance,
-                                EnergyWh = @EnergyWh, CellType = @CellType, Weight = @Weight, Diameter = @Diameter,
-                                Thickness = @Thickness, Width = @Width, Height = @Height, ExpansionBehavior = @ExpansionBehavior,
-                                ChargingVoltage = @ChargingVoltage, CutOffCurrent_Charge = @CutOffCurrent_Charge,
-                                MaxChargingCurrent = @MaxChargingCurrent, MaxChargingTemp = @MaxChargingTemp,
-                                ChargeTempHigh = @ChargeTempHigh, ChargeTempLow = @ChargeTempLow,
-                                DischargeCutOffVoltage = @DischargeCutOffVoltage, MaxDischargingCurrent = @MaxDischargingCurrent,
-                                DischargeTempHigh = @DischargeTempHigh, DischargeTempLow = @DischargeTempLow,
-                                ConstantCurrent_PreCharge = @ConstantCurrent_PreCharge, PreChargeStartVoltage = @PreChargeStartVoltage,
-                                PreChargeEndVoltage = @PreChargeEndVoltage
-                            WHERE Id = @Id
-                        ";*/
                         const string updateSql = @"
                             UPDATE Cells SET
                                 ModelName = @ModelName,
@@ -268,47 +275,13 @@ namespace CellManager.Services
                                 DischargeTempLow = @DischargeTempLow,
                                 ConstantCurrent_PreCharge = @ConstantCurrent_PreCharge,
                                 PreChargeStartVoltage = @PreChargeStartVoltage,
-                                PreChargeEndVoltage = @PreChargeEndVoltage
+                                PreChargeEndVoltage = @PreChargeEndVoltage,
+                                LastUpdated = @LastUpdated
                             WHERE Id = @Id;
                             ";
 
                         using (var cmd = new SQLiteCommand(updateSql, conn))
                         {
-                            /*
-                            cmd.Parameters.AddWithValue("@Id", cell.Id);
-                            cmd.Parameters.AddWithValue("@ModelName", cell.ModelName);
-                            cmd.Parameters.AddWithValue("@Manufacturer", cell.Manufacturer ?? string.Empty);
-                            cmd.Parameters.AddWithValue("@SerialNumber", cell.SerialNumber ?? string.Empty);
-                            cmd.Parameters.AddWithValue("@PartNumber", cell.PartNumber ?? string.Empty);
-                            cmd.Parameters.AddWithValue("@RatedCapacity", cell.RatedCapacity);
-                            cmd.Parameters.AddWithValue("@NominalVoltage", cell.NominalVoltage);
-                            cmd.Parameters.AddWithValue("@SelfDischarge", cell.SelfDischarge);
-                            cmd.Parameters.AddWithValue("@MaxVoltage", cell.MaxVoltage);
-                            cmd.Parameters.AddWithValue("@CycleLife", cell.CycleLife);
-                            cmd.Parameters.AddWithValue("@InitialACImpedance", cell.InitialACImpedance);
-                            cmd.Parameters.AddWithValue("@InitialDCResistance", cell.InitialDCResistance);
-                            cmd.Parameters.AddWithValue("@EnergyWh", cell.EnergyWh);
-                            cmd.Parameters.AddWithValue("@CellType", cell.CellType ?? string.Empty);
-                            cmd.Parameters.AddWithValue("@Weight", cell.Weight);
-                            cmd.Parameters.AddWithValue("@Diameter", cell.Diameter);
-                            cmd.Parameters.AddWithValue("@Thickness", cell.Thickness);
-                            cmd.Parameters.AddWithValue("@Width", cell.Width);
-                            cmd.Parameters.AddWithValue("@Height", cell.Height);
-                            cmd.Parameters.AddWithValue("@ExpansionBehavior", cell.ExpansionBehavior ?? string.Empty);
-                            cmd.Parameters.AddWithValue("@ChargingVoltage", cell.ChargingVoltage);
-                            cmd.Parameters.AddWithValue("@CutOffCurrent_Charge", cell.CutOffCurrent_Charge);
-                            cmd.Parameters.AddWithValue("@MaxChargingCurrent", cell.MaxChargingCurrent);
-                            cmd.Parameters.AddWithValue("@MaxChargingTemp", cell.MaxChargingTemp);
-                            cmd.Parameters.AddWithValue("@ChargeTempHigh", cell.ChargeTempHigh);
-                            cmd.Parameters.AddWithValue("@ChargeTempLow", cell.ChargeTempLow);
-                            cmd.Parameters.AddWithValue("@DischargeCutOffVoltage", cell.DischargeCutOffVoltage);
-                            cmd.Parameters.AddWithValue("@MaxDischargingCurrent", cell.MaxDischargingCurrent);
-                            cmd.Parameters.AddWithValue("@DischargeTempHigh", cell.DischargeTempHigh);
-                            cmd.Parameters.AddWithValue("@DischargeTempLow", cell.DischargeTempLow);
-                            cmd.Parameters.AddWithValue("@ConstantCurrent_PreCharge", cell.ConstantCurrent_PreCharge);
-                            cmd.Parameters.AddWithValue("@PreChargeStartVoltage", cell.PreChargeStartVoltage);
-                            cmd.Parameters.AddWithValue("@PreChargeEndVoltage", cell.PreChargeEndVoltage);
-                            */
                             cmd.Parameters.AddWithValue("@ModelName", cell.ModelName);
                             cmd.Parameters.AddWithValue("@Manufacturer", cell.Manufacturer);
                             cmd.Parameters.AddWithValue("@SerialNumber", cell.SerialNumber);
@@ -341,6 +314,7 @@ namespace CellManager.Services
                             cmd.Parameters.AddWithValue("@ConstantCurrent_PreCharge", cell.ConstantCurrent_PreCharge);
                             cmd.Parameters.AddWithValue("@PreChargeStartVoltage", cell.PreChargeStartVoltage);
                             cmd.Parameters.AddWithValue("@PreChargeEndVoltage", cell.PreChargeEndVoltage);
+                            cmd.Parameters.AddWithValue("@LastUpdated", cell.LastUpdated.ToString("o"));
                             cmd.Parameters.AddWithValue("@Id", cell.Id);
                             cmd.ExecuteNonQuery();
                         }

@@ -73,7 +73,8 @@ namespace CellManager.Models
         private double _preChargeStartVoltage;
         [ObservableProperty]
         private double _preChargeEndVoltage;
-
+        [ObservableProperty]
+        private DateTime _lastUpdated;
         [ObservableProperty]
         private bool _isActive = false;  
 
@@ -117,6 +118,7 @@ namespace CellManager.Models
             ConstantCurrent_PreCharge = source.ConstantCurrent_PreCharge;
             PreChargeStartVoltage = source.PreChargeStartVoltage;
             PreChargeEndVoltage = source.PreChargeEndVoltage;
+            LastUpdated = source.LastUpdated;
             IsActive = source.IsActive;
         }
         public void CopyFrom(Cell source)
@@ -154,6 +156,7 @@ namespace CellManager.Models
             ConstantCurrent_PreCharge = source.ConstantCurrent_PreCharge;
             PreChargeStartVoltage = source.PreChargeStartVoltage;
             PreChargeEndVoltage = source.PreChargeEndVoltage;
+            LastUpdated = source.LastUpdated;
             IsActive = source.IsActive;
         }
     }
