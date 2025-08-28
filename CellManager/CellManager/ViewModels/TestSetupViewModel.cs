@@ -29,6 +29,10 @@ namespace CellManager.ViewModels
 
         // --- Selection context ---
         [ObservableProperty] private Cell _selectedCell;
+        partial void OnSelectedCellChanged(Cell value)
+        {
+            NotifyCanExecutes();
+        }
 
         // Active editor type & current editor object (auto-changed by selection)
         [ObservableProperty] private ProfileKind _activeEditor = ProfileKind.None;
@@ -170,23 +174,23 @@ namespace CellManager.ViewModels
             _restRepo = restRepo;
 
             // Create commands
-            AddChargeProfileCommand = new RelayCommand(AddCharge);
+            AddChargeProfileCommand = new RelayCommand(AddCharge, () => SelectedCell?.Id > 0);
             SaveChargeProfileCommand = new RelayCommand(SaveCharge, () => SelectedChargeProfile != null && SelectedCell?.Id > 0);
             DeleteChargeProfileCommand = new RelayCommand(DeleteCharge, () => SelectedChargeProfile != null);
 
-            AddDischargeProfileCommand = new RelayCommand(AddDischarge);
+            AddDischargeProfileCommand = new RelayCommand(AddDischarge, () => SelectedCell?.Id > 0);
             SaveDischargeProfileCommand = new RelayCommand(SaveDischarge, () => SelectedDischargeProfile != null && SelectedCell?.Id > 0);
             DeleteDischargeProfileCommand = new RelayCommand(DeleteDischarge, () => SelectedDischargeProfile != null);
 
-            AddEcmProfileCommand = new RelayCommand(AddEcm);
+            AddEcmProfileCommand = new RelayCommand(AddEcm, () => SelectedCell?.Id > 0);
             SaveEcmProfileCommand = new RelayCommand(SaveEcm, () => SelectedEcmPulseProfile != null && SelectedCell?.Id > 0);
             DeleteEcmProfileCommand = new RelayCommand(DeleteEcm, () => SelectedEcmPulseProfile != null);
 
-            AddOcvProfileCommand = new RelayCommand(AddOcv);
+            AddOcvProfileCommand = new RelayCommand(AddOcv, () => SelectedCell?.Id > 0);
             SaveOcvProfileCommand = new RelayCommand(SaveOcv, () => SelectedOcvProfile != null && SelectedCell?.Id > 0);
             DeleteOcvProfileCommand = new RelayCommand(DeleteOcv, () => SelectedOcvProfile != null);
 
-            AddRestProfileCommand = new RelayCommand(AddRest);
+            AddRestProfileCommand = new RelayCommand(AddRest, () => SelectedCell?.Id > 0);
             SaveRestProfileCommand = new RelayCommand(SaveRest, () => SelectedRestProfile != null && SelectedCell?.Id > 0);
             DeleteRestProfileCommand = new RelayCommand(DeleteRest, () => SelectedRestProfile != null);
 
@@ -204,14 +208,19 @@ namespace CellManager.ViewModels
         // --- Helpers ---
         private void NotifyCanExecutes()
         {
+            AddChargeProfileCommand.NotifyCanExecuteChanged();
             SaveChargeProfileCommand.NotifyCanExecuteChanged();
             DeleteChargeProfileCommand.NotifyCanExecuteChanged();
+            AddDischargeProfileCommand.NotifyCanExecuteChanged();
             SaveDischargeProfileCommand.NotifyCanExecuteChanged();
             DeleteDischargeProfileCommand.NotifyCanExecuteChanged();
+            AddEcmProfileCommand.NotifyCanExecuteChanged();
             SaveEcmProfileCommand.NotifyCanExecuteChanged();
             DeleteEcmProfileCommand.NotifyCanExecuteChanged();
+            AddOcvProfileCommand.NotifyCanExecuteChanged();
             SaveOcvProfileCommand.NotifyCanExecuteChanged();
             DeleteOcvProfileCommand.NotifyCanExecuteChanged();
+            AddRestProfileCommand.NotifyCanExecuteChanged();
             SaveRestProfileCommand.NotifyCanExecuteChanged();
             DeleteRestProfileCommand.NotifyCanExecuteChanged();
             SaveCurrentCommand.NotifyCanExecuteChanged();
@@ -299,6 +308,7 @@ namespace CellManager.ViewModels
         // --- CRUD (safe reselect logic) ---
         private void AddCharge()
         {
+            if (SelectedCell?.Id <= 0) return;
             SelectedChargeProfile = new ChargeProfile { Name = "New Charge" };
             ChargeProfiles.Add(SelectedChargeProfile);
             ActiveEditor = ProfileKind.Charge;
@@ -327,6 +337,7 @@ namespace CellManager.ViewModels
 
         private void AddDischarge()
         {
+            if (SelectedCell?.Id <= 0) return;
             SelectedDischargeProfile = new DischargeProfile { Name = "New Discharge" };
             DischargeProfiles.Add(SelectedDischargeProfile);
             ActiveEditor = ProfileKind.Discharge;
@@ -355,6 +366,7 @@ namespace CellManager.ViewModels
 
         private void AddEcm()
         {
+            if (SelectedCell?.Id <= 0) return;
             SelectedEcmPulseProfile = new ECMPulseProfile { Name = "New ECM" };
             EcmPulseProfiles.Add(SelectedEcmPulseProfile);
             ActiveEditor = ProfileKind.Ecm;
@@ -383,6 +395,7 @@ namespace CellManager.ViewModels
 
         private void AddOcv()
         {
+            if (SelectedCell?.Id <= 0) return;
             SelectedOcvProfile = new OCVProfile { Name = "New OCV" };
             OcvProfiles.Add(SelectedOcvProfile);
             ActiveEditor = ProfileKind.Ocv;
@@ -411,6 +424,7 @@ namespace CellManager.ViewModels
 
         private void AddRest()
         {
+            if (SelectedCell?.Id <= 0) return;
             SelectedRestProfile = new RestProfile { Name = "New Rest" };
             RestProfiles.Add(SelectedRestProfile);
             ActiveEditor = ProfileKind.Rest;
