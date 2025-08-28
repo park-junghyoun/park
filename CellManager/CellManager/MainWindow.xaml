@@ -22,9 +22,7 @@
             <viewsTestSetup:TestSetupView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ScheduleViewModel}">
-            <Grid Background="#FFFFFF">
-                <TextBlock Text="Schedule Content" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-            </Grid>
+            <views:ScheduleBuilderView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RunViewModel}">
             <Grid Background="#FFFFFF">

@@ -185,7 +185,7 @@
                         </StackPanel>
                         <ListBox ItemsSource="{Binding ChargeProfiles}"
                                  SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}"
-                                 DisplayMemberPath="Name"/>
+                                 DisplayMemberPath="DisplayNameAndId"/>
                     </DockPanel>
                 </TabItem>
                 <TabItem Header="Discharge">
@@ -196,7 +196,7 @@
                         </StackPanel>
                         <ListBox ItemsSource="{Binding DischargeProfiles}"
                                  SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}"
-                                 DisplayMemberPath="Name"/>
+                                 DisplayMemberPath="DisplayNameAndId"/>
                     </DockPanel>
                 </TabItem>
                 <TabItem Header="ECM">
@@ -207,7 +207,7 @@
                         </StackPanel>
                         <ListBox ItemsSource="{Binding EcmPulseProfiles}"
                                  SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}"
-                                 DisplayMemberPath="Name"/>
+                                 DisplayMemberPath="DisplayNameAndId"/>
                     </DockPanel>
                 </TabItem>
                 <TabItem Header="OCV">
@@ -218,7 +218,7 @@
                         </StackPanel>
                         <ListBox ItemsSource="{Binding OcvProfiles}"
                                  SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}"
-                                 DisplayMemberPath="Name"/>
+                                 DisplayMemberPath="DisplayNameAndId"/>
                     </DockPanel>
                 </TabItem>
                 <TabItem Header="Rest">
@@ -229,7 +229,7 @@
                         </StackPanel>
                         <ListBox ItemsSource="{Binding RestProfiles}"
                                  SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}"
-                                 DisplayMemberPath="Name"/>
+                                 DisplayMemberPath="DisplayNameAndId"/>
                     </DockPanel>
                 </TabItem>
             </TabControl>
@@ -237,6 +237,15 @@
 
         <!-- RIGHT: Auto-switched editor + Save -->
         <DockPanel Grid.Column="1" Margin="8">
+            <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Padding="5" Margin="0,0,0,8">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,20,0"/>
+                    <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,20,0"/>
+                    <TextBlock Text="{Binding SelectedCell.Manufacturer, StringFormat='Manufacturer: {0}'}" Margin="0,0,20,0"/>
+                    <TextBlock Text="{Binding SelectedCell.CellType, StringFormat='Type: {0}'}" Margin="0,0,20,0"/>
+                    <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}"/>
+                </StackPanel>
+            </Border>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
                 <TextBlock Text="Editor" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,12,0"/>
                 <Button Content="Save" Command="{Binding SaveCurrentCommand}" Margin="0,0,6,0"/>

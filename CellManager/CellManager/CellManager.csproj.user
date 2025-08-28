@@ -8,6 +8,9 @@
     <Compile Update="Views\CellLibary\CellLibraryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\ScheduleBuilderView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\test.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

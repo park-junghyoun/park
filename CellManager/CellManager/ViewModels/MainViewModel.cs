@@ -82,6 +82,9 @@ namespace CellManager.ViewModels
 
             if (SelectedCell == null && AvailableCells.Any())
                 SelectedCell = AvailableCells.First();
+
+            if (SelectedCell != null)
+                WeakReferenceMessenger.Default.Send(new CellSelectedMessage(SelectedCell));
         }
     }
 }

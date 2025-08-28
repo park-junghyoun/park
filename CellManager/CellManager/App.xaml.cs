@@ -38,6 +38,7 @@ namespace CellManager
                     services.AddSingleton<IOcvProfileRepository, SQLiteOcvProfileRepository>();
                     services.AddSingleton<IRestProfileRepository, SQLiteRestProfileRepository>();
                     services.AddSingleton<ITestProfileRepository, SQLiteTestProfileRepository>();
+                    services.AddSingleton<IScheduleRepository, SQLiteScheduleRepository>();
 
 
                     // Views

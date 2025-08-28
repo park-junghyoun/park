@@ -16,6 +16,9 @@ namespace CellManager.Models
         [ObservableProperty]
         private int _cellId;
 
+        [ObservableProperty]
+        private TestProfileType _profileType;
+
         public string DisplayNameAndId => $"ID: {Id} - {ProfileName}";
 
         [ObservableProperty]

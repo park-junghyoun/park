@@ -241,6 +241,7 @@ namespace CellManager.Services
                                         SamplingRateMs = reader.IsDBNull(19) ? 0.0 : reader.GetDouble(19)
                                     }
                                 };
+                                profile.ProfileType = DetermineProfileType(profile);
                                 profiles.Add(profile);
                             }
                         }
@@ -252,6 +253,22 @@ namespace CellManager.Services
                 Console.WriteLine($"Load Test Profiles failed: {ex.Message}");
             }
             return profiles;
+        }
+
+        private static TestProfileType DetermineProfileType(TestProfileModel profile)
+        {
+            if (profile.EcmPulseProfile != null &&
+                (profile.EcmPulseProfile.PulseCurrent != 0 || profile.EcmPulseProfile.PulseDuration != 0))
+                return TestProfileType.ECM;
+            if (profile.OcvProfile != null && profile.OcvProfile.Qmax != 0)
+                return TestProfileType.OCV;
+            if (profile.RestProfile != null && profile.RestProfile.RestTime != 0)
+                return TestProfileType.Rest;
+            if (profile.DischargeProfile != null &&
+                (!string.IsNullOrWhiteSpace(profile.DischargeProfile.DischargeMode) ||
+                 profile.DischargeProfile.DischargeCurrent != 0))
+                return TestProfileType.Discharge;
+            return TestProfileType.Charge;
         }
     }
 }
