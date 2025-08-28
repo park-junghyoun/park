@@ -7,6 +7,7 @@ using CellManager.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Windows;
 
 namespace CellManager.ViewModels
 {
@@ -124,13 +125,24 @@ namespace CellManager.ViewModels
 
         private void SaveSchedule()
         {
-            var schedule = SelectedSchedule ?? new Schedule();
+            var duplicates = _scheduleRepository.GetAll().Any(s => s.Name == ScheduleName);
+            if (duplicates)
+            {
+                MessageBox.Show(
+                    "A schedule with this name already exists.",
+                    "Duplicate Schedule",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
 
-            schedule.Name = ScheduleName;
-            schedule.Notes = Notes;
-            schedule.TestProfileIds = WorkingSchedule.Select(p => p.Id).ToList();
-            schedule.Ordering = 0;
-
+            var schedule = new Schedule
+            {
+                Name = ScheduleName,
+                Notes = Notes,
+                TestProfileIds = WorkingSchedule.Select(p => p.Id).ToList(),
+                Ordering = 0
+            };
             _scheduleRepository.Save(schedule);
 
             if (!Schedules.Contains(schedule))

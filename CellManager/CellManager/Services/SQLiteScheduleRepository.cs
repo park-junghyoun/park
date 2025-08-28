@@ -34,7 +34,7 @@ namespace CellManager.Services
                 string createTableSql = @"
                     CREATE TABLE IF NOT EXISTS Schedules (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Name TEXT NOT NULL,
+                        Name TEXT NOT NULL UNIQUE,
                         TestProfileIds TEXT,
                         Ordering INTEGER,
                         Notes TEXT
