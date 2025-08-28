@@ -239,13 +239,13 @@
         <!-- RIGHT: Auto-switched editor + Save -->
         <DockPanel Grid.Column="1" Margin="8">
             <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Padding="5" Margin="0,0,0,8">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,20,0"/>
-                    <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,20,0"/>
-                    <TextBlock Text="{Binding SelectedCell.Manufacturer, StringFormat='Manufacturer: {0}'}" Margin="0,0,20,0"/>
-                    <TextBlock Text="{Binding SelectedCell.CellType, StringFormat='Type: {0}'}" Margin="0,0,20,0"/>
-                    <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}"/>
-                </StackPanel>
+                <WrapPanel>
+                    <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,16,4"/>
+                    <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
+                    <TextBlock Text="{Binding SelectedCell.Manufacturer, StringFormat='Manufacturer: {0}'}" Margin="0,0,16,4"/>
+                    <TextBlock Text="{Binding SelectedCell.CellType, StringFormat='Type: {0}'}" Margin="0,0,16,4"/>
+                    <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
+                </WrapPanel>
             </Border>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
                 <TextBlock Text="Editor" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,12,0"/>
