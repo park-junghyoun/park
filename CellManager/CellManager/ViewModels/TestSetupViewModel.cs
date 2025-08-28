@@ -8,6 +8,7 @@ using CellManager.Messages;
 using CellManager.Models;
 using CellManager.Models.TestProfile;
 using CellManager.Services;
+using CellManager.ViewModels.TestSetup;
 
 namespace CellManager.ViewModels
 {
@@ -21,6 +22,12 @@ namespace CellManager.ViewModels
         private readonly IEcmPulseProfileRepository _ecmRepo;
         private readonly IOcvProfileRepository _ocvRepo;
         private readonly IRestProfileRepository _restRepo;
+
+        private readonly ProfileManager<ChargeProfile> _chargeManager;
+        private readonly ProfileManager<DischargeProfile> _dischargeManager;
+        private readonly ProfileManager<ECMPulseProfile> _ecmManager;
+        private readonly ProfileManager<OCVProfile> _ocvManager;
+        private readonly ProfileManager<RestProfile> _restManager;
 
         // --- Tab header (for MainWindow TabControl) ---
         public string HeaderText { get; } = "Test Setup";
@@ -172,27 +179,101 @@ namespace CellManager.ViewModels
             _ecmRepo = ecmRepo;
             _ocvRepo = ocvRepo;
             _restRepo = restRepo;
+            _chargeManager = new ProfileManager<ChargeProfile>(
+                ProfileKind.Charge,
+                () => new ChargeProfile { Name = "New Charge" },
+                () => ChargeProfiles,
+                () => SelectedChargeProfile,
+                p => SelectedChargeProfile = p,
+                (p, id) => _chargeRepo.Save(p, id),
+                p => _chargeRepo.Delete(p),
+                p => p.Id,
+                p => p.Name,
+                () => SelectedCell?.Id ?? 0,
+                ReloadAll,
+                k => ActiveEditor = k,
+                NotifyCanExecutes);
+
+            _dischargeManager = new ProfileManager<DischargeProfile>(
+                ProfileKind.Discharge,
+                () => new DischargeProfile { Name = "New Discharge" },
+                () => DischargeProfiles,
+                () => SelectedDischargeProfile,
+                p => SelectedDischargeProfile = p,
+                (p, id) => _dischargeRepo.Save(p, id),
+                p => _dischargeRepo.Delete(p),
+                p => p.Id,
+                p => p.Name,
+                () => SelectedCell?.Id ?? 0,
+                ReloadAll,
+                k => ActiveEditor = k,
+                NotifyCanExecutes);
+
+            _ecmManager = new ProfileManager<ECMPulseProfile>(
+                ProfileKind.Ecm,
+                () => new ECMPulseProfile { Name = "New ECM" },
+                () => EcmPulseProfiles,
+                () => SelectedEcmPulseProfile,
+                p => SelectedEcmPulseProfile = p,
+                (p, id) => _ecmRepo.Save(p, id),
+                p => _ecmRepo.Delete(p),
+                p => p.Id,
+                p => p.Name,
+                () => SelectedCell?.Id ?? 0,
+                ReloadAll,
+                k => ActiveEditor = k,
+                NotifyCanExecutes);
+
+            _ocvManager = new ProfileManager<OCVProfile>(
+                ProfileKind.Ocv,
+                () => new OCVProfile { Name = "New OCV" },
+                () => OcvProfiles,
+                () => SelectedOcvProfile,
+                p => SelectedOcvProfile = p,
+                (p, id) => _ocvRepo.Save(p, id),
+                p => _ocvRepo.Delete(p),
+                p => p.Id,
+                p => p.Name,
+                () => SelectedCell?.Id ?? 0,
+                ReloadAll,
+                k => ActiveEditor = k,
+                NotifyCanExecutes);
+
+            _restManager = new ProfileManager<RestProfile>(
+                ProfileKind.Rest,
+                () => new RestProfile { Name = "New Rest" },
+                () => RestProfiles,
+                () => SelectedRestProfile,
+                p => SelectedRestProfile = p,
+                (p, id) => _restRepo.Save(p, id),
+                p => _restRepo.Delete(p),
+                p => p.Id,
+                p => p.Name,
+                () => SelectedCell?.Id ?? 0,
+                ReloadAll,
+                k => ActiveEditor = k,
+                NotifyCanExecutes);
 
             // Create commands
-            AddChargeProfileCommand = new RelayCommand(AddCharge, () => SelectedCell?.Id > 0);
-            SaveChargeProfileCommand = new RelayCommand(SaveCharge, () => SelectedChargeProfile != null && SelectedCell?.Id > 0);
-            DeleteChargeProfileCommand = new RelayCommand(DeleteCharge, () => SelectedChargeProfile != null);
+            AddChargeProfileCommand = new RelayCommand(_chargeManager.Add);
+            SaveChargeProfileCommand = new RelayCommand(_chargeManager.Save, () => SelectedChargeProfile != null && SelectedCell?.Id > 0);
+            DeleteChargeProfileCommand = new RelayCommand(_chargeManager.Delete, () => SelectedChargeProfile != null);
 
-            AddDischargeProfileCommand = new RelayCommand(AddDischarge, () => SelectedCell?.Id > 0);
-            SaveDischargeProfileCommand = new RelayCommand(SaveDischarge, () => SelectedDischargeProfile != null && SelectedCell?.Id > 0);
-            DeleteDischargeProfileCommand = new RelayCommand(DeleteDischarge, () => SelectedDischargeProfile != null);
+            AddDischargeProfileCommand = new RelayCommand(_dischargeManager.Add);
+            SaveDischargeProfileCommand = new RelayCommand(_dischargeManager.Save, () => SelectedDischargeProfile != null && SelectedCell?.Id > 0);
+            DeleteDischargeProfileCommand = new RelayCommand(_dischargeManager.Delete, () => SelectedDischargeProfile != null);
 
-            AddEcmProfileCommand = new RelayCommand(AddEcm, () => SelectedCell?.Id > 0);
-            SaveEcmProfileCommand = new RelayCommand(SaveEcm, () => SelectedEcmPulseProfile != null && SelectedCell?.Id > 0);
-            DeleteEcmProfileCommand = new RelayCommand(DeleteEcm, () => SelectedEcmPulseProfile != null);
+            AddEcmProfileCommand = new RelayCommand(_ecmManager.Add);
+            SaveEcmProfileCommand = new RelayCommand(_ecmManager.Save, () => SelectedEcmPulseProfile != null && SelectedCell?.Id > 0);
+            DeleteEcmProfileCommand = new RelayCommand(_ecmManager.Delete, () => SelectedEcmPulseProfile != null);
 
-            AddOcvProfileCommand = new RelayCommand(AddOcv, () => SelectedCell?.Id > 0);
-            SaveOcvProfileCommand = new RelayCommand(SaveOcv, () => SelectedOcvProfile != null && SelectedCell?.Id > 0);
-            DeleteOcvProfileCommand = new RelayCommand(DeleteOcv, () => SelectedOcvProfile != null);
+            AddOcvProfileCommand = new RelayCommand(_ocvManager.Add);
+            SaveOcvProfileCommand = new RelayCommand(_ocvManager.Save, () => SelectedOcvProfile != null && SelectedCell?.Id > 0);
+            DeleteOcvProfileCommand = new RelayCommand(_ocvManager.Delete, () => SelectedOcvProfile != null);
 
-            AddRestProfileCommand = new RelayCommand(AddRest, () => SelectedCell?.Id > 0);
-            SaveRestProfileCommand = new RelayCommand(SaveRest, () => SelectedRestProfile != null && SelectedCell?.Id > 0);
-            DeleteRestProfileCommand = new RelayCommand(DeleteRest, () => SelectedRestProfile != null);
+            AddRestProfileCommand = new RelayCommand(_restManager.Add);
+            SaveRestProfileCommand = new RelayCommand(_restManager.Save, () => SelectedRestProfile != null && SelectedCell?.Id > 0);
+            DeleteRestProfileCommand = new RelayCommand(_restManager.Delete, () => SelectedRestProfile != null);
 
             SaveCurrentCommand = new RelayCommand(SaveCurrent, CanSaveCurrent);
             DeleteCurrentCommand = new RelayCommand(DeleteCurrent, CanDeleteCurrent);
@@ -286,169 +367,24 @@ namespace CellManager.ViewModels
         {
             switch (ActiveEditor)
             {
-                case ProfileKind.Charge: SaveCharge(); break;
-                case ProfileKind.Discharge: SaveDischarge(); break;
-                case ProfileKind.Ecm: SaveEcm(); break;
-                case ProfileKind.Ocv: SaveOcv(); break;
-                case ProfileKind.Rest: SaveRest(); break;
+                case ProfileKind.Charge: _chargeManager.Save(); break;
+                case ProfileKind.Discharge: _dischargeManager.Save(); break;
+                case ProfileKind.Ecm: _ecmManager.Save(); break;
+                case ProfileKind.Ocv: _ocvManager.Save(); break;
+                case ProfileKind.Rest: _restManager.Save(); break;
             }
         }
         private void DeleteCurrent()
         {
             switch (ActiveEditor)
             {
-                case ProfileKind.Charge: DeleteCharge(); break;
-                case ProfileKind.Discharge: DeleteDischarge(); break;
-                case ProfileKind.Ecm: DeleteEcm(); break;
-                case ProfileKind.Ocv: DeleteOcv(); break;
-                case ProfileKind.Rest: DeleteRest(); break;
+                case ProfileKind.Charge: _chargeManager.Delete(); break;
+                case ProfileKind.Discharge: _dischargeManager.Delete(); break;
+                case ProfileKind.Ecm: _ecmManager.Delete(); break;
+                case ProfileKind.Ocv: _ocvManager.Delete(); break;
+                case ProfileKind.Rest: _restManager.Delete(); break;
             }
         }
-
-        // --- CRUD (safe reselect logic) ---
-        private void AddCharge()
-        {
-            if (SelectedCell?.Id <= 0) return;
-            SelectedChargeProfile = new ChargeProfile { Name = "New Charge" };
-            ChargeProfiles.Add(SelectedChargeProfile);
-            ActiveEditor = ProfileKind.Charge;
-            NotifyCanExecutes();
-        }
-        private void SaveCharge()
-        {
-            var prevId = SelectedChargeProfile?.Id ?? 0;
-            var prevName = SelectedChargeProfile?.Name;
-            _chargeRepo.Save(SelectedChargeProfile, SelectedCell.Id);
-            ReloadAll();
-            if (prevId > 0) SelectedChargeProfile = ChargeProfiles.FirstOrDefault(p => p.Id == prevId);
-            if (SelectedChargeProfile == null && !string.IsNullOrWhiteSpace(prevName))
-                SelectedChargeProfile = ChargeProfiles.LastOrDefault(p => p.Name == prevName);
-            if (SelectedChargeProfile == null) SelectedChargeProfile = ChargeProfiles.LastOrDefault();
-            ActiveEditor = ProfileKind.Charge;
-            NotifyCanExecutes();
-        }
-        private void DeleteCharge()
-        {
-            if (SelectedChargeProfile == null) return;
-            _chargeRepo.Delete(SelectedChargeProfile);
-            ReloadAll();
-            ActiveEditor = ProfileKind.Charge;
-        }
-
-        private void AddDischarge()
-        {
-            if (SelectedCell?.Id <= 0) return;
-            SelectedDischargeProfile = new DischargeProfile { Name = "New Discharge" };
-            DischargeProfiles.Add(SelectedDischargeProfile);
-            ActiveEditor = ProfileKind.Discharge;
-            NotifyCanExecutes();
-        }
-        private void SaveDischarge()
-        {
-            var prevId = SelectedDischargeProfile?.Id ?? 0;
-            var prevName = SelectedDischargeProfile?.Name;
-            _dischargeRepo.Save(SelectedDischargeProfile, SelectedCell.Id);
-            ReloadAll();
-            if (prevId > 0) SelectedDischargeProfile = DischargeProfiles.FirstOrDefault(p => p.Id == prevId);
-            if (SelectedDischargeProfile == null && !string.IsNullOrWhiteSpace(prevName))
-                SelectedDischargeProfile = DischargeProfiles.LastOrDefault(p => p.Name == prevName);
-            if (SelectedDischargeProfile == null) SelectedDischargeProfile = DischargeProfiles.LastOrDefault();
-            ActiveEditor = ProfileKind.Discharge;
-            NotifyCanExecutes();
-        }
-        private void DeleteDischarge()
-        {
-            if (SelectedDischargeProfile == null) return;
-            _dischargeRepo.Delete(SelectedDischargeProfile);
-            ReloadAll();
-            ActiveEditor = ProfileKind.Discharge;
-        }
-
-        private void AddEcm()
-        {
-            if (SelectedCell?.Id <= 0) return;
-            SelectedEcmPulseProfile = new ECMPulseProfile { Name = "New ECM" };
-            EcmPulseProfiles.Add(SelectedEcmPulseProfile);
-            ActiveEditor = ProfileKind.Ecm;
-            NotifyCanExecutes();
-        }
-        private void SaveEcm()
-        {
-            var prevId = SelectedEcmPulseProfile?.Id ?? 0;
-            var prevName = SelectedEcmPulseProfile?.Name;
-            _ecmRepo.Save(SelectedEcmPulseProfile, SelectedCell.Id);
-            ReloadAll();
-            if (prevId > 0) SelectedEcmPulseProfile = EcmPulseProfiles.FirstOrDefault(p => p.Id == prevId);
-            if (SelectedEcmPulseProfile == null && !string.IsNullOrWhiteSpace(prevName))
-                SelectedEcmPulseProfile = EcmPulseProfiles.LastOrDefault(p => p.Name == prevName);
-            if (SelectedEcmPulseProfile == null) SelectedEcmPulseProfile = EcmPulseProfiles.LastOrDefault();
-            ActiveEditor = ProfileKind.Ecm;
-            NotifyCanExecutes();
-        }
-        private void DeleteEcm()
-        {
-            if (SelectedEcmPulseProfile == null) return;
-            _ecmRepo.Delete(SelectedEcmPulseProfile);
-            ReloadAll();
-            ActiveEditor = ProfileKind.Ecm;
-        }
-
-        private void AddOcv()
-        {
-            if (SelectedCell?.Id <= 0) return;
-            SelectedOcvProfile = new OCVProfile { Name = "New OCV" };
-            OcvProfiles.Add(SelectedOcvProfile);
-            ActiveEditor = ProfileKind.Ocv;
-            NotifyCanExecutes();
-        }
-        private void SaveOcv()
-        {
-            var prevId = SelectedOcvProfile?.Id ?? 0;
-            var prevName = SelectedOcvProfile?.Name;
-            _ocvRepo.Save(SelectedOcvProfile, SelectedCell.Id);
-            ReloadAll();
-            if (prevId > 0) SelectedOcvProfile = OcvProfiles.FirstOrDefault(p => p.Id == prevId);
-            if (SelectedOcvProfile == null && !string.IsNullOrWhiteSpace(prevName))
-                SelectedOcvProfile = OcvProfiles.LastOrDefault(p => p.Name == prevName);
-            if (SelectedOcvProfile == null) SelectedOcvProfile = OcvProfiles.LastOrDefault();
-            ActiveEditor = ProfileKind.Ocv;
-            NotifyCanExecutes();
-        }
-        private void DeleteOcv()
-        {
-            if (SelectedOcvProfile == null) return;
-            _ocvRepo.Delete(SelectedOcvProfile);
-            ReloadAll();
-            ActiveEditor = ProfileKind.Ocv;
-        }
-
-        private void AddRest()
-        {
-            if (SelectedCell?.Id <= 0) return;
-            SelectedRestProfile = new RestProfile { Name = "New Rest" };
-            RestProfiles.Add(SelectedRestProfile);
-            ActiveEditor = ProfileKind.Rest;
-            NotifyCanExecutes();
-        }
-        private void SaveRest()
-        {
-            var prevId = SelectedRestProfile?.Id ?? 0;
-            var prevName = SelectedRestProfile?.Name;
-            _restRepo.Save(SelectedRestProfile, SelectedCell.Id);
-            ReloadAll();
-            if (prevId > 0) SelectedRestProfile = RestProfiles.FirstOrDefault(p => p.Id == prevId);
-            if (SelectedRestProfile == null && !string.IsNullOrWhiteSpace(prevName))
-                SelectedRestProfile = RestProfiles.LastOrDefault(p => p.Name == prevName);
-            if (SelectedRestProfile == null) SelectedRestProfile = RestProfiles.LastOrDefault();
-            ActiveEditor = ProfileKind.Rest;
-            NotifyCanExecutes();
-        }
-        private void DeleteRest()
-        {
-            if (SelectedRestProfile == null) return;
-            _restRepo.Delete(SelectedRestProfile);
-            ReloadAll();
-            ActiveEditor = ProfileKind.Rest;
-        }
+        // CRUD operations are handled by ProfileManager instances
     }
 }
