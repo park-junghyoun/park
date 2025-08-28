@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <CollectionViewSource x:Key="GroupedProfiles" Source="{Binding ProfileLibrary}">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="ProfileType" />
+                <PropertyGroupDescription PropertyName="Type" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
@@ -17,6 +17,7 @@
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
         <ListBox x:Name="ProfileList"
                  ItemsSource="{Binding Source={StaticResource GroupedProfiles}}"
                  DisplayMemberPath="DisplayNameAndId"
@@ -33,13 +34,45 @@
                 </GroupStyle>
             </ListBox.GroupStyle>
         </ListBox>
-        
-        <ListBox x:Name="ScheduleList" Grid.Column="1"
-                 ItemsSource="{Binding WorkingSchedule}"
-                 DisplayMemberPath="DisplayNameAndId"
-                 AllowDrop="True"
-                 PreviewMouseMove="ScheduleList_PreviewMouseMove"
-                 Drop="ScheduleList_Drop"
-                 Margin="5"/>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Schedule header with name and save button -->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Name:" VerticalAlignment="Center" />
+                <TextBox Text="{Binding ScheduleName, UpdateSourceTrigger=PropertyChanged}"
+                         Width="150" Margin="5,0" />
+                <Button Content="Save" Command="{Binding SaveScheduleCommand}" Margin="5,0" />
+            </StackPanel>
+
+            <!-- Working schedule list -->
+            <ListBox x:Name="ScheduleList" Grid.Row="1"
+                     ItemsSource="{Binding WorkingSchedule}"
+                     AllowDrop="True"
+                     PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
+                     PreviewMouseMove="ScheduleList_PreviewMouseMove"
+                     Drop="ScheduleList_Drop"
+                     Margin="5">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding DisplayNameAndId}" VerticalAlignment="Center" />
+                            <Button Content="Remove"
+                                    Command="{Binding DataContext.RemoveProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}" Margin="5,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Notes -->
+            <TextBox Grid.Row="2" Margin="5" Height="60" AcceptsReturn="True"
+                     Text="{Binding Notes}" />
+        </Grid>
     </Grid>
 </UserControl>

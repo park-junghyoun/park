@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using CellManager.Models;
+using CellManager.Models.TestProfile;
 using CellManager.Messages;
 using CellManager.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,14 +18,18 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private bool _isViewEnabled = true;
 
-        private readonly ITestProfileRepository _testProfileRepository;
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IChargeProfileRepository _chargeProfileRepository;
+        private readonly IDischargeProfileRepository _dischargeProfileRepository;
+        private readonly IEcmPulseProfileRepository _ecmPulseProfileRepository;
+        private readonly IOcvProfileRepository _ocvProfileRepository;
+        private readonly IRestProfileRepository _restProfileRepository;
 
-        public ObservableCollection<TestProfileModel> ProfileLibrary { get; } = new();
-        public ObservableCollection<TestProfileModel> WorkingSchedule { get; } = new();
+        public ObservableCollection<ProfileReference> ProfileLibrary { get; } = new();
+        public ObservableCollection<ProfileReference> WorkingSchedule { get; } = new();
 
         [ObservableProperty]
-        private Cell _selectedCell;
+        private Cell? _selectedCell;
 
         [ObservableProperty]
         private string _scheduleName = "New Schedule";
@@ -33,15 +38,26 @@ namespace CellManager.ViewModels
         private string? _notes;
 
         public RelayCommand SaveScheduleCommand { get; }
-        public RelayCommand<TestProfileModel> RemoveProfileCommand { get; }
 
-        public ScheduleViewModel(ITestProfileRepository testProfileRepository, IScheduleRepository scheduleRepository)
+        public RelayCommand<ProfileReference> RemoveProfileCommand { get; }
+
+        public ScheduleViewModel(
+            IChargeProfileRepository chargeProfileRepository,
+            IDischargeProfileRepository dischargeProfileRepository,
+            IEcmPulseProfileRepository ecmPulseProfileRepository,
+            IOcvProfileRepository ocvProfileRepository,
+            IRestProfileRepository restProfileRepository,
+            IScheduleRepository scheduleRepository)
         {
-            _testProfileRepository = testProfileRepository;
+            _chargeProfileRepository = chargeProfileRepository;
+            _dischargeProfileRepository = dischargeProfileRepository;
+            _ecmPulseProfileRepository = ecmPulseProfileRepository;
+            _ocvProfileRepository = ocvProfileRepository;
+            _restProfileRepository = restProfileRepository;
             _scheduleRepository = scheduleRepository;
 
             SaveScheduleCommand = new RelayCommand(SaveSchedule, () => WorkingSchedule.Count > 0);
-            RemoveProfileCommand = new RelayCommand<TestProfileModel>(p => WorkingSchedule.Remove(p));
+            RemoveProfileCommand = new RelayCommand<ProfileReference>(p => WorkingSchedule.Remove(p));
 
             WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
             {
@@ -57,13 +73,20 @@ namespace CellManager.ViewModels
             ProfileLibrary.Clear();
             if (SelectedCell?.Id > 0)
             {
-                var profiles = _testProfileRepository.LoadTestProfiles(SelectedCell.Id);
-                foreach (var p in profiles)
-                    ProfileLibrary.Add(p);
+                foreach (var p in _chargeProfileRepository.Load(SelectedCell.Id))
+                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Charge, Id = p.Id, Name = p.Name });
+                foreach (var p in _dischargeProfileRepository.Load(SelectedCell.Id))
+                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Discharge, Id = p.Id, Name = p.Name });
+                foreach (var p in _ecmPulseProfileRepository.Load(SelectedCell.Id))
+                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.ECM, Id = p.Id, Name = p.Name });
+                foreach (var p in _ocvProfileRepository.Load(SelectedCell.Id))
+                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.OCV, Id = p.Id, Name = p.Name });
+                foreach (var p in _restProfileRepository.Load(SelectedCell.Id))
+                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Rest, Id = p.Id, Name = p.Name });
             }
         }
 
-        public void InsertProfile(TestProfileModel profile, int index)
+        public void InsertProfile(ProfileReference profile, int index)
         {
             if (WorkingSchedule.Contains(profile))
             {
@@ -89,6 +112,12 @@ namespace CellManager.ViewModels
                 Ordering = 0
             };
             _scheduleRepository.Save(schedule);
+        }
+
+        private void RemoveProfile(ProfileReference profile)
+        {
+            WorkingSchedule.Remove(profile);
+            SaveScheduleCommand.NotifyCanExecuteChanged();
         }
     }
 }
