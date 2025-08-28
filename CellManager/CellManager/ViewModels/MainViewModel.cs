@@ -80,9 +80,6 @@ namespace CellManager.ViewModels
             foreach (var c in _cellRepository.LoadCells())
                 AvailableCells.Add(c);
 
-            if (SelectedCell == null && AvailableCells.Any())
-                SelectedCell = AvailableCells.First();
-
             if (SelectedCell != null)
                 WeakReferenceMessenger.Default.Send(new CellSelectedMessage(SelectedCell));
         }
