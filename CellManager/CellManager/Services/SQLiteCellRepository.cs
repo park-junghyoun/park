@@ -170,6 +170,11 @@ namespace CellManager.Services
 
         public void SaveCell(Cell cell)
         {
+            if (cell == null) throw new ArgumentNullException(nameof(cell));
+            if (string.IsNullOrWhiteSpace(cell.ModelName)) throw new ArgumentException("Model name is required", nameof(cell));
+            if (cell.RatedCapacity <= 0) throw new ArgumentException("Rated capacity must be greater than 0", nameof(cell));
+            if (cell.NominalVoltage <= 0) throw new ArgumentException("Nominal voltage must be greater than 0", nameof(cell));
+
             try
             {
                 using (var conn = new SQLiteConnection($"Data Source={DbFilePath};Version=3;"))

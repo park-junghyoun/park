@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer Grid.Row="0" Margin="20">
-            <StackPanel DataContext="{Binding Cell}">
+            <StackPanel>
                 <TextBlock Text="Cell Details" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
 
                 <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20">
@@ -33,16 +33,17 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Model Name" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ModelName, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Cell.ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                     ToolTip="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Manufacturer" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Manufacturer, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Cell.Manufacturer, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Serial Number" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SerialNumber, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Cell.SerialNumber, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Part Number" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding PartNumber, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Cell.PartNumber, Mode=TwoWay}"/>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -66,28 +67,30 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Rated Capacity (mAh)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RatedCapacity, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Cell.RatedCapacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                     ToolTip="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="3" Text="Nominal Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding NominalVoltage, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding Cell.NominalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                     ToolTip="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Self-Discharge (%/month)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelfDischarge, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Cell.SelfDischarge, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="3" Text="Max Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding MaxVoltage, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Cell.MaxVoltage, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Cycle Life" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CycleLife, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Cell.CycleLife, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="3" Text="Initial AC Impedance (mΩ)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding InitialACImpedance, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Cell.InitialACImpedance, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Initial DC Resistance (mΩ)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding InitialDCResistance, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Cell.InitialDCResistance, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="3" Grid.Column="3" Text="Energy (Wh)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="3" Grid.Column="4" Text="{Binding EnergyWh, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="3" Grid.Column="4" Text="{Binding Cell.EnergyWh, Mode=TwoWay}"/>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -110,25 +113,25 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Cell Type" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CellType, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Cell.CellType, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="3" Text="Weight (g)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding Weight, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding Cell.Weight, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Diameter (mm)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Diameter, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Cell.Diameter, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="3" Text="Thickness (mm)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Thickness, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Cell.Thickness, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Width (mm)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Width, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Cell.Width, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="3" Text="Height (mm)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Height, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Cell.Height, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Expansion Behavior" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ExpansionBehavior, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Cell.ExpansionBehavior, Mode=TwoWay}"/>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -151,22 +154,22 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Charging Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ChargingVoltage, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Cell.ChargingVoltage, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="3" Text="Cut-off Current (mA)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding CutOffCurrent_Charge, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding Cell.CutOffCurrent_Charge, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Charging Current (mA)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MaxChargingCurrent, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Cell.MaxChargingCurrent, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="3" Text="Max Charging Temp (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding MaxChargingTemp, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Cell.MaxChargingTemp, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Charge Temp High (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ChargeTempHigh, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Cell.ChargeTempHigh, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="3" Text="Charge Temp Low (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding ChargeTempLow, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Cell.ChargeTempLow, Mode=TwoWay}"/>
 
                         </Grid>
                     </StackPanel>
@@ -190,16 +193,16 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Discharge Cut-off Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DischargeCutOffVoltage, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Cell.DischargeCutOffVoltage, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="0" Grid.Column="3" Text="Max Discharging Current (mA)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding MaxDischargingCurrent, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding Cell.MaxDischargingCurrent, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Discharge Temp High (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding DischargeTempHigh, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Cell.DischargeTempHigh, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="3" Text="Discharge Temp Low (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding DischargeTempLow, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Cell.DischargeTempLow, Mode=TwoWay}"/>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -221,13 +224,13 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Constant Current (mA)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ConstantCurrent_PreCharge, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Cell.ConstantCurrent_PreCharge, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Pre charge Start Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PreChargeStartVoltage, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Cell.PreChargeStartVoltage, Mode=TwoWay}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Pre charge End Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding PreChargeEndVoltage, Mode=TwoWay}"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Cell.PreChargeEndVoltage, Mode=TwoWay}"/>
                         </Grid>
                     </StackPanel>
                 </Border>
