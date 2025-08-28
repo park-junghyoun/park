@@ -42,13 +42,22 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- Schedule header with name and save button -->
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Name:" VerticalAlignment="Center" />
-                <TextBox Text="{Binding ScheduleName, UpdateSourceTrigger=PropertyChanged}"
-                         Width="150" Margin="5,0" />
-                <Button Content="Save" Command="{Binding SaveScheduleCommand}" Margin="5,0" />
-                <Button Content="Clear" Command="{Binding ClearScheduleCommand}" Margin="5,0" />
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox ItemsSource="{Binding Schedules}"
+                              DisplayMemberPath="DisplayNameAndId"
+                              SelectedItem="{Binding SelectedSchedule}"
+                              Width="200" Margin="0,0,5,0"/>
+                    <Button Content="New" Command="{Binding NewScheduleCommand}" Margin="0,0,5,0"/>
+                    <Button Content="Delete" Command="{Binding DeleteScheduleCommand}" Margin="0,0,5,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="Name:" VerticalAlignment="Center" />
+                    <TextBox Text="{Binding ScheduleName, UpdateSourceTrigger=PropertyChanged}"
+                             Width="150" Margin="5,0" />
+                    <Button Content="Save" Command="{Binding SaveScheduleCommand}" Margin="5,0" />
+                    <Button Content="Clear" Command="{Binding ClearScheduleCommand}" Margin="5,0" />
+                </StackPanel>
             </StackPanel>
 
             <!-- Working schedule list -->

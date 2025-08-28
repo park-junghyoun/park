@@ -28,6 +28,8 @@ namespace CellManager.ViewModels
         public ObservableCollection<ProfileReference> ProfileLibrary { get; } = new();
         public ObservableCollection<ProfileReference> WorkingSchedule { get; } = new();
 
+        public ObservableCollection<Schedule> Schedules { get; } = new();
+
         [ObservableProperty]
         private Cell? _selectedCell;
 
@@ -37,10 +39,15 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private string? _notes;
 
+        [ObservableProperty]
+        private Schedule? _selectedSchedule;
+
         public RelayCommand SaveScheduleCommand { get; }
 
         public RelayCommand<ProfileReference> RemoveProfileCommand { get; }
         public RelayCommand ClearScheduleCommand { get; }
+        public RelayCommand NewScheduleCommand { get; }
+        public RelayCommand DeleteScheduleCommand { get; }
 
         public ScheduleViewModel(
             IChargeProfileRepository chargeProfileRepository,
@@ -60,6 +67,8 @@ namespace CellManager.ViewModels
             SaveScheduleCommand = new RelayCommand(SaveSchedule, () => WorkingSchedule.Count > 0);
             RemoveProfileCommand = new RelayCommand<ProfileReference>(p => WorkingSchedule.Remove(p));
             ClearScheduleCommand = new RelayCommand(ClearSchedule, () => WorkingSchedule.Count > 0);
+            NewScheduleCommand = new RelayCommand(NewSchedule);
+            DeleteScheduleCommand = new RelayCommand(DeleteSchedule, () => SelectedSchedule != null);
 
             WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
             {
@@ -68,6 +77,14 @@ namespace CellManager.ViewModels
             });
 
             LoadProfiles();
+            LoadSchedules();
+        }
+
+        private void LoadSchedules()
+        {
+            Schedules.Clear();
+            foreach (var schedule in _scheduleRepository.GetAll())
+                Schedules.Add(schedule);
         }
 
         private void LoadProfiles()
@@ -107,14 +124,19 @@ namespace CellManager.ViewModels
 
         private void SaveSchedule()
         {
-            var schedule = new Schedule
-            {
-                Name = ScheduleName,
-                Notes = Notes,
-                TestProfileIds = WorkingSchedule.Select(p => p.Id).ToList(),
-                Ordering = 0
-            };
+            var schedule = SelectedSchedule ?? new Schedule();
+
+            schedule.Name = ScheduleName;
+            schedule.Notes = Notes;
+            schedule.TestProfileIds = WorkingSchedule.Select(p => p.Id).ToList();
+            schedule.Ordering = 0;
+
             _scheduleRepository.Save(schedule);
+
+            if (!Schedules.Contains(schedule))
+                Schedules.Add(schedule);
+
+            SelectedSchedule = schedule;
         }
 
         private void RemoveProfile(ProfileReference profile)
@@ -129,6 +151,48 @@ namespace CellManager.ViewModels
             WorkingSchedule.Clear();
             SaveScheduleCommand.NotifyCanExecuteChanged();
             ClearScheduleCommand.NotifyCanExecuteChanged();
+        }
+
+        private void NewSchedule()
+        {
+            SelectedSchedule = null;
+            ScheduleName = "New Schedule";
+            Notes = null;
+            ClearSchedule();
+        }
+
+        private void DeleteSchedule()
+        {
+            if (SelectedSchedule == null) return;
+            _scheduleRepository.Delete(SelectedSchedule.Id);
+            Schedules.Remove(SelectedSchedule);
+            NewSchedule();
+        }
+
+        partial void OnSelectedScheduleChanged(Schedule? value)
+        {
+            if (value != null)
+            {
+                ScheduleName = value.Name;
+                Notes = value.Notes;
+                WorkingSchedule.Clear();
+                foreach (var id in value.TestProfileIds)
+                {
+                    var profile = ProfileLibrary.FirstOrDefault(p => p.Id == id);
+                    if (profile != null)
+                        WorkingSchedule.Add(profile);
+                }
+            }
+            else
+            {
+                ScheduleName = "New Schedule";
+                Notes = null;
+                WorkingSchedule.Clear();
+            }
+
+            SaveScheduleCommand.NotifyCanExecuteChanged();
+            ClearScheduleCommand.NotifyCanExecuteChanged();
+            DeleteScheduleCommand.NotifyCanExecuteChanged();
         }
     }
 }
