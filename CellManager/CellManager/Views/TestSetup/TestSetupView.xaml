@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:CellManager.ViewModels"
-             xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
-             mc:Ignorable="d">
+              xmlns:vm="clr-namespace:CellManager.ViewModels"
+              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
+              mc:Ignorable="d"
+              Grid.IsSharedSizeScope="True">
 
     <UserControl.Resources>
         <!-- Editor templates: auto-switched by CurrentEditor instance type -->
@@ -20,7 +21,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -51,7 +52,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -84,7 +85,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -119,7 +120,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -153,7 +154,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
