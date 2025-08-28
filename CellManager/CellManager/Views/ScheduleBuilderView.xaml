@@ -48,6 +48,7 @@
                 <TextBox Text="{Binding ScheduleName, UpdateSourceTrigger=PropertyChanged}"
                          Width="150" Margin="5,0" />
                 <Button Content="Save" Command="{Binding SaveScheduleCommand}" Margin="5,0" />
+                <Button Content="Clear" Command="{Binding ClearScheduleCommand}" Margin="5,0" />
             </StackPanel>
 
             <!-- Working schedule list -->

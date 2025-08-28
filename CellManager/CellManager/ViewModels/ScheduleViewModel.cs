@@ -40,6 +40,7 @@ namespace CellManager.ViewModels
         public RelayCommand SaveScheduleCommand { get; }
 
         public RelayCommand<ProfileReference> RemoveProfileCommand { get; }
+        public RelayCommand ClearScheduleCommand { get; }
 
         public ScheduleViewModel(
             IChargeProfileRepository chargeProfileRepository,
@@ -58,6 +59,7 @@ namespace CellManager.ViewModels
 
             SaveScheduleCommand = new RelayCommand(SaveSchedule, () => WorkingSchedule.Count > 0);
             RemoveProfileCommand = new RelayCommand<ProfileReference>(p => WorkingSchedule.Remove(p));
+            ClearScheduleCommand = new RelayCommand(ClearSchedule, () => WorkingSchedule.Count > 0);
 
             WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
             {
@@ -100,6 +102,7 @@ namespace CellManager.ViewModels
                 WorkingSchedule.Insert(index, profile);
 
             SaveScheduleCommand.NotifyCanExecuteChanged();
+            ClearScheduleCommand.NotifyCanExecuteChanged();
         }
 
         private void SaveSchedule()
@@ -118,6 +121,14 @@ namespace CellManager.ViewModels
         {
             WorkingSchedule.Remove(profile);
             SaveScheduleCommand.NotifyCanExecuteChanged();
+            ClearScheduleCommand.NotifyCanExecuteChanged();
+        }
+
+        private void ClearSchedule()
+        {
+            WorkingSchedule.Clear();
+            SaveScheduleCommand.NotifyCanExecuteChanged();
+            ClearScheduleCommand.NotifyCanExecuteChanged();
         }
     }
 }

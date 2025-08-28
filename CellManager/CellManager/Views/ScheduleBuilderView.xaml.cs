@@ -31,8 +31,7 @@ namespace CellManager.Views
                 return;
             if (sender is ListBox list && list.SelectedItem is ProfileReference profile)
             {
-                var data = new DataObject(typeof(TestProfileModel), profile);
-                data.SetData("DragSource", "ProfileList");
+                var data = new DataObject(typeof(ProfileReference), profile);
                 DragDrop.DoDragDrop(list, data, DragDropEffects.Copy);
             }
         }
@@ -46,8 +45,7 @@ namespace CellManager.Views
                 return;
             if (sender is ListBox list && GetItemUnderMouse(list, e.GetPosition(list)) is ListBoxItem item)
             {
-                var data = new DataObject(typeof(TestProfileModel), item.DataContext);
-                data.SetData("DragSource", "ScheduleList");
+                var data = new DataObject(typeof(ProfileReference), item.DataContext);
                 DragDrop.DoDragDrop(list, data, DragDropEffects.Move);
             }
         }
@@ -57,8 +55,6 @@ namespace CellManager.Views
             if (DataContext is not ScheduleViewModel vm) return;
             if (!e.Data.GetDataPresent(typeof(ProfileReference))) return;
             var profile = (ProfileReference)e.Data.GetData(typeof(ProfileReference));
-            var source = e.Data.GetData("DragSource") as string;
-            var isMove = source == "ScheduleList";
             var list = (ListBox)sender;
             var index = GetInsertIndex(list, e.GetPosition(list));
             vm.InsertProfile(profile, index);
