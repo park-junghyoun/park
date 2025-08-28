@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows;
 using CellManager.Messages;
 using CellManager.Models;
 using CellManager.Services;
@@ -189,12 +190,23 @@ namespace CellManager.ViewModels
             if (SelectedCell == null || SelectedCell.Id <= 0) return;
 
             var toDelete = SelectedCell;
-            _cellRepository.DeleteCell(toDelete);
-            ExecuteLoadData();
+            var result = MessageBox.Show(
+                "Are you sure you want to delete the selected cell?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
 
-            SelectedCell = (CellModels.Count > 0) ? CellModels[0] : null;
-            WeakReferenceMessenger.Default.Send(new CellDeletedMessage(toDelete));
-            FilteredCells.Refresh();
+            if (result == MessageBoxResult.Yes)
+            {
+                _cellRepository.DeleteCell(toDelete);
+                ExecuteLoadData();
+
+                SelectedCell = (CellModels.Count > 0) ? CellModels[0] : null;
+                WeakReferenceMessenger.Default.Send(new CellDeletedMessage(toDelete));
+                FilteredCells.Refresh();
+            }
+
+            UpdateCanExecutes();
         }
 
         // -------- 기타 --------
