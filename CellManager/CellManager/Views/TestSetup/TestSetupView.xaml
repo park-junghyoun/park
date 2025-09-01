@@ -169,13 +169,26 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="360"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Padding="5" Margin="0,0,0,8">
+            <WrapPanel>
+                <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,16,4"/>
+                <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
+                <TextBlock Text="{Binding SelectedCell.Manufacturer, StringFormat='Manufacturer: {0}'}" Margin="0,0,16,4"/>
+                <TextBlock Text="{Binding SelectedCell.CellType, StringFormat='Type: {0}'}" Margin="0,0,16,4"/>
+                <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
+            </WrapPanel>
+        </Border>
         <!-- LEFT: Profile Libraries -->
-        <DockPanel Grid.Column="0" Margin="8">
+        <DockPanel Grid.Row="1"  Grid.Column="0" Margin="8">
             <TextBlock DockPanel.Dock="Top" Text="Profile Libraries" FontWeight="Bold" Margin="0,0,0,8"/>
             <TabControl>
                 <TabItem Header="Charge">
@@ -235,25 +248,19 @@
                 </TabItem>
             </TabControl>
         </DockPanel>
+        
+        <!-- Vertical divider -->
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource VDivider}" Margin="0,0,0,0"/>
 
         <!-- RIGHT: Auto-switched editor + Save -->
-        <DockPanel Grid.Column="1" Margin="8">
-            <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Padding="5" Margin="0,0,0,8">
-                <WrapPanel>
-                    <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,16,4"/>
-                    <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
-                    <TextBlock Text="{Binding SelectedCell.Manufacturer, StringFormat='Manufacturer: {0}'}" Margin="0,0,16,4"/>
-                    <TextBlock Text="{Binding SelectedCell.CellType, StringFormat='Type: {0}'}" Margin="0,0,16,4"/>
-                    <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
-                </WrapPanel>
-            </Border>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+        <DockPanel Grid.Row="1" Grid.Column="2" Margin="8">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,0,0,8">
                 <TextBlock Text="Editor" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,12,0"/>
                 <Button Content="Save" Command="{Binding SaveCurrentCommand}" Margin="0,0,6,0"/>
                 <Button Content="Delete" Command="{Binding DeleteCurrentCommand}" />
             </StackPanel>
 
-            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Padding="8">
+            <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" Padding="8">
                 <ContentControl Content="{Binding CurrentEditor}"/>
             </Border>
         </DockPanel>
