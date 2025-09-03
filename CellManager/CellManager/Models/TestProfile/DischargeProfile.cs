@@ -12,9 +12,22 @@ namespace CellManager.Models.TestProfile
 
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
 
-        [ObservableProperty] private string _dischargeMode;
-        [ObservableProperty] private double _dischargeCurrent;
-        [ObservableProperty] private double _dischargeCutoffVoltage;
-        [ObservableProperty] private double _dischargeCapacityMah;
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private string _dischargeMode;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _dischargeCurrent;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _dischargeCutoffVoltage;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _dischargeCapacityMah;
+
+        public string PreviewText => $"Mode: {DischargeMode}, Current: {DischargeCurrent} A, Cutoff: {DischargeCutoffVoltage} V, Capacity: {DischargeCapacityMah} mAh";
     }
 }

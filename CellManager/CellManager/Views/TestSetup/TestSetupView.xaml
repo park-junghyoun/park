@@ -213,7 +213,11 @@
                                 <DataTemplate>
                                     <StackPanel>
                                         <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding ChargeCurrent, StringFormat='Charge Current: {0} A'}" FontSize="11" Margin="0,2,0,0"/>
+                                        <TextBlock Text="{Binding PreviewText}"
+                                                   FontSize="11"
+                                                   Margin="0,2,0,0"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   ToolTip="{Binding PreviewText}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -233,13 +237,11 @@
                                 <DataTemplate>
                                     <StackPanel>
                                         <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                        <TextBlock FontSize="11" Margin="0,2,0,0">
-                                            <Run Text="Mode: "/>
-                                            <Run Text="{Binding DischargeMode}"/>
-                                            <Run Text=", Current: "/>
-                                            <Run Text="{Binding DischargeCurrent}"/>
-                                            <Run Text=" A"/>
-                                        </TextBlock>
+                                        <TextBlock Text="{Binding PreviewText}"
+                                                   FontSize="11"
+                                                   Margin="0,2,0,0"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   ToolTip="{Binding PreviewText}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -259,7 +261,11 @@
                                 <DataTemplate>
                                     <StackPanel>
                                         <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding PulseDuration, StringFormat='Pulse Duration: {0} ms'}" FontSize="11" Margin="0,2,0,0"/>
+                                        <TextBlock Text="{Binding PreviewText}"
+                                                   FontSize="11"
+                                                   Margin="0,2,0,0"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   ToolTip="{Binding PreviewText}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -279,7 +285,11 @@
                                 <DataTemplate>
                                     <StackPanel>
                                         <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding Qmax, StringFormat='Qmax: {0}'}" FontSize="11" Margin="0,2,0,0"/>
+                                        <TextBlock Text="{Binding PreviewText}"
+                                                   FontSize="11"
+                                                   Margin="0,2,0,0"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   ToolTip="{Binding PreviewText}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -299,7 +309,11 @@
                                 <DataTemplate>
                                     <StackPanel>
                                         <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding RestTime, StringFormat='Rest Time: {0} s'}" FontSize="11" Margin="0,2,0,0"/>
+                                        <TextBlock Text="{Binding PreviewText}"
+                                                   FontSize="11"
+                                                   Margin="0,2,0,0"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   ToolTip="{Binding PreviewText}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

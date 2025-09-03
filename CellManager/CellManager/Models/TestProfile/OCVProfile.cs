@@ -12,10 +12,26 @@ namespace CellManager.Models.TestProfile
 
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
 
-        [ObservableProperty] private double _qmax;
-        [ObservableProperty] private double _socStepPercent;
-        [ObservableProperty] private double _dischargeCurrent_OCV;
-        [ObservableProperty] private double _restTime_OCV;
-        [ObservableProperty] private double _dischargeCutoffVoltage_OCV;
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _qmax;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _socStepPercent;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _dischargeCurrent_OCV;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _restTime_OCV;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _dischargeCutoffVoltage_OCV;
+
+        public string PreviewText => $"Qmax: {Qmax}, SOC Step: {SocStepPercent} %, Current: {DischargeCurrent_OCV} A, Rest: {RestTime_OCV} s, Cutoff: {DischargeCutoffVoltage_OCV} V";
     }
 }
