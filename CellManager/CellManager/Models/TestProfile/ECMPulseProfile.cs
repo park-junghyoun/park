@@ -12,9 +12,22 @@ namespace CellManager.Models.TestProfile
 
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
 
-        [ObservableProperty] private double _pulseCurrent;
-        [ObservableProperty] private double _pulseDuration;
-        [ObservableProperty] private double _resetTimeAfterPulse;
-        [ObservableProperty] private double _samplingRateMs;
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _pulseCurrent;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _pulseDuration;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _resetTimeAfterPulse;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _samplingRateMs;
+
+        public string PreviewText => $"Current: {PulseCurrent} A, Duration: {PulseDuration} ms, Reset: {ResetTimeAfterPulse} ms, Sample: {SamplingRateMs} ms";
     }
 }

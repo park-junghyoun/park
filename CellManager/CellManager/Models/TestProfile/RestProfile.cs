@@ -12,6 +12,10 @@ namespace CellManager.Models.TestProfile
 
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
 
-        [ObservableProperty] private double _restTime;
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _restTime;
+
+        public string PreviewText => $"Rest Time: {RestTime} s";
     }
 }

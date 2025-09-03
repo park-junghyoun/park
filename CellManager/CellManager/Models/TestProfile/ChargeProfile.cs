@@ -12,8 +12,18 @@ namespace CellManager.Models.TestProfile
 
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
 
-        [ObservableProperty] private double _chargeCurrent;
-        [ObservableProperty] private double _chargeCutoffVoltage;
-        [ObservableProperty] private double _cutoffCurrent;
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _chargeCurrent;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _chargeCutoffVoltage;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double _cutoffCurrent;
+
+        public string PreviewText => $"Current: {ChargeCurrent} A, Cutoff: {ChargeCutoffVoltage} V, Cutoff Current: {CutoffCurrent} A";
     }
 }
