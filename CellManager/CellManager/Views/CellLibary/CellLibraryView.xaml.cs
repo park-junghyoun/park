@@ -26,9 +26,16 @@ namespace CellManager.Views.CellLibary
         public CellLibraryView()
         {
             InitializeComponent();
+            Loaded += CellLibraryView_Loaded;
         }
         // 각 컬럼의 비율 (총합 = 1.0)
         private readonly double[] columnRatios = { 0.19, 0.14, 0.13, 0.08, 0.12, 0.12, 0.12, 0.1  };
+
+        private void CellLibraryView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Ensure column widths are recalculated once the layout is ready
+            ListView_SizeChanged(null, null);
+        }
 
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -37,11 +44,16 @@ namespace CellManager.Views.CellLibary
                 if (gridView.Columns.Count != columnRatios.Length)
                     return; // 컬럼 개수와 비율 개수가 다르면 스킵
 
-                // 전체 사용 가능한 너비
-                double totalWidth = lv_cells.ActualWidth;
+                // ListView width must be larger than the scrollbar width
+                if (lv_cells.ActualWidth <= SystemParameters.VerticalScrollBarWidth)
+                    return;
 
-                // 스크롤바 공간 고려
-                totalWidth -= SystemParameters.VerticalScrollBarWidth;
+                // 전체 사용 가능한 너비
+                double totalWidth = lv_cells.ActualWidth - SystemParameters.VerticalScrollBarWidth;
+
+                // totalWidth가 0 이하일 경우 재조정 생략
+                if (totalWidth <= 0)
+                    return;
 
                 // 마지막 컬럼 오차 방지를 위해 먼저 앞쪽 컬럼 계산
                 double usedWidth = 0;
