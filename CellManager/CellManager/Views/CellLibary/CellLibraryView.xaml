@@ -80,7 +80,7 @@
             <Button Style="{StaticResource ImageButton}" Tag="{StaticResource IconDelete}" Width="80" Height="80" Command="{Binding DeleteCellCommand}"/>
         </StackPanel>
 
-        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" BorderThickness="1" BorderBrush="Black" >
+        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" Loaded="ListView_Loaded" BorderThickness="1" BorderBrush="Black" >
 
             <!-- Row 높이와 MaterialDesign MinHeight 설정 -->
             <ListView.ItemContainerStyle>
