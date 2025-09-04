@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.Resources>
-            <Style x:Key="CapacityVisibilityStyle" TargetType="UIElement">
+            <Style x:Key="CapacityVisibilityStyle" TargetType="FrameworkElement">
                 <Setter Property="Visibility" Value="Collapsed"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.ChargeByCapacity}">
@@ -28,7 +28,7 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-            <Style x:Key="TimeVisibilityStyle" TargetType="UIElement">
+            <Style x:Key="TimeVisibilityStyle" TargetType="FrameworkElement">
                 <Setter Property="Visibility" Value="Collapsed"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.ChargeByTime}">
@@ -36,7 +36,7 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-            <Style x:Key="CutoffCurrentVisibilityStyle" TargetType="UIElement">
+            <Style x:Key="CutoffCurrentVisibilityStyle" TargetType="FrameworkElement">
                 <Setter Property="Visibility" Value="Collapsed"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.FullCharge}">
