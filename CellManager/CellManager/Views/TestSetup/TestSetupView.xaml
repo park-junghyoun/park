@@ -3,79 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-              xmlns:vm="clr-namespace:CellManager.ViewModels"
-              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
-              mc:Ignorable="d"
-              Grid.IsSharedSizeScope="True">
+             xmlns:vm="clr-namespace:CellManager.ViewModels"
+             xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
+             xmlns:views="clr-namespace:CellManager.Views.TestSetup"
+             mc:Ignorable="d"
+             Grid.IsSharedSizeScope="True">
 
     <UserControl.Resources>
         <!-- Editor templates: auto-switched by CurrentEditor instance type -->
         <DataTemplate DataType="{x:Type tp:ChargeProfile}">
-            <StackPanel Margin="8" >
-                <TextBlock Text="Charge Profile" FontWeight="Bold" Margin="0,0,0,8"/>
-                <Grid Margin="0,4,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
-
-                    <TextBlock Text="Charge Current (A)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding ChargeCurrent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
-
-                    <TextBlock Text="Cutoff Voltage (V)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding ChargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
-
-                    <TextBlock Text="Cutoff Current (A)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding CutoffCurrent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
+            <views:ChargeProfileDetailView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type tp:DischargeProfile}">
-            <StackPanel Margin="8">
-                <TextBlock Text="Discharge Profile" FontWeight="Bold" Margin="0,0,0,8"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
-
-                    <TextBlock Text="Mode" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeMode, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
-
-                    <TextBlock Text="Current (A)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeCurrent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
-
-                    <TextBlock Text="Cutoff Voltage (V)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"/>
-
-                    <TextBlock Text="Capacity (mAh)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
-
-                    <TextBlock Text="Discharge Time" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
+            <views:DischargeProfileDetailView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type tp:ECMPulseProfile}">
@@ -83,6 +24,7 @@
                 <TextBlock Text="ECM Pulse Profile" FontWeight="Bold" Margin="0,0,0,8"/>
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
