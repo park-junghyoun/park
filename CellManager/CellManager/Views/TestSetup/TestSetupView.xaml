@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:CellManager.ViewModels"
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              xmlns:views="clr-namespace:CellManager.Views.TestSetup"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              Grid.IsSharedSizeScope="True">
 
@@ -142,10 +143,12 @@
                 <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
             </WrapPanel>
         </Border>
-        <!-- LEFT: Profile Libraries -->
-        <DockPanel Grid.Row="1"  Grid.Column="0" Margin="8">
-            <TextBlock DockPanel.Dock="Top" Text="Profile Libraries" FontWeight="Bold" Margin="0,0,0,8"/>
-            <TabControl>
+         <!-- LEFT: Profile Libraries -->
+           <materialDesign:Card Grid.Row="1" Grid.Column="0" Margin="8"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                Header="Profile Libraries">
+             <DockPanel>
+               <TabControl>
                 <TabItem Header="Charge">
                     <DockPanel>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
@@ -267,8 +270,9 @@
                     </DockPanel>
                 </TabItem>
 
-            </TabControl>
-        </DockPanel>
+               </TabControl>
+             </DockPanel>
+           </materialDesign:Card>
         
         <!-- Vertical divider -->
         <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource VDivider}" Margin="0,0,0,0"/>
