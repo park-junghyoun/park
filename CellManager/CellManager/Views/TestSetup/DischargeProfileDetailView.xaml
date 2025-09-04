@@ -5,89 +5,112 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
-    <Grid Margin="8">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <GroupBox Header="Discharge Profile" Margin="8">
+        <Grid Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Name" Margin="4"/>
-        <TextBox Grid.Column="1" Margin="4" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="0" Text="Name" Margin="4"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="4" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <Border Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
-        <TextBlock Grid.Row="1" Text="Discharge Current (A)" Margin="4"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Margin="4" Text="{Binding DischargeCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="2" Text="Discharge Current (A)" Margin="4"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Margin="4" Text="{Binding DischargeCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+            <Border Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
-        <TextBlock Grid.Row="2" Text="Cutoff Voltage (V)" Margin="4"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Margin="4" Text="{Binding DischargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="4" Text="Cutoff Voltage (V)" Margin="4"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="4" Text="{Binding DischargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}"/>
+            <Border Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
-        <TextBlock Grid.Row="3" Text="Mode" Margin="4"/>
-        <ComboBox Grid.Row="3" Grid.Column="1" Margin="4" SelectedValue="{Binding DischargeMode, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
-            <ComboBoxItem Content="Discharge by capacity" Tag="{x:Static tp:DischargeMode.DischargeByCapacity}"/>
-            <ComboBoxItem Content="Discharge by time" Tag="{x:Static tp:DischargeMode.DischargeByTime}"/>
-            <ComboBoxItem Content="Full discharge" Tag="{x:Static tp:DischargeMode.FullDischarge}"/>
-        </ComboBox>
+            <TextBlock Grid.Row="6" Text="Mode" Margin="4"/>
+            <ComboBox Grid.Row="6" Grid.Column="1" Margin="4" SelectedValue="{Binding DischargeMode, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
+                <ComboBoxItem Content="Discharge by capacity" Tag="{x:Static tp:DischargeMode.DischargeByCapacity}"/>
+                <ComboBoxItem Content="Discharge by time" Tag="{x:Static tp:DischargeMode.DischargeByTime}"/>
+                <ComboBoxItem Content="Full discharge" Tag="{x:Static tp:DischargeMode.FullDischarge}"/>
+            </ComboBox>
+            <Border Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
-        <TextBlock Grid.Row="4" Text="Capacity (mAh)" Margin="4">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByCapacity}">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <TextBox Grid.Row="4" Grid.Column="1" Margin="4" Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged}">
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByCapacity}">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Style>
-        </TextBox>
+            <TextBlock Grid.Row="8" Text="Capacity (mAh)" Margin="4">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByCapacity}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBox Grid.Row="8" Grid.Column="1" Margin="4" Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByCapacity}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <Border Grid.Row="9" Grid.ColumnSpan="2" Margin="0,4">
+                <Border.Style>
+                    <Style TargetType="Border" BasedOn="{StaticResource HDivider}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByCapacity}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
 
-        <TextBlock Grid.Row="5" Text="Discharge Time" Margin="4">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByTime}">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="4">
-            <StackPanel.Style>
-                <Style TargetType="StackPanel">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByTime}">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Style>
-            <TextBox Width="40" Text="{Binding DischargeHours, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text=":" VerticalAlignment="Center" Margin="2,0"/>
-            <TextBox Width="40" Text="{Binding DischargeMinutes, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text=":" VerticalAlignment="Center" Margin="2,0"/>
-            <TextBox Width="40" Text="{Binding DischargeSeconds, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
-    </Grid>
+            <TextBlock Grid.Row="10" Text="Discharge Time" Margin="4">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByTime}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <StackPanel Grid.Row="10" Grid.Column="1" Orientation="Horizontal" Margin="4">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByTime}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBox Width="40" Text="{Binding DischargeHours, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text=":" VerticalAlignment="Center" Margin="2,0"/>
+                <TextBox Width="40" Text="{Binding DischargeMinutes, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text=":" VerticalAlignment="Center" Margin="2,0"/>
+                <TextBox Width="40" Text="{Binding DischargeSeconds, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </Grid>
+    </GroupBox>
 </UserControl>

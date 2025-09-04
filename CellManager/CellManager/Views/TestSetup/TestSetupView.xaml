@@ -92,25 +92,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type tp:RestProfile}">
-            <StackPanel Margin="8">
-                <TextBlock Text="Rest Profile" FontWeight="Bold" Margin="0,0,0,8"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
-
-                    <TextBlock Text="Rest Time (s)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding RestTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
+            <views:RestProfileDetailView />
         </DataTemplate>
 
         <!-- Shared style for profile list items -->
