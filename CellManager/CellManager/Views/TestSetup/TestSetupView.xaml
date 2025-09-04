@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:CellManager.ViewModels"
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              xmlns:views="clr-namespace:CellManager.Views.TestSetup"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              Grid.IsSharedSizeScope="True">
 
@@ -149,8 +150,18 @@
                 <TabItem Header="Charge">
                     <DockPanel>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                            <Button Content="New" Command="{Binding AddChargeProfileCommand}" Margin="0,0,6,0"/>
-                            <Button Content="Delete" Command="{Binding DeleteChargeProfileCommand}" />
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding AddChargeProfileCommand}" Margin="0,0,6,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Plus" />
+                                    <TextBlock Text="New" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding DeleteChargeProfileCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="TrashCan" />
+                                    <TextBlock Text="Delete" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                         <ListBox ItemsSource="{Binding ChargeProfiles}"
                                  SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}"
@@ -173,8 +184,18 @@
                 <TabItem Header="Discharge">
                     <DockPanel>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                            <Button Content="New" Command="{Binding AddDischargeProfileCommand}" Margin="0,0,6,0"/>
-                            <Button Content="Delete" Command="{Binding DeleteDischargeProfileCommand}" />
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding AddDischargeProfileCommand}" Margin="0,0,6,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Plus" />
+                                    <TextBlock Text="New" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding DeleteDischargeProfileCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="TrashCan" />
+                                    <TextBlock Text="Delete" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                         <ListBox ItemsSource="{Binding DischargeProfiles}"
                                  SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}"
@@ -197,8 +218,18 @@
                 <TabItem Header="Rest">
                     <DockPanel>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                            <Button Content="New" Command="{Binding AddRestProfileCommand}" Margin="0,0,6,0"/>
-                            <Button Content="Delete" Command="{Binding DeleteRestProfileCommand}" />
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding AddRestProfileCommand}" Margin="0,0,6,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Plus" />
+                                    <TextBlock Text="New" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding DeleteRestProfileCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="TrashCan" />
+                                    <TextBlock Text="Delete" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                         <ListBox ItemsSource="{Binding RestProfiles}"
                                  SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}"
@@ -221,8 +252,18 @@
                 <TabItem Header="OCV">
                     <DockPanel>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                            <Button Content="New" Command="{Binding AddOcvProfileCommand}" Margin="0,0,6,0"/>
-                            <Button Content="Delete" Command="{Binding DeleteOcvProfileCommand}" />
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding AddOcvProfileCommand}" Margin="0,0,6,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Plus" />
+                                    <TextBlock Text="New" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding DeleteOcvProfileCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="TrashCan" />
+                                    <TextBlock Text="Delete" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                         <ListBox ItemsSource="{Binding OcvProfiles}"
                                  SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}"
@@ -245,8 +286,18 @@
                 <TabItem Header="ECM">
                     <DockPanel>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                            <Button Content="New" Command="{Binding AddEcmProfileCommand}" Margin="0,0,6,0"/>
-                            <Button Content="Delete" Command="{Binding DeleteEcmProfileCommand}" />
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding AddEcmProfileCommand}" Margin="0,0,6,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Plus" />
+                                    <TextBlock Text="New" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding DeleteEcmProfileCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="TrashCan" />
+                                    <TextBlock Text="Delete" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                         <ListBox ItemsSource="{Binding EcmPulseProfiles}"
                                  SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}"
