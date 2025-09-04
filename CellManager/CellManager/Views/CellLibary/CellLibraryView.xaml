@@ -87,9 +87,8 @@
                 <Style TargetType="GridViewColumnHeader">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="Background" Value="#FFDDDDDD"/>
-                    <Setter Property="BorderBrush" Value="Black"/>
-                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="BorderBrush" Value="#FFDDDDDD"/>
+                    <Setter Property="BorderThickness" Value="1"/>
                     <Setter Property="Padding" Value="5"/>
                 </Style>
             </ListView.Resources>
