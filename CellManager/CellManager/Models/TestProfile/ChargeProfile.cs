@@ -72,9 +72,9 @@ namespace CellManager.Models.TestProfile
 
         public string PreviewText => ChargeMode switch
         {
-            ChargeMode.ChargeByCapacity => $"Current: {ChargeCurrent} A, Cutoff: {ChargeCutoffVoltage} V, Capacity: {ChargeCapacityMah} mAh",
-            ChargeMode.ChargeByTime => $"Current: {ChargeCurrent} A, Cutoff: {ChargeCutoffVoltage} V, Time: {ChargeTime}",
-            _ => $"Current: {ChargeCurrent} A, Cutoff: {ChargeCutoffVoltage} V, Cutoff Current: {CutoffCurrent} A",
+            ChargeMode.ChargeByCapacity => $"Current: {ChargeCurrent} A, Voltage: {ChargeCutoffVoltage} V, Cutoff Current: {CutoffCurrent} A, Capacity: {ChargeCapacityMah} mAh",
+            ChargeMode.ChargeByTime => $"Current: {ChargeCurrent} A, Voltage: {ChargeCutoffVoltage} V, Cutoff Current: {CutoffCurrent} A, Time: {ChargeTime}",
+            _ => $"Current: {ChargeCurrent} A, Voltage: {ChargeCutoffVoltage} V, Cutoff Current: {CutoffCurrent} A",
         };
     }
 
