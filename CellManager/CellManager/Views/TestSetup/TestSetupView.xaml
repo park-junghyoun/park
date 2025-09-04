@@ -129,9 +129,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="200" MaxWidth="600"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
         <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Padding="5" Margin="0,0,0,8">
             <WrapPanel>
@@ -143,7 +143,7 @@
             </WrapPanel>
         </Border>
         <!-- LEFT: Profile Libraries -->
-        <DockPanel Grid.Row="1"  Grid.Column="0" Margin="8">
+        <DockPanel Grid.Row="1"  Grid.Column="0" Margin="8" Width="400">
             <TextBlock DockPanel.Dock="Top" Text="Profile Libraries" FontWeight="Bold" Margin="0,0,0,8"/>
             <TabControl>
                 <TabItem Header="Charge">
@@ -271,7 +271,7 @@
         </DockPanel>
         
         <!-- Vertical divider -->
-        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource VDivider}" Margin="0,0,0,0"/>
+        <GridSplitter Grid.Row="1" Grid.Column="1" Width="1" Background="#E5E7EB" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowsPreview="True"/>
 
         <!-- RIGHT: Auto-switched editor + Save -->
         <DockPanel Grid.Row="1" Grid.Column="2" Margin="8">
