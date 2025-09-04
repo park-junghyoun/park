@@ -1,17 +1,78 @@
-﻿<UserControl x:Class="CellManager.Views.TestSetup.ChargeProfileDetailView"
+<UserControl x:Class="CellManager.Views.TestSetup.ChargeProfileDetailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
     <Grid Margin="8">
-        <TextBlock Text="Charge Current (A)" Margin="4"/>
-        <TextBox Grid.Column="1" Margin="4" Text="{Binding ChargeCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="1" Text="Cutoff Voltage (V)" Margin="4"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Margin="4" Text="{Binding ChargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid.Resources>
+            <Style x:Key="CapacityVisibilityStyle" TargetType="UIElement">
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.ChargeByCapacity}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="TimeVisibilityStyle" TargetType="UIElement">
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.ChargeByTime}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="CutoffCurrentVisibilityStyle" TargetType="UIElement">
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.FullCharge}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
 
-        <TextBlock Grid.Row="2" Text="Cutoff Current (A)" Margin="4"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Margin="4" Text="{Binding CutoffCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Mode" Margin="4" VerticalAlignment="Center"/>
+        <ComboBox Grid.Row="0" Grid.Column="1" Margin="4" SelectedValue="{Binding ChargeMode, UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Tag">
+            <ComboBoxItem Content="Charge by capacity" Tag="{x:Static tp:ChargeMode.ChargeByCapacity}"/>
+            <ComboBoxItem Content="Charge by time" Tag="{x:Static tp:ChargeMode.ChargeByTime}"/>
+            <ComboBoxItem Content="Full charge" Tag="{x:Static tp:ChargeMode.FullCharge}"/>
+        </ComboBox>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Charge Current (A)" Margin="4" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="4" Text="{Binding ChargeCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Cutoff Voltage (V)" Margin="4" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="4" Text="{Binding ChargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Cutoff Current (A)" Margin="4" VerticalAlignment="Center" Style="{StaticResource CutoffCurrentVisibilityStyle}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="4" Text="{Binding CutoffCurrent, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CutoffCurrentVisibilityStyle}"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Capacity (mAh)" Margin="4" VerticalAlignment="Center" Style="{StaticResource CapacityVisibilityStyle}"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="4" Text="{Binding ChargeCapacityMah, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CapacityVisibilityStyle}"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Charge Time" Margin="4" VerticalAlignment="Center" Style="{StaticResource TimeVisibilityStyle}"/>
+        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="4" Style="{StaticResource TimeVisibilityStyle}">
+            <TextBox Width="40" Text="{Binding ChargeHours, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text=":" Margin="2" VerticalAlignment="Center"/>
+            <TextBox Width="40" Text="{Binding ChargeMinutes, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text=":" Margin="2" VerticalAlignment="Center"/>
+            <TextBox Width="40" Text="{Binding ChargeSeconds, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
     </Grid>
 </UserControl>
+
