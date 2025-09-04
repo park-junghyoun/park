@@ -82,6 +82,17 @@
 
         <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" BorderThickness="1" BorderBrush="Black" >
 
+            <ListView.Resources>
+                <!-- GridViewColumnHeader 스타일을 Items 컬렉션과 분리하여 정의 -->
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="BorderBrush" Value="#FFDDDDDD"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </ListView.Resources>
+
             <!-- Row 높이와 MaterialDesign MinHeight 설정 -->
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">

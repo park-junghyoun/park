@@ -194,14 +194,14 @@
                         </ListBox>
                     </DockPanel>
                 </TabItem>
-                <TabItem Header="ECM">
+                <TabItem Header="Rest">
                     <DockPanel>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                            <Button Content="New" Command="{Binding AddEcmProfileCommand}" Margin="0,0,6,0"/>
-                            <Button Content="Delete" Command="{Binding DeleteEcmProfileCommand}" />
+                            <Button Content="New" Command="{Binding AddRestProfileCommand}" Margin="0,0,6,0"/>
+                            <Button Content="Delete" Command="{Binding DeleteRestProfileCommand}" />
                         </StackPanel>
-                        <ListBox ItemsSource="{Binding EcmPulseProfiles}"
-                                 SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}"
+                        <ListBox ItemsSource="{Binding RestProfiles}"
+                                 SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}"
                                  ItemContainerStyle="{StaticResource ProfileListItemStyle}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -242,14 +242,14 @@
                         </ListBox>
                     </DockPanel>
                 </TabItem>
-                <TabItem Header="Rest">
+                <TabItem Header="ECM">
                     <DockPanel>
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                            <Button Content="New" Command="{Binding AddRestProfileCommand}" Margin="0,0,6,0"/>
-                            <Button Content="Delete" Command="{Binding DeleteRestProfileCommand}" />
+                            <Button Content="New" Command="{Binding AddEcmProfileCommand}" Margin="0,0,6,0"/>
+                            <Button Content="Delete" Command="{Binding DeleteEcmProfileCommand}" />
                         </StackPanel>
-                        <ListBox ItemsSource="{Binding RestProfiles}"
-                                 SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}"
+                        <ListBox ItemsSource="{Binding EcmPulseProfiles}"
+                                 SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}"
                                  ItemContainerStyle="{StaticResource ProfileListItemStyle}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -266,6 +266,7 @@
                         </ListBox>
                     </DockPanel>
                 </TabItem>
+
             </TabControl>
         </DockPanel>
         
