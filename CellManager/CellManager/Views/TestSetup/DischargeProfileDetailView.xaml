@@ -5,6 +5,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
     <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
         <TextBlock Text="Discharge Current (A)" Margin="4"/>
         <TextBox Grid.Column="1" Margin="4" Text="{Binding DischargeCurrent, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -13,5 +25,11 @@
 
         <TextBlock Grid.Row="2" Text="Capacity Limit (mAh)" Margin="4"/>
         <TextBox Grid.Row="2" Grid.Column="1" Margin="4" Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Row="3" Text="Discharge Time" Margin="4"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="4" Text="{Binding DischargeTime, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Grid.Row="4" Text="Mode" Margin="4"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="4" Text="{Binding DischargeMode, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

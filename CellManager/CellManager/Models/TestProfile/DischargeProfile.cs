@@ -1,7 +1,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 
 namespace CellManager.Models.TestProfile
 {
+    public enum DischargeMode
+    {
+        DischargeByCapacity,
+        DischargeByTime,
+        FullDischarge
+    }
+
     public partial class DischargeProfile : ObservableObject
     {
         [ObservableProperty] private int _id;
@@ -14,7 +22,7 @@ namespace CellManager.Models.TestProfile
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
-        private string _dischargeMode;
+        private DischargeMode _dischargeMode;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
@@ -26,8 +34,24 @@ namespace CellManager.Models.TestProfile
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
-        private double _dischargeCapacityMah;
+        private TimeSpan _dischargeTime;
 
-        public string PreviewText => $"Mode: {DischargeMode}, Current: {DischargeCurrent} A, Cutoff: {DischargeCutoffVoltage} V, Capacity: {DischargeCapacityMah} mAh";
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PreviewText))]
+        private double? _dischargeCapacityMah;
+
+        public string PreviewText
+        {
+            get
+            {
+                var modeText = DischargeMode switch
+                {
+                    DischargeMode.DischargeByCapacity => $"Capacity: {DischargeCapacityMah} mAh",
+                    DischargeMode.DischargeByTime => $"Time: {DischargeTime}",
+                    _ => "Full discharge"
+                };
+                return $"Mode: {DischargeMode}, Current: {DischargeCurrent} A, Cutoff: {DischargeCutoffVoltage} V, {modeText}";
+            }
+        }
     }
 }

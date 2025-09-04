@@ -50,6 +50,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition SharedSizeGroup="LabelColumn"/>
@@ -70,6 +71,9 @@
 
                     <TextBlock Text="Capacity (mAh)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
                     <TextBox Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
+
+                    <TextBlock Text="Discharge Time" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding DischargeTime, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1"/>
                 </Grid>
             </StackPanel>
         </DataTemplate>
