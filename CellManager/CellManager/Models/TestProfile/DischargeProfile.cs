@@ -37,6 +37,15 @@ namespace CellManager.Models.TestProfile
         private TimeSpan _dischargeTime;
 
         [ObservableProperty]
+        private int _dischargeHours;
+
+        [ObservableProperty]
+        private int _dischargeMinutes;
+
+        [ObservableProperty]
+        private int _dischargeSeconds;
+
+        [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
         private double? _dischargeCapacityMah;
 
@@ -52,6 +61,22 @@ namespace CellManager.Models.TestProfile
                 };
                 return $"Mode: {DischargeMode}, Current: {DischargeCurrent} A, Cutoff: {DischargeCutoffVoltage} V, {modeText}";
             }
+        }
+
+        partial void OnDischargeHoursChanged(int value) => UpdateDischargeTime();
+        partial void OnDischargeMinutesChanged(int value) => UpdateDischargeTime();
+        partial void OnDischargeSecondsChanged(int value) => UpdateDischargeTime();
+
+        partial void OnDischargeTimeChanged(TimeSpan value)
+        {
+            SetProperty(ref _dischargeHours, value.Hours, nameof(DischargeHours));
+            SetProperty(ref _dischargeMinutes, value.Minutes, nameof(DischargeMinutes));
+            SetProperty(ref _dischargeSeconds, value.Seconds, nameof(DischargeSeconds));
+        }
+
+        private void UpdateDischargeTime()
+        {
+            DischargeTime = new TimeSpan(DischargeHours, DischargeMinutes, DischargeSeconds);
         }
     }
 }
