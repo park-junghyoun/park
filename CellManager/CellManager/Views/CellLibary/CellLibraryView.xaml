@@ -98,7 +98,7 @@
             </Button>
         </StackPanel>
 
-        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" >
+        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" SnapsToDevicePixels="True" UseLayoutRounding="True" >
 
             <ListView.Resources>
                 <!-- GridViewColumnHeader 우측 경계선 스타일 -->
@@ -108,13 +108,37 @@
                     <Setter Property="BorderBrush" Value="#E0E0E0"/>
                     <Setter Property="BorderThickness" Value="0,0,1,1"/>
                     <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="UseLayoutRounding" Value="True"/>
                     <Setter Property="Padding" Value="5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewColumnHeader">
+                                <Grid>
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Padding="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="True"
+                                            UseLayoutRounding="True">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          SnapsToDevicePixels="True"/>
+                                    </Border>
+                                    <Thumb x:Name="PART_HeaderGripper"
+                                           HorizontalAlignment="Right"
+                                           Width="8"
+                                           Background="Transparent"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
                 <!-- 각 셀의 우측 경계선 스타일 -->
                 <Style x:Key="CellRightBorder" TargetType="Border">
                     <Setter Property="BorderBrush" Value="#E0E0E0"/>
                     <Setter Property="BorderThickness" Value="0,0,1,0"/>
                     <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="UseLayoutRounding" Value="True"/>
                     <Setter Property="Padding" Value="5"/>
                 </Style>
             </ListView.Resources>
