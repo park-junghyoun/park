@@ -184,7 +184,7 @@
                                                      MinWidth="80"
                                                      HorizontalAlignment="Center">
                                     <materialDesign:Chip.Style>
-                                        <Style TargetType="materialDesign:Chip" BasedOn="{StaticResource MaterialDesignChip}">
+                                        <Style TargetType="materialDesign:Chip" BasedOn="{StaticResource {x:Type materialDesign:Chip}}">
                                             <Setter Property="Foreground" Value="White"/>
                                             <Setter Property="Background" Value="Gray"/>
                                             <Setter Property="Content" Value="Inactive"/>
