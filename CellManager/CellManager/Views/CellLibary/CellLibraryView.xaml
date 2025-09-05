@@ -179,22 +179,11 @@
                         <GridViewColumnHeader Content="Activity" HorizontalAlignment="Stretch" Padding="5"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <materialDesign:Chip Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                    CommandParameter="{Binding}" MinWidth="80">
-                                    <materialDesign:Chip.Style>
-                                        <Style TargetType="{x:Type materialDesign:Chip}" BasedOn="{StaticResource MaterialDesignActionChip}">
-                                            <Setter Property="Content" Value="Inactive"/>
-                                            <Setter Property="Background" Value="LightGray"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                    <Setter Property="Content" Value="Active"/>
-                                                    <Setter Property="Background" Value="#221DB5"/>
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </materialDesign:Chip.Style>
-                                </materialDesign:Chip>
+                                <ToggleButton IsChecked="{Binding IsActive}"
+                                              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                              CommandParameter="{Binding}"
+                                              Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
+                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
