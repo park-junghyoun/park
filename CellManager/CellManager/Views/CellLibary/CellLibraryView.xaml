@@ -94,7 +94,8 @@
             <ListView.Template>
                 <ControlTemplate TargetType="ListView">
                     <Border BorderBrush="#E5E7EB" BorderThickness="1" SnapsToDevicePixels="True">
-                        <ScrollViewer Focusable="False" Template="{DynamicResource GridViewScrollViewer}">
+                        <ScrollViewer Focusable="False"
+                                      Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
