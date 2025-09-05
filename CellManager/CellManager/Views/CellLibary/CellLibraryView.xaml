@@ -77,7 +77,7 @@
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal"  Margin="0,0,0,0" HorizontalAlignment="Right">
             <Button Style="{StaticResource ImageButton}" Tag="{StaticResource IconNew}"  Width="80" Height="80" Command="{Binding NewCellCommand}"/>
             <Button Style="{StaticResource ImageButton}" Tag="{StaticResource IconEdit}" Width="80" Height="80" Command="{Binding OpenDetailsCommand}" CommandParameter="{Binding SelectedCell}"/>
-            <Button Style="{StaticResource ImageButton}" Tag="{StaticResource IconDelete}" Width="80" Height="80" Command="{Binding DeleteCellCommand}"/>
+            <Button Style="{StaticResource ImageButton}" Tag="{StaticResource IconDelete}" Width="80" Height="80" Command="{Binding DeleteCellCommand}" CommandParameter="{Binding SelectedCell}"/>
         </StackPanel>
 
         <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" BorderThickness="1" BorderBrush="Black" >
@@ -154,16 +154,28 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <!-- Select Badge -->
-                    <GridViewColumn>
-                        <GridViewColumnHeader Content="Activation" HorizontalAlignment="Stretch" Padding="5"/>
+                    <!-- Row Actions -->
+                    <GridViewColumn Width="60">
+                        <GridViewColumnHeader Content="Actions" HorizontalAlignment="Stretch" Padding="5"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ToggleButton IsChecked="{Binding IsActive}"
-                                              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                              CommandParameter="{Binding}"
-                                              Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
-                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
+                                <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres"
+                                                         Style="{StaticResource MaterialDesignMultiFloatingActionSecondaryPopupBox}">
+                                    <materialDesign:PopupBox.ToggleCheckedContent>
+                                        <materialDesign:PackIcon Width="24" Height="24" Kind="DotsVertical"/>
+                                    </materialDesign:PopupBox.ToggleCheckedContent>
+                                    <StackPanel>
+                                        <Button Content="Edit"
+                                                Command="{Binding DataContext.OpenDetailsCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"/>
+                                        <Button Content="Delete"
+                                                Command="{Binding DataContext.DeleteCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"/>
+                                        <Button Content="Select"
+                                                Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

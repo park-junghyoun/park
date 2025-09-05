@@ -51,7 +51,7 @@ namespace CellManager.ViewModels
         public RelayCommand NewCellCommand { get; }
         public RelayCommand SaveCellCommand { get; }
         public RelayCommand CancelEditCommand { get; }
-        public RelayCommand DeleteCellCommand { get; }
+        public RelayCommand<Cell> DeleteCellCommand { get; }
         public RelayCommand<Cell> SelectCellCommand { get; }
         public RelayCommand<Cell> OpenDetailsCommand { get; }
 
@@ -63,7 +63,7 @@ namespace CellManager.ViewModels
             NewCellCommand = new RelayCommand(StartNewCell, () => EditingCell == null);
             SaveCellCommand = new RelayCommand(SaveCurrent, () => EditingCell != null || SelectedCell != null);
             CancelEditCommand = new RelayCommand(CancelNew, () => EditingCell != null);
-            DeleteCellCommand = new RelayCommand(DeleteSelected, () => EditingCell == null && SelectedCell != null && SelectedCell.Id > 0);
+            DeleteCellCommand = new RelayCommand<Cell>(DeleteCell, c => EditingCell == null && c != null && c.Id > 0);
 
             SelectCellCommand = new RelayCommand<Cell>(ExecuteSelectCell);
             OpenDetailsCommand = new RelayCommand<Cell>(ExecuteOpenDetails, c => c != null);
@@ -185,11 +185,10 @@ namespace CellManager.ViewModels
             EditingCell = null;
         }
 
-        private void DeleteSelected()
+        private void DeleteCell(Cell cell)
         {
-            if (SelectedCell == null || SelectedCell.Id <= 0) return;
+            if (cell == null || cell.Id <= 0) return;
 
-            var toDelete = SelectedCell;
             var result = MessageBox.Show(
                 "Are you sure you want to delete the selected cell?",
                 "Confirm Delete",
@@ -198,11 +197,11 @@ namespace CellManager.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
-                _cellRepository.DeleteCell(toDelete);
+                _cellRepository.DeleteCell(cell);
                 ExecuteLoadData();
 
                 SelectedCell = (CellModels.Count > 0) ? CellModels[0] : null;
-                WeakReferenceMessenger.Default.Send(new CellDeletedMessage(toDelete));
+                WeakReferenceMessenger.Default.Send(new CellDeletedMessage(cell));
                 FilteredCells.Refresh();
             }
 
