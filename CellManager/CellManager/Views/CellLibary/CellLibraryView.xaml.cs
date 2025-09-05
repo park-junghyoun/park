@@ -29,7 +29,8 @@ namespace CellManager.Views.CellLibary
             Loaded += CellLibraryView_Loaded;
         }
         // 각 컬럼의 비율 (Actions 컬럼 제외)
-        private readonly double[] columnRatios = { 0.05, 0.25, 0.16,0.16, 0.12, 0.08, 0.23, };
+        // 총합이 1이 되도록 마지막 컬럼 비율을 수정했습니다.
+        private readonly double[] columnRatios = { 0.05, 0.25, 0.16, 0.16, 0.12, 0.08, 0.18 };
         private const double ActionsColumnWidth = 60; // 마지막 Actions 컬럼 고정 너비
 
         private void CellLibraryView_Loaded(object sender, RoutedEventArgs e)
@@ -56,16 +57,11 @@ namespace CellManager.Views.CellLibary
                 if (totalWidth <= 0)
                     return;
 
-                // 마지막 전(Activation) 컬럼 오차 방지를 위해 먼저 앞쪽 컬럼 계산
-                double usedWidth = 0;
-                for (int i = 0; i < gridView.Columns.Count - 2; i++)
+                // Actions 컬럼을 제외한 나머지 컬럼에 비율대로 너비 적용
+                for (int i = 0; i < gridView.Columns.Count - 1; i++)
                 {
                     gridView.Columns[i].Width = Math.Round(totalWidth * columnRatios[i]);
-                    usedWidth += gridView.Columns[i].Width;
                 }
-
-                // Activation 컬럼은 남은 공간 모두 채움
-                gridView.Columns[^2].Width = totalWidth - usedWidth;
 
                 // 마지막 Actions 컬럼은 고정 너비
                 gridView.Columns[^1].Width = ActionsColumnWidth;
