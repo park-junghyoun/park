@@ -69,8 +69,22 @@
         </Grid.ColumnDefinitions>
         <Border Grid.Row="0" Grid.Column="0"  BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="5" Margin="0,5,0,5" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <Grid>
-                <TextBlock Text="Search &amp; Filter" Margin="8" VerticalAlignment="Center" Foreground="Gray" IsHitTestVisible="True" Opacity="0.6"/>
-                <TextBox Padding="5" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" IsHitTestVisible="True"
+                <TextBlock Text="Search &amp; Filter" Margin="8" VerticalAlignment="Center" Foreground="Gray" Opacity="0.6" IsHitTestVisible="False">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SearchText}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding SearchText}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox Padding="5" BorderThickness="0" Background="Transparent" VerticalAlignment="Center"
                          Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Border>
