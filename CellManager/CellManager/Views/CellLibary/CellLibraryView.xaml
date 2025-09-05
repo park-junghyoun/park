@@ -159,8 +159,7 @@
                         <GridViewColumnHeader Content="Actions" HorizontalAlignment="Stretch" Padding="5"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres"
-                                                         Style="{StaticResource MaterialDesignMultiFloatingActionSecondaryPopupBox}">
+                                <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres">
                                     <materialDesign:PopupBox.ToggleCheckedContent>
                                         <materialDesign:PackIcon Width="24" Height="24" Kind="DotsVertical"/>
                                     </materialDesign:PopupBox.ToggleCheckedContent>
