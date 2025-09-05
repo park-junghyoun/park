@@ -23,7 +23,7 @@
                  DisplayMemberPath="DisplayNameAndId"
                  PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
                  PreviewMouseMove="ProfileList_PreviewMouseMove"
-                 Margin="5">
+                 Margin="5" Style="{StaticResource DenseListBox}" >
             <ListBox.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>

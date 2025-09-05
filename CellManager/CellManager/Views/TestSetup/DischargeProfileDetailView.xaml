@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
-    <GroupBox Header="Discharge Profile" Margin="8">
+
+    <GroupBox >
         <Grid Margin="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

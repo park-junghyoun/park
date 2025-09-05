@@ -5,6 +5,11 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Indigo" SecondaryColor="Blue" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
             <!-- 가로선 -->
             <Style x:Key="HDivider" TargetType="Border">
                 <Setter Property="Height" Value="1"/>
@@ -17,12 +22,311 @@
                 <Setter Property="Background" Value="#E5E7EB"/>
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
             </Style>
-            <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Indigo" SecondaryColor="Blue" />
 
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            <!-- 공통 토큰 -->
+            <SolidColorBrush x:Key="SurfaceBackgroundBrush" Color="#FFFFFFFF"/>
+            <!-- 본체 -->
+            <SolidColorBrush x:Key="SurfaceBorderBrush"     Color="#E0E0E0"/>
+            <!-- 미세 보더 -->
+            <SolidColorBrush x:Key="HeaderBackgroundBrush"  Color="#FFFFFFFF"/>
+            <!-- 헤더 칩 -->
+            <SolidColorBrush x:Key="HeaderForegroundBrush"  Color="#333333"/>
+            <!-- 헤더 텍스트 -->
+            <Thickness       x:Key="SurfacePadding">14</Thickness>
+            <CornerRadius    x:Key="SurfaceCornerRadius">12</CornerRadius>
+            <CornerRadius    x:Key="HeaderCornerRadius">8</CornerRadius>
+            <!-- ListBoxItem -->
+            <SolidColorBrush x:Key="LbItemForeground"   Color="#222222"/>
+            <SolidColorBrush x:Key="LbItemHoverBg"      Color="#F5F5F5"/>
+            <SolidColorBrush x:Key="LbItemSelectedBg"   Color="#EDEFF3"/>
+            <SolidColorBrush x:Key="LbItemBorder"       Color="#E3E6EA"/>
+            <!-- 그림자(버전 안전) -->
+            <DropShadowEffect x:Key="SoftShadow" BlurRadius="10" Opacity="0.18" ShadowDepth="2"/>
+            <DropShadowEffect x:Key="TinyShadow" BlurRadius="6"  Opacity="0.14" ShadowDepth="1"/>
+
+            <!-- ===== Card: 버전 안전 템플릿 =====
+           ShadowAssist/CornerRadius 같은 버전 의존 속성 사용 안 함 -->
+            <Style TargetType="materialDesign:Card" BasedOn="{StaticResource {x:Type materialDesign:Card}}">
+                <Setter Property="Background" Value="{StaticResource SurfaceBackgroundBrush}"/>
+                <Setter Property="Padding"    Value="{StaticResource SurfacePadding}"/>
+                <Setter Property="Margin"     Value="8"/>
+                <Setter Property="BorderBrush"     Value="{StaticResource SurfaceBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="materialDesign:Card">
+                            <!-- Border로 라운드/보더/그림자 처리 -->
+                            <Border
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{StaticResource SurfaceCornerRadius}"
+                  Padding="{TemplateBinding Padding}"
+                  SnapsToDevicePixels="True"
+                  Effect="{StaticResource SoftShadow}">
+                                <ContentPresenter/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- StatusBar : Card 톤 통일 스타일 -->
+            <Style TargetType="StatusBar" BasedOn="{StaticResource {x:Type StatusBar}}">
+                <Setter Property="Background" Value="{StaticResource SurfaceBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="#333333"/>
+                <Setter Property="BorderBrush" Value="{StaticResource SurfaceBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1,1,1,0"/>
+                <!-- 위/좌/우만 경계 -->
+                <Setter Property="Padding" Value="8,4"/>
+                <Setter Property="Margin" Value="8"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="StatusBar">
+                            <Border
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="10"
+                    Padding="{TemplateBinding Padding}"
+                    SnapsToDevicePixels="True"
+                    Effect="{StaticResource SoftShadow}">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- ===== GroupBox: Card와 동일 룩 ===== -->
+            <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                <Setter Property="Foreground" Value="{StaticResource HeaderForegroundBrush}"/>
+                <Setter Property="Padding"    Value="{StaticResource SurfacePadding}"/>
+                <Setter Property="Margin"     Value="8"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GroupBox">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- 헤더 칩 (DropShadowEffect로 은은한 강조) -->
+                                <Border Grid.Row="0"
+                        Background="{StaticResource HeaderBackgroundBrush}"
+                        CornerRadius="{StaticResource HeaderCornerRadius}"
+                        Padding="6,2"
+                        Margin="12,0,12,0"
+                        Effect="{StaticResource TinyShadow}">
+                                    <ContentPresenter ContentSource="Header"
+                                    Margin="2,0"
+                                    VerticalAlignment="Center"/>
+                                </Border>
+
+                                <!-- 본체 카드 -->
+                                <Border Grid.Row="1"
+                        Background="{StaticResource SurfaceBackgroundBrush}"
+                        BorderBrush="{StaticResource SurfaceBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource SurfaceCornerRadius}"
+                        Padding="{TemplateBinding Padding}"
+                        Margin="0,-10,0,0"
+                        SnapsToDevicePixels="True"
+                        Effect="{StaticResource SoftShadow}">
+                                    <ContentPresenter/>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <!-- 카드 룩의 ListBox -->
+            <Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
+                <Setter Property="Background" Value="{StaticResource SurfaceBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource SurfaceBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="{StaticResource SurfacePadding}"/>
+                <Setter Property="Margin"  Value="8"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBox">
+                            <Border
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}"
+          CornerRadius="{StaticResource SurfaceCornerRadius}"
+          SnapsToDevicePixels="True"
+          Effect="{StaticResource SoftShadow}">
+                                <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <!-- (선택) Dense 버전 -->
+            <Style x:Key="DenseCard" TargetType="materialDesign:Card" BasedOn="{StaticResource {x:Type materialDesign:Card}}">
+                <Setter Property="Background" Value="{StaticResource SurfaceBackgroundBrush}"/>
+                <Setter Property="Padding"    Value="12"/>
+                <Setter Property="Margin"     Value="6"/>
+                <Setter Property="BorderBrush"     Value="{StaticResource SurfaceBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="materialDesign:Card">
+                            <Border Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      CornerRadius="12"
+                      Padding="{TemplateBinding Padding}"
+                      Effect="{StaticResource TinyShadow}">
+                                <ContentPresenter/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="DenseGroupBox" TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+                <Setter Property="Padding" Value="12"/>
+                <Setter Property="Margin"  Value="6"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GroupBox">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0"
+                        Background="{StaticResource HeaderBackgroundBrush}"
+                        CornerRadius="8"
+                        Padding="4,1"
+                        Margin="10,0,10,0"
+                        Effect="{StaticResource TinyShadow}">
+                                    <ContentPresenter ContentSource="Header" Margin="2,0" VerticalAlignment="Center"/>
+                                </Border>
+                                <Border Grid.Row="1"
+                        Background="{StaticResource SurfaceBackgroundBrush}"
+                        BorderBrush="{StaticResource SurfaceBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Padding="{TemplateBinding Padding}"
+                        Margin="0,-8,0,0"
+                        Effect="{StaticResource TinyShadow}">
+                                    <ContentPresenter/>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- 아이템 컨테이너: 라운드/호버/선택 -->
+            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                <Setter Property="Foreground" Value="{StaticResource LbItemForeground}"/>
+                <Setter Property="Padding" Value="10,6"/>
+                <Setter Property="Margin"  Value="0,2"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment"   Value="Center"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border x:Name="ItemRoot"
+                Background="Transparent"
+                BorderBrush="{StaticResource LbItemBorder}"
+                BorderThickness="0"
+                CornerRadius="10"
+                Padding="{TemplateBinding Padding}">
+                                <ContentPresenter
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                SnapsToDevicePixels="True"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- Hover -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ItemRoot" Property="Background" Value="{StaticResource LbItemHoverBg}"/>
+                                    <Setter TargetName="ItemRoot" Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                                <!-- Selected -->
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="ItemRoot" Property="Background" Value="{StaticResource LbItemSelectedBg}"/>
+                                    <Setter TargetName="ItemRoot" Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                                <!-- Focus 시 테두리만 살짝 -->
+                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                    <Setter TargetName="ItemRoot" Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                                <!-- 비활성화 -->
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!-- Dense ListBox: 여백/그림자 축소 -->
+            <Style x:Key="DenseListBox" TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
+                <Setter Property="Background" Value="{StaticResource SurfaceBackgroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource SurfaceBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="12"/>
+                <Setter Property="Margin"  Value="6"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBox">
+                            <Border
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}"
+          CornerRadius="12"
+          Effect="{StaticResource TinyShadow}">
+                                <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- Dense ListBoxItem -->
+            <Style x:Key="DenseListBoxItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                <Setter Property="Padding" Value="8,5"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border x:Name="ItemRoot"
+                Background="Transparent"
+                BorderBrush="{StaticResource LbItemBorder}"
+                BorderThickness="0"
+                CornerRadius="8"
+                Padding="{TemplateBinding Padding}">
+                                <ContentPresenter
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ItemRoot" Property="Background" Value="{StaticResource LbItemHoverBg}"/>
+                                    <Setter TargetName="ItemRoot" Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="ItemRoot" Property="Background" Value="{StaticResource LbItemSelectedBg}"/>
+                                    <Setter TargetName="ItemRoot" Property="BorderThickness" Value="1"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
-    
