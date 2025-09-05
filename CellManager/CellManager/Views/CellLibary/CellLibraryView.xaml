@@ -105,6 +105,20 @@
             
             <ListView.View>
                 <GridView>
+
+                    <!-- Select Badge -->
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Selete" HorizontalAlignment="Stretch" Padding="5"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ToggleButton IsChecked="{Binding IsActive}"
+                                              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                              CommandParameter="{Binding}"
+                                              Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
+                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <!-- Cell Name -->
                     <GridViewColumn >
                         <GridViewColumnHeader Content="Cell name" HorizontalAlignment="Stretch" Padding="5"/>
@@ -124,7 +138,17 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    
+
+                    <!-- Part Number -->
+                    <GridViewColumn >
+                        <GridViewColumnHeader Content="Part Number" HorizontalAlignment="Stretch" Padding="5"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PartNumber}" Margin="-5" Padding="5"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
                     <!-- Update Date -->
                     <GridViewColumn Header="Update Date" Width="180">
                         <GridViewColumn.CellTemplate>
@@ -150,20 +174,6 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Manufacturer}" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <!-- Select Badge -->
-                    <GridViewColumn>
-                        <GridViewColumnHeader Content="Activation" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ToggleButton IsChecked="{Binding IsActive}"
-                                              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                              CommandParameter="{Binding}"
-                                              Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
-                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
