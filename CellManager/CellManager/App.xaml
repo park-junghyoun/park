@@ -12,14 +12,16 @@
             </ResourceDictionary.MergedDictionaries>
             
             <!-- 컬러 토큰 -->
-            <SolidColorBrush x:Key="PrimaryGray"        Color="#9E9E9E"/>
-            <!-- 기본: Gray 500 -->
-            <SolidColorBrush x:Key="PrimaryGrayHover"   Color="#757575"/>
-            <!-- Hover: Gray 600 -->
-            <SolidColorBrush x:Key="PrimaryGrayPressed" Color="#616161"/>
-            <!-- Pressed: Gray 700 -->
-            <SolidColorBrush x:Key="PrimaryGrayDisabled" Color="#E0E0E0"/>
-            <!-- Disabled: Gray 300 -->
+            <SolidColorBrush x:Key="PrimaryMain"        Color="#2196F3"/>
+            <!-- Base (Blue 500) -->
+            <SolidColorBrush x:Key="PrimaryHover"       Color="#1E88E5"/>
+            <!-- Hover -->
+            <SolidColorBrush x:Key="PrimaryPressed"     Color="#1565C0"/>
+            <!-- Pressed -->
+            <SolidColorBrush x:Key="PrimaryDisabledBg"  Color="#BBDEFB"/>
+            <!-- Disabled bg -->
+            <SolidColorBrush x:Key="PrimaryDisabledFg"  Color="#FFFFFF"/>
+            <!-- Disabled fg(흰색 유지) -->
 
             <!-- 가로선 -->
             <Style x:Key="HDivider" TargetType="Border">
@@ -337,52 +339,53 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <!-- Create 버튼 전용 스타일 (v3.5: Flat/Raised/Outlined 중 Raised 기반) -->
             <Style x:Key="PrimaryActionButton"
        TargetType="Button"
        BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                <Setter Property="Padding" Value="14,0"/>
-                <Setter Property="MinWidth" Value="160"/>
+                <Setter Property="MinWidth" Value="180"/>
                 <Setter Property="Height" Value="36"/>
+                <Setter Property="Padding" Value="16,0"/>
                 <Setter Property="Foreground" Value="White"/>
-                <Setter Property="Background" Value="{StaticResource PrimaryGray}"/>
-                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="8"/>
+                <Setter Property="Background" Value="{StaticResource PrimaryMain}"/>
+                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="6"/>
                 <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
                             <Border x:Name="bg"
                 Background="{TemplateBinding Background}"
                 CornerRadius="{TemplateBinding materialDesign:ButtonAssist.CornerRadius}">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Margin="{TemplateBinding Padding}"/>
                             </Border>
                             <ControlTemplate.Triggers>
+                                <!-- Hover / Pressed -->
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource PrimaryGrayHover}"/>
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource PrimaryHover}"/>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource PrimaryGrayPressed}"/>
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource PrimaryPressed}"/>
                                 </Trigger>
+
+                                <!-- Keyboard Focus (외곽선 살짝) -->
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter TargetName="bg" Property="BorderBrush" Value="#90CAF9"/>
+                                    <Setter TargetName="bg" Property="BorderThickness" Value="2"/>
+                                </Trigger>
+
+                                <!-- Disabled -->
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource PrimaryGrayDisabled}"/>
-                                    <Setter Property="Opacity" Value="0.85"/>
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource PrimaryDisabledBg}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource PrimaryDisabledFg}"/>
+                                    <Setter Property="Opacity" Value="0.95"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Style>
-
-            <!-- (선택) 아웃라인 버전: 상단 검색창 옆에 더 가볍게 쓰고 싶을 때 -->
-            <Style x:Key="PrimaryOutlinedButton"
-       TargetType="Button"
-       BasedOn="{StaticResource MaterialDesignOutlinedButton}">
-                <Setter Property="Padding" Value="14,0"/>
-                <Setter Property="MinWidth" Value="160"/>
-                <Setter Property="Height" Value="36"/>
-                <Setter Property="Foreground" Value="{StaticResource PrimaryGray}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource PrimaryGray}"/>
-                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="8"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
