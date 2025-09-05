@@ -63,21 +63,5 @@ namespace CellManager.Views.CellLibary
                 }
             }
         }
-        private void Active_Bt_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button btn)
-            {
-                var vm = Application.Current.MainWindow?.DataContext as MainViewModel;
-                var cell = vm.SelectedCell;
-                if (cell.Id != 0 && btn.Content.ToString() == "Inactive")
-                {
-                    btn.Content = "Active";
-                }
-                else 
-                { 
-                    btn.Content = "Inactive"; 
-                }
-            }
-        }
     }
 }
