@@ -174,27 +174,29 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <!-- Select Button -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Activity" HorizontalAlignment="Stretch" Padding="5"/>
+                    <!-- Activity Badge -->
+                    <GridViewColumn Width="100">
+                        <GridViewColumnHeader Content="Activity" HorizontalContentAlignment="Center" Padding="5"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button  Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}" MinWidth="100"
-                    CommandParameter="{Binding}" materialDesign:ButtonProgressAssist.IsIndeterminate="True" materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding IsActive}" materialDesign:ButtonProgressAssist.Value="-1">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                                            <Setter Property="Background" Value="LightGray"/>
-                                            <Setter Property="BorderBrush" Value="LightGray"/>
+                                <materialDesign:Chip Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                     CommandParameter="{Binding}"
+                                                     MinWidth="80"
+                                                     HorizontalAlignment="Center">
+                                    <materialDesign:Chip.Style>
+                                        <Style TargetType="materialDesign:Chip" BasedOn="{StaticResource MaterialDesignChip}">
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="Background" Value="Gray"/>
                                             <Setter Property="Content" Value="Inactive"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsActive}" Value="True">
                                                     <Setter Property="Content" Value="Active"/>
-                                                    <Setter Property="Background" Value="#221DB5"/>
+                                                    <Setter Property="Background" Value="#2196F3"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </Button.Style>
-                                </Button>
+                                    </materialDesign:Chip.Style>
+                                </materialDesign:Chip>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
