@@ -29,7 +29,7 @@ namespace CellManager.Views.CellLibary
             Loaded += CellLibraryView_Loaded;
         }
         // 각 컬럼의 비율 (총합 = 1.0)
-        private readonly double[] columnRatios = { 0.19, 0.14, 0.13, 0.08, 0.12, 0.12, 0.12, 0.1  };
+        private readonly double[] columnRatios = { 0.28, 0.2042, 0.1511, 0.1053, 0.1579, 0.1015 };
 
         private void CellLibraryView_Loaded(object sender, RoutedEventArgs e)
         {
