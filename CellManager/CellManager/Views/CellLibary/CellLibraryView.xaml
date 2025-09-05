@@ -115,21 +115,21 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!-- Serial Number -->
+                    <GridViewColumn >
+                        <GridViewColumnHeader Content="Serial Number" HorizontalAlignment="Stretch" Padding="5"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SerialNumber}" Margin="-5" Padding="5"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
                     <!-- Update Date -->
                     <GridViewColumn Header="Update Date" Width="180">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding LastUpdated, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <!-- Manufacturer -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Cell Manufacturer" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Manufacturer}" Margin="-5" Padding="5"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -144,39 +144,19 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     
-                    <!-- Nominal Voltage -->
+                    <!-- Manufacturer -->
                     <GridViewColumn >
-                        <GridViewColumnHeader Content="Nominal Voltage" HorizontalAlignment="Stretch" Padding="5"/>
+                        <GridViewColumnHeader Content="Cell Manufacturer" HorizontalAlignment="Stretch" Padding="5"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding NominalVoltage, StringFormat={}{0:F2} V}" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <!-- Rated Capacity -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Rated Capacity" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding RatedCapacity, StringFormat={}{0:F2} Ah}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <!-- Serial Number -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Serial Number" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding SerialNumber}" Margin="-5" Padding="5"/>
+                                <TextBlock Text="{Binding Manufacturer}" Margin="-5" Padding="5"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
                     <!-- Select Badge -->
                     <GridViewColumn>
-                        <GridViewColumnHeader Content="Activity" HorizontalAlignment="Stretch" Padding="5"/>
+                        <GridViewColumnHeader Content="Activation" HorizontalAlignment="Stretch" Padding="5"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ToggleButton IsChecked="{Binding IsActive}"
