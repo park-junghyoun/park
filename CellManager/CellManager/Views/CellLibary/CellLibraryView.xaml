@@ -59,7 +59,7 @@
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="85"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -74,10 +74,8 @@
                          Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Border>
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal"  Margin="0,0,0,0" HorizontalAlignment="Right">
-            <Button Style="{StaticResource ImageButton}" Tag="{StaticResource IconNew}"  Width="80" Height="80" Command="{Binding NewCellCommand}"/>
-            <Button Style="{StaticResource ImageButton}" Tag="{StaticResource IconEdit}" Width="80" Height="80" Command="{Binding OpenDetailsCommand}" CommandParameter="{Binding SelectedCell}"/>
-            <Button Style="{StaticResource ImageButton}" Tag="{StaticResource IconDelete}" Width="80" Height="80" Command="{Binding DeleteCellCommand}" CommandParameter="{Binding SelectedCell}"/>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal"  Margin="0,0,0,0" HorizontalAlignment="Right" >
+            <Button Content="Create Cell Library"  Padding="5"  Width="200" Height="40" Command="{Binding NewCellCommand}"/>
         </StackPanel>
 
         <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" BorderThickness="1" BorderBrush="Black" >
@@ -96,10 +94,55 @@
             <!-- Row 높이와 MaterialDesign MinHeight 설정 -->
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Height" Value="35"/>
                     <!-- 고정 Row 높이 -->
-                    <Setter Property="MinHeight" Value="30"/>
+                    <Setter Property="MinHeight" Value="35"/>
                     <!-- MaterialDesign 기본 MinHeight 덮어쓰기 -->
+
+                    <!-- 1px 라인 선명하게 -->
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="UseLayoutRounding" Value="True"/>
+
+                    <!-- 기본 배경(알터네이트 배경을 쓰려면 아래 AlternationCount 참고) -->
+                    <Setter Property="Background" Value="Transparent"/>
+
+                    <!-- 템플릿: 하단 1px 보더 = 가로 줄 -->
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border x:Name="Root"
+                    Background="{TemplateBinding Background}">
+                                    <Grid>
+                                        <!-- 내용 -->
+                                        <ContentPresenter
+                  Margin="0"
+                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                        <!-- 하단 줄 -->
+                                        <Border HorizontalAlignment="Stretch"
+                        VerticalAlignment="Bottom"
+                        Height="1"
+                        Background="#E0E0E0"/>
+                                        <!-- 줄 색 -->
+                                    </Grid>
+                                </Border>
+
+                                <!-- Hover/Selected 배경 -->
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Root" Property="Background" Value="#F7F9FC"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Root" Property="Background" Value="#EDEFF3"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="Root" Property="Opacity" Value="0.6"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </ListView.ItemContainerStyle>
             
@@ -183,21 +226,31 @@
                         <GridViewColumnHeader Content="Actions" HorizontalAlignment="Stretch" Padding="5"/>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <materialDesign:PopupBox PlacementMode="BottomAndAlignCentres">
+                                <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" StaysOpen="False"  PlacementMode="RightAndAlignTopEdges" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
+
                                     <materialDesign:PopupBox.ToggleCheckedContent>
-                                        <materialDesign:PackIcon Width="24" Height="24" Kind="DotsVertical"/>
+                                        <materialDesign:PackIcon Width="10" Height="10" Kind="DotsVertical"/>
                                     </materialDesign:PopupBox.ToggleCheckedContent>
+
                                     <StackPanel>
+                                        <!-- Edit / Delete는 스타일을 한 번만 -->
                                         <Button Content="Edit"
-                                                Command="{Binding DataContext.OpenDetailsCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}"/>
+                  Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                  Command="{Binding DataContext.OpenDetailsCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                  CommandParameter="{Binding}"/>
+
                                         <Button Content="Delete"
-                                                Command="{Binding DataContext.DeleteCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}"/>
-                                        <Button Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}">
+                  Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                  Command="{Binding DataContext.DeleteCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                  CommandParameter="{Binding}"/>
+
+                                        <!-- Select/Deselect: Style 속성은 '한 번만' -->
+                                        <Button
+              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+              CommandParameter="{Binding}">
                                             <Button.Style>
-                                                <Style TargetType="Button">
+                                                <Style TargetType="Button"
+                     BasedOn="{StaticResource MaterialDesignFloatingActionMiniButton}">
                                                     <Setter Property="Content" Value="Select"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsActive}" Value="True">
