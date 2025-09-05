@@ -46,6 +46,11 @@ namespace CellManager.ViewModels
             UpdateCanExecutes();
         }
 
+        partial void OnSearchTextChanged(string value)
+        {
+            FilteredCells.Refresh();
+        }
+
         // Commands
         public RelayCommand LoadDataCommand { get; }
         public RelayCommand NewCellCommand { get; }
