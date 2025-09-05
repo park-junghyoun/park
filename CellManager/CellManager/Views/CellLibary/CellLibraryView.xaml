@@ -154,6 +154,20 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
+                    <!-- Select Badge -->
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Activation" HorizontalAlignment="Stretch" Padding="5"/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ToggleButton IsChecked="{Binding IsActive}"
+                                              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                              CommandParameter="{Binding}"
+                                              Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
+                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
                     <!-- Row Actions -->
                     <GridViewColumn Width="60">
                         <GridViewColumnHeader Content="Actions" HorizontalAlignment="Stretch" Padding="5"/>
@@ -170,9 +184,19 @@
                                         <Button Content="Delete"
                                                 Command="{Binding DataContext.DeleteCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding}"/>
-                                        <Button Content="Select"
-                                                Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                                CommandParameter="{Binding}"/>
+                                        <Button Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Content" Value="Select"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                            <Setter Property="Content" Value="Deselect"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
                                     </StackPanel>
                                 </materialDesign:PopupBox>
                             </DataTemplate>

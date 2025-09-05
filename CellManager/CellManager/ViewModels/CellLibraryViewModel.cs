@@ -214,8 +214,7 @@ namespace CellManager.ViewModels
             if (EditingCell != null) return; // New 중에는 실수로 리스트 선택 바뀌지 않게 잠금
             if (cell == null) return;
 
-            // 토글 버튼을 다시 눌렀을 때 비활성화 상태로 변경
-            if (SelectedCell == cell && !cell.IsActive)
+            if (SelectedCell == cell)
             {
                 SelectedCell = null;
                 cell.IsActive = false;
@@ -224,12 +223,9 @@ namespace CellManager.ViewModels
             else
             {
                 SelectedCell = cell;
-                cell.IsActive = true; // 선택된 셀은 활성화 표시
-                // 다른 셀들은 비활성화
                 foreach (var c in CellModels)
                 {
-                    if (c.Id != cell.Id && c.IsActive)
-                        c.IsActive = false;
+                    c.IsActive = c == cell;
                 }
                 WeakReferenceMessenger.Default.Send(new CellSelectedMessage(cell));
             }
