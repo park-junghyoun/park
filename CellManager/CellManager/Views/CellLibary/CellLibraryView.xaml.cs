@@ -42,15 +42,18 @@ namespace CellManager.Views.CellLibary
         {
             if (lv_cells.View is GridView gridView)
             {
-                if (gridView.Columns.Count != columnRatios.Length )
+                if (gridView.Columns.Count != columnRatios.Length)
                     return; // 비율 개수와 맞지 않으면 스킵
 
-                // ListView width must be larger than the scrollbar width
-                if (lv_cells.ActualWidth <= SystemParameters.VerticalScrollBarWidth)
-                    return;
+                // 스크롤바가 표시되는 경우에만 너비에서 스크롤바 폭을 제외
+                var scrollViewer = GetScrollViewer(lv_cells);
+                double scrollBarWidth = scrollViewer != null &&
+                                        scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible
+                    ? SystemParameters.VerticalScrollBarWidth
+                    : 0;
 
                 // Actions 컬럼을 제외한 전체 사용 가능한 너비
-                double totalWidth = lv_cells.ActualWidth - SystemParameters.VerticalScrollBarWidth;
+                double totalWidth = lv_cells.ActualWidth - scrollBarWidth;
 
                 // totalWidth가 0 이하일 경우 재조정 생략
                 if (totalWidth <= 0)
@@ -62,6 +65,23 @@ namespace CellManager.Views.CellLibary
                     gridView.Columns[i].Width = Math.Round(totalWidth * columnRatios[i]);
                 }
             }
+        }
+
+        // ListView 내 ScrollViewer 찾기
+        private static ScrollViewer? GetScrollViewer(DependencyObject root)
+        {
+            if (root is ScrollViewer sv)
+                return sv;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+            {
+                var child = VisualTreeHelper.GetChild(root, i);
+                var result = GetScrollViewer(child);
+                if (result != null)
+                    return result;
+            }
+
+            return null;
         }
     }
 }
