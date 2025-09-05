@@ -106,6 +106,36 @@
                     <!-- 기본 배경(알터네이트 배경을 쓰려면 아래 AlternationCount 참고) -->
                     <Setter Property="Background" Value="Transparent"/>
 
+                    <!-- 부모 ListView의 DataContext를 Tag에 저장 -->
+                    <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+
+                    <!-- 오른쪽 버튼 컨텍스트 메뉴 -->
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Edit"
+                                          Command="{Binding PlacementTarget.Tag.OpenDetailsCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                <MenuItem Header="Delete"
+                                          Command="{Binding PlacementTarget.Tag.DeleteCellCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                <MenuItem Command="{Binding PlacementTarget.Tag.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                          CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                    <MenuItem.Style>
+                                        <Style TargetType="MenuItem">
+                                            <Setter Property="Header" Value="Select"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PlacementTarget.DataContext.IsActive, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Value="True">
+                                                    <Setter Property="Header" Value="Deselect"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </MenuItem.Style>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+
                     <!-- 템플릿: 하단 1px 보더 = 가로 줄 -->
                     <Setter Property="Template">
                         <Setter.Value>
@@ -181,52 +211,8 @@
                                     DisplayMemberBinding="{Binding CellType}"/>
 
                     <!-- Manufacturer -->
-                    <GridViewColumn Header="Cell Manufacturer" 
+                    <GridViewColumn Header="Cell Manufacturer"
                                     DisplayMemberBinding="{Binding Manufacturer}"/>
-
-                    <!-- Row Actions -->
-                    <GridViewColumn Header="Actions" Width="60">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" StaysOpen="False"  PlacementMode="RightAndAlignTopEdges" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                                    <materialDesign:PopupBox.ToggleCheckedContent>
-                                        <materialDesign:PackIcon Width="10" Height="10" Kind="DotsVertical"/>
-                                    </materialDesign:PopupBox.ToggleCheckedContent>
-
-                                    <StackPanel>
-                                        <!-- Edit / Delete는 스타일을 한 번만 -->
-                                        <Button Content="Edit"
-                  Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
-                  Command="{Binding DataContext.OpenDetailsCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                  CommandParameter="{Binding}"/>
-
-                                        <Button Content="Delete"
-                  Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
-                  Command="{Binding DataContext.DeleteCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                  CommandParameter="{Binding}"/>
-
-                                        <!-- Select/Deselect: Style 속성은 '한 번만' -->
-                                        <Button
-              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-              CommandParameter="{Binding}">
-                                            <Button.Style>
-                                                <Style TargetType="Button"
-                     BasedOn="{StaticResource MaterialDesignFloatingActionMiniButton}">
-                                                    <Setter Property="Content" Value="Select"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                                            <Setter Property="Content" Value="Deselect"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
-                                    </StackPanel>
-                                </materialDesign:PopupBox>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
 
                 </GridView>
             </ListView.View>
