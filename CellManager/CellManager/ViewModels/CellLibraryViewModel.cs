@@ -214,15 +214,25 @@ namespace CellManager.ViewModels
         {
             if (EditingCell != null) return; // New 중에는 실수로 리스트 선택 바뀌지 않게 잠금
             if (cell == null) return;
-            SelectedCell = cell;
-            cell.IsActive = true; // 선택된 셀은 활성화 표시
-            // 다른 셀들은 비활성화
-            foreach (var c in CellModels)
+
+            if (SelectedCell == cell && cell.IsActive)
             {
-                if (c.Id != cell.Id && c.IsActive)
-                    c.IsActive = false;
+                SelectedCell = null;
+                cell.IsActive = false;
+                WeakReferenceMessenger.Default.Send(new CellSelectedMessage(null));
             }
-            WeakReferenceMessenger.Default.Send(new CellSelectedMessage(cell));
+            else
+            {
+                SelectedCell = cell;
+                cell.IsActive = true; // 선택된 셀은 활성화 표시
+                // 다른 셀들은 비활성화
+                foreach (var c in CellModels)
+                {
+                    if (c.Id != cell.Id && c.IsActive)
+                        c.IsActive = false;
+                }
+                WeakReferenceMessenger.Default.Send(new CellSelectedMessage(cell));
+            }
             FilteredCells.Refresh();
         }
 
