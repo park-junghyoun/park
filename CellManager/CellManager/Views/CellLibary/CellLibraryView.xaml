@@ -150,8 +150,7 @@
                 <GridView>
 
                     <!-- Select Badge -->
-                    <GridViewColumn>
-                        <GridViewColumnHeader Content="Selete" HorizontalAlignment="Stretch" Padding="5"/>
+                    <GridViewColumn Header="Select">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ToggleButton IsChecked="{Binding IsActive}"
@@ -187,8 +186,7 @@
                                     DisplayMemberBinding="{Binding Manufacturer}"/>
 
                     <!-- Row Actions -->
-                    <GridViewColumn Width="60">
-                        <GridViewColumnHeader Content="Actions" HorizontalAlignment="Stretch" Padding="5"/>
+                    <GridViewColumn Header="Actions" Width="60">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" StaysOpen="False"  PlacementMode="RightAndAlignTopEdges" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
