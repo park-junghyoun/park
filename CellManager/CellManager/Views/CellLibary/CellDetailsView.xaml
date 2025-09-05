@@ -238,8 +238,15 @@
         </ScrollViewer>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,20">
-            <Button Content="Save" Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Margin="0,0,10,0"/>
-            <Button Content="Cancel" Command="{Binding CancelCommand}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+            <Button Style="{StaticResource PrimaryActionButton}"
+                    Content="Save"
+                    Command="{Binding SaveCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                    Margin="0,0,10,0"/>
+            <Button Style="{StaticResource PrimaryActionButton}"
+                    Content="Cancel"
+                    Command="{Binding CancelCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
         </StackPanel>
     </Grid>
 </Window>
