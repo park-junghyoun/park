@@ -127,27 +127,25 @@
                                         <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
-                                <MenuItem Command="{Binding PlacementTarget.Tag.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                <MenuItem Header="Select"
+                                          Command="{Binding PlacementTarget.Tag.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                           CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                    <MenuItem.Icon>
+                                        <materialDesign:PackIcon Kind="Check" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
                                     <MenuItem.Style>
-                                    <Style TargetType="MenuItem">
-                                        <Setter Property="Header" Value="Select"/>
-                                        <Setter Property="Icon">
-                                            <Setter.Value>
-                                                <materialDesign:PackIcon Kind="Check" Width="16" Height="16"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding PlacementTarget.DataContext.IsActive, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Value="True">
-                                                <Setter Property="Header" Value="Deselect"/>
-                                                <Setter Property="Icon">
-                                                    <Setter.Value>
-                                                        <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
+                                        <Style TargetType="MenuItem">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding PlacementTarget.DataContext.IsActive, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Value="True">
+                                                    <Setter Property="Header" Value="Deselect"/>
+                                                    <Setter Property="Icon">
+                                                        <Setter.Value>
+                                                            <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
                                     </MenuItem.Style>
                                 </MenuItem>
                             </ContextMenu>
