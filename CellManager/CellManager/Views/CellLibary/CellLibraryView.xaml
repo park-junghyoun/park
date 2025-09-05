@@ -163,63 +163,28 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- Cell Name -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Cell name" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Cell name" 
+                                    DisplayMemberBinding="{Binding ModelName}"/>
 
                     <!-- Serial Number -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Serial Number" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding SerialNumber}" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Serial Number" 
+                                    DisplayMemberBinding="{Binding SerialNumber}"/>
 
                     <!-- Part Number -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Part Number" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PartNumber}" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Part Number" 
+                                    DisplayMemberBinding="{Binding PartNumber}"/>
 
                     <!-- Update Date -->
-                    <GridViewColumn Header="Update Date" Width="180">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding LastUpdated, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Update Date" Width="180"
+                                    DisplayMemberBinding="{Binding LastUpdated, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
 
                     <!-- Cell Type -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Cell Type" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding CellType}" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    
+                    <GridViewColumn Header="Cell Type" 
+                                    DisplayMemberBinding="{Binding CellType}"/>
+
                     <!-- Manufacturer -->
-                    <GridViewColumn >
-                        <GridViewColumnHeader Content="Cell Manufacturer" HorizontalAlignment="Stretch" Padding="5"/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Manufacturer}" Margin="-5" Padding="5"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Cell Manufacturer" 
+                                    DisplayMemberBinding="{Binding Manufacturer}"/>
 
                     <!-- Row Actions -->
                     <GridViewColumn Width="60">
