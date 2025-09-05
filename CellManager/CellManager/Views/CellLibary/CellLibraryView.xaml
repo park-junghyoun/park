@@ -101,12 +101,13 @@
         <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" >
 
             <ListView.Resources>
-                <!-- GridViewColumnHeader 스타일을 Items 컬렉션과 분리하여 정의 -->
-                <Style TargetType="GridViewColumnHeader">
+                <!-- GridViewColumnHeader 우측 경계선 스타일 -->
+                <Style x:Key="HeaderRightBorder" TargetType="GridViewColumnHeader">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="BorderBrush" Value="#FFDDDDDD"/>
-                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
                     <Setter Property="Padding" Value="5"/>
                 </Style>
                 <!-- 각 셀의 우측 경계선 스타일 -->
@@ -236,7 +237,7 @@
                 <GridView>
 
                     <!-- Select Badge -->
-                    <GridViewColumn Header="Select">
+                    <GridViewColumn Header="Select" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CellRightBorder}" Padding="0">
@@ -251,7 +252,7 @@
                     </GridViewColumn>
 
                     <!-- Cell Name -->
-                    <GridViewColumn Header="Cell name">
+                    <GridViewColumn Header="Cell name" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CellRightBorder}">
@@ -262,7 +263,7 @@
                     </GridViewColumn>
 
                     <!-- Serial Number -->
-                    <GridViewColumn Header="Serial Number">
+                    <GridViewColumn Header="Serial Number" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CellRightBorder}">
@@ -273,7 +274,7 @@
                     </GridViewColumn>
 
                     <!-- Part Number -->
-                    <GridViewColumn Header="Part Number">
+                    <GridViewColumn Header="Part Number" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CellRightBorder}">
@@ -284,7 +285,7 @@
                     </GridViewColumn>
 
                     <!-- Update Date -->
-                    <GridViewColumn Header="Update Date" Width="180">
+                    <GridViewColumn Header="Update Date" Width="180" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CellRightBorder}">
@@ -295,7 +296,7 @@
                     </GridViewColumn>
 
                     <!-- Cell Type -->
-                    <GridViewColumn Header="Cell Type">
+                    <GridViewColumn Header="Cell Type" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CellRightBorder}">
@@ -307,6 +308,11 @@
 
                     <!-- Manufacturer -->
                     <GridViewColumn Header="Cell Manufacturer">
+                        <GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource HeaderRightBorder}">
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            </Style>
+                        </GridViewColumn.HeaderContainerStyle>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource CellRightBorder}" BorderThickness="0">
