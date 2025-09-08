@@ -21,11 +21,11 @@
             </WrapPanel>
         </StatusBar>
         <materialDesign:Card Grid.Row="1" Margin="5">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <StackPanel Orientation="Horizontal">
 
                     <!-- Charge Profiles -->
-                    <GroupBox Header="Charge" Margin="0,0,0,16">
+                    <GroupBox Header="Charge" Margin="0,0,16,0">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
@@ -70,7 +70,7 @@
                     </GroupBox>
 
                     <!-- Discharge Profiles -->
-                    <GroupBox Header="Discharge" Margin="0,0,0,16">
+                    <GroupBox Header="Discharge" Margin="0,0,16,0">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
@@ -115,7 +115,7 @@
                     </GroupBox>
 
                     <!-- Rest Profiles -->
-                    <GroupBox Header="Rest" Margin="0,0,0,16">
+                    <GroupBox Header="Rest" Margin="0,0,16,0">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
@@ -160,7 +160,7 @@
                     </GroupBox>
 
                     <!-- OCV Profiles -->
-                    <GroupBox Header="OCV" Margin="0,0,0,16">
+                    <GroupBox Header="OCV" Margin="0,0,16,0">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
