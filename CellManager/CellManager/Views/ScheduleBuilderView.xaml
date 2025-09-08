@@ -80,7 +80,11 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding DisplayNameAndId}" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding DisplayNameAndId}" VerticalAlignment="Center" Width="200" />
+                            <TextBlock Text="{Binding EstimatedStartTime, StringFormat='Start: {0:HH:mm:ss}', TargetNullValue='Start: Error'}"
+                                       Margin="5,0" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding EstimatedEndTime, StringFormat='End: {0:HH:mm:ss}', TargetNullValue='End: Error'}"
+                                       Margin="5,0" VerticalAlignment="Center" />
                             <Button Content="Remove"
                                     Command="{Binding DataContext.RemoveProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                     CommandParameter="{Binding}" Margin="5,0" />

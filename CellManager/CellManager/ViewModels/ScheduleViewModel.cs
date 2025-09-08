@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CellManager.Models;
 using CellManager.Models.TestProfile;
@@ -11,6 +12,23 @@ using System.Windows;
 
 namespace CellManager.ViewModels
 {
+    public partial class ScheduledProfile : ObservableObject
+    {
+        public ProfileReference Reference { get; set; } = null!;
+
+        [ObservableProperty]
+        private TimeSpan? _estimatedDuration;
+
+        [ObservableProperty]
+        private DateTime? _estimatedStartTime;
+
+        [ObservableProperty]
+        private DateTime? _estimatedEndTime;
+
+        public int UniqueId => Reference.UniqueId;
+        public string DisplayNameAndId => Reference.DisplayNameAndId;
+    }
+
     public partial class ScheduleViewModel : ObservableObject
     {
         public string HeaderText { get; } = "Schedule";
@@ -27,7 +45,7 @@ namespace CellManager.ViewModels
         private readonly IRestProfileRepository _restProfileRepository;
 
         public ObservableCollection<ProfileReference> ProfileLibrary { get; } = new();
-        public ObservableCollection<ProfileReference> WorkingSchedule { get; } = new();
+        public ObservableCollection<ScheduledProfile> WorkingSchedule { get; } = new();
 
         public ObservableCollection<Schedule> Schedules { get; } = new();
 
@@ -45,7 +63,7 @@ namespace CellManager.ViewModels
 
         public RelayCommand SaveScheduleCommand { get; }
 
-        public RelayCommand<ProfileReference> RemoveProfileCommand { get; }
+        public RelayCommand<ScheduledProfile> RemoveProfileCommand { get; }
         public RelayCommand ClearScheduleCommand { get; }
         public RelayCommand NewScheduleCommand { get; }
         public RelayCommand DeleteScheduleCommand { get; }
@@ -66,7 +84,7 @@ namespace CellManager.ViewModels
             _scheduleRepository = scheduleRepository;
 
             SaveScheduleCommand = new RelayCommand(SaveSchedule, () => WorkingSchedule.Count > 0);
-            RemoveProfileCommand = new RelayCommand<ProfileReference>(p => WorkingSchedule.Remove(p));
+            RemoveProfileCommand = new RelayCommand<ScheduledProfile>(RemoveProfile);
             ClearScheduleCommand = new RelayCommand(ClearSchedule, () => WorkingSchedule.Count > 0);
             NewScheduleCommand = new RelayCommand(NewSchedule);
             DeleteScheduleCommand = new RelayCommand(DeleteSchedule, () => SelectedSchedule != null);
@@ -75,6 +93,7 @@ namespace CellManager.ViewModels
             {
                 SelectedCell = m.SelectedCell;
                 LoadProfiles();
+                RecalculateScheduleTimes();
             });
 
             LoadProfiles();
@@ -108,18 +127,21 @@ namespace CellManager.ViewModels
 
         public void InsertProfile(ProfileReference profile, int index)
         {
-            var existing = WorkingSchedule.FirstOrDefault(p => p.UniqueId == profile.UniqueId);
+            var existing = WorkingSchedule.FirstOrDefault(p => p.Reference.UniqueId == profile.UniqueId);
             if (existing != null)
             {
                 var oldIndex = WorkingSchedule.IndexOf(existing);
                 if (oldIndex < index) index--;
                 WorkingSchedule.RemoveAt(oldIndex);
             }
-            if (index < 0 || index > WorkingSchedule.Count)
-                WorkingSchedule.Add(profile);
-            else
-                WorkingSchedule.Insert(index, profile);
 
+            var item = new ScheduledProfile { Reference = profile };
+            if (index < 0 || index > WorkingSchedule.Count)
+                WorkingSchedule.Add(item);
+            else
+                WorkingSchedule.Insert(index, item);
+
+            RecalculateScheduleTimes();
             SaveScheduleCommand.NotifyCanExecuteChanged();
             ClearScheduleCommand.NotifyCanExecuteChanged();
         }
@@ -141,7 +163,7 @@ namespace CellManager.ViewModels
             {
                 Name = ScheduleName,
                 Notes = Notes,
-                TestProfileIds = WorkingSchedule.Select(p => p.UniqueId).ToList(),
+                TestProfileIds = WorkingSchedule.Select(p => p.Reference.UniqueId).ToList(),
                 Ordering = 0
             };
             _scheduleRepository.Save(schedule);
@@ -152,9 +174,10 @@ namespace CellManager.ViewModels
             SelectedSchedule = schedule;
         }
 
-        private void RemoveProfile(ProfileReference profile)
+        private void RemoveProfile(ScheduledProfile profile)
         {
             WorkingSchedule.Remove(profile);
+            RecalculateScheduleTimes();
             SaveScheduleCommand.NotifyCanExecuteChanged();
             ClearScheduleCommand.NotifyCanExecuteChanged();
         }
@@ -162,6 +185,7 @@ namespace CellManager.ViewModels
         private void ClearSchedule()
         {
             WorkingSchedule.Clear();
+            RecalculateScheduleTimes();
             SaveScheduleCommand.NotifyCanExecuteChanged();
             ClearScheduleCommand.NotifyCanExecuteChanged();
         }
@@ -193,7 +217,7 @@ namespace CellManager.ViewModels
                 {
                     var profile = ProfileLibrary.FirstOrDefault(p => p.UniqueId == id);
                     if (profile != null)
-                        WorkingSchedule.Add(profile);
+                        WorkingSchedule.Add(new ScheduledProfile { Reference = profile });
                 }
             }
             else
@@ -203,9 +227,52 @@ namespace CellManager.ViewModels
                 WorkingSchedule.Clear();
             }
 
+            RecalculateScheduleTimes();
             SaveScheduleCommand.NotifyCanExecuteChanged();
             ClearScheduleCommand.NotifyCanExecuteChanged();
             DeleteScheduleCommand.NotifyCanExecuteChanged();
+        }
+
+        private object? LoadProfile(ProfileReference reference) => reference.Type switch
+        {
+            TestProfileType.Charge => _chargeProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
+            TestProfileType.Discharge => _dischargeProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
+            TestProfileType.ECM => _ecmPulseProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
+            TestProfileType.OCV => _ocvProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
+            TestProfileType.Rest => _restProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
+            _ => null
+        };
+
+        private void RecalculateScheduleTimes()
+        {
+            if (SelectedCell == null)
+            {
+                foreach (var item in WorkingSchedule)
+                {
+                    item.EstimatedDuration = null;
+                    item.EstimatedStartTime = null;
+                    item.EstimatedEndTime = null;
+                }
+                return;
+            }
+
+            var current = DateTime.Now;
+            foreach (var item in WorkingSchedule)
+            {
+                item.EstimatedStartTime = current;
+                var profile = LoadProfile(item.Reference);
+                var duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, item.Reference.Type, profile);
+                item.EstimatedDuration = duration;
+                if (duration.HasValue)
+                {
+                    item.EstimatedEndTime = current + duration.Value;
+                    current = item.EstimatedEndTime.Value;
+                }
+                else
+                {
+                    item.EstimatedEndTime = null;
+                }
+            }
         }
     }
 }
