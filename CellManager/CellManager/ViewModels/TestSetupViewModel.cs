@@ -31,6 +31,11 @@ namespace CellManager.ViewModels
         public ObservableCollection<ECMPulseProfile> EcmPulseProfiles { get; set; } = new();
 
         [ObservableProperty] private Cell _selectedCell;
+        [ObservableProperty] private ChargeProfile _selectedChargeProfile;
+        [ObservableProperty] private DischargeProfile _selectedDischargeProfile;
+        [ObservableProperty] private RestProfile _selectedRestProfile;
+        [ObservableProperty] private OCVProfile _selectedOcvProfile;
+        [ObservableProperty] private ECMPulseProfile _selectedEcmPulseProfile;
 
         public RelayCommand AddChargeProfileCommand { get; }
         public RelayCommand<ChargeProfile> EditChargeProfileCommand { get; }
