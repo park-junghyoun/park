@@ -140,7 +140,7 @@ namespace CellManager.ViewModels
             {
                 Name = ScheduleName,
                 Notes = Notes,
-                TestProfileIds = WorkingSchedule.Select(p => p.Id).ToList(),
+                TestProfileIds = WorkingSchedule.Select(p => p.UniqueId).ToList(),
                 Ordering = 0
             };
             _scheduleRepository.Save(schedule);
@@ -190,7 +190,7 @@ namespace CellManager.ViewModels
                 WorkingSchedule.Clear();
                 foreach (var id in value.TestProfileIds)
                 {
-                    var profile = ProfileLibrary.FirstOrDefault(p => p.Id == id);
+                    var profile = ProfileLibrary.FirstOrDefault(p => p.UniqueId == id);
                     if (profile != null)
                         WorkingSchedule.Add(profile);
                 }
