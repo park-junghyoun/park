@@ -52,11 +52,11 @@
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.EditChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.DeleteChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
@@ -94,11 +94,11 @@
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.EditDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.DeleteDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
@@ -136,11 +136,11 @@
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditRestProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.EditRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteRestProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.DeleteRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
@@ -178,11 +178,11 @@
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.EditOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.DeleteOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
@@ -220,11 +220,11 @@
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.EditEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              Command="{Binding PlacementTarget.TemplatedParent.DataContext.DeleteEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
