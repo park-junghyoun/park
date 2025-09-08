@@ -20,12 +20,12 @@
                 <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
             </WrapPanel>
         </StatusBar>
-        <DockPanel Grid.Row="1" Style="{x:Null}">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                <StackPanel Orientation="Horizontal">
+        <DockPanel Grid.Row="1">
+            <UniformGrid x:Name="ProfilesGrid" Rows="1">
 
                     <!-- Charge Profiles -->
-                    <GroupBox Margin="5,15,16,5" MaxWidth="300">
+                    <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
+                              MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <TextBlock Text="Charge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
@@ -71,7 +71,8 @@
                     </GroupBox>
 
                     <!-- Discharge Profiles -->
-                    <GroupBox Margin="5,15,16,5">
+                    <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
+                              MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <TextBlock Text="Discharge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
@@ -117,7 +118,8 @@
                     </GroupBox>
 
                     <!-- Rest Profiles -->
-                    <GroupBox Margin="5,15,16,5">
+                    <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
+                              MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <TextBlock Text="Rest Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
@@ -163,7 +165,8 @@
                     </GroupBox>
 
                     <!-- OCV Profiles -->
-                    <GroupBox Margin="5,15,16,5">
+                    <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
+                              MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <TextBlock Text="OCV Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
@@ -209,7 +212,8 @@
                     </GroupBox>
 
                     <!-- ECM Profiles -->
-                    <GroupBox Margin="5,15,5,5">
+                    <GroupBox Margin="5,15,5,5" VerticalAlignment="Stretch"
+                              MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <TextBlock Text="ECM Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
@@ -254,8 +258,7 @@
                         </DockPanel>
                     </GroupBox>
 
-                </StackPanel>
-            </ScrollViewer>
+            </UniformGrid>
         </DockPanel>
     </Grid>
 </UserControl>
