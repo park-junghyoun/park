@@ -1,4 +1,7 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Data.SQLite;
+using System.IO;
 using System.Text.Json;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -251,8 +254,37 @@ namespace CellManager.ViewModels
 
         private static T Clone<T>(T source) => JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(source))!;
 
+        private int GetNextProfileId()
+        {
+            var dataDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
+            Directory.CreateDirectory(dataDir);
+            var dbPath = Path.Combine(dataDir, "test_profiles.db");
+            using var conn = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+            conn.Open();
+            return ProfileIdProvider.GetNextId(conn);
+        }
+
         private bool OpenEditor(object profile)
         {
+            switch (profile)
+            {
+                case ChargeProfile cp:
+                    cp.DisplayId = cp.Id > 0 ? cp.Id : GetNextProfileId();
+                    break;
+                case DischargeProfile dp:
+                    dp.DisplayId = dp.Id > 0 ? dp.Id : GetNextProfileId();
+                    break;
+                case RestProfile rp:
+                    rp.DisplayId = rp.Id > 0 ? rp.Id : GetNextProfileId();
+                    break;
+                case OCVProfile op:
+                    op.DisplayId = op.Id > 0 ? op.Id : GetNextProfileId();
+                    break;
+                case ECMPulseProfile ep:
+                    ep.DisplayId = ep.Id > 0 ? ep.Id : GetNextProfileId();
+                    break;
+            }
+
             var window = new ProfileDetailWindow { DataContext = profile };
             return window.ShowDialog() == true;
         }
