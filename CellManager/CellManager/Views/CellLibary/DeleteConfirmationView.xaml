@@ -12,12 +12,24 @@
     <materialDesign:Card Margin="16">
         <StackPanel Margin="8">
             <TextBlock Text="Are you sure you want to delete the selected cell?"
-                       TextWrapping="Wrap"
-                       Margin="0,0,0,16"/>
+                       TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding DisplayNameAndId}"
+                       FontWeight="Bold"
+                       Margin="0,8,0,16"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Cancel" Width="80" Margin="0,0,8,0" IsCancel="True"/>
-                <Button Content="Delete" Width="80" Style="{StaticResource PrimaryActionButton}"
-                        Click="Delete_Click" IsDefault="True"/>
+                <Button Margin="0,0,8,0" IsCancel="True">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Cancel" Width="18" Height="18"/>
+                        <TextBlock Text=" Cancel"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource PrimaryActionButton}"
+                        Click="Delete_Click" IsDefault="True">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                        <TextBlock Text=" Delete"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </StackPanel>
     </materialDesign:Card>

@@ -194,7 +194,11 @@ namespace CellManager.ViewModels
         {
             if (cell == null || cell.Id <= 0) return;
 
-            var view = new DeleteConfirmationView { Owner = Application.Current.MainWindow };
+            var view = new DeleteConfirmationView
+            {
+                Owner = Application.Current.MainWindow,
+                DataContext = cell
+            };
             var result = view.ShowDialog();
 
             if (result == true)
