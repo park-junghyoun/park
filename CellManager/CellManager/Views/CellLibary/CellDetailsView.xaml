@@ -250,7 +250,7 @@
             </Button>
             <Button Style="{StaticResource PrimaryActionButton}"
                     Command="{Binding CancelCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Cancel" Width="18" Height="18"/>
                     <TextBlock Text=" Cancel"/>

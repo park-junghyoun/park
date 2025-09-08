@@ -84,7 +84,7 @@
         </Border>
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal"  Margin="0,0,0,0" HorizontalAlignment="Right" >
             <Button Style="{StaticResource PrimaryActionButton}"
-        Command="{Binding NewCellCommand}">
+        Command="{Binding NewCellCommand}" Width="180">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
                     <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
                     <TextBlock Text=" Create Cell Library"/>

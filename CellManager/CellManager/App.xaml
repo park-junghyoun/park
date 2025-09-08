@@ -342,7 +342,6 @@
             <Style x:Key="PrimaryActionButton"
        TargetType="Button"
        BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                <Setter Property="MinWidth" Value="180"/>
                 <Setter Property="Height" Value="36"/>
                 <Setter Property="Padding" Value="16,0"/>
                 <Setter Property="Foreground" Value="White"/>

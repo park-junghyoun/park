@@ -20,14 +20,15 @@
                 <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
             </WrapPanel>
         </StatusBar>
-        <materialDesign:Card Grid.Row="1" Margin="5">
+        <DockPanel Grid.Row="1" Style="{x:Null}">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                 <StackPanel Orientation="Horizontal">
 
                     <!-- Charge Profiles -->
-                    <GroupBox Header="Charge" Margin="0,0,16,0">
+                    <GroupBox Margin="5,15,16,5" MaxWidth="300">
                         <DockPanel>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <TextBlock Text="Charge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddChargeProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -35,7 +36,7 @@
                                         <TextBlock Text=" Add"/>
                                     </StackPanel>
                                 </Button>
-                            </StackPanel>
+                            </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                      ItemsSource="{Binding ChargeProfiles}"
                                      SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}">
@@ -70,9 +71,10 @@
                     </GroupBox>
 
                     <!-- Discharge Profiles -->
-                    <GroupBox Header="Discharge" Margin="0,0,16,0">
+                    <GroupBox Margin="5,15,16,5">
                         <DockPanel>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <TextBlock Text="Discharge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddDischargeProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -80,7 +82,7 @@
                                         <TextBlock Text=" Add"/>
                                     </StackPanel>
                                 </Button>
-                            </StackPanel>
+                            </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                      ItemsSource="{Binding DischargeProfiles}"
                                      SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}">
@@ -115,9 +117,10 @@
                     </GroupBox>
 
                     <!-- Rest Profiles -->
-                    <GroupBox Header="Rest" Margin="0,0,16,0">
+                    <GroupBox Margin="5,15,16,5">
                         <DockPanel>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <TextBlock Text="Rest Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddRestProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -125,7 +128,7 @@
                                         <TextBlock Text=" Add"/>
                                     </StackPanel>
                                 </Button>
-                            </StackPanel>
+                            </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                      ItemsSource="{Binding RestProfiles}"
                                      SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}">
@@ -160,9 +163,10 @@
                     </GroupBox>
 
                     <!-- OCV Profiles -->
-                    <GroupBox Header="OCV" Margin="0,0,16,0">
+                    <GroupBox Margin="5,15,16,5">
                         <DockPanel>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <TextBlock Text="OCV Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddOcvProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -170,7 +174,7 @@
                                         <TextBlock Text=" Add"/>
                                     </StackPanel>
                                 </Button>
-                            </StackPanel>
+                            </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                      ItemsSource="{Binding OcvProfiles}"
                                      SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}">
@@ -205,9 +209,10 @@
                     </GroupBox>
 
                     <!-- ECM Profiles -->
-                    <GroupBox Header="ECM">
+                    <GroupBox Margin="5,15,5,5">
                         <DockPanel>
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <TextBlock Text="ECM Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddEcmProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -215,7 +220,7 @@
                                         <TextBlock Text=" Add"/>
                                     </StackPanel>
                                 </Button>
-                            </StackPanel>
+                            </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                      ItemsSource="{Binding EcmPulseProfiles}"
                                      SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}">
@@ -251,6 +256,6 @@
 
                 </StackPanel>
             </ScrollViewer>
-        </materialDesign:Card>
+        </DockPanel>
     </Grid>
 </UserControl>
