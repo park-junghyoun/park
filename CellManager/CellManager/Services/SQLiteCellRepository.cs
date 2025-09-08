@@ -168,6 +168,25 @@ namespace CellManager.Services
             return cells;
         }
 
+        public int GetNextCellId()
+        {
+            try
+            {
+                using (var conn = new SQLiteConnection($"Data Source={DbFilePath};Version=3;"))
+                {
+                    conn.Open();
+                    using var cmd = new SQLiteCommand("SELECT IFNULL(MAX(Id), 0) + 1 FROM Cells;", conn);
+                    var result = cmd.ExecuteScalar();
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"GetNextCellId error: {ex.Message}");
+                return 0;
+            }
+        }
+
         public void SaveCell(Cell cell)
         {
             if (cell == null) throw new ArgumentNullException(nameof(cell));
