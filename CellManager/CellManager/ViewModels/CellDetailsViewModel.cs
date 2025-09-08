@@ -16,6 +16,9 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private Cell _cell;
 
+        [ObservableProperty]
+        private int _displayId;
+
         public Action<Cell> OnSaveCompleted { get; set; }
         public Action<Cell> OnCancelCompleted { get; set; }
 
@@ -26,6 +29,7 @@ namespace CellManager.ViewModels
         {
             _cellRepository = cellRepository;
             Cell = cell;
+            DisplayId = cell.Id > 0 ? cell.Id : _cellRepository.GetNextCellId();
 
             SaveCommand = new RelayCommand<Window>(ExecuteSave, CanSave);
             CancelCommand = new RelayCommand<Window>(ExecuteCancel);
@@ -38,6 +42,7 @@ namespace CellManager.ViewModels
         private void ExecuteSave(Window window)
         {
             _cellRepository.SaveCell(Cell);
+            DisplayId = Cell.Id;
             OnSaveCompleted?.Invoke(Cell);
             window.Close();
         }

@@ -8,5 +8,6 @@ namespace CellManager.Services
         List<Cell> LoadCells();
         void SaveCell(Cell cell);
         void DeleteCell(Cell cell);
+        int GetNextCellId();
     }
 }
