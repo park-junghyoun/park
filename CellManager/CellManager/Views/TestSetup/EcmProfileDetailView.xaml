@@ -1,0 +1,47 @@
+<UserControl x:Class="CellManager.Views.TestSetup.EcmProfileDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="ECM Pulse Profile" Margin="4" VerticalAlignment="Center" FontSize="20"/>
+
+        <TextBlock Grid.Row="2" Text="Name" Margin="4"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="4" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
+
+        <TextBlock Grid.Row="4" Text="Pulse Current (A)" Margin="4"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="4" Text="{Binding PulseCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
+
+        <TextBlock Grid.Row="6" Text="Pulse Duration (ms)" Margin="4"/>
+        <TextBox Grid.Row="6" Grid.Column="1" Margin="4" Text="{Binding PulseDuration, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
+
+        <TextBlock Grid.Row="8" Text="Reset Time After Pulse (ms)" Margin="4"/>
+        <TextBox Grid.Row="8" Grid.Column="1" Margin="4" Text="{Binding ResetTimeAfterPulse, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
+
+        <TextBlock Grid.Row="10" Text="Sampling Rate (ms)" Margin="4"/>
+        <TextBox Grid.Row="10" Grid.Column="1" Margin="4" Text="{Binding SamplingRateMs, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</UserControl>

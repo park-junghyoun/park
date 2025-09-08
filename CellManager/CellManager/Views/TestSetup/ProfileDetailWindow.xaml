@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
         xmlns:views="clr-namespace:CellManager.Views.TestSetup"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Profile Details" Height="500" Width="400" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <DataTemplate DataType="{x:Type tp:ChargeProfile}">
@@ -15,63 +16,10 @@
             <views:RestProfileDetailView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type tp:ECMPulseProfile}">
-            <StackPanel>
-                <TextBlock Text="ECM Pulse Profile" FontWeight="Bold" Margin="0,0,0,8"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Name}" Grid.Row="0" Grid.Column="1"/>
-                    <TextBlock Text="Pulse Current (A)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding PulseCurrent}" Grid.Row="1" Grid.Column="1"/>
-                    <TextBlock Text="Pulse Duration (ms)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding PulseDuration}" Grid.Row="2" Grid.Column="1"/>
-                    <TextBlock Text="Reset Time After Pulse (ms)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding ResetTimeAfterPulse}" Grid.Row="3" Grid.Column="1"/>
-                    <TextBlock Text="Sampling Rate (ms)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding SamplingRateMs}" Grid.Row="4" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
+            <views:EcmProfileDetailView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type tp:OCVProfile}">
-            <StackPanel>
-                <TextBlock Text="OCV Profile" FontWeight="Bold" Margin="0,0,0,8"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Name}" Grid.Row="0" Grid.Column="1"/>
-                    <TextBlock Text="Qmax" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Qmax}" Grid.Row="1" Grid.Column="1"/>
-                    <TextBlock Text="SOC Step (%)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding SocStepPercent}" Grid.Row="2" Grid.Column="1"/>
-                    <TextBlock Text="Discharge Current (A)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeCurrent_OCV}" Grid.Row="3" Grid.Column="1"/>
-                    <TextBlock Text="Rest Time (s)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding RestTime_OCV}" Grid.Row="4" Grid.Column="1"/>
-                    <TextBlock Text="Cutoff Voltage (V)" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeCutoffVoltage_OCV}" Grid.Row="5" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
+            <views:OcvProfileDetailView />
         </DataTemplate>
     </Window.Resources>
     <Grid Margin="10">
@@ -81,8 +29,18 @@
         </Grid.RowDefinitions>
         <ContentControl Content="{Binding}"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Width="75" Margin="5,0" IsDefault="True" Content="Save" Click="OnSaveClick"/>
-            <Button Width="75" Margin="5,0" IsCancel="True" Content="Cancel"/>
+            <Button Style="{StaticResource PrimaryActionButton}" Margin="0,0,10,0" IsDefault="True" Click="OnSaveClick">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18"/>
+                    <TextBlock Text=" Save"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource PrimaryActionButton}" IsCancel="True">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Cancel" Width="18" Height="18"/>
+                    <TextBlock Text=" Cancel"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>
