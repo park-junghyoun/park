@@ -94,15 +94,15 @@ namespace CellManager.ViewModels
             if (SelectedCell?.Id > 0)
             {
                 foreach (var p in _chargeProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Charge, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Charge, Id = p.Id, Name = p.Name });
                 foreach (var p in _dischargeProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Discharge, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Discharge, Id = p.Id, Name = p.Name });
                 foreach (var p in _ecmPulseProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.ECM, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.ECM, Id = p.Id, Name = p.Name });
                 foreach (var p in _ocvProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.OCV, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.OCV, Id = p.Id, Name = p.Name });
                 foreach (var p in _restProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Rest, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Rest, Id = p.Id, Name = p.Name });
             }
         }
 
