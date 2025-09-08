@@ -11,51 +11,6 @@
              Grid.IsSharedSizeScope="True">
 
     <UserControl.Resources>
-        <!-- Icon resources and image button style reused from Cell Library design -->
-        <BitmapImage x:Key="IconNew"    UriSource="pack://application:,,,/Image/new.png"/>
-        <BitmapImage x:Key="IconDelete" UriSource="pack://application:,,,/Image/delete.png"/>
-
-        <!-- 이미지 버튼 스타일 -->
-        <Style x:Key="ImageButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <!-- 버튼 이미지 -->
-                            <Image x:Name="Img" Source="{TemplateBinding Tag}"
-                                   Stretch="Uniform"
-                                   RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Grid>
-
-                        <ControlTemplate.Triggers>
-                            <!-- Hover 효과: 약간 밝게 -->
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Img" Property="Opacity" Value="0.8"/>
-                            </Trigger>
-
-                            <!-- 클릭 효과: Scale 줄이기 -->
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Img" Property="RenderTransformOrigin" Value="0.5,0.5"/>
-                                <Setter TargetName="Img" Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-
-                            <!-- 비활성화 효과: 흐리게 -->
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Img" Property="Opacity" Value="0.4"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <!-- Editor templates: auto-switched by CurrentEditor instance type -->
         <DataTemplate DataType="{x:Type tp:ChargeProfile}">
             <views:ChargeProfileDetailView />
@@ -168,16 +123,22 @@
                 <TabControl >
                     <TabItem Header="Charge">
                         <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                                  <Button Style="{StaticResource ImageButton}"
+                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                  <Button Style="{StaticResource PrimaryActionButton}"
                                           Command="{Binding AddChargeProfileCommand}"
-                                          Tag="{StaticResource IconNew}"
-                                          Margin="0,0,6,0"
-                                          ToolTip="New"/>
-                                  <Button Style="{StaticResource ImageButton}"
-                                          Command="{Binding DeleteChargeProfileCommand}"
-                                          Tag="{StaticResource IconDelete}"
-                                          ToolTip="Delete"/>
+                                          Margin="0,0,10,0">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                          <TextBlock Text=" Add"/>
+                                      </StackPanel>
+                                  </Button>
+                                  <Button Style="{StaticResource PrimaryActionButton}"
+                                          Command="{Binding DeleteChargeProfileCommand}">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                                          <TextBlock Text=" Delete"/>
+                                      </StackPanel>
+                                  </Button>
                               </StackPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                  ItemsSource="{Binding ChargeProfiles}"
@@ -200,16 +161,22 @@
                     </TabItem>
                     <TabItem Header="Discharge">
                         <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                                  <Button Style="{StaticResource ImageButton}"
+                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                  <Button Style="{StaticResource PrimaryActionButton}"
                                           Command="{Binding AddDischargeProfileCommand}"
-                                          Tag="{StaticResource IconNew}"
-                                          Margin="0,0,6,0"
-                                          ToolTip="New"/>
-                                  <Button Style="{StaticResource ImageButton}"
-                                          Command="{Binding DeleteDischargeProfileCommand}"
-                                          Tag="{StaticResource IconDelete}"
-                                          ToolTip="Delete"/>
+                                          Margin="0,0,10,0">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                          <TextBlock Text=" Add"/>
+                                      </StackPanel>
+                                  </Button>
+                                  <Button Style="{StaticResource PrimaryActionButton}"
+                                          Command="{Binding DeleteDischargeProfileCommand}">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                                          <TextBlock Text=" Delete"/>
+                                      </StackPanel>
+                                  </Button>
                               </StackPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                  ItemsSource="{Binding DischargeProfiles}"
@@ -232,16 +199,22 @@
                     </TabItem>
                     <TabItem Header="Rest">
                         <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                                  <Button Style="{StaticResource ImageButton}"
+                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                  <Button Style="{StaticResource PrimaryActionButton}"
                                           Command="{Binding AddRestProfileCommand}"
-                                          Tag="{StaticResource IconNew}"
-                                          Margin="0,0,6,0"
-                                          ToolTip="New"/>
-                                  <Button Style="{StaticResource ImageButton}"
-                                          Command="{Binding DeleteRestProfileCommand}"
-                                          Tag="{StaticResource IconDelete}"
-                                          ToolTip="Delete"/>
+                                          Margin="0,0,10,0">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                          <TextBlock Text=" Add"/>
+                                      </StackPanel>
+                                  </Button>
+                                  <Button Style="{StaticResource PrimaryActionButton}"
+                                          Command="{Binding DeleteRestProfileCommand}">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                                          <TextBlock Text=" Delete"/>
+                                      </StackPanel>
+                                  </Button>
                               </StackPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                  ItemsSource="{Binding RestProfiles}"
@@ -264,16 +237,22 @@
                     </TabItem>
                     <TabItem Header="OCV">
                         <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                                  <Button Style="{StaticResource ImageButton}"
+                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                  <Button Style="{StaticResource PrimaryActionButton}"
                                           Command="{Binding AddOcvProfileCommand}"
-                                          Tag="{StaticResource IconNew}"
-                                          Margin="0,0,6,0"
-                                          ToolTip="New"/>
-                                  <Button Style="{StaticResource ImageButton}"
-                                          Command="{Binding DeleteOcvProfileCommand}"
-                                          Tag="{StaticResource IconDelete}"
-                                          ToolTip="Delete"/>
+                                          Margin="0,0,10,0">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                          <TextBlock Text=" Add"/>
+                                      </StackPanel>
+                                  </Button>
+                                  <Button Style="{StaticResource PrimaryActionButton}"
+                                          Command="{Binding DeleteOcvProfileCommand}">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                                          <TextBlock Text=" Delete"/>
+                                      </StackPanel>
+                                  </Button>
                               </StackPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                  ItemsSource="{Binding OcvProfiles}"
@@ -296,16 +275,22 @@
                     </TabItem>
                     <TabItem Header="ECM">
                         <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6">
-                                  <Button Style="{StaticResource ImageButton}"
+                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                  <Button Style="{StaticResource PrimaryActionButton}"
                                           Command="{Binding AddEcmProfileCommand}"
-                                          Tag="{StaticResource IconNew}"
-                                          Margin="0,0,6,0"
-                                          ToolTip="New"/>
-                                  <Button Style="{StaticResource ImageButton}"
-                                          Command="{Binding DeleteEcmProfileCommand}"
-                                          Tag="{StaticResource IconDelete}"
-                                          ToolTip="Delete"/>
+                                          Margin="0,0,10,0">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                          <TextBlock Text=" Add"/>
+                                      </StackPanel>
+                                  </Button>
+                                  <Button Style="{StaticResource PrimaryActionButton}"
+                                          Command="{Binding DeleteEcmProfileCommand}">
+                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                                          <TextBlock Text=" Delete"/>
+                                      </StackPanel>
+                                  </Button>
                               </StackPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
                                  ItemsSource="{Binding EcmPulseProfiles}"
@@ -333,15 +318,23 @@
         <!-- RIGHT: Auto-switched editor + Save -->
         <materialDesign:Card Grid.Row="1" Grid.Column="2">
             <DockPanel>
-                  <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,0,0,8">
+                  <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,0,0,8" HorizontalAlignment="Right">
                       <TextBlock Text="Editor" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,12,0"/>
                       <Button Style="{StaticResource PrimaryActionButton}"
-                              Content="Save"
                               Command="{Binding SaveCurrentCommand}"
-                              Margin="0,0,6,0"/>
-                      <Button Style="{StaticResource MaterialDesignFlatButton}"
-                              Content="Delete"
-                              Command="{Binding DeleteCurrentCommand}" />
+                              Margin="0,0,10,0">
+                          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                              <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18"/>
+                              <TextBlock Text=" Save"/>
+                          </StackPanel>
+                      </Button>
+                      <Button Style="{StaticResource PrimaryActionButton}"
+                              Command="{Binding DeleteCurrentCommand}">
+                          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                              <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                              <TextBlock Text=" Delete"/>
+                          </StackPanel>
+                      </Button>
                   </StackPanel>
 
                 <ContentControl Content="{Binding CurrentEditor}"/>
