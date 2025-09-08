@@ -21,9 +21,11 @@
             </WrapPanel>
         </StatusBar>
         <materialDesign:Card Grid.Row="1" Margin="5">
-            <DockPanel>
-                <TabControl>
-                    <TabItem Header="Charge">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+
+                    <!-- Charge Profiles -->
+                    <GroupBox Header="Charge" Margin="0,0,0,16">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
@@ -65,8 +67,10 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </DockPanel>
-                    </TabItem>
-                    <TabItem Header="Discharge">
+                    </GroupBox>
+
+                    <!-- Discharge Profiles -->
+                    <GroupBox Header="Discharge" Margin="0,0,0,16">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
@@ -108,8 +112,10 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </DockPanel>
-                    </TabItem>
-                    <TabItem Header="Rest">
+                    </GroupBox>
+
+                    <!-- Rest Profiles -->
+                    <GroupBox Header="Rest" Margin="0,0,0,16">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
@@ -151,8 +157,10 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </DockPanel>
-                    </TabItem>
-                    <TabItem Header="OCV">
+                    </GroupBox>
+
+                    <!-- OCV Profiles -->
+                    <GroupBox Header="OCV" Margin="0,0,0,16">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
@@ -194,8 +202,10 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </DockPanel>
-                    </TabItem>
-                    <TabItem Header="ECM">
+                    </GroupBox>
+
+                    <!-- ECM Profiles -->
+                    <GroupBox Header="ECM">
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
                                 <Button Style="{StaticResource PrimaryActionButton}"
@@ -237,9 +247,10 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </DockPanel>
-                    </TabItem>
-                </TabControl>
-            </DockPanel>
+                    </GroupBox>
+
+                </StackPanel>
+            </ScrollViewer>
         </materialDesign:Card>
     </Grid>
 </UserControl>
