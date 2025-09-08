@@ -57,14 +57,15 @@ namespace CellManager.Services
             conn.Open();
             if (p.Id == 0)
             {
-                var sql = @"INSERT INTO RestProfiles(CellId, Name, RestTime)
-                            VALUES (@CellId, @Name, @Rest);
-                            SELECT last_insert_rowid();";
+                p.Id = ProfileIdProvider.GetNextId(conn);
+                var sql = @"INSERT INTO RestProfiles(Id, CellId, Name, RestTime)
+                            VALUES (@Id, @CellId, @Name, @Rest);";
                 using var cmd = new SQLiteCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Id", p.Id);
                 cmd.Parameters.AddWithValue("@CellId", cellId);
                 cmd.Parameters.AddWithValue("@Name", p.Name ?? "New Rest");
                 cmd.Parameters.AddWithValue("@Rest", (object?)p.RestTime ?? DBNull.Value);
-                p.Id = Convert.ToInt32(cmd.ExecuteScalar());
+                cmd.ExecuteNonQuery();
             }
             else
             {

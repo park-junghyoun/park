@@ -94,23 +94,24 @@ namespace CellManager.ViewModels
             if (SelectedCell?.Id > 0)
             {
                 foreach (var p in _chargeProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Charge, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Charge, Id = p.Id, Name = p.Name });
                 foreach (var p in _dischargeProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Discharge, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Discharge, Id = p.Id, Name = p.Name });
                 foreach (var p in _ecmPulseProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.ECM, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.ECM, Id = p.Id, Name = p.Name });
                 foreach (var p in _ocvProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.OCV, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.OCV, Id = p.Id, Name = p.Name });
                 foreach (var p in _restProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { Type = TestProfileType.Rest, Id = p.Id, Name = p.Name });
+                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Rest, Id = p.Id, Name = p.Name });
             }
         }
 
         public void InsertProfile(ProfileReference profile, int index)
         {
-            if (WorkingSchedule.Contains(profile))
+            var existing = WorkingSchedule.FirstOrDefault(p => p.UniqueId == profile.UniqueId);
+            if (existing != null)
             {
-                var oldIndex = WorkingSchedule.IndexOf(profile);
+                var oldIndex = WorkingSchedule.IndexOf(existing);
                 if (oldIndex < index) index--;
                 WorkingSchedule.RemoveAt(oldIndex);
             }
@@ -140,7 +141,7 @@ namespace CellManager.ViewModels
             {
                 Name = ScheduleName,
                 Notes = Notes,
-                TestProfileIds = WorkingSchedule.Select(p => p.Id).ToList(),
+                TestProfileIds = WorkingSchedule.Select(p => p.UniqueId).ToList(),
                 Ordering = 0
             };
             _scheduleRepository.Save(schedule);
@@ -190,7 +191,7 @@ namespace CellManager.ViewModels
                 WorkingSchedule.Clear();
                 foreach (var id in value.TestProfileIds)
                 {
-                    var profile = ProfileLibrary.FirstOrDefault(p => p.Id == id);
+                    var profile = ProfileLibrary.FirstOrDefault(p => p.UniqueId == id);
                     if (profile != null)
                         WorkingSchedule.Add(profile);
                 }

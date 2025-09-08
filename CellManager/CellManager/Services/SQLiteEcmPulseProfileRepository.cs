@@ -63,17 +63,18 @@ namespace CellManager.Services
             conn.Open();
             if (p.Id == 0)
             {
-                var sql = @"INSERT INTO EcmPulseProfiles(CellId, Name, PulseCurrent, PulseDuration, ResetTimeAfterPulse, SamplingRateMs)
-                            VALUES (@CellId, @Name, @Cur, @Dur, @Reset, @Rate);
-                            SELECT last_insert_rowid();";
+                p.Id = ProfileIdProvider.GetNextId(conn);
+                var sql = @"INSERT INTO EcmPulseProfiles(Id, CellId, Name, PulseCurrent, PulseDuration, ResetTimeAfterPulse, SamplingRateMs)
+                            VALUES (@Id, @CellId, @Name, @Cur, @Dur, @Reset, @Rate);";
                 using var cmd = new SQLiteCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Id", p.Id);
                 cmd.Parameters.AddWithValue("@CellId", cellId);
                 cmd.Parameters.AddWithValue("@Name", p.Name ?? "New ECM");
                 cmd.Parameters.AddWithValue("@Cur", (object?)p.PulseCurrent ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Dur", (object?)p.PulseDuration ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Reset", (object?)p.ResetTimeAfterPulse ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Rate", (object?)p.SamplingRateMs ?? DBNull.Value);
-                p.Id = Convert.ToInt32(cmd.ExecuteScalar());
+                cmd.ExecuteNonQuery();
             }
             else
             {

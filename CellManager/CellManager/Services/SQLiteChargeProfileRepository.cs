@@ -87,10 +87,11 @@ namespace CellManager.Services
             conn.Open();
             if (p.Id == 0)
             {
-                var sql = @"INSERT INTO ChargeProfiles(CellId, Name, ChargeCurrent, ChargeCutoffVoltage, CutoffCurrent, ChargeMode, ChargeCapacityMah, ChargeTimeSeconds)
-                            VALUES (@CellId, @Name, @ChargeCurrent, @ChargeCutoffVoltage, @CutoffCurrent, @ChargeMode, @ChargeCapacityMah, @ChargeTimeSeconds);
-                            SELECT last_insert_rowid();";
+                p.Id = ProfileIdProvider.GetNextId(conn);
+                var sql = @"INSERT INTO ChargeProfiles(Id, CellId, Name, ChargeCurrent, ChargeCutoffVoltage, CutoffCurrent, ChargeMode, ChargeCapacityMah, ChargeTimeSeconds)
+                            VALUES (@Id, @CellId, @Name, @ChargeCurrent, @ChargeCutoffVoltage, @CutoffCurrent, @ChargeMode, @ChargeCapacityMah, @ChargeTimeSeconds);";
                 using var cmd = new SQLiteCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Id", p.Id);
                 cmd.Parameters.AddWithValue("@CellId", cellId);
                 cmd.Parameters.AddWithValue("@Name", p.Name ?? "New Charge");
                 cmd.Parameters.AddWithValue("@ChargeCurrent", (object?)p.ChargeCurrent ?? DBNull.Value);
@@ -99,7 +100,7 @@ namespace CellManager.Services
                 cmd.Parameters.AddWithValue("@ChargeMode", (int)p.ChargeMode);
                 cmd.Parameters.AddWithValue("@ChargeCapacityMah", (object?)p.ChargeCapacityMah ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@ChargeTimeSeconds", (int)p.ChargeTime.TotalSeconds);
-                p.Id = Convert.ToInt32(cmd.ExecuteScalar());
+                cmd.ExecuteNonQuery();
             }
             else
             {

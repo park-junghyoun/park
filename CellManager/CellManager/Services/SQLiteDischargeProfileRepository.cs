@@ -83,10 +83,11 @@ namespace CellManager.Services
             conn.Open();
             if (p.Id == 0)
             {
-                var sql = @"INSERT INTO DischargeProfiles(CellId, Name, DischargeMode, DischargeCurrent, DischargeCutoffVoltage, DischargeCapacityMah, DischargeTimeSeconds)
-                            VALUES (@CellId, @Name, @Mode, @Cur, @CutV, @Cap, @Time);
-                            SELECT last_insert_rowid();";
+                p.Id = ProfileIdProvider.GetNextId(conn);
+                var sql = @"INSERT INTO DischargeProfiles(Id, CellId, Name, DischargeMode, DischargeCurrent, DischargeCutoffVoltage, DischargeCapacityMah, DischargeTimeSeconds)
+                            VALUES (@Id, @CellId, @Name, @Mode, @Cur, @CutV, @Cap, @Time);";
                 using var cmd = new SQLiteCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Id", p.Id);
                 cmd.Parameters.AddWithValue("@CellId", cellId);
                 cmd.Parameters.AddWithValue("@Name", p.Name ?? "New Discharge");
                 cmd.Parameters.AddWithValue("@Mode", p.DischargeMode.ToString());
@@ -94,7 +95,7 @@ namespace CellManager.Services
                 cmd.Parameters.AddWithValue("@CutV", (object?)p.DischargeCutoffVoltage ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Cap", (object?)p.DischargeCapacityMah ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Time", p.DischargeTime == TimeSpan.Zero ? (object)DBNull.Value : p.DischargeTime.TotalSeconds);
-                p.Id = Convert.ToInt32(cmd.ExecuteScalar());
+                cmd.ExecuteNonQuery();
             }
             else
             {
