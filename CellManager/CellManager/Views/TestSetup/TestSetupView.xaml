@@ -28,6 +28,7 @@
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="BatteryCharging" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
                                 <TextBlock Text="Charge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddChargeProfileCommand}">
@@ -74,6 +75,7 @@
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="BatteryMinus" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
                                 <TextBlock Text="Discharge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddDischargeProfileCommand}">
@@ -120,6 +122,7 @@
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="Sleep" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
                                 <TextBlock Text="Rest Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddRestProfileCommand}">
@@ -166,6 +169,7 @@
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="ChartLine" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
                                 <TextBlock Text="OCV Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddOcvProfileCommand}">
@@ -212,6 +216,7 @@
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="Pulse" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
                                 <TextBlock Text="ECM Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddEcmProfileCommand}">
