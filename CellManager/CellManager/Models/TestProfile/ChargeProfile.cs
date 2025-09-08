@@ -70,12 +70,19 @@ namespace CellManager.Models.TestProfile
             _updatingChargeTime = false;
         }
 
-        public string PreviewText => ChargeMode switch
+        public string PreviewText
         {
-            ChargeMode.ChargeByCapacity => $"Current: {ChargeCurrent} A, Voltage: {ChargeCutoffVoltage} V, Cutoff Current: {CutoffCurrent} A, Capacity: {ChargeCapacityMah} mAh",
-            ChargeMode.ChargeByTime => $"Current: {ChargeCurrent} A, Voltage: {ChargeCutoffVoltage} V, Cutoff Current: {CutoffCurrent} A, Time: {ChargeTime}",
-            _ => $"Current: {ChargeCurrent} A, Voltage: {ChargeCutoffVoltage} V, Cutoff Current: {CutoffCurrent} A",
-        };
+            get
+            {
+                var modeText = ChargeMode switch
+                {
+                    ChargeMode.ChargeByCapacity => $"Capacity: {ChargeCapacityMah} mAh",
+                    ChargeMode.ChargeByTime => $"Time: {ChargeTime}",
+                    _ => "Full charge"
+                };
+                return $"Mode: {ChargeMode}, Current: {ChargeCurrent} mA, Voltage: {ChargeCutoffVoltage} mV, Cutoff: {CutoffCurrent} mV";
+            }
+        }
     }
 
     public enum ChargeMode

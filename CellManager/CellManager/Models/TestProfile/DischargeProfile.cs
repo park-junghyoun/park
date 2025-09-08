@@ -59,7 +59,7 @@ namespace CellManager.Models.TestProfile
                     DischargeMode.DischargeByTime => $"Time: {DischargeTime}",
                     _ => "Full discharge"
                 };
-                return $"Mode: {DischargeMode}, Current: {DischargeCurrent} A, Cutoff: {DischargeCutoffVoltage} V, {modeText}";
+                return $"Mode: {DischargeMode}, Current: {DischargeCurrent} mA, Cutoff: {DischargeCutoffVoltage} mV";
             }
         }
 

@@ -7,7 +7,7 @@
         xmlns:viewsCellLibary="clr-namespace:CellManager.Views.CellLibary"
         xmlns:viewsTestSetup="clr-namespace:CellManager.Views.TestSetup"
         xmlns:views="clr-namespace:CellManager.Views"
-        Title="Cell Manager" Height="800" Width="1400">
+        Title="Cell Manager" Height="800" Width="1600">
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:HomeViewModel}">

@@ -32,9 +32,8 @@
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddChargeProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                        <TextBlock Text=" Add"/>
-                                    </StackPanel>
+                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                </StackPanel>
                                 </Button>
                             </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
@@ -79,9 +78,8 @@
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddDischargeProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                        <TextBlock Text=" Add"/>
-                                    </StackPanel>
+                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                </StackPanel>
                                 </Button>
                             </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
@@ -126,9 +124,8 @@
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddRestProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                        <TextBlock Text=" Add"/>
-                                    </StackPanel>
+                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                </StackPanel>
                                 </Button>
                             </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
@@ -173,9 +170,8 @@
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddOcvProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                        <TextBlock Text=" Add"/>
-                                    </StackPanel>
+                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                </StackPanel>
                                 </Button>
                             </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
@@ -220,9 +216,8 @@
                                 <Button Style="{StaticResource PrimaryActionButton}"
                                         Command="{Binding AddEcmProfileCommand}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                        <TextBlock Text=" Add"/>
-                                    </StackPanel>
+                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                </StackPanel>
                                 </Button>
                             </WrapPanel>
                             <ListBox Style="{StaticResource DenseListBox}"
