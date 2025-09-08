@@ -108,9 +108,10 @@ namespace CellManager.ViewModels
 
         public void InsertProfile(ProfileReference profile, int index)
         {
-            if (WorkingSchedule.Contains(profile))
+            var existing = WorkingSchedule.FirstOrDefault(p => p.UniqueId == profile.UniqueId);
+            if (existing != null)
             {
-                var oldIndex = WorkingSchedule.IndexOf(profile);
+                var oldIndex = WorkingSchedule.IndexOf(existing);
                 if (oldIndex < index) index--;
                 WorkingSchedule.RemoveAt(oldIndex);
             }
