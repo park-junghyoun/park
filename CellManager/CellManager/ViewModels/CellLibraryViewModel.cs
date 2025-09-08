@@ -194,13 +194,10 @@ namespace CellManager.ViewModels
         {
             if (cell == null || cell.Id <= 0) return;
 
-            var result = MessageBox.Show(
-                "Are you sure you want to delete the selected cell?",
-                "Confirm Delete",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
+            var view = new DeleteConfirmationView { Owner = Application.Current.MainWindow };
+            var result = view.ShowDialog();
 
-            if (result == MessageBoxResult.Yes)
+            if (result == true)
             {
                 _cellRepository.DeleteCell(cell);
                 ExecuteLoadData();
