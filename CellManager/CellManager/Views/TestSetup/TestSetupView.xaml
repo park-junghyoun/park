@@ -141,14 +141,6 @@
             <views:RestProfileDetailView />
         </DataTemplate>
 
-        <!-- Shared style for profile list items -->
-        <Style x:Key="ProfileListItemStyle" TargetType="ListBoxItem">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="4"/>
-            <Setter Property="Margin" Value="0,0,0,4"/>
-            <Setter Property="MinHeight" Value="40"/>
-        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -161,7 +153,7 @@
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-        <StatusBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Padding="5" Margin="0,0,0,8">
+        <StatusBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <WrapPanel>
                 <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,16,4"/>
                 <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
@@ -171,7 +163,7 @@
             </WrapPanel>
         </StatusBar>
         <!-- LEFT: Profile Libraries -->
-        <materialDesign:Card Margin="16" Padding="8" Grid.Row="1"  Grid.Column="0" Background="#FAFAFA" BorderThickness="1" BorderBrush="#E0E0E0">
+        <materialDesign:Card Grid.Row="1" Grid.Column="0">
             <DockPanel Width="auto" Height="auto">
                 <TabControl >
                     <TabItem Header="Charge">
@@ -187,9 +179,10 @@
                                           Tag="{StaticResource IconDelete}"
                                           ToolTip="Delete"/>
                               </StackPanel>
-                            <ListBox ItemsSource="{Binding ChargeProfiles}"
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                 ItemsSource="{Binding ChargeProfiles}"
                                  SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource ProfileListItemStyle}">
+                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -218,9 +211,10 @@
                                           Tag="{StaticResource IconDelete}"
                                           ToolTip="Delete"/>
                               </StackPanel>
-                            <ListBox ItemsSource="{Binding DischargeProfiles}"
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                 ItemsSource="{Binding DischargeProfiles}"
                                  SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource ProfileListItemStyle}">
+                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -249,9 +243,10 @@
                                           Tag="{StaticResource IconDelete}"
                                           ToolTip="Delete"/>
                               </StackPanel>
-                            <ListBox ItemsSource="{Binding RestProfiles}"
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                 ItemsSource="{Binding RestProfiles}"
                                  SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource ProfileListItemStyle}">
+                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -280,9 +275,10 @@
                                           Tag="{StaticResource IconDelete}"
                                           ToolTip="Delete"/>
                               </StackPanel>
-                            <ListBox ItemsSource="{Binding OcvProfiles}"
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                 ItemsSource="{Binding OcvProfiles}"
                                  SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource ProfileListItemStyle}">
+                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -311,9 +307,10 @@
                                           Tag="{StaticResource IconDelete}"
                                           ToolTip="Delete"/>
                               </StackPanel>
-                            <ListBox ItemsSource="{Binding EcmPulseProfiles}"
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                 ItemsSource="{Binding EcmPulseProfiles}"
                                  SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource ProfileListItemStyle}">
+                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -334,22 +331,22 @@
             </DockPanel>
         </materialDesign:Card>
         <!-- RIGHT: Auto-switched editor + Save -->
-        <DockPanel Grid.Row="1" Grid.Column="2" Margin="8">
-              <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,0,0,8">
-                  <TextBlock Text="Editor" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                  <Button Style="{StaticResource PrimaryActionButton}"
-                          Content="Save"
-                          Command="{Binding SaveCurrentCommand}"
-                          Margin="0,0,6,0"/>
-                  <Button Style="{StaticResource MaterialDesignFlatButton}"
-                          Content="Delete"
-                          Command="{Binding DeleteCurrentCommand}" />
-              </StackPanel>
+        <materialDesign:Card Grid.Row="1" Grid.Column="2">
+            <DockPanel>
+                  <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,0,0,8">
+                      <TextBlock Text="Editor" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                      <Button Style="{StaticResource PrimaryActionButton}"
+                              Content="Save"
+                              Command="{Binding SaveCurrentCommand}"
+                              Margin="0,0,6,0"/>
+                      <Button Style="{StaticResource MaterialDesignFlatButton}"
+                              Content="Delete"
+                              Command="{Binding DeleteCurrentCommand}" />
+                  </StackPanel>
 
-            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" Padding="8">
                 <ContentControl Content="{Binding CurrentEditor}"/>
-            </Border>
-        </DockPanel>
+            </DockPanel>
+        </materialDesign:Card>
     </Grid>
 </UserControl>
 
