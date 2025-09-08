@@ -24,11 +24,11 @@ namespace CellManager.ViewModels
         public string IconName { get; } = "Tuning";
         [ObservableProperty] private bool _isViewEnabled = true;
 
-        public ObservableCollection<ChargeProfile> ChargeProfiles { get; set; } = new();
-        public ObservableCollection<DischargeProfile> DischargeProfiles { get; set; } = new();
-        public ObservableCollection<RestProfile> RestProfiles { get; set; } = new();
-        public ObservableCollection<OCVProfile> OcvProfiles { get; set; } = new();
-        public ObservableCollection<ECMPulseProfile> EcmPulseProfiles { get; set; } = new();
+        [ObservableProperty] private ObservableCollection<ChargeProfile> _chargeProfiles = new();
+        [ObservableProperty] private ObservableCollection<DischargeProfile> _dischargeProfiles = new();
+        [ObservableProperty] private ObservableCollection<RestProfile> _restProfiles = new();
+        [ObservableProperty] private ObservableCollection<OCVProfile> _ocvProfiles = new();
+        [ObservableProperty] private ObservableCollection<ECMPulseProfile> _ecmPulseProfiles = new();
 
         [ObservableProperty] private Cell _selectedCell;
         [ObservableProperty] private ChargeProfile _selectedChargeProfile;

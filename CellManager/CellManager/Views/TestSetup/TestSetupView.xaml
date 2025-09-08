@@ -48,14 +48,15 @@
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                                         <Setter Property="ContextMenu">
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.EditChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
@@ -90,14 +91,15 @@
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                                         <Setter Property="ContextMenu">
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.EditDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
@@ -132,14 +134,15 @@
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                                         <Setter Property="ContextMenu">
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditRestProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.EditRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteRestProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
@@ -174,14 +177,15 @@
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                                         <Setter Property="ContextMenu">
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.EditOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
@@ -216,14 +220,15 @@
                                 </ListBox.ItemTemplate>
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
                                         <Setter Property="ContextMenu">
                                             <Setter.Value>
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
-                                                              Command="{Binding DataContext.EditEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.EditEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                     <MenuItem Header="Delete"
-                                                              Command="{Binding DataContext.DeleteEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                                 </ContextMenu>
                                             </Setter.Value>
