@@ -21,7 +21,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type tp:ECMPulseProfile}">
-            <StackPanel Margin="8">
+            <StackPanel >
                 <TextBlock Text="ECM Pulse Profile" FontWeight="Bold" Margin="0,0,0,8"/>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -98,7 +98,7 @@
 
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -108,7 +108,7 @@
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-        <StatusBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+        <StatusBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="10">
             <WrapPanel>
                 <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,16,4"/>
                 <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
@@ -118,7 +118,7 @@
             </WrapPanel>
         </StatusBar>
         <!-- LEFT: Profile Libraries -->
-        <materialDesign:Card Grid.Row="1" Grid.Column="0">
+        <materialDesign:Card Grid.Row="1" Grid.Column="0" Margin="5">
             <DockPanel Width="auto" Height="auto">
                 <TabControl >
                     <TabItem Header="Charge">
