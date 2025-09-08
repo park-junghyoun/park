@@ -65,10 +65,11 @@ namespace CellManager.Services
             conn.Open();
             if (p.Id == 0)
             {
-                var sql = @"INSERT INTO OcvProfiles(CellId, Name, Qmax, SocStepPercent, DischargeCurrent_OCV, RestTime_OCV, DischargeCutoffVoltage_OCV)
-                            VALUES (@CellId, @Name, @Qmax, @Soc, @Cur, @Rest, @CutV);
-                            SELECT last_insert_rowid();";
+                p.Id = ProfileIdProvider.GetNextId(conn);
+                var sql = @"INSERT INTO OcvProfiles(Id, CellId, Name, Qmax, SocStepPercent, DischargeCurrent_OCV, RestTime_OCV, DischargeCutoffVoltage_OCV)
+                            VALUES (@Id, @CellId, @Name, @Qmax, @Soc, @Cur, @Rest, @CutV);";
                 using var cmd = new SQLiteCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Id", p.Id);
                 cmd.Parameters.AddWithValue("@CellId", cellId);
                 cmd.Parameters.AddWithValue("@Name", p.Name ?? "New OCV");
                 cmd.Parameters.AddWithValue("@Qmax", (object?)p.Qmax ?? DBNull.Value);
@@ -76,7 +77,7 @@ namespace CellManager.Services
                 cmd.Parameters.AddWithValue("@Cur", (object?)p.DischargeCurrent_OCV ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Rest", (object?)p.RestTime_OCV ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@CutV", (object?)p.DischargeCutoffVoltage_OCV ?? DBNull.Value);
-                p.Id = Convert.ToInt32(cmd.ExecuteScalar());
+                cmd.ExecuteNonQuery();
             }
             else
             {
