@@ -4,24 +4,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
-    <GroupBox>
-        <Grid Margin="8">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Margin="4" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="4" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-            <Border Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Rest Profile" Margin="4" VerticalAlignment="Center" FontSize="20"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Rest Time (s)" Margin="4" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Margin="4" Text="{Binding RestTime, UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
-    </GroupBox>
+        <TextBlock Grid.Row="2" Text="Name" Margin="4"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="4" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
+
+        <TextBlock Grid.Row="4" Text="Rest Time (s)" Margin="4"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="4" Text="{Binding RestTime, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
 </UserControl>

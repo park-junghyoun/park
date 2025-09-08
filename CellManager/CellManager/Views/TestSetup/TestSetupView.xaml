@@ -1,114 +1,17 @@
-﻿<UserControl x:Class="CellManager.Views.TestSetup.TestSetupView"
+<UserControl x:Class="CellManager.Views.TestSetup.TestSetupView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:CellManager.ViewModels"
-             xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
-             xmlns:views="clr-namespace:CellManager.Views.TestSetup"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d"
-             Grid.IsSharedSizeScope="True">
-
-    <UserControl.Resources>
-        <!-- Editor templates: auto-switched by CurrentEditor instance type -->
-        <DataTemplate DataType="{x:Type tp:ChargeProfile}">
-            <views:ChargeProfileDetailView />
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type tp:DischargeProfile}">
-            <views:DischargeProfileDetailView />
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type tp:ECMPulseProfile}">
-            <StackPanel >
-                <TextBlock Text="ECM Pulse Profile" FontWeight="Bold" Margin="0,0,0,8"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
-
-                    <TextBlock Text="Pulse Current (A)" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding PulseCurrent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
-
-                    <TextBlock Text="Pulse Duration (ms)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding PulseDuration, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
-
-                    <TextBlock Text="Reset Time After Pulse (ms)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding ResetTimeAfterPulse, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"/>
-
-                    <TextBlock Text="Sampling Rate (ms)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding SamplingRateMs, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type tp:OCVProfile}">
-            <StackPanel Margin="8">
-                <TextBlock Text="OCV Profile" FontWeight="Bold" Margin="0,0,0,8"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="LabelColumn"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1"/>
-
-                    <TextBlock Text="Qmax" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Qmax, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1"/>
-
-                    <TextBlock Text="SOC Step (%)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding SocStepPercent, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1"/>
-
-                    <TextBlock Text="Discharge Current (A)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeCurrent_OCV, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1"/>
-
-                    <TextBlock Text="Rest Time (s)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding RestTime_OCV, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1"/>
-
-                    <TextBlock Text="Cutoff Voltage (V)" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding DischargeCutoffVoltage_OCV, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1"/>
-                </Grid>
-            </StackPanel>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type tp:RestProfile}">
-            <views:RestProfileDetailView />
-        </DataTemplate>
-
-    </UserControl.Resources>
-
+             mc:Ignorable="d">
     <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" MinWidth="200"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="400"/>
-        </Grid.ColumnDefinitions>
-        <StatusBar Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="10">
+        <StatusBar Grid.Row="0" Margin="10">
             <WrapPanel>
                 <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,16,4"/>
                 <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
@@ -117,229 +20,237 @@
                 <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
             </WrapPanel>
         </StatusBar>
-        <!-- LEFT: Profile Libraries -->
-        <materialDesign:Card Grid.Row="1" Grid.Column="0" Margin="5">
-            <DockPanel Width="auto" Height="auto">
-                <TabControl >
-                    <TabItem Header="Charge">
-                        <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding AddChargeProfileCommand}"
-                                          Margin="0,0,10,0">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                          <TextBlock Text=" Add"/>
-                                      </StackPanel>
-                                  </Button>
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding DeleteChargeProfileCommand}">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
-                                          <TextBlock Text=" Delete"/>
-                                      </StackPanel>
-                                  </Button>
-                              </StackPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
-                                 ItemsSource="{Binding ChargeProfiles}"
-                                 SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                            <TextBlock Text="{Binding PreviewText}"
-                                                   FontSize="11"
-                                                   Margin="0,2,0,0"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding PreviewText}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </DockPanel>
-                    </TabItem>
-                    <TabItem Header="Discharge">
-                        <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding AddDischargeProfileCommand}"
-                                          Margin="0,0,10,0">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                          <TextBlock Text=" Add"/>
-                                      </StackPanel>
-                                  </Button>
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding DeleteDischargeProfileCommand}">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
-                                          <TextBlock Text=" Delete"/>
-                                      </StackPanel>
-                                  </Button>
-                              </StackPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
-                                 ItemsSource="{Binding DischargeProfiles}"
-                                 SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                            <TextBlock Text="{Binding PreviewText}"
-                                                   FontSize="11"
-                                                   Margin="0,2,0,0"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding PreviewText}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </DockPanel>
-                    </TabItem>
-                    <TabItem Header="Rest">
-                        <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding AddRestProfileCommand}"
-                                          Margin="0,0,10,0">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                          <TextBlock Text=" Add"/>
-                                      </StackPanel>
-                                  </Button>
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding DeleteRestProfileCommand}">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
-                                          <TextBlock Text=" Delete"/>
-                                      </StackPanel>
-                                  </Button>
-                              </StackPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
-                                 ItemsSource="{Binding RestProfiles}"
-                                 SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                            <TextBlock Text="{Binding PreviewText}"
-                                                   FontSize="11"
-                                                   Margin="0,2,0,0"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding PreviewText}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </DockPanel>
-                    </TabItem>
-                    <TabItem Header="OCV">
-                        <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding AddOcvProfileCommand}"
-                                          Margin="0,0,10,0">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                          <TextBlock Text=" Add"/>
-                                      </StackPanel>
-                                  </Button>
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding DeleteOcvProfileCommand}">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
-                                          <TextBlock Text=" Delete"/>
-                                      </StackPanel>
-                                  </Button>
-                              </StackPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
-                                 ItemsSource="{Binding OcvProfiles}"
-                                 SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                            <TextBlock Text="{Binding PreviewText}"
-                                                   FontSize="11"
-                                                   Margin="0,2,0,0"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding PreviewText}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </DockPanel>
-                    </TabItem>
-                    <TabItem Header="ECM">
-                        <DockPanel>
-                              <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding AddEcmProfileCommand}"
-                                          Margin="0,0,10,0">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                          <TextBlock Text=" Add"/>
-                                      </StackPanel>
-                                  </Button>
-                                  <Button Style="{StaticResource PrimaryActionButton}"
-                                          Command="{Binding DeleteEcmProfileCommand}">
-                                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                          <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
-                                          <TextBlock Text=" Delete"/>
-                                      </StackPanel>
-                                  </Button>
-                              </StackPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
-                                 ItemsSource="{Binding EcmPulseProfiles}"
-                                 SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}"
-                                 ItemContainerStyle="{StaticResource DenseListBoxItem}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
-                                            <TextBlock Text="{Binding PreviewText}"
-                                                   FontSize="11"
-                                                   Margin="0,2,0,0"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding PreviewText}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </DockPanel>
-                    </TabItem>
+        <materialDesign:Card Grid.Row="1" Margin="5">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <StackPanel Orientation="Horizontal">
 
-                </TabControl>
-            </DockPanel>
-        </materialDesign:Card>
-        <!-- RIGHT: Auto-switched editor + Save -->
-        <materialDesign:Card Grid.Row="1" Grid.Column="2">
-            <DockPanel>
-                  <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,0,0,8" HorizontalAlignment="Right">
-                      <TextBlock Text="Editor" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                      <Button Style="{StaticResource PrimaryActionButton}"
-                              Command="{Binding SaveCurrentCommand}"
-                              Margin="0,0,10,0">
-                          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                              <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18"/>
-                              <TextBlock Text=" Save"/>
-                          </StackPanel>
-                      </Button>
-                      <Button Style="{StaticResource PrimaryActionButton}"
-                              Command="{Binding DeleteCurrentCommand}">
-                          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                              <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
-                              <TextBlock Text=" Delete"/>
-                          </StackPanel>
-                      </Button>
-                  </StackPanel>
+                    <!-- Charge Profiles -->
+                    <GroupBox Header="Charge" Margin="0,0,16,0">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <Button Style="{StaticResource PrimaryActionButton}"
+                                        Command="{Binding AddChargeProfileCommand}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                        <TextBlock Text=" Add"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                     ItemsSource="{Binding ChargeProfiles}"
+                                     SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Edit"
+                                                              Command="{Binding PlacementTarget.Tag.EditChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                    <MenuItem Header="Delete"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </DockPanel>
+                    </GroupBox>
 
-                <ContentControl Content="{Binding CurrentEditor}"/>
-            </DockPanel>
+                    <!-- Discharge Profiles -->
+                    <GroupBox Header="Discharge" Margin="0,0,16,0">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <Button Style="{StaticResource PrimaryActionButton}"
+                                        Command="{Binding AddDischargeProfileCommand}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                        <TextBlock Text=" Add"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                     ItemsSource="{Binding DischargeProfiles}"
+                                     SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Edit"
+                                                              Command="{Binding PlacementTarget.Tag.EditDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                    <MenuItem Header="Delete"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </DockPanel>
+                    </GroupBox>
+
+                    <!-- Rest Profiles -->
+                    <GroupBox Header="Rest" Margin="0,0,16,0">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <Button Style="{StaticResource PrimaryActionButton}"
+                                        Command="{Binding AddRestProfileCommand}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                        <TextBlock Text=" Add"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                     ItemsSource="{Binding RestProfiles}"
+                                     SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Edit"
+                                                              Command="{Binding PlacementTarget.Tag.EditRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                    <MenuItem Header="Delete"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </DockPanel>
+                    </GroupBox>
+
+                    <!-- OCV Profiles -->
+                    <GroupBox Header="OCV" Margin="0,0,16,0">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <Button Style="{StaticResource PrimaryActionButton}"
+                                        Command="{Binding AddOcvProfileCommand}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                        <TextBlock Text=" Add"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                     ItemsSource="{Binding OcvProfiles}"
+                                     SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Edit"
+                                                              Command="{Binding PlacementTarget.Tag.EditOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                    <MenuItem Header="Delete"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </DockPanel>
+                    </GroupBox>
+
+                    <!-- ECM Profiles -->
+                    <GroupBox Header="ECM">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                                <Button Style="{StaticResource PrimaryActionButton}"
+                                        Command="{Binding AddEcmProfileCommand}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                        <TextBlock Text=" Add"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <ListBox Style="{StaticResource DenseListBox}"
+                                     ItemsSource="{Binding EcmPulseProfiles}"
+                                     SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource DenseListBoxItem}">
+                                        <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Edit"
+                                                              Command="{Binding PlacementTarget.Tag.EditEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                    <MenuItem Header="Delete"
+                                                              Command="{Binding PlacementTarget.Tag.DeleteEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </DockPanel>
+                    </GroupBox>
+
+                </StackPanel>
+            </ScrollViewer>
         </materialDesign:Card>
     </Grid>
 </UserControl>
-
