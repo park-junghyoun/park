@@ -1,0 +1,24 @@
+<Window x:Class="CellManager.Views.CellLibary.DeleteConfirmationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Confirm Delete"
+        Width="400" Height="180"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <materialDesign:Card Margin="16">
+        <StackPanel Margin="8">
+            <TextBlock Text="Are you sure you want to delete the selected cell?"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,16"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Cancel" Width="80" Margin="0,0,8,0" IsCancel="True"/>
+                <Button Content="Delete" Width="80" Style="{StaticResource PrimaryActionButton}"
+                        Click="Delete_Click" IsDefault="True"/>
+            </StackPanel>
+        </StackPanel>
+    </materialDesign:Card>
+</Window>
