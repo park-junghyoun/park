@@ -34,6 +34,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
+                <TextBlock Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" Margin="8,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -92,9 +93,10 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Schedule name and save button -->
+                <!-- Schedule name, save button and total duration -->
                 <Grid Grid.Row="0" Margin="0,0,0,8">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
@@ -102,6 +104,8 @@
                              Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
                     <Button Grid.Column="1" Content="Save Schedule" Command="{Binding SaveScheduleCommand}"
                             Margin="8,0,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                    <TextBlock Grid.Column="2" Text="{Binding TotalDuration, StringFormat='Total: {0:hh\\:mm\\:ss}'}"
+                               Margin="16,0,0,0" VerticalAlignment="Center"/>
                 </Grid>
 
                 <!-- Timeline preview -->
@@ -159,6 +163,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding StepNumber}" FontWeight="Bold" Margin="0,0,8,0"/>
                                     <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
@@ -201,7 +206,8 @@
                                             </TextBlock.Style>
                                         </TextBlock>
                                     </StackPanel>
-                                    <Button Grid.Column="3" Style="{StaticResource MaterialDesignToolButton}"
+                                    <TextBlock Grid.Column="3" Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" Margin="8,0" VerticalAlignment="Center"/>
+                                    <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}"
                                             Command="{Binding DataContext.RemoveStepCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                             CommandParameter="{Binding}">
                                         <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 using CellManager.ViewModels;
@@ -65,6 +66,16 @@ namespace CellManager.Tests
             vm.InsertStep(end, -1);
             Assert.Equal(1, vm.LoopStartIndex);
             Assert.Equal(3, vm.LoopEndIndex);
+        }
+
+        [Fact]
+        public void TotalDuration_SumsStepDurations()
+        {
+            var vm = new ScheduleViewModel();
+            var template = vm.StepLibrary.First().Steps.First();
+            vm.InsertStep(template, -1);
+            vm.InsertStep(template, -1);
+            Assert.Equal(TimeSpan.FromHours(2), vm.TotalDuration);
         }
     }
 }
