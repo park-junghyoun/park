@@ -37,7 +37,7 @@
                                 </StackPanel>
                                 </Button>
                             </WrapPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
+                            <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding ChargeProfiles}"
                                      SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}">
                                 <ListBox.ItemTemplate>
@@ -84,7 +84,7 @@
                                 </StackPanel>
                                 </Button>
                             </WrapPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
+                            <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding DischargeProfiles}"
                                      SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}">
                                 <ListBox.ItemTemplate>
@@ -131,7 +131,7 @@
                                 </StackPanel>
                                 </Button>
                             </WrapPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
+                            <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding RestProfiles}"
                                      SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}">
                                 <ListBox.ItemTemplate>
@@ -182,7 +182,7 @@
                                 </StackPanel>
                                 </Button>
                             </WrapPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
+                            <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding OcvProfiles}"
                                      SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}">
                                 <ListBox.ItemTemplate>
@@ -229,7 +229,7 @@
                                 </StackPanel>
                                 </Button>
                             </WrapPanel>
-                            <ListBox Style="{StaticResource DenseListBox}"
+                            <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding EcmPulseProfiles}"
                                      SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}">
                                 <ListBox.ItemTemplate>
