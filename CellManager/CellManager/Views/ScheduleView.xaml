@@ -83,7 +83,9 @@
                          Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
 
                 <!-- Timeline preview -->
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8" HorizontalAlignment="Stretch">
+                <ItemsControl x:Name="TimelinePreview" Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8"
+                              HorizontalAlignment="Stretch"
+                              Width="{Binding ElementName=SequenceList, Path=ActualWidth}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" Height="32"/>
@@ -96,12 +98,13 @@
                                     <MultiBinding Converter="{StaticResource DurationWidth}">
                                         <Binding Path="Duration"/>
                                         <Binding Path="DataContext.TotalDuration" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
-                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                                        <Binding Path="ActualWidth" ElementName="TimelinePreview"/>
                                     </MultiBinding>
                                 </materialDesign:Card.Width>
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Foreground="Black">
-                                    <Run Text="{Binding StepNumber}"/><Run Text=". "/><Run Text="{Binding Name}"/>
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="{Binding IconKind}" Width="14" Height="14" Margin="0,0,2,0"/>
+                                    <TextBlock Text="{Binding Id}" FontSize="10" Foreground="Black"/>
+                                </StackPanel>
                             </materialDesign:Card>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
