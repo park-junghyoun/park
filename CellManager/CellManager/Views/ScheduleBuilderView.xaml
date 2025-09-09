@@ -69,29 +69,35 @@
                 </StackPanel>
             </StackPanel>
 
-            <!-- Working schedule list -->
-            <ListBox x:Name="ScheduleList" Grid.Row="1"
-                     ItemsSource="{Binding WorkingSchedule}"
-                     AllowDrop="True"
-                     PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
-                     PreviewMouseMove="ScheduleList_PreviewMouseMove"
-                     Drop="ScheduleList_Drop"
-                     Margin="5">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding DisplayNameAndId}" VerticalAlignment="Center" Width="200" />
-                            <TextBlock Text="{Binding EstimatedStartTime, StringFormat='Start: {0:HH:mm:ss}', TargetNullValue='Start: Error'}"
-                                       Margin="5,0" VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding EstimatedEndTime, StringFormat='End: {0:HH:mm:ss}', TargetNullValue='End: Error'}"
-                                       Margin="5,0" VerticalAlignment="Center" />
-                            <Button Content="Remove"
-                                    Command="{Binding DataContext.RemoveProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                    CommandParameter="{Binding}" Margin="5,0" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <!-- Working schedule list and totals -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding TotalEstimatedDuration, StringFormat='Total Duration: {0:hh\\:mm\\:ss}', TargetNullValue='Total Duration: Error'}"
+                           Margin="5" />
+                <ListBox x:Name="ScheduleList" Grid.Row="1"
+                         ItemsSource="{Binding WorkingSchedule}"
+                         AllowDrop="True"
+                         PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
+                         PreviewMouseMove="ScheduleList_PreviewMouseMove"
+                         Drop="ScheduleList_Drop"
+                         Margin="5">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding DisplayNameAndId}" VerticalAlignment="Center" Width="200" />
+                                <TextBlock Text="{Binding EstimatedDuration, StringFormat='Duration: {0:hh\\:mm\\:ss}', TargetNullValue='Duration: Error'}"
+                                           Margin="5,0" VerticalAlignment="Center" />
+                                <Button Content="Remove"
+                                        Command="{Binding DataContext.RemoveProfileCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding}" Margin="5,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
 
             <!-- Notes -->
             <TextBox Grid.Row="2" Margin="5" Height="60" AcceptsReturn="True"

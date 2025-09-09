@@ -19,11 +19,6 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private TimeSpan? _estimatedDuration;
 
-        [ObservableProperty]
-        private DateTime? _estimatedStartTime;
-
-        [ObservableProperty]
-        private DateTime? _estimatedEndTime;
 
         public int UniqueId => Reference.UniqueId;
         public string DisplayNameAndId => Reference.DisplayNameAndId;
@@ -60,6 +55,9 @@ namespace CellManager.ViewModels
 
         [ObservableProperty]
         private Schedule? _selectedSchedule;
+
+        [ObservableProperty]
+        private TimeSpan? _totalEstimatedDuration;
 
         public RelayCommand SaveScheduleCommand { get; }
 
@@ -250,29 +248,29 @@ namespace CellManager.ViewModels
                 foreach (var item in WorkingSchedule)
                 {
                     item.EstimatedDuration = null;
-                    item.EstimatedStartTime = null;
-                    item.EstimatedEndTime = null;
                 }
+                TotalEstimatedDuration = null;
                 return;
             }
 
-            var current = DateTime.Now;
+            var total = TimeSpan.Zero;
+            var hasError = false;
             foreach (var item in WorkingSchedule)
             {
-                item.EstimatedStartTime = current;
                 var profile = LoadProfile(item.Reference);
                 var duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, item.Reference.Type, profile);
                 item.EstimatedDuration = duration;
                 if (duration.HasValue)
                 {
-                    item.EstimatedEndTime = current + duration.Value;
-                    current = item.EstimatedEndTime.Value;
+                    total += duration.Value;
                 }
                 else
                 {
-                    item.EstimatedEndTime = null;
+                    hasError = true;
                 }
             }
+
+            TotalEstimatedDuration = hasError ? (TimeSpan?)null : total;
         }
     }
 }
