@@ -23,79 +23,71 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <!-- Timeline preview -->
-        <StackPanel Grid.Row="0" Margin="8" Orientation="Vertical">
-            <ItemsControl ItemsSource="{Binding Sequence}" Margin="0,0,0,4">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" Height="24"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Background="{DynamicResource PrimaryHueLightBrush}" Margin="1"
-                                Width="{Binding Duration, Converter={StaticResource DurationWidth}}"
-                                ToolTip="{Binding Parameters}">
-                            <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="10"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <TextBlock Text="{Binding TotalDuration, StringFormat='Total: {0:hh\\:mm\\:ss}'}"/>
-        </StackPanel>
+
+        <!-- Cell info status bar -->
+        <StatusBar Grid.Row="0" Margin="10">
+            <WrapPanel>
+                <TextBlock Text="{Binding DataContext.SelectedCell.DisplayNameAndId, RelativeSource={RelativeSource AncestorType=Window}}" Margin="0,0,16,4"/>
+                <TextBlock Text="{Binding DataContext.SelectedCell.LastUpdated, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
+                <TextBlock Text="{Binding DataContext.SelectedCell.Manufacturer, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='Manufacturer: {0}'}" Margin="0,0,16,4"/>
+                <TextBlock Text="{Binding DataContext.SelectedCell.CellType, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='Type: {0}'}" Margin="0,0,16,4"/>
+                <TextBlock Text="{Binding DataContext.SelectedCell.SerialNumber, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
+            </WrapPanel>
+        </StatusBar>
 
         <!-- Main content -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Left panel -->
-            <Grid Grid.Column="0" Margin="8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Header="Schedule List" Margin="0,0,0,8">
-                    <ListView ItemsSource="{Binding Schedules}" HorizontalAlignment="Stretch">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </GroupBox>
-                <GroupBox Grid.Row="1" Header="Step Library" Margin="0,0,0,8">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsControl ItemsSource="{Binding StepLibrary}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
-                                        <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
-                                                      PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
-                                                      PreviewMouseMove="ProfileList_PreviewMouseMove"/>
-                                    </Expander>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </GroupBox>
-                <TextBlock Grid.Row="2" Margin="4,0,0,0" FontStyle="Italic" Text="Drag steps to the sequence builder"/>
-            </Grid>
+            <!-- Schedule list -->
+            <GroupBox Grid.Column="0" Margin="8" Header="Schedules">
+                <ListView ItemsSource="{Binding Schedules}" HorizontalAlignment="Stretch">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                            <GridViewColumn Header="Profiles" DisplayMemberBinding="{Binding TestProfileIds.Count}" Width="60"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
 
             <!-- Sequence builder -->
             <Grid Grid.Column="1" Margin="8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+
+                <!-- Schedule name -->
                 <TextBox Grid.Row="0" Width="250" Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
                          Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
-                <ListBox x:Name="SequenceList" Grid.Row="1" ItemsSource="{Binding Sequence}" AllowDrop="True"
+
+                <!-- Timeline preview -->
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Height="24"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{DynamicResource PrimaryHueLightBrush}" Margin="1"
+                                    Width="{Binding Duration, Converter={StaticResource DurationWidth}}"
+                                    ToolTip="{Binding Parameters}">
+                                <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="10"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Sequence list -->
+                <ListBox x:Name="SequenceList" Grid.Row="2" ItemsSource="{Binding Sequence}" AllowDrop="True"
                          PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
                          PreviewMouseMove="ScheduleList_PreviewMouseMove"
                          Drop="ScheduleList_Drop" DragOver="ScheduleList_DragOver" DragLeave="ScheduleList_DragLeave">
@@ -125,15 +117,38 @@
                 </ListBox>
             </Grid>
 
-            <!-- Schedule options -->
-            <GroupBox Grid.Column="2" Margin="8" Header="Schedule Options">
-                <StackPanel Margin="8">
-                    <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                             Text="{Binding RepeatCount}" materialDesign:HintAssist.Hint="Repeat Count"/>
-                    <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                             Text="{Binding LoopStartIndex}" materialDesign:HintAssist.Hint="Loop Start Step"/>
-                </StackPanel>
-            </GroupBox>
+            <!-- Step library and options -->
+            <Grid Grid.Column="2" Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Header="Step Library" Margin="0,0,0,8">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding StepLibrary}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
+                                        <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+                                                      PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
+                                                      PreviewMouseMove="ProfileList_PreviewMouseMove"/>
+                                    </Expander>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Header="Schedule Options">
+                    <StackPanel Margin="8">
+                        <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
+                                 Text="{Binding RepeatCount}" materialDesign:HintAssist.Hint="Repeat Count"/>
+                        <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
+                                 Text="{Binding LoopStartIndex}" materialDesign:HintAssist.Hint="Loop Start Step"/>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
         </Grid>
 
         <!-- Bottom buttons -->

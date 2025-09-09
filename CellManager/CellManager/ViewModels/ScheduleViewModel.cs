@@ -135,8 +135,8 @@ namespace CellManager.ViewModels
                 }
             });
 
-            Schedules.Add(new Schedule { Name = "Schedule A" });
-            Schedules.Add(new Schedule { Name = "Schedule B" });
+            Schedules.Add(new Schedule { Name = "Schedule A", TestProfileIds = { 1, 2 } });
+            Schedules.Add(new Schedule { Name = "Schedule B", TestProfileIds = { 3 } });
         }
 
         public void InsertStep(StepTemplate template, int index)
