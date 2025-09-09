@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Documents;
+using System.Windows.Controls.Primitives;
 using CellManager.Models;
 using CellManager.ViewModels;
 
@@ -11,6 +13,7 @@ namespace CellManager.Views
     public partial class ScheduleBuilderView : UserControl
     {
         private Point _dragStart;
+        private InsertionAdorner? _insertionAdorner;
 
         public ScheduleBuilderView()
         {
@@ -43,7 +46,7 @@ namespace CellManager.Views
             if (Math.Abs(pos.X - _dragStart.X) < SystemParameters.MinimumHorizontalDragDistance &&
                 Math.Abs(pos.Y - _dragStart.Y) < SystemParameters.MinimumVerticalDragDistance)
                 return;
-            if (sender is ListBox list && GetItemUnderMouse(list, e.GetPosition(list)) is ListBoxItem item)
+            if (sender is ItemsControl list && GetItemUnderMouse(list, e.GetPosition(list)) is FrameworkElement item)
             {
                 if (item.DataContext is ScheduledProfile sp)
                 {
@@ -53,49 +56,154 @@ namespace CellManager.Views
             }
         }
 
+        private void ScheduleList_DragOver(object sender, DragEventArgs e)
+        {
+            var list = (ItemsControl)sender;
+            var index = GetInsertIndex(list, e.GetPosition(list));
+            ShowInsertionAdorner(list, index);
+        }
+
+        private void ScheduleList_DragLeave(object sender, DragEventArgs e)
+        {
+            RemoveInsertionAdorner();
+        }
+
         private void ScheduleList_Drop(object sender, DragEventArgs e)
         {
             if (DataContext is not ScheduleViewModel vm) return;
             if (!e.Data.GetDataPresent(typeof(ProfileReference))) return;
             var profile = (ProfileReference)e.Data.GetData(typeof(ProfileReference));
-            var list = (ListBox)sender;
+            var list = (ItemsControl)sender;
             var index = GetInsertIndex(list, e.GetPosition(list));
             vm.InsertProfile(profile, index);
+            RemoveInsertionAdorner();
         }
 
         private void ScheduleList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _dragStart = e.GetPosition(null);
         }
-        private static int GetInsertIndex(ListBox list, Point position)
+        private static int GetInsertIndex(ItemsControl list, Point position)
         {
+            var orientation = GetOrientation(list);
             for (int i = 0; i < list.Items.Count; i++)
             {
-                var item = (ListBoxItem)list.ItemContainerGenerator.ContainerFromIndex(i);
-                if (item != null)
+                if (list.ItemContainerGenerator.ContainerFromIndex(i) is FrameworkElement item)
                 {
                     var bounds = VisualTreeHelper.GetDescendantBounds(item);
                     var topLeft = item.TranslatePoint(new Point(), list);
                     var rect = new Rect(topLeft, bounds.Size);
                     if (rect.Contains(position))
+                    {
+                        if (orientation == Orientation.Horizontal)
+                            return position.X < rect.Left + rect.Width / 2 ? i : i + 1;
                         return position.Y < rect.Top + rect.Height / 2 ? i : i + 1;
+                    }
                 }
             }
             return list.Items.Count;
         }
 
-        private static ListBoxItem? GetItemUnderMouse(ListBox list, Point point)
+        private static Orientation GetOrientation(ItemsControl list)
+        {
+            // ItemsControl does not expose the realized panel directly, but the
+            // orientation can be determined from the template's panel instance.
+            var panel = list.ItemsPanel.LoadContent() as Panel;
+            return panel switch
+            {
+                StackPanel sp => sp.Orientation,
+                VirtualizingStackPanel vsp => vsp.Orientation,
+                _ => Orientation.Vertical
+            };
+        }
+
+        private static FrameworkElement? GetItemUnderMouse(ItemsControl list, Point point)
         {
             for (int i = 0; i < list.Items.Count; i++)
             {
-                var item = (ListBoxItem)list.ItemContainerGenerator.ContainerFromIndex(i);
-                if (item == null) continue;
-                var bounds = VisualTreeHelper.GetDescendantBounds(item);
-                var topLeft = item.TranslatePoint(new Point(), list);
-                var rect = new Rect(topLeft, bounds.Size);
-                if (rect.Contains(point)) return item;
+                if (list.ItemContainerGenerator.ContainerFromIndex(i) is FrameworkElement item)
+                {
+                    var bounds = VisualTreeHelper.GetDescendantBounds(item);
+                    var topLeft = item.TranslatePoint(new Point(), list);
+                    var rect = new Rect(topLeft, bounds.Size);
+                    if (rect.Contains(point)) return item;
+                }
             }
             return null;
+        }
+
+        private void ShowInsertionAdorner(ItemsControl list, int index)
+        {
+            var orientation = GetOrientation(list);
+            if (_insertionAdorner == null || _insertionAdorner.AdornedElement != list)
+            {
+                RemoveInsertionAdorner();
+                var layer = AdornerLayer.GetAdornerLayer(list);
+                if (layer == null) return;
+                _insertionAdorner = new InsertionAdorner(list, orientation);
+                layer.Add(_insertionAdorner);
+            }
+            _insertionAdorner.Update(index);
+        }
+
+        private void RemoveInsertionAdorner()
+        {
+            if (_insertionAdorner != null)
+            {
+                var layer = AdornerLayer.GetAdornerLayer(_insertionAdorner.AdornedElement);
+                if (layer != null)
+                    layer.Remove(_insertionAdorner);
+                _insertionAdorner = null;
+            }
+        }
+
+        private class InsertionAdorner : Adorner
+        {
+            private readonly ItemsControl _owner;
+            private readonly Orientation _orientation;
+            private int _index;
+
+            public InsertionAdorner(ItemsControl owner, Orientation orientation)
+                : base(owner)
+            {
+                _owner = owner;
+                _orientation = orientation;
+                IsHitTestVisible = false;
+            }
+
+            public void Update(int index)
+            {
+                _index = index;
+                InvalidateVisual();
+            }
+
+            protected override void OnRender(DrawingContext dc)
+            {
+                if (_owner.Items.Count == 0) return;
+                var pen = new Pen(Brushes.Red, 2);
+                double offset;
+                if (_index < _owner.Items.Count)
+                {
+                    var container = (FrameworkElement)_owner.ItemContainerGenerator.ContainerFromIndex(_index);
+                    var pt = container.TranslatePoint(new Point(), this);
+                    offset = _orientation == Orientation.Horizontal ? pt.X : pt.Y;
+                }
+                else
+                {
+                    var last = (FrameworkElement)_owner.ItemContainerGenerator.ContainerFromIndex(_owner.Items.Count - 1);
+                    var pt = last.TranslatePoint(new Point(last.ActualWidth, last.ActualHeight), this);
+                    offset = _orientation == Orientation.Horizontal ? pt.X : pt.Y;
+                }
+
+                if (_orientation == Orientation.Horizontal)
+                {
+                    dc.DrawLine(pen, new Point(offset, 0), new Point(offset, ActualHeight));
+                }
+                else
+                {
+                    dc.DrawLine(pen, new Point(0, offset), new Point(ActualWidth, offset));
+                }
+            }
         }
     }
 }
