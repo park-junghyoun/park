@@ -106,7 +106,10 @@ namespace CellManager.Views
 
         private static Orientation GetOrientation(ItemsControl list)
         {
-            return list.ItemsPanelRoot switch
+            // ItemsControl does not expose the realized panel directly, but the
+            // orientation can be determined from the template's panel instance.
+            var panel = list.ItemsPanel.LoadContent() as Panel;
+            return panel switch
             {
                 StackPanel sp => sp.Orientation,
                 VirtualizingStackPanel vsp => vsp.Orientation,
