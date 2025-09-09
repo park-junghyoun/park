@@ -1,0 +1,13 @@
+<UserControl x:Class="CellManager.Views.Controls.TimeSpanEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             x:Name="root">
+    <StackPanel Orientation="Horizontal">
+        <xctk:IntegerUpDown Width="40" Value="{Binding Hours, ElementName=root, Mode=TwoWay}" Minimum="0"/>
+        <TextBlock Text=":" VerticalAlignment="Center" Margin="2,0"/>
+        <xctk:IntegerUpDown Width="40" Value="{Binding Minutes, ElementName=root, Mode=TwoWay}" Minimum="0" Maximum="59"/>
+        <TextBlock Text=":" VerticalAlignment="Center" Margin="2,0"/>
+        <xctk:IntegerUpDown Width="40" Value="{Binding Seconds, ElementName=root, Mode=TwoWay}" Minimum="0" Maximum="59"/>
+    </StackPanel>
+</UserControl>

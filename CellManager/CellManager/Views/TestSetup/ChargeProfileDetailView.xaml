@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
+             xmlns:controls="clr-namespace:CellManager.Views.Controls"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
     <Grid Margin="8">
         <Grid.RowDefinitions>
@@ -91,13 +92,10 @@
         </Border>
 
         <TextBlock Grid.Row="15" Text="Charge Time" Margin="4" Style="{StaticResource TimeVisibilityStyle}"/>
-        <StackPanel Grid.Row="15" Grid.Column="1" Orientation="Horizontal" Margin="4" Style="{StaticResource TimeVisibilityStyle}">
-            <TextBox Width="40" Text="{Binding ChargeHours, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text=":" Margin="2" VerticalAlignment="Center"/>
-            <TextBox Width="40" Text="{Binding ChargeMinutes, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text=":" Margin="2" VerticalAlignment="Center"/>
-            <TextBox Width="40" Text="{Binding ChargeSeconds, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
+        <controls:TimeSpanEditor Grid.Row="15" Grid.Column="1" Margin="4" Style="{StaticResource TimeVisibilityStyle}"
+                                 Hours="{Binding ChargeHours, UpdateSourceTrigger=PropertyChanged}"
+                                 Minutes="{Binding ChargeMinutes, UpdateSourceTrigger=PropertyChanged}"
+                                 Seconds="{Binding ChargeSeconds, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>
 

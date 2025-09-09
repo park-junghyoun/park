@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:CellManager.Views.Controls"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
     <Grid Margin="8">
         <Grid.RowDefinitions>
@@ -26,12 +27,9 @@
         <Border Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="5" Text="Rest Time" Margin="4"/>
-        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="4">
-            <TextBox Width="40" Text="{Binding RestHours, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text=":" Margin="2" VerticalAlignment="Center"/>
-            <TextBox Width="40" Text="{Binding RestMinutes, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text=":" Margin="2" VerticalAlignment="Center"/>
-            <TextBox Width="40" Text="{Binding RestSeconds, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
+        <controls:TimeSpanEditor Grid.Row="5" Grid.Column="1" Margin="4"
+                                 Hours="{Binding RestHours, UpdateSourceTrigger=PropertyChanged}"
+                                 Minutes="{Binding RestMinutes, UpdateSourceTrigger=PropertyChanged}"
+                                 Seconds="{Binding RestSeconds, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>
