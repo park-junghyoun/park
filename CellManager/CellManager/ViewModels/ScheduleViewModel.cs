@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -9,6 +10,7 @@ namespace CellManager.ViewModels
 {
     public class StepTemplate : ObservableObject
     {
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string IconKind { get; set; } = string.Empty;
         public string Parameters { get; set; } = string.Empty;
@@ -34,6 +36,8 @@ namespace CellManager.ViewModels
         public ObservableCollection<StepTemplate> Sequence { get; } = new();
         public ObservableCollection<Schedule> Schedules { get; } = new();
 
+        [ObservableProperty] private Schedule? _selectedSchedule;
+
         [ObservableProperty] private string _scheduleName = "New Schedule";
         [ObservableProperty] private int _repeatCount = 1;
         [ObservableProperty] private int _loopStartIndex;
@@ -41,6 +45,7 @@ namespace CellManager.ViewModels
 
         public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
+        public RelayCommand AddScheduleCommand { get; }
 
         public ScheduleViewModel()
         {
@@ -48,13 +53,15 @@ namespace CellManager.ViewModels
             Sequence.CollectionChanged += (_, __) => UpdateTotalDuration();
 
             RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
-            SaveScheduleCommand = new RelayCommand(() => { });
+            SaveScheduleCommand = new RelayCommand(SaveSchedule);
+            AddScheduleCommand = new RelayCommand(AddSchedule);
 
             UpdateTotalDuration();
         }
 
         private void BuildMockLibrary()
         {
+            var id = 1;
             StepLibrary.Add(new StepGroup
             {
                 Name = "Charge",
@@ -63,6 +70,7 @@ namespace CellManager.ViewModels
                 {
                     new StepTemplate
                     {
+                        Id = id++,
                         Name = "Charge",
                         IconKind = "Battery",
                         Parameters = "0.5A → 4.2V | 01:00:00",
@@ -79,6 +87,7 @@ namespace CellManager.ViewModels
                 {
                     new StepTemplate
                     {
+                        Id = id++,
                         Name = "Discharge",
                         IconKind = "ArrowDown",
                         Parameters = "0.5A → 3.0V | 00:30:00",
@@ -95,6 +104,7 @@ namespace CellManager.ViewModels
                 {
                     new StepTemplate
                     {
+                        Id = id++,
                         Name = "Rest",
                         IconKind = "Pause",
                         Parameters = "00:10:00",
@@ -111,6 +121,7 @@ namespace CellManager.ViewModels
                 {
                     new StepTemplate
                     {
+                        Id = id++,
                         Name = "OCV",
                         IconKind = "ChartBar",
                         Parameters = "01:00:00",
@@ -127,6 +138,7 @@ namespace CellManager.ViewModels
                 {
                     new StepTemplate
                     {
+                        Id = id++,
                         Name = "ECM",
                         IconKind = "Wrench",
                         Parameters = "0.2A 00:05:00",
@@ -135,14 +147,15 @@ namespace CellManager.ViewModels
                 }
             });
 
-            Schedules.Add(new Schedule { Name = "Schedule A", TestProfileIds = { 1, 2 } });
-            Schedules.Add(new Schedule { Name = "Schedule B", TestProfileIds = { 3 } });
+            Schedules.Add(new Schedule { Id = 1, Name = "Schedule A", TestProfileIds = { 1, 2 } });
+            Schedules.Add(new Schedule { Id = 2, Name = "Schedule B", TestProfileIds = { 3 } });
         }
 
         public void InsertStep(StepTemplate template, int index)
         {
             var clone = new StepTemplate
             {
+                Id = template.Id,
                 Name = template.Name,
                 IconKind = template.IconKind,
                 Parameters = template.Parameters,
@@ -167,6 +180,36 @@ namespace CellManager.ViewModels
         private void UpdateTotalDuration()
         {
             TotalDuration = new TimeSpan(Sequence.Sum(s => s.Duration.Ticks));
+        }
+
+        partial void OnSelectedScheduleChanged(Schedule? value)
+        {
+            Sequence.Clear();
+            if (value == null) return;
+            ScheduleName = value.Name;
+            foreach (var id in value.TestProfileIds)
+            {
+                var template = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Id == id);
+                if (template != null)
+                    InsertStep(template, -1);
+            }
+        }
+
+        private void AddSchedule()
+        {
+            var newId = Schedules.Any() ? Schedules.Max(s => s.Id) + 1 : 1;
+            var sched = new Schedule { Id = newId, Name = $"Schedule {newId}" };
+            Schedules.Add(sched);
+            SelectedSchedule = sched;
+            Sequence.Clear();
+            ScheduleName = sched.Name;
+        }
+
+        private void SaveSchedule()
+        {
+            if (SelectedSchedule == null) return;
+            SelectedSchedule.Name = ScheduleName;
+            SelectedSchedule.TestProfileIds = Sequence.Select(s => s.Id).ToList();
         }
     }
 }

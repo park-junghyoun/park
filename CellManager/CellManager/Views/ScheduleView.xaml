@@ -44,8 +44,16 @@
             </Grid.ColumnDefinitions>
 
             <!-- Schedule list -->
-            <GroupBox Grid.Column="0" Margin="8" Header="Schedules">
-                <ListView ItemsSource="{Binding Schedules}" HorizontalAlignment="Stretch">
+            <GroupBox Grid.Column="0" Margin="8">
+                <GroupBox.Header>
+                    <DockPanel>
+                        <TextBlock Text="Schedules" FontWeight="Bold" DockPanel.Dock="Left"/>
+                        <Button Command="{Binding AddScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}" DockPanel.Dock="Right">
+                            <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                        </Button>
+                    </DockPanel>
+                </GroupBox.Header>
+                <ListView ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" HorizontalAlignment="Stretch">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>

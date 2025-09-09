@@ -27,5 +27,28 @@ namespace CellManager.Tests
             vm.MoveStep(first, 2);
             Assert.NotEqual(first, vm.Sequence.First());
         }
+
+        [Fact]
+        public void AddScheduleCommand_CreatesNewSchedule()
+        {
+            var vm = new ScheduleViewModel();
+            var initialCount = vm.Schedules.Count;
+            vm.AddScheduleCommand.Execute(null);
+            Assert.Equal(initialCount + 1, vm.Schedules.Count);
+            Assert.Equal(vm.SelectedSchedule, vm.Schedules.Last());
+        }
+
+        [Fact]
+        public void SaveScheduleCommand_PersistsSequence()
+        {
+            var vm = new ScheduleViewModel();
+            vm.AddScheduleCommand.Execute(null);
+            var template = vm.StepLibrary.First().Steps.First();
+            vm.InsertStep(template, -1);
+            vm.ScheduleName = "My Schedule";
+            vm.SaveScheduleCommand.Execute(null);
+            Assert.Equal("My Schedule", vm.SelectedSchedule?.Name);
+            Assert.Contains(template.Id, vm.SelectedSchedule?.TestProfileIds);
+        }
     }
 }
