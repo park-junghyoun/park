@@ -4,7 +4,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:conv="clr-namespace:CellManager.Views.Converters"
+            xmlns:conv="clr-namespace:CellManager.Views.Converters"
+            xmlns:vm="clr-namespace:CellManager.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200">
     <UserControl.Resources>
@@ -15,20 +16,19 @@
                 <TextBlock VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
-                            <Setter Property="Text">
-                                <Setter.Value>
-                                    <MultiBinding StringFormat="ID: {0} - {1}">
-                                        <Binding Path="Id"/>
-                                        <Binding Path="Name"/>
-                                    </MultiBinding>
-                                </Setter.Value>
-                            </Setter>
+                            <!-- Default to name so loop templates hide IDs -->
+                            <Setter Property="Text" Value="{Binding Name}"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Kind}" Value="LoopStart">
-                                    <Setter Property="Text" Value="Loop Start"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Kind}" Value="LoopEnd">
-                                    <Setter Property="Text" Value="Loop End"/>
+                                <!-- Only profile steps show IDs -->
+                                <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
+                                    <Setter Property="Text">
+                                        <Setter.Value>
+                                            <MultiBinding StringFormat="ID: {0} - {1}">
+                                                <Binding Path="Id"/>
+                                                <Binding Path="Name"/>
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -98,8 +98,7 @@
 
                 <!-- Timeline preview -->
                 <ItemsControl x:Name="TimelinePreview" Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8"
-                              HorizontalAlignment="Stretch"
-                              Width="{Binding ElementName=SequenceList, Path=ActualWidth}">
+                              HorizontalAlignment="Stretch" ClipToBounds="True">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" Height="32"/>
@@ -112,7 +111,7 @@
                                     <MultiBinding Converter="{StaticResource DurationWidth}">
                                         <Binding Path="Duration"/>
                                         <Binding Path="DataContext.TotalDuration" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
-                                        <Binding Path="ActualWidth" ElementName="SequenceList"/>
+                                        <Binding Path="ActualWidth" ElementName="TimelinePreview"/>
                                     </MultiBinding>
                                 </materialDesign:Card.Width>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -122,10 +121,10 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="{Binding Id}"/>
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Kind}" Value="LoopStart">
+                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopStart}">
                                                         <Setter Property="Text" Value="Start"/>
                                                     </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Kind}" Value="LoopEnd">
+                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopEnd}">
                                                         <Setter Property="Text" Value="End"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
@@ -156,34 +155,37 @@
                                     <TextBlock Text="{Binding StepNumber}" FontWeight="Bold" Margin="0,0,8,0"/>
                                     <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
                                     <StackPanel Grid.Column="2">
-                                        <TextBlock>
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Text">
-                                                        <Setter.Value>
-                                                            <MultiBinding StringFormat="ID: {0} - {1}">
-                                                                <Binding Path="Id"/>
-                                                                <Binding Path="Name"/>
-                                                            </MultiBinding>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Kind}" Value="LoopStart">
-                                                            <Setter Property="Text" Value="Loop Start"/>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Kind}" Value="LoopEnd">
-                                                            <Setter Property="Text" Value="Loop End"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                      <TextBlock>
+                                          <TextBlock.Style>
+                                              <Style TargetType="TextBlock">
+                                                  <Setter Property="Text" Value="{Binding Name}"/>
+                                                  <Style.Triggers>
+                                                      <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
+                                                          <Setter Property="Text">
+                                                              <Setter.Value>
+                                                                  <MultiBinding StringFormat="ID: {0} - {1}">
+                                                                      <Binding Path="Id"/>
+                                                                      <Binding Path="Name"/>
+                                                                  </MultiBinding>
+                                                              </Setter.Value>
+                                                          </Setter>
+                                                      </DataTrigger>
+                                                      <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopStart}">
+                                                          <Setter Property="Text" Value="Loop Start"/>
+                                                      </DataTrigger>
+                                                      <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopEnd}">
+                                                          <Setter Property="Text" Value="Loop End"/>
+                                                      </DataTrigger>
+                                                  </Style.Triggers>
+                                              </Style>
+                                          </TextBlock.Style>
+                                      </TextBlock>
                                         <TextBlock Text="{Binding Parameters}" FontSize="12">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Kind}" Value="Profile">
+                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
