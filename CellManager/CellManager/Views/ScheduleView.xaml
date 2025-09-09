@@ -34,6 +34,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
+                <TextBlock Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" Margin="8,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -42,7 +43,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Cell info status bar -->
@@ -77,8 +77,16 @@
                 <ListView ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" HorizontalAlignment="Stretch">
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="80"/>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
                             <GridViewColumn Header="Profiles" DisplayMemberBinding="{Binding TestProfileIds.Count}" Width="60"/>
+                            <GridViewColumn Header="Duration" Width="90">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding EstimatedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -92,9 +100,20 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Schedule name -->
-                <TextBox Grid.Row="0" Width="250" Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                         Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
+                <!-- Schedule name, save button and total duration -->
+                <Grid Grid.Row="0" Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Width="250" Style="{StaticResource MaterialDesignFilledTextBox}"
+                             Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
+                    <Button Grid.Column="1" Content="Save Schedule" Command="{Binding SaveScheduleCommand}"
+                            Margin="8,0,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                    <TextBlock Grid.Column="2" Text="{Binding TotalDuration, StringFormat='Total: {0:hh\\:mm\\:ss}'}"
+                               Margin="16,0,0,0" VerticalAlignment="Center"/>
+                </Grid>
 
                 <!-- Timeline preview -->
                 <ItemsControl x:Name="TimelinePreview" Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8"
@@ -151,6 +170,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding StepNumber}" FontWeight="Bold" Margin="0,0,8,0"/>
                                     <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
@@ -193,7 +213,8 @@
                                             </TextBlock.Style>
                                         </TextBlock>
                                     </StackPanel>
-                                    <Button Grid.Column="3" Style="{StaticResource MaterialDesignToolButton}"
+                                    <TextBlock Grid.Column="3" Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" Margin="8,0" VerticalAlignment="Center"/>
+                                    <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}"
                                             Command="{Binding DataContext.RemoveStepCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                             CommandParameter="{Binding}">
                                         <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
@@ -205,43 +226,23 @@
                 </ListBox>
             </Grid>
 
-            <!-- Step library and options -->
-            <Grid Grid.Column="2" Margin="8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <GroupBox Grid.Row="0" Header="Step Library" Margin="0,0,0,8">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsControl ItemsSource="{Binding StepLibrary}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
-                                        <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
-                                                      PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
-                                                      PreviewMouseMove="ProfileList_PreviewMouseMove"/>
-                                    </Expander>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </GroupBox>
-
-                <GroupBox Grid.Row="1" Header="Schedule Options">
-                    <StackPanel Margin="8">
-                        <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                                 Text="{Binding RepeatCount}" materialDesign:HintAssist.Hint="Repeat Count"/>
-                        <TextBlock Text="{Binding LoopStartIndex, StringFormat=Loop Start: {0}}" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding LoopEndIndex, StringFormat=Loop End: {0}}"/>
-                    </StackPanel>
-                </GroupBox>
-            </Grid>
+            <!-- Step library -->
+            <GroupBox Grid.Column="2" Margin="8" Header="Step Library">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding StepLibrary}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
+                                    <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+                                                  PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
+                                                  PreviewMouseMove="ProfileList_PreviewMouseMove"/>
+                                </Expander>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </GroupBox>
         </Grid>
 
-        <!-- Bottom buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8">
-            <Button Content="Save Schedule" Command="{Binding SaveScheduleCommand}" Margin="4" Style="{StaticResource MaterialDesignRaisedButton}"/>
-        </StackPanel>
     </Grid>
 </UserControl>

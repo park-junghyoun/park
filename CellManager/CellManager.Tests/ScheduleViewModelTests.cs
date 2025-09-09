@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Xunit;
 using CellManager.ViewModels;
@@ -36,6 +37,7 @@ namespace CellManager.Tests
             vm.AddScheduleCommand.Execute(null);
             Assert.Equal(initialCount + 1, vm.Schedules.Count);
             Assert.Equal(vm.SelectedSchedule, vm.Schedules.Last());
+            Assert.Equal(initialCount + 1, vm.SelectedSchedule?.Ordering);
         }
 
         [Fact]
@@ -64,6 +66,27 @@ namespace CellManager.Tests
             vm.InsertStep(end, -1);
             Assert.Equal(1, vm.LoopStartIndex);
             Assert.Equal(3, vm.LoopEndIndex);
+        }
+
+        [Fact]
+        public void TotalDuration_SumsStepDurations()
+        {
+            var vm = new ScheduleViewModel();
+            var template = vm.StepLibrary.First().Steps.First();
+            vm.InsertStep(template, -1);
+            vm.InsertStep(template, -1);
+            Assert.Equal(TimeSpan.FromHours(2), vm.TotalDuration);
+        }
+
+        [Fact]
+        public void SelectedSchedule_TracksEstimatedDuration()
+        {
+            var vm = new ScheduleViewModel();
+            vm.AddScheduleCommand.Execute(null);
+            var template = vm.StepLibrary.First().Steps.First();
+            vm.InsertStep(template, -1);
+            vm.InsertStep(template, -1);
+            Assert.Equal(TimeSpan.FromHours(2), vm.SelectedSchedule?.EstimatedDuration);
         }
     }
 }

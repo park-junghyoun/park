@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -30,6 +31,9 @@ namespace CellManager.Models
 
         [ObservableProperty]
         private int _loopEndIndex;
+
+        [ObservableProperty]
+        private TimeSpan _estimatedDuration;
 
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
     }
