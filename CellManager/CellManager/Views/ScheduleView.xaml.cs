@@ -1,21 +1,19 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Documents;
-using System.Windows.Controls.Primitives;
-using CellManager.Models;
 using CellManager.ViewModels;
 
 namespace CellManager.Views
 {
-    public partial class ScheduleBuilderView : UserControl
+    public partial class ScheduleView : UserControl
     {
         private Point _dragStart;
         private InsertionAdorner? _insertionAdorner;
 
-        public ScheduleBuilderView()
+        public ScheduleView()
         {
             InitializeComponent();
         }
@@ -32,11 +30,20 @@ namespace CellManager.Views
             if (Math.Abs(pos.X - _dragStart.X) < SystemParameters.MinimumHorizontalDragDistance &&
                 Math.Abs(pos.Y - _dragStart.Y) < SystemParameters.MinimumVerticalDragDistance)
                 return;
-            if (sender is ListBox list && list.SelectedItem is ProfileReference profile)
+            if (sender is ItemsControl list)
             {
-                var data = new DataObject(typeof(ProfileReference), profile);
-                DragDrop.DoDragDrop(list, data, DragDropEffects.Copy);
+                var item = GetItemUnderMouse(list, e.GetPosition(list));
+                if (item?.DataContext is StepTemplate template)
+                {
+                    var data = new DataObject(typeof(StepTemplate), template);
+                    DragDrop.DoDragDrop(list, data, DragDropEffects.Copy);
+                }
             }
+        }
+
+        private void ScheduleList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _dragStart = e.GetPosition(null);
         }
 
         private void ScheduleList_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -48,11 +55,9 @@ namespace CellManager.Views
                 return;
             if (sender is ItemsControl list && GetItemUnderMouse(list, e.GetPosition(list)) is FrameworkElement item)
             {
-                if (item.DataContext is ScheduledProfile sp)
+                if (item.DataContext is StepTemplate step)
                 {
-                    var data = new DataObject();
-                    data.SetData(typeof(ProfileReference), sp.Reference);
-                    data.SetData(typeof(ScheduledProfile), sp);
+                    var data = new DataObject(typeof(StepTemplate), step);
                     DragDrop.DoDragDrop(list, data, DragDropEffects.Move);
                 }
             }
@@ -73,28 +78,19 @@ namespace CellManager.Views
         private void ScheduleList_Drop(object sender, DragEventArgs e)
         {
             if (DataContext is not ScheduleViewModel vm) return;
-            if (!e.Data.GetDataPresent(typeof(ProfileReference))) return;
+            if (!e.Data.GetDataPresent(typeof(StepTemplate))) return;
             var list = (ItemsControl)sender;
             var index = GetInsertIndex(list, e.GetPosition(list));
+            var step = (StepTemplate)e.Data.GetData(typeof(StepTemplate));
 
-            if (e.Data.GetDataPresent(typeof(ScheduledProfile)))
-            {
-                var sp = (ScheduledProfile)e.Data.GetData(typeof(ScheduledProfile));
-                vm.MoveProfile(sp, index);
-            }
+            if (vm.Sequence.Contains(step))
+                vm.MoveStep(step, index);
             else
-            {
-                var profile = (ProfileReference)e.Data.GetData(typeof(ProfileReference));
-                vm.InsertProfile(profile, index);
-            }
+                vm.InsertStep(step, index);
 
             RemoveInsertionAdorner();
         }
 
-        private void ScheduleList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _dragStart = e.GetPosition(null);
-        }
         private static int GetInsertIndex(ItemsControl list, Point position)
         {
             var orientation = GetOrientation(list);
@@ -118,8 +114,6 @@ namespace CellManager.Views
 
         private static Orientation GetOrientation(ItemsControl list)
         {
-            // ItemsControl does not expose the realized panel directly, but the
-            // orientation can be determined from the template's panel instance.
             var panel = list.ItemsPanel.LoadContent() as Panel;
             return panel switch
             {

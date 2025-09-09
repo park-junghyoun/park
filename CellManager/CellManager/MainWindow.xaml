@@ -22,7 +22,7 @@
             <viewsTestSetup:TestSetupView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ScheduleViewModel}">
-            <views:ScheduleBuilderView/>
+            <views:ScheduleView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RunViewModel}">
             <Grid Background="#FFFFFF">

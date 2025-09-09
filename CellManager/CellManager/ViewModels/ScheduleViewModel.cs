@@ -1,35 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using CellManager.Models;
-using CellManager.Models.TestProfile;
-using CellManager.Messages;
-using CellManager.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using System.Windows;
+using CellManager.Models;
 
 namespace CellManager.ViewModels
 {
-    public partial class ScheduledProfile : ObservableObject
+    public class StepTemplate : ObservableObject
     {
-        public ProfileReference Reference { get; set; } = null!;
+        public string Name { get; set; } = string.Empty;
+        public string IconKind { get; set; } = string.Empty;
+        public string Parameters { get; set; } = string.Empty;
+        public TimeSpan Duration { get; set; }
+    }
 
-        [ObservableProperty]
-        private TimeSpan? _estimatedDuration;
-
-        [ObservableProperty]
-        private TimeSpan? _startTime;
-
-        [ObservableProperty]
-        private TimeSpan? _endTime;
-
-
-        public int UniqueId => Reference.UniqueId;
-        public string DisplayNameAndId => Reference.DisplayNameAndId;
+    public class StepGroup : ObservableObject
+    {
+        public string Name { get; set; } = string.Empty;
+        public string IconKind { get; set; } = string.Empty;
+        public ObservableCollection<StepTemplate> Steps { get; } = new();
     }
 
     public partial class ScheduleViewModel : ObservableObject
@@ -40,282 +30,149 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private bool _isViewEnabled = true;
 
-        private readonly IScheduleRepository _scheduleRepository;
-        private readonly IChargeProfileRepository _chargeProfileRepository;
-        private readonly IDischargeProfileRepository _dischargeProfileRepository;
-        private readonly IEcmPulseProfileRepository _ecmPulseProfileRepository;
-        private readonly IOcvProfileRepository _ocvProfileRepository;
-        private readonly IRestProfileRepository _restProfileRepository;
-
-        public ObservableCollection<ProfileReference> ProfileLibrary { get; } = new();
-        public ObservableCollection<ScheduledProfile> WorkingSchedule { get; } = new();
-
+        public ObservableCollection<StepGroup> StepLibrary { get; } = new();
+        public ObservableCollection<StepTemplate> Sequence { get; } = new();
         public ObservableCollection<Schedule> Schedules { get; } = new();
 
-        [ObservableProperty]
-        private Cell? _selectedCell;
+        [ObservableProperty] private string _scheduleName = "New Schedule";
+        [ObservableProperty] private int _repeatCount = 1;
+        [ObservableProperty] private int _loopStartIndex;
+        [ObservableProperty] private double? _stopVoltage;
+        [ObservableProperty] private double? _stopTemperature;
+        [ObservableProperty] private TimeSpan _totalDuration;
 
-        [ObservableProperty]
-        private string _scheduleName = "New Schedule";
-
-        [ObservableProperty]
-        private string? _notes;
-
-        [ObservableProperty]
-        private Schedule? _selectedSchedule;
-
-        [ObservableProperty]
-        private TimeSpan? _totalEstimatedDuration;
-
+        public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
+        public RelayCommand RunTestCommand { get; }
+        public RelayCommand ExportCommand { get; }
 
-        public RelayCommand<ScheduledProfile> RemoveProfileCommand { get; }
-        public RelayCommand ClearScheduleCommand { get; }
-        public RelayCommand NewScheduleCommand { get; }
-        public RelayCommand DeleteScheduleCommand { get; }
-
-        private bool _isRecalculating;
-
-        public ScheduleViewModel(
-            IChargeProfileRepository chargeProfileRepository,
-            IDischargeProfileRepository dischargeProfileRepository,
-            IEcmPulseProfileRepository ecmPulseProfileRepository,
-            IOcvProfileRepository ocvProfileRepository,
-            IRestProfileRepository restProfileRepository,
-            IScheduleRepository scheduleRepository)
+        public ScheduleViewModel()
         {
-            _chargeProfileRepository = chargeProfileRepository;
-            _dischargeProfileRepository = dischargeProfileRepository;
-            _ecmPulseProfileRepository = ecmPulseProfileRepository;
-            _ocvProfileRepository = ocvProfileRepository;
-            _restProfileRepository = restProfileRepository;
-            _scheduleRepository = scheduleRepository;
+            BuildMockLibrary();
+            Sequence.CollectionChanged += (_, __) => UpdateTotalDuration();
 
-            SaveScheduleCommand = new RelayCommand(SaveSchedule, () => WorkingSchedule.Count > 0);
-            RemoveProfileCommand = new RelayCommand<ScheduledProfile>(RemoveProfile);
-            ClearScheduleCommand = new RelayCommand(ClearSchedule, () => WorkingSchedule.Count > 0);
-            NewScheduleCommand = new RelayCommand(NewSchedule);
-            DeleteScheduleCommand = new RelayCommand(DeleteSchedule, () => SelectedSchedule != null);
+            RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
+            SaveScheduleCommand = new RelayCommand(() => { });
+            RunTestCommand = new RelayCommand(() => { });
+            ExportCommand = new RelayCommand(() => { });
 
-            WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
+            UpdateTotalDuration();
+        }
+
+        private void BuildMockLibrary()
+        {
+            StepLibrary.Add(new StepGroup
             {
-                SelectedCell = m.SelectedCell;
-                LoadProfiles();
-                RecalculateScheduleTimes();
+                Name = "Charge",
+                IconKind = "Battery",
+                Steps =
+                {
+                    new StepTemplate
+                    {
+                        Name = "Charge",
+                        IconKind = "Battery",
+                        Parameters = "0.5A → 4.2V | 01:00:00",
+                        Duration = TimeSpan.FromHours(1)
+                    }
+                }
             });
 
-            WorkingSchedule.CollectionChanged += WorkingSchedule_CollectionChanged;
-
-            LoadProfiles();
-            LoadSchedules();
-        }
-
-        private void LoadSchedules()
-        {
-            Schedules.Clear();
-            foreach (var schedule in _scheduleRepository.GetAll())
-                Schedules.Add(schedule);
-        }
-
-        private void LoadProfiles()
-        {
-            ProfileLibrary.Clear();
-            if (SelectedCell?.Id > 0)
+            StepLibrary.Add(new StepGroup
             {
-                foreach (var p in _chargeProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Charge, Id = p.Id, Name = p.Name });
-                foreach (var p in _dischargeProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Discharge, Id = p.Id, Name = p.Name });
-                foreach (var p in _ecmPulseProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.ECM, Id = p.Id, Name = p.Name });
-                foreach (var p in _ocvProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.OCV, Id = p.Id, Name = p.Name });
-                foreach (var p in _restProfileRepository.Load(SelectedCell.Id))
-                    ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Rest, Id = p.Id, Name = p.Name });
-            }
+                Name = "Discharge",
+                IconKind = "ArrowDown",
+                Steps =
+                {
+                    new StepTemplate
+                    {
+                        Name = "Discharge",
+                        IconKind = "ArrowDown",
+                        Parameters = "0.5A → 3.0V | 00:30:00",
+                        Duration = TimeSpan.FromMinutes(30)
+                    }
+                }
+            });
+
+            StepLibrary.Add(new StepGroup
+            {
+                Name = "Rest",
+                IconKind = "Pause",
+                Steps =
+                {
+                    new StepTemplate
+                    {
+                        Name = "Rest",
+                        IconKind = "Pause",
+                        Parameters = "00:10:00",
+                        Duration = TimeSpan.FromMinutes(10)
+                    }
+                }
+            });
+
+            StepLibrary.Add(new StepGroup
+            {
+                Name = "OCV",
+                IconKind = "ChartBar",
+                Steps =
+                {
+                    new StepTemplate
+                    {
+                        Name = "OCV",
+                        IconKind = "ChartBar",
+                        Parameters = "01:00:00",
+                        Duration = TimeSpan.FromHours(1)
+                    }
+                }
+            });
+
+            StepLibrary.Add(new StepGroup
+            {
+                Name = "ECM",
+                IconKind = "Wrench",
+                Steps =
+                {
+                    new StepTemplate
+                    {
+                        Name = "ECM",
+                        IconKind = "Wrench",
+                        Parameters = "0.2A 00:05:00",
+                        Duration = TimeSpan.FromMinutes(5)
+                    }
+                }
+            });
+
+            Schedules.Add(new Schedule { Name = "Schedule A" });
+            Schedules.Add(new Schedule { Name = "Schedule B" });
         }
 
-        private void WorkingSchedule_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        public void InsertStep(StepTemplate template, int index)
         {
-            if (e.NewItems != null)
-                foreach (ScheduledProfile item in e.NewItems)
-                    item.PropertyChanged += ScheduledProfile_PropertyChanged;
-            if (e.OldItems != null)
-                foreach (ScheduledProfile item in e.OldItems)
-                    item.PropertyChanged -= ScheduledProfile_PropertyChanged;
-        }
-
-        private void ScheduledProfile_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (_isRecalculating) return;
-            if (e.PropertyName == nameof(ScheduledProfile.StartTime) || e.PropertyName == nameof(ScheduledProfile.EndTime))
-                RecalculateScheduleTimes();
-        }
-
-        public void InsertProfile(ProfileReference profile, int index)
-        {
-            var item = new ScheduledProfile { Reference = profile };
-            if (index < 0 || index > WorkingSchedule.Count)
-                WorkingSchedule.Add(item);
+            var clone = new StepTemplate
+            {
+                Name = template.Name,
+                IconKind = template.IconKind,
+                Parameters = template.Parameters,
+                Duration = template.Duration
+            };
+            if (index < 0 || index > Sequence.Count)
+                Sequence.Add(clone);
             else
-                WorkingSchedule.Insert(index, item);
-
-            RecalculateScheduleTimes();
-            SaveScheduleCommand.NotifyCanExecuteChanged();
-            ClearScheduleCommand.NotifyCanExecuteChanged();
+                Sequence.Insert(index, clone);
         }
 
-        public void MoveProfile(ScheduledProfile profile, int index)
+        public void MoveStep(StepTemplate step, int index)
         {
-            var oldIndex = WorkingSchedule.IndexOf(profile);
+            var oldIndex = Sequence.IndexOf(step);
             if (oldIndex < 0) return;
             if (oldIndex < index) index--;
             if (index < 0) index = 0;
-            if (index >= WorkingSchedule.Count) index = WorkingSchedule.Count - 1;
-            WorkingSchedule.Move(oldIndex, index);
-            RecalculateScheduleTimes();
+            if (index >= Sequence.Count) index = Sequence.Count - 1;
+            Sequence.Move(oldIndex, index);
         }
 
-        private void SaveSchedule()
+        private void UpdateTotalDuration()
         {
-            var duplicates = _scheduleRepository.GetAll().Any(s => s.Name == ScheduleName);
-            if (duplicates)
-            {
-                MessageBox.Show(
-                    "A schedule with this name already exists.",
-                    "Duplicate Schedule",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                return;
-            }
-
-            var schedule = new Schedule
-            {
-                Name = ScheduleName,
-                Notes = Notes,
-                TestProfileIds = WorkingSchedule.Select(p => p.Reference.UniqueId).ToList(),
-                Ordering = 0
-            };
-            _scheduleRepository.Save(schedule);
-
-            if (!Schedules.Contains(schedule))
-                Schedules.Add(schedule);
-
-            SelectedSchedule = schedule;
-        }
-
-        private void RemoveProfile(ScheduledProfile profile)
-        {
-            WorkingSchedule.Remove(profile);
-            RecalculateScheduleTimes();
-            SaveScheduleCommand.NotifyCanExecuteChanged();
-            ClearScheduleCommand.NotifyCanExecuteChanged();
-        }
-
-        private void ClearSchedule()
-        {
-            WorkingSchedule.Clear();
-            RecalculateScheduleTimes();
-            SaveScheduleCommand.NotifyCanExecuteChanged();
-            ClearScheduleCommand.NotifyCanExecuteChanged();
-        }
-
-        private void NewSchedule()
-        {
-            SelectedSchedule = null;
-            ScheduleName = "New Schedule";
-            Notes = null;
-            ClearSchedule();
-        }
-
-        private void DeleteSchedule()
-        {
-            if (SelectedSchedule == null) return;
-            _scheduleRepository.Delete(SelectedSchedule.Id);
-            Schedules.Remove(SelectedSchedule);
-            NewSchedule();
-        }
-
-        partial void OnSelectedScheduleChanged(Schedule? value)
-        {
-            if (value != null)
-            {
-                ScheduleName = value.Name;
-                Notes = value.Notes;
-                WorkingSchedule.Clear();
-                foreach (var id in value.TestProfileIds)
-                {
-                    var profile = ProfileLibrary.FirstOrDefault(p => p.UniqueId == id);
-                    if (profile != null)
-                        WorkingSchedule.Add(new ScheduledProfile { Reference = profile });
-                }
-            }
-            else
-            {
-                ScheduleName = "New Schedule";
-                Notes = null;
-                WorkingSchedule.Clear();
-            }
-
-            RecalculateScheduleTimes();
-            SaveScheduleCommand.NotifyCanExecuteChanged();
-            ClearScheduleCommand.NotifyCanExecuteChanged();
-            DeleteScheduleCommand.NotifyCanExecuteChanged();
-        }
-
-        private object? LoadProfile(ProfileReference reference) => reference.Type switch
-        {
-            TestProfileType.Charge => _chargeProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
-            TestProfileType.Discharge => _dischargeProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
-            TestProfileType.ECM => _ecmPulseProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
-            TestProfileType.OCV => _ocvProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
-            TestProfileType.Rest => _restProfileRepository.Load(reference.CellId).FirstOrDefault(p => p.Id == reference.Id),
-            _ => null
-        };
-
-        private void RecalculateScheduleTimes()
-        {
-            if (SelectedCell == null)
-            {
-                _isRecalculating = true;
-                foreach (var item in WorkingSchedule)
-                {
-                    item.EstimatedDuration = null;
-                    item.StartTime = null;
-                    item.EndTime = null;
-                }
-                _isRecalculating = false;
-                TotalEstimatedDuration = null;
-                return;
-            }
-
-            var total = TimeSpan.Zero;
-            var current = TimeSpan.Zero;
-            var hasError = false;
-
-            _isRecalculating = true;
-            foreach (var item in WorkingSchedule)
-            {
-                var profile = LoadProfile(item.Reference);
-                var duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, item.Reference.Type, profile);
-                item.EstimatedDuration = duration;
-                if (duration.HasValue)
-                {
-                    item.StartTime = current;
-                    current += duration.Value;
-                    item.EndTime = current;
-                    total += duration.Value;
-                }
-                else
-                {
-                    item.StartTime = null;
-                    item.EndTime = null;
-                    hasError = true;
-                }
-            }
-            _isRecalculating = false;
-
-            TotalEstimatedDuration = hasError ? (TimeSpan?)null : total;
+            TotalDuration = new TimeSpan(Sequence.Sum(s => s.Duration.Ticks));
         }
     }
 }

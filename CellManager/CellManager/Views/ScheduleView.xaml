@@ -1,0 +1,138 @@
+<UserControl x:Class="CellManager.Views.ScheduleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:conv="clr-namespace:CellManager.Views.Converters"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <conv:DurationToWidthConverter x:Key="DurationWidth"/>
+        <DataTemplate x:Key="StepTemplateItem">
+            <StackPanel Orientation="Horizontal" Margin="4">
+                <materialDesign:PackIcon Kind="{Binding IconKind}" Width="20" Height="20" Margin="0,0,4,0"/>
+                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Timeline preview -->
+        <StackPanel Grid.Row="0" Margin="8" Orientation="Vertical">
+            <ItemsControl ItemsSource="{Binding Sequence}" Margin="0,0,0,4">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Height="24"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{DynamicResource PrimaryHueLightBrush}" Margin="1"
+                                Width="{Binding Duration, Converter={StaticResource DurationWidth}}"
+                                ToolTip="{Binding Parameters}">
+                            <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="10"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="{Binding TotalDuration, StringFormat='Total: {0:hh\\:mm\\:ss}'}"/>
+        </StackPanel>
+
+        <!-- Main content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left panel -->
+            <StackPanel Grid.Column="0" Margin="8" Orientation="Vertical">
+                <GroupBox Header="Schedule List" Margin="0,0,0,8">
+                    <ListView ItemsSource="{Binding Schedules}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </GroupBox>
+                <GroupBox Header="Step Library">
+                    <ItemsControl ItemsSource="{Binding StepLibrary}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Header="{Binding Name}" Margin="0,0,0,4">
+                                    <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+                                                  PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
+                                                  PreviewMouseMove="ProfileList_PreviewMouseMove"/>
+                                </Expander>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </GroupBox>
+                <TextBlock Margin="4,8,0,0" FontStyle="Italic" Text="Drag steps to the sequence builder"/>
+            </StackPanel>
+
+            <!-- Sequence builder -->
+            <Grid Grid.Column="1" Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" Width="250" Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
+                         Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
+                <ListBox x:Name="SequenceList" Grid.Row="1" ItemsSource="{Binding Sequence}" AllowDrop="True"
+                         PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
+                         PreviewMouseMove="ScheduleList_PreviewMouseMove"
+                         Drop="ScheduleList_Drop" DragOver="ScheduleList_DragOver" DragLeave="ScheduleList_DragLeave">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Card Margin="4" Padding="8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Parameters}" FontSize="12"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
+                                            Command="{Binding DataContext.RemoveStepCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}">
+                                        <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
+                                    </Button>
+                                </Grid>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <!-- Schedule options -->
+            <GroupBox Grid.Column="2" Margin="8" Header="Schedule Options">
+                <StackPanel Margin="8">
+                    <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
+                             Text="{Binding RepeatCount}" materialDesign:HintAssist.Hint="Repeat Count"/>
+                    <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
+                             Text="{Binding LoopStartIndex}" materialDesign:HintAssist.Hint="Loop Start Step"/>
+                    <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
+                             Text="{Binding StopVoltage}" materialDesign:HintAssist.Hint="Stop Voltage (V)"/>
+                    <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
+                             Text="{Binding StopTemperature}" materialDesign:HintAssist.Hint="Stop Temperature (°C)"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+
+        <!-- Bottom buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8">
+            <Button Content="Save Schedule" Command="{Binding SaveScheduleCommand}" Margin="4" Style="{StaticResource MaterialDesignRaisedButton}"/>
+            <Button Content="Run Test" Command="{Binding RunTestCommand}" Margin="4" Style="{StaticResource MaterialDesignRaisedButton}"/>
+            <Button Content="Export" Command="{Binding ExportCommand}" Margin="4" Style="{StaticResource MaterialDesignRaisedButton}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
