@@ -12,6 +12,8 @@ namespace CellManager.Views
     {
         private Point _dragStart;
         private InsertionAdorner? _insertionAdorner;
+        private DragAdorner? _dragAdorner;
+        private UIElement? _dragScope;
 
         public ScheduleView()
         {
@@ -35,8 +37,7 @@ namespace CellManager.Views
                 var item = GetItemUnderMouse(list, e.GetPosition(list));
                 if (item?.DataContext is StepTemplate template)
                 {
-                    var data = new DataObject(typeof(StepTemplate), template);
-                    DragDrop.DoDragDrop(list, data, DragDropEffects.Copy);
+                    BeginDrag(list, item, template, DragDropEffects.Copy);
                 }
             }
         }
@@ -57,8 +58,7 @@ namespace CellManager.Views
             {
                 if (item.DataContext is StepTemplate step)
                 {
-                    var data = new DataObject(typeof(StepTemplate), step);
-                    DragDrop.DoDragDrop(list, data, DragDropEffects.Move);
+                    BeginDrag(list, item, step, DragDropEffects.Move);
                 }
             }
         }
@@ -89,6 +89,7 @@ namespace CellManager.Views
                 vm.InsertStep(step, index);
 
             RemoveInsertionAdorner();
+            RemoveDragAdorner();
         }
 
         private static int GetInsertIndex(ItemsControl list, Point position)
@@ -163,6 +164,43 @@ namespace CellManager.Views
             }
         }
 
+        private void BeginDrag(ItemsControl source, FrameworkElement item, StepTemplate step, DragDropEffects effect)
+        {
+            var data = new DataObject(typeof(StepTemplate), step);
+            _dragScope = Window.GetWindow(this)?.Content as UIElement;
+            if (_dragScope != null)
+            {
+                var layer = AdornerLayer.GetAdornerLayer(_dragScope);
+                if (layer != null)
+                {
+                    _dragAdorner = new DragAdorner(_dragScope, item);
+                    layer.Add(_dragAdorner);
+                    _dragAdorner.SetPosition(Mouse.GetPosition(_dragScope));
+                    _dragScope.AddHandler(DragOverEvent, new DragEventHandler(DragScope_DragOver), true);
+                }
+            }
+            DragDrop.DoDragDrop(source, data, effect);
+            RemoveDragAdorner();
+        }
+
+        private void DragScope_DragOver(object sender, DragEventArgs e)
+        {
+            _dragAdorner?.SetPosition(e.GetPosition(_dragScope!));
+        }
+
+        private void RemoveDragAdorner()
+        {
+            if (_dragAdorner != null && _dragScope != null)
+            {
+                var layer = AdornerLayer.GetAdornerLayer(_dragScope);
+                if (layer != null)
+                    layer.Remove(_dragAdorner);
+                _dragAdorner = null;
+                _dragScope.RemoveHandler(DragOverEvent, new DragEventHandler(DragScope_DragOver));
+                _dragScope = null;
+            }
+        }
+
         private class InsertionAdorner : Adorner
         {
             private readonly ItemsControl _owner;
@@ -209,6 +247,32 @@ namespace CellManager.Views
                 {
                     dc.DrawLine(pen, new Point(0, offset), new Point(ActualWidth, offset));
                 }
+            }
+        }
+
+        private class DragAdorner : Adorner
+        {
+            private readonly VisualBrush _brush;
+            private Point _position;
+
+            public DragAdorner(UIElement owner, UIElement adorned)
+                : base(owner)
+            {
+                _brush = new VisualBrush(adorned) { Opacity = 0.7 };
+                IsHitTestVisible = false;
+            }
+
+            public void SetPosition(Point point)
+            {
+                _position = point;
+                InvalidateVisual();
+            }
+
+            protected override void OnRender(DrawingContext dc)
+            {
+                if (_brush.Visual is not FrameworkElement fe) return;
+                var size = fe.RenderSize;
+                dc.DrawRectangle(_brush, null, new Rect(_position.X - size.Width / 2, _position.Y - size.Height / 2, size.Width, size.Height));
             }
         }
     }
