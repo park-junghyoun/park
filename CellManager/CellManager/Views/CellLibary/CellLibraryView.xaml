@@ -92,15 +92,47 @@
             </Button>
         </StackPanel>
 
-        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" >
+        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" SnapsToDevicePixels="True" UseLayoutRounding="True" >
 
             <ListView.Resources>
-                <!-- GridViewColumnHeader 스타일을 Items 컬렉션과 분리하여 정의 -->
-                <Style TargetType="GridViewColumnHeader">
+                <!-- GridViewColumnHeader 우측 경계선 스타일 -->
+                <Style x:Key="HeaderRightBorder" TargetType="GridViewColumnHeader">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="BorderBrush" Value="#FFDDDDDD"/>
-                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="UseLayoutRounding" Value="True"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewColumnHeader">
+                                <Grid>
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Padding="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="True"
+                                            UseLayoutRounding="True">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          SnapsToDevicePixels="True"/>
+                                    </Border>
+                                    <Thumb x:Name="PART_HeaderGripper"
+                                           HorizontalAlignment="Right"
+                                           Width="8"
+                                           Background="Transparent"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <!-- 각 셀의 우측 경계선 스타일 -->
+                <Style x:Key="CellRightBorder" TargetType="Border">
+                    <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="UseLayoutRounding" Value="True"/>
                     <Setter Property="Padding" Value="5"/>
                 </Style>
             </ListView.Resources>
@@ -229,40 +261,90 @@
                 <GridView>
 
                     <!-- Select Badge -->
-                    <GridViewColumn Header="Select">
+                    <GridViewColumn Header="Select" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ToggleButton IsChecked="{Binding IsActive}"
-                                              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                              CommandParameter="{Binding}"
-                                              Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
-                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
+                                <Border Style="{StaticResource CellRightBorder}" Padding="0">
+                                    <ToggleButton IsChecked="{Binding IsActive}"
+                                                  Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                  CommandParameter="{Binding}"
+                                                  Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
+                                                  ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
+                                </Border>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+
                     <!-- Cell Name -->
-                    <GridViewColumn Header="Cell name" 
-                                    DisplayMemberBinding="{Binding ModelName}"/>
+                    <GridViewColumn Header="Cell name" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource CellRightBorder}">
+                                    <TextBlock Text="{Binding ModelName}" VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Serial Number -->
-                    <GridViewColumn Header="Serial Number" 
-                                    DisplayMemberBinding="{Binding SerialNumber}"/>
+                    <GridViewColumn Header="Serial Number" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource CellRightBorder}">
+                                    <TextBlock Text="{Binding SerialNumber}" VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Part Number -->
-                    <GridViewColumn Header="Part Number" 
-                                    DisplayMemberBinding="{Binding PartNumber}"/>
+                    <GridViewColumn Header="Part Number" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource CellRightBorder}">
+                                    <TextBlock Text="{Binding PartNumber}" VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Update Date -->
-                    <GridViewColumn Header="Update Date" Width="180"
-                                    DisplayMemberBinding="{Binding LastUpdated, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
+                    <GridViewColumn Header="Update Date" Width="180" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource CellRightBorder}">
+                                    <TextBlock Text="{Binding LastUpdated, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Cell Type -->
-                    <GridViewColumn Header="Cell Type" 
-                                    DisplayMemberBinding="{Binding CellType}"/>
+                    <GridViewColumn Header="Cell Type" HeaderContainerStyle="{StaticResource HeaderRightBorder}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource CellRightBorder}">
+                                    <TextBlock Text="{Binding CellType}" VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Manufacturer -->
-                    <GridViewColumn Header="Cell Manufacturer"
-                                    DisplayMemberBinding="{Binding Manufacturer}"/>
+                    <GridViewColumn Header="Cell Manufacturer">
+                        <GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource HeaderRightBorder}">
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            </Style>
+                        </GridViewColumn.HeaderContainerStyle>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource CellRightBorder}" BorderThickness="0">
+                                    <TextBlock Text="{Binding Manufacturer}" VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                 </GridView>
             </ListView.View>
