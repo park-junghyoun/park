@@ -43,7 +43,7 @@ namespace CellManager.Views
             if (Math.Abs(pos.X - _dragStart.X) < SystemParameters.MinimumHorizontalDragDistance &&
                 Math.Abs(pos.Y - _dragStart.Y) < SystemParameters.MinimumVerticalDragDistance)
                 return;
-            if (sender is ListBox list && GetItemUnderMouse(list, e.GetPosition(list)) is ListBoxItem item)
+            if (sender is ItemsControl list && GetItemUnderMouse(list, e.GetPosition(list)) is FrameworkElement item)
             {
                 if (item.DataContext is ScheduledProfile sp)
                 {
@@ -58,7 +58,7 @@ namespace CellManager.Views
             if (DataContext is not ScheduleViewModel vm) return;
             if (!e.Data.GetDataPresent(typeof(ProfileReference))) return;
             var profile = (ProfileReference)e.Data.GetData(typeof(ProfileReference));
-            var list = (ListBox)sender;
+            var list = (ItemsControl)sender;
             var index = GetInsertIndex(list, e.GetPosition(list));
             vm.InsertProfile(profile, index);
         }
@@ -67,12 +67,11 @@ namespace CellManager.Views
         {
             _dragStart = e.GetPosition(null);
         }
-        private static int GetInsertIndex(ListBox list, Point position)
+        private static int GetInsertIndex(ItemsControl list, Point position)
         {
             for (int i = 0; i < list.Items.Count; i++)
             {
-                var item = (ListBoxItem)list.ItemContainerGenerator.ContainerFromIndex(i);
-                if (item != null)
+                if (list.ItemContainerGenerator.ContainerFromIndex(i) is FrameworkElement item)
                 {
                     var bounds = VisualTreeHelper.GetDescendantBounds(item);
                     var topLeft = item.TranslatePoint(new Point(), list);
@@ -84,16 +83,17 @@ namespace CellManager.Views
             return list.Items.Count;
         }
 
-        private static ListBoxItem? GetItemUnderMouse(ListBox list, Point point)
+        private static FrameworkElement? GetItemUnderMouse(ItemsControl list, Point point)
         {
             for (int i = 0; i < list.Items.Count; i++)
             {
-                var item = (ListBoxItem)list.ItemContainerGenerator.ContainerFromIndex(i);
-                if (item == null) continue;
-                var bounds = VisualTreeHelper.GetDescendantBounds(item);
-                var topLeft = item.TranslatePoint(new Point(), list);
-                var rect = new Rect(topLeft, bounds.Size);
-                if (rect.Contains(point)) return item;
+                if (list.ItemContainerGenerator.ContainerFromIndex(i) is FrameworkElement item)
+                {
+                    var bounds = VisualTreeHelper.GetDescendantBounds(item);
+                    var topLeft = item.TranslatePoint(new Point(), list);
+                    var rect = new Rect(topLeft, bounds.Size);
+                    if (rect.Contains(point)) return item;
+                }
             }
             return null;
         }

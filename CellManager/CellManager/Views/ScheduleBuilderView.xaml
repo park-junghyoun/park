@@ -69,15 +69,42 @@
                 </StackPanel>
             </StackPanel>
 
-            <!-- Working schedule list and totals -->
+            <!-- Working schedule list, timeline and totals -->
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding TotalEstimatedDuration, StringFormat='Total Duration: {0:hh\\:mm\\:ss}', TargetNullValue='Total Duration: Error'}"
                            Margin="5" />
-                <ListBox x:Name="ScheduleList" Grid.Row="1"
+
+                <ItemsControl x:Name="Timeline" Grid.Row="1"
+                              ItemsSource="{Binding WorkingSchedule}"
+                              AllowDrop="True"
+                              PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
+                              PreviewMouseMove="ScheduleList_PreviewMouseMove"
+                              Drop="ScheduleList_Drop"
+                              Margin="5">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="1" Margin="2" Padding="5">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding StartTime, StringFormat='Start: {0:hh\\:mm\\:ss}'}" />
+                                    <TextBlock Text="{Binding EndTime, StringFormat='End: {0:hh\\:mm\\:ss}'}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ListBox x:Name="ScheduleList" Grid.Row="2"
                          ItemsSource="{Binding WorkingSchedule}"
                          AllowDrop="True"
                          PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"

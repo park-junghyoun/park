@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using CellManager.Models;
 using CellManager.Models.TestProfile;
@@ -18,6 +20,12 @@ namespace CellManager.ViewModels
 
         [ObservableProperty]
         private TimeSpan? _estimatedDuration;
+
+        [ObservableProperty]
+        private TimeSpan? _startTime;
+
+        [ObservableProperty]
+        private TimeSpan? _endTime;
 
 
         public int UniqueId => Reference.UniqueId;
@@ -66,6 +74,8 @@ namespace CellManager.ViewModels
         public RelayCommand NewScheduleCommand { get; }
         public RelayCommand DeleteScheduleCommand { get; }
 
+        private bool _isRecalculating;
+
         public ScheduleViewModel(
             IChargeProfileRepository chargeProfileRepository,
             IDischargeProfileRepository dischargeProfileRepository,
@@ -94,6 +104,8 @@ namespace CellManager.ViewModels
                 RecalculateScheduleTimes();
             });
 
+            WorkingSchedule.CollectionChanged += WorkingSchedule_CollectionChanged;
+
             LoadProfiles();
             LoadSchedules();
         }
@@ -121,6 +133,23 @@ namespace CellManager.ViewModels
                 foreach (var p in _restProfileRepository.Load(SelectedCell.Id))
                     ProfileLibrary.Add(new ProfileReference { CellId = SelectedCell.Id, Type = TestProfileType.Rest, Id = p.Id, Name = p.Name });
             }
+        }
+
+        private void WorkingSchedule_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+                foreach (ScheduledProfile item in e.NewItems)
+                    item.PropertyChanged += ScheduledProfile_PropertyChanged;
+            if (e.OldItems != null)
+                foreach (ScheduledProfile item in e.OldItems)
+                    item.PropertyChanged -= ScheduledProfile_PropertyChanged;
+        }
+
+        private void ScheduledProfile_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (_isRecalculating) return;
+            if (e.PropertyName == nameof(ScheduledProfile.StartTime) || e.PropertyName == nameof(ScheduledProfile.EndTime))
+                RecalculateScheduleTimes();
         }
 
         public void InsertProfile(ProfileReference profile, int index)
@@ -245,16 +274,23 @@ namespace CellManager.ViewModels
         {
             if (SelectedCell == null)
             {
+                _isRecalculating = true;
                 foreach (var item in WorkingSchedule)
                 {
                     item.EstimatedDuration = null;
+                    item.StartTime = null;
+                    item.EndTime = null;
                 }
+                _isRecalculating = false;
                 TotalEstimatedDuration = null;
                 return;
             }
 
             var total = TimeSpan.Zero;
+            var current = TimeSpan.Zero;
             var hasError = false;
+
+            _isRecalculating = true;
             foreach (var item in WorkingSchedule)
             {
                 var profile = LoadProfile(item.Reference);
@@ -262,13 +298,19 @@ namespace CellManager.ViewModels
                 item.EstimatedDuration = duration;
                 if (duration.HasValue)
                 {
+                    item.StartTime = current;
+                    current += duration.Value;
+                    item.EndTime = current;
                     total += duration.Value;
                 }
                 else
                 {
+                    item.StartTime = null;
+                    item.EndTime = null;
                     hasError = true;
                 }
             }
+            _isRecalculating = false;
 
             TotalEstimatedDuration = hasError ? (TimeSpan?)null : total;
         }
