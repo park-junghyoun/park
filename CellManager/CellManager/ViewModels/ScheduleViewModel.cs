@@ -27,6 +27,12 @@ namespace CellManager.ViewModels
         public string Parameters { get; set; } = string.Empty;
         public TimeSpan Duration { get; set; }
         public StepKind Kind { get; set; } = StepKind.Profile;
+        private int _stepNumber;
+        public int StepNumber
+        {
+            get => _stepNumber;
+            set => SetProperty(ref _stepNumber, value);
+        }
     }
 
     public class StepGroup : ObservableObject
@@ -82,7 +88,11 @@ namespace CellManager.ViewModels
             _ocvRepo = ocvRepo;
             _ecmRepo = ecmRepo;
 
-            Sequence.CollectionChanged += (_, __) => UpdateTotalDuration();
+            Sequence.CollectionChanged += (_, __) =>
+            {
+                UpdateTotalDuration();
+                UpdateStepNumbers();
+            };
 
             RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
             SaveScheduleCommand = new RelayCommand(SaveSchedule);
@@ -342,6 +352,12 @@ namespace CellManager.ViewModels
         {
             TotalDuration = new TimeSpan(Sequence.Sum(s => s.Duration.Ticks));
             UpdateLoopIndices();
+        }
+
+        private void UpdateStepNumbers()
+        {
+            for (int i = 0; i < Sequence.Count; i++)
+                Sequence[i].StepNumber = i + 1;
         }
 
         private void UpdateLoopIndices()

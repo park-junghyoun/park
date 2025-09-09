@@ -12,7 +12,14 @@
         <DataTemplate x:Key="StepTemplateItem">
             <StackPanel Orientation="Horizontal" Margin="4">
                 <materialDesign:PackIcon Kind="{Binding IconKind}" Width="20" Height="20" Margin="0,0,4,0"/>
-                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                <TextBlock VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="ID: {0} - {1}">
+                            <Binding Path="Id"/>
+                            <Binding Path="Name"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
@@ -76,20 +83,26 @@
                          Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
 
                 <!-- Timeline preview -->
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8">
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8" HorizontalAlignment="Stretch">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" Height="24"/>
+                            <StackPanel Orientation="Horizontal" Height="32"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="{DynamicResource PrimaryHueLightBrush}" Margin="1"
-                                    Width="{Binding Duration, Converter={StaticResource DurationWidth}}"
-                                    ToolTip="{Binding Parameters}">
-                                <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="10"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
+                            <materialDesign:Card Margin="1" Padding="2" Background="{DynamicResource PrimaryHueLightBrush}">
+                                <materialDesign:Card.Width>
+                                    <MultiBinding Converter="{StaticResource DurationWidth}">
+                                        <Binding Path="Duration"/>
+                                        <Binding Path="DataContext.TotalDuration" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
+                                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                                    </MultiBinding>
+                                </materialDesign:Card.Width>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Foreground="Black">
+                                    <Run Text="{Binding StepNumber}"/><Run Text=". "/><Run Text="{Binding Name}"/>
+                                </TextBlock>
+                            </materialDesign:Card>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -105,12 +118,21 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <materialDesign:PackIcon Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding StepNumber}" FontWeight="Bold" Margin="0,0,8,0"/>
+                                    <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="ID: {0} - {1}">
+                                                    <Binding Path="Id"/>
+                                                    <Binding Path="Name"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
                                         <TextBlock Text="{Binding Parameters}" FontSize="12">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
@@ -124,7 +146,7 @@
                                             </TextBlock.Style>
                                         </TextBlock>
                                     </StackPanel>
-                                    <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
+                                    <Button Grid.Column="3" Style="{StaticResource MaterialDesignToolButton}"
                                             Command="{Binding DataContext.RemoveStepCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                             CommandParameter="{Binding}">
                                         <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
