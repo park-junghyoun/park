@@ -50,7 +50,9 @@ namespace CellManager.Views
             {
                 if (item.DataContext is ScheduledProfile sp)
                 {
-                    var data = new DataObject(typeof(ProfileReference), sp.Reference);
+                    var data = new DataObject();
+                    data.SetData(typeof(ProfileReference), sp.Reference);
+                    data.SetData(typeof(ScheduledProfile), sp);
                     DragDrop.DoDragDrop(list, data, DragDropEffects.Move);
                 }
             }
@@ -72,10 +74,20 @@ namespace CellManager.Views
         {
             if (DataContext is not ScheduleViewModel vm) return;
             if (!e.Data.GetDataPresent(typeof(ProfileReference))) return;
-            var profile = (ProfileReference)e.Data.GetData(typeof(ProfileReference));
             var list = (ItemsControl)sender;
             var index = GetInsertIndex(list, e.GetPosition(list));
-            vm.InsertProfile(profile, index);
+
+            if (e.Data.GetDataPresent(typeof(ScheduledProfile)))
+            {
+                var sp = (ScheduledProfile)e.Data.GetData(typeof(ScheduledProfile));
+                vm.MoveProfile(sp, index);
+            }
+            else
+            {
+                var profile = (ProfileReference)e.Data.GetData(typeof(ProfileReference));
+                vm.InsertProfile(profile, index);
+            }
+
             RemoveInsertionAdorner();
         }
 
