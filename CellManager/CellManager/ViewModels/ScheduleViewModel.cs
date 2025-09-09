@@ -4,7 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using CellManager.Messages;
 using CellManager.Models;
+using CellManager.Models.TestProfile;
+using CellManager.Services;
 
 namespace CellManager.ViewModels
 {
@@ -29,6 +33,12 @@ namespace CellManager.ViewModels
         public string HeaderText { get; } = "Schedule";
         public string IconName { get; } = "Calendar";
 
+        private readonly IChargeProfileRepository? _chargeRepo;
+        private readonly IDischargeProfileRepository? _dischargeRepo;
+        private readonly IRestProfileRepository? _restRepo;
+        private readonly IOcvProfileRepository? _ocvRepo;
+        private readonly IEcmPulseProfileRepository? _ecmRepo;
+
         [ObservableProperty]
         private bool _isViewEnabled = true;
 
@@ -42,21 +52,54 @@ namespace CellManager.ViewModels
         [ObservableProperty] private int _repeatCount = 1;
         [ObservableProperty] private int _loopStartIndex;
         [ObservableProperty] private TimeSpan _totalDuration;
+        [ObservableProperty] private Cell? _selectedCell;
 
         public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
         public RelayCommand AddScheduleCommand { get; }
 
-        public ScheduleViewModel()
+        public ScheduleViewModel() : this(null, null, null, null, null) { }
+
+        public ScheduleViewModel(
+            IChargeProfileRepository? chargeRepo,
+            IDischargeProfileRepository? dischargeRepo,
+            IEcmPulseProfileRepository? ecmRepo,
+            IOcvProfileRepository? ocvRepo,
+            IRestProfileRepository? restRepo)
         {
-            BuildMockLibrary();
+            _chargeRepo = chargeRepo;
+            _dischargeRepo = dischargeRepo;
+            _restRepo = restRepo;
+            _ocvRepo = ocvRepo;
+            _ecmRepo = ecmRepo;
+
             Sequence.CollectionChanged += (_, __) => UpdateTotalDuration();
 
             RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
             SaveScheduleCommand = new RelayCommand(SaveSchedule);
             AddScheduleCommand = new RelayCommand(AddSchedule);
 
+            if (_chargeRepo == null)
+            {
+                BuildMockLibrary();
+            }
+            else
+            {
+                BuildMockSchedules();
+                WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
+                {
+                    SelectedCell = m.SelectedCell;
+                    LoadStepLibrary();
+                });
+            }
+
             UpdateTotalDuration();
+        }
+
+        private void BuildMockSchedules()
+        {
+            Schedules.Add(new Schedule { Id = 1, Name = "Schedule A", TestProfileIds = { 1, 2 } });
+            Schedules.Add(new Schedule { Id = 2, Name = "Schedule B", TestProfileIds = { 3 } });
         }
 
         private void BuildMockLibrary()
@@ -147,8 +190,101 @@ namespace CellManager.ViewModels
                 }
             });
 
-            Schedules.Add(new Schedule { Id = 1, Name = "Schedule A", TestProfileIds = { 1, 2 } });
-            Schedules.Add(new Schedule { Id = 2, Name = "Schedule B", TestProfileIds = { 3 } });
+            BuildMockSchedules();
+        }
+
+        private void LoadStepLibrary()
+        {
+            StepLibrary.Clear();
+            if (SelectedCell == null) return;
+
+            if (_chargeRepo != null)
+            {
+                var chargeGroup = new StepGroup { Name = "Charge", IconKind = "Battery" };
+                foreach (var p in _chargeRepo.Load(SelectedCell.Id))
+                {
+                    chargeGroup.Steps.Add(new StepTemplate
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        IconKind = "Battery",
+                        Parameters = p.PreviewText,
+                        Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.Charge, p) ?? TimeSpan.Zero
+                    });
+                }
+                if (chargeGroup.Steps.Any()) StepLibrary.Add(chargeGroup);
+            }
+
+            if (_dischargeRepo != null)
+            {
+                var disGroup = new StepGroup { Name = "Discharge", IconKind = "ArrowDown" };
+                foreach (var p in _dischargeRepo.Load(SelectedCell.Id))
+                {
+                    disGroup.Steps.Add(new StepTemplate
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        IconKind = "ArrowDown",
+                        Parameters = p.PreviewText,
+                        Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.Discharge, p) ?? TimeSpan.Zero
+                    });
+                }
+                if (disGroup.Steps.Any()) StepLibrary.Add(disGroup);
+            }
+
+            if (_restRepo != null)
+            {
+                var restGroup = new StepGroup { Name = "Rest", IconKind = "Pause" };
+                foreach (var p in _restRepo.Load(SelectedCell.Id))
+                {
+                    restGroup.Steps.Add(new StepTemplate
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        IconKind = "Pause",
+                        Parameters = p.PreviewText,
+                        Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.Rest, p) ?? TimeSpan.Zero
+                    });
+                }
+                if (restGroup.Steps.Any()) StepLibrary.Add(restGroup);
+            }
+
+            if (_ocvRepo != null)
+            {
+                var ocvGroup = new StepGroup { Name = "OCV", IconKind = "ChartBar" };
+                foreach (var p in _ocvRepo.Load(SelectedCell.Id))
+                {
+                    ocvGroup.Steps.Add(new StepTemplate
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        IconKind = "ChartBar",
+                        Parameters = p.PreviewText,
+                        Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.OCV, p) ?? TimeSpan.Zero
+                    });
+                }
+                if (ocvGroup.Steps.Any()) StepLibrary.Add(ocvGroup);
+            }
+
+            if (_ecmRepo != null)
+            {
+                var ecmGroup = new StepGroup { Name = "ECM", IconKind = "Wrench" };
+                foreach (var p in _ecmRepo.Load(SelectedCell.Id))
+                {
+                    ecmGroup.Steps.Add(new StepTemplate
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        IconKind = "Wrench",
+                        Parameters = p.PreviewText,
+                        Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.ECM, p) ?? TimeSpan.Zero
+                    });
+                }
+                if (ecmGroup.Steps.Any()) StepLibrary.Add(ecmGroup);
+            }
+
+            if (SelectedSchedule != null)
+                OnSelectedScheduleChanged(SelectedSchedule);
         }
 
         public void InsertStep(StepTemplate template, int index)
