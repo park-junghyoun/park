@@ -37,14 +37,10 @@ namespace CellManager.ViewModels
         [ObservableProperty] private string _scheduleName = "New Schedule";
         [ObservableProperty] private int _repeatCount = 1;
         [ObservableProperty] private int _loopStartIndex;
-        [ObservableProperty] private double? _stopVoltage;
-        [ObservableProperty] private double? _stopTemperature;
         [ObservableProperty] private TimeSpan _totalDuration;
 
         public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
-        public RelayCommand RunTestCommand { get; }
-        public RelayCommand ExportCommand { get; }
 
         public ScheduleViewModel()
         {
@@ -53,8 +49,6 @@ namespace CellManager.ViewModels
 
             RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
             SaveScheduleCommand = new RelayCommand(() => { });
-            RunTestCommand = new RelayCommand(() => { });
-            ExportCommand = new RelayCommand(() => { });
 
             UpdateTotalDuration();
         }

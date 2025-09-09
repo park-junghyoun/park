@@ -54,9 +54,14 @@
             </Grid.ColumnDefinitions>
 
             <!-- Left panel -->
-            <StackPanel Grid.Column="0" Margin="8" Orientation="Vertical">
-                <GroupBox Header="Schedule List" Margin="0,0,0,8">
-                    <ListView ItemsSource="{Binding Schedules}">
+            <Grid Grid.Column="0" Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="Schedule List" Margin="0,0,0,8">
+                    <ListView ItemsSource="{Binding Schedules}" HorizontalAlignment="Stretch">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
@@ -64,21 +69,23 @@
                         </ListView.View>
                     </ListView>
                 </GroupBox>
-                <GroupBox Header="Step Library">
-                    <ItemsControl ItemsSource="{Binding StepLibrary}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Expander Header="{Binding Name}" Margin="0,0,0,4">
-                                    <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
-                                                  PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
-                                                  PreviewMouseMove="ProfileList_PreviewMouseMove"/>
-                                </Expander>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <GroupBox Grid.Row="1" Header="Step Library" Margin="0,0,0,8">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding StepLibrary}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Expander Header="{Binding Name}" Margin="0,0,0,4">
+                                        <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+                                                      PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
+                                                      PreviewMouseMove="ProfileList_PreviewMouseMove"/>
+                                    </Expander>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </GroupBox>
-                <TextBlock Margin="4,8,0,0" FontStyle="Italic" Text="Drag steps to the sequence builder"/>
-            </StackPanel>
+                <TextBlock Grid.Row="2" Margin="4,0,0,0" FontStyle="Italic" Text="Drag steps to the sequence builder"/>
+            </Grid>
 
             <!-- Sequence builder -->
             <Grid Grid.Column="1" Margin="8">
@@ -125,10 +132,6 @@
                              Text="{Binding RepeatCount}" materialDesign:HintAssist.Hint="Repeat Count"/>
                     <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
                              Text="{Binding LoopStartIndex}" materialDesign:HintAssist.Hint="Loop Start Step"/>
-                    <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                             Text="{Binding StopVoltage}" materialDesign:HintAssist.Hint="Stop Voltage (V)"/>
-                    <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                             Text="{Binding StopTemperature}" materialDesign:HintAssist.Hint="Stop Temperature (°C)"/>
                 </StackPanel>
             </GroupBox>
         </Grid>
@@ -136,8 +139,6 @@
         <!-- Bottom buttons -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8">
             <Button Content="Save Schedule" Command="{Binding SaveScheduleCommand}" Margin="4" Style="{StaticResource MaterialDesignRaisedButton}"/>
-            <Button Content="Run Test" Command="{Binding RunTestCommand}" Margin="4" Style="{StaticResource MaterialDesignRaisedButton}"/>
-            <Button Content="Export" Command="{Binding ExportCommand}" Margin="4" Style="{StaticResource MaterialDesignRaisedButton}"/>
         </StackPanel>
     </Grid>
 </UserControl>
