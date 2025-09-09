@@ -45,8 +45,11 @@ namespace CellManager.Views
                 return;
             if (sender is ListBox list && GetItemUnderMouse(list, e.GetPosition(list)) is ListBoxItem item)
             {
-                var data = new DataObject(typeof(ProfileReference), item.DataContext);
-                DragDrop.DoDragDrop(list, data, DragDropEffects.Move);
+                if (item.DataContext is ScheduledProfile sp)
+                {
+                    var data = new DataObject(typeof(ProfileReference), sp.Reference);
+                    DragDrop.DoDragDrop(list, data, DragDropEffects.Move);
+                }
             }
         }
 
