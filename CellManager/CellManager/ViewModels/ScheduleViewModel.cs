@@ -73,6 +73,7 @@ namespace CellManager.ViewModels
         public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
         public RelayCommand AddScheduleCommand { get; }
+        public RelayCommand DeleteScheduleCommand { get; }
 
         public ScheduleViewModel() : this(null, null, null, null, null, null) { }
 
@@ -100,6 +101,7 @@ namespace CellManager.ViewModels
             RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
             SaveScheduleCommand = new RelayCommand(SaveSchedule);
             AddScheduleCommand = new RelayCommand(AddSchedule);
+            DeleteScheduleCommand = new RelayCommand(DeleteSchedule, () => SelectedSchedule != null);
 
             if (_scheduleRepo != null)
             {
@@ -403,22 +405,25 @@ namespace CellManager.ViewModels
         partial void OnSelectedScheduleChanged(Schedule? value)
         {
             Sequence.Clear();
-            if (value == null) return;
-            ScheduleName = value.Name;
-            RepeatCount = value.RepeatCount;
-            foreach (var id in value.TestProfileIds)
+            if (value != null)
             {
-                var template = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Id == id && s.Kind == StepKind.Profile);
-                if (template != null)
-                    InsertStep(template, -1);
+                ScheduleName = value.Name;
+                RepeatCount = value.RepeatCount;
+                foreach (var id in value.TestProfileIds)
+                {
+                    var template = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Id == id && s.Kind == StepKind.Profile);
+                    if (template != null)
+                        InsertStep(template, -1);
+                }
+                var startTemplate = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Kind == StepKind.LoopStart);
+                var endTemplate = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Kind == StepKind.LoopEnd);
+                if (value.LoopStartIndex > 0 && startTemplate != null)
+                    InsertStep(startTemplate, Math.Min(value.LoopStartIndex - 1, Sequence.Count));
+                if (value.LoopEndIndex > 0 && endTemplate != null)
+                    InsertStep(endTemplate, Math.Min(value.LoopEndIndex - 1, Sequence.Count));
+                UpdateLoopIndices();
             }
-            var startTemplate = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Kind == StepKind.LoopStart);
-            var endTemplate = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Kind == StepKind.LoopEnd);
-            if (value.LoopStartIndex > 0 && startTemplate != null)
-                InsertStep(startTemplate, Math.Min(value.LoopStartIndex - 1, Sequence.Count));
-            if (value.LoopEndIndex > 0 && endTemplate != null)
-                InsertStep(endTemplate, Math.Min(value.LoopEndIndex - 1, Sequence.Count));
-            UpdateLoopIndices();
+            DeleteScheduleCommand.NotifyCanExecuteChanged();
         }
 
         private void AddSchedule()
@@ -441,6 +446,15 @@ namespace CellManager.ViewModels
             SelectedSchedule.LoopStartIndex = LoopStartIndex;
             SelectedSchedule.LoopEndIndex = LoopEndIndex;
             _scheduleRepo?.Save(SelectedSchedule);
+        }
+
+        private void DeleteSchedule()
+        {
+            if (SelectedSchedule == null) return;
+            _scheduleRepo?.Delete(SelectedSchedule.Id);
+            var index = Schedules.IndexOf(SelectedSchedule);
+            Schedules.Remove(SelectedSchedule);
+            SelectedSchedule = index < Schedules.Count ? Schedules[index] : Schedules.FirstOrDefault();
         }
     }
 }

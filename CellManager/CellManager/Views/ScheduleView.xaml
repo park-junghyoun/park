@@ -72,6 +72,9 @@
                         <Button Command="{Binding AddScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}" DockPanel.Dock="Right">
                             <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
                         </Button>
+                        <Button Command="{Binding DeleteScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}" DockPanel.Dock="Right">
+                            <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                        </Button>
                     </DockPanel>
                 </GroupBox.Header>
                 <ListView ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" HorizontalAlignment="Stretch">

@@ -54,6 +54,16 @@ namespace CellManager.Tests
         }
 
         [Fact]
+        public void DeleteScheduleCommand_RemovesSchedule()
+        {
+            var vm = new ScheduleViewModel();
+            vm.AddScheduleCommand.Execute(null);
+            var target = vm.SelectedSchedule;
+            vm.DeleteScheduleCommand.Execute(null);
+            Assert.DoesNotContain(target, vm.Schedules);
+        }
+
+        [Fact]
         public void LoopMarkers_UpdateIndices()
         {
             var vm = new ScheduleViewModel();
