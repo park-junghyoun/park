@@ -85,6 +85,8 @@
                               PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
                               PreviewMouseMove="ScheduleList_PreviewMouseMove"
                               Drop="ScheduleList_Drop"
+                              DragOver="ScheduleList_DragOver"
+                              DragLeave="ScheduleList_DragLeave"
                               Margin="5">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -110,6 +112,8 @@
                          PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
                          PreviewMouseMove="ScheduleList_PreviewMouseMove"
                          Drop="ScheduleList_Drop"
+                         DragOver="ScheduleList_DragOver"
+                         DragLeave="ScheduleList_DragLeave"
                          Margin="5">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
