@@ -4,12 +4,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-            xmlns:conv="clr-namespace:CellManager.Views.Converters"
-            xmlns:vm="clr-namespace:CellManager.ViewModels"
+             xmlns:vm="clr-namespace:CellManager.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200">
     <UserControl.Resources>
-        <conv:DurationToWidthConverter x:Key="DurationWidth"/>
         <DataTemplate x:Key="StepTemplateItem">
             <StackPanel Orientation="Horizontal" Margin="4">
                 <materialDesign:PackIcon Kind="{Binding IconKind}" Width="20" Height="20" Margin="0,0,4,0"/>
@@ -119,45 +117,42 @@
                 </Grid>
 
                 <!-- Timeline preview -->
-                <ItemsControl x:Name="TimelinePreview" Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8"
-                              HorizontalAlignment="Stretch" ClipToBounds="True">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" Height="32"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <materialDesign:Card Margin="1" Padding="2" Background="{DynamicResource PrimaryHueLightBrush}">
-                                <materialDesign:Card.Width>
-                                    <MultiBinding Converter="{StaticResource DurationWidth}">
-                                        <Binding Path="Duration"/>
-                                        <Binding Path="DataContext.TotalDuration" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
-                                        <Binding Path="ActualWidth" ElementName="TimelinePreview"/>
-                                    </MultiBinding>
-                                </materialDesign:Card.Width>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="{Binding IconKind}" Width="14" Height="14" Margin="0,0,2,0"/>
-                                    <TextBlock FontSize="10" Foreground="Black">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Text" Value="{Binding Id}"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopStart}">
-                                                        <Setter Property="Text" Value="Start"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopEnd}">
-                                                        <Setter Property="Text" Value="End"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </StackPanel>
-                            </materialDesign:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <StackPanel Grid.Row="1" Margin="0,0,0,8">
+                    <TextBlock Text="Test Flow" Margin="0,0,0,4" FontWeight="Bold"/>
+                    <ItemsControl x:Name="TimelinePreview" ItemsSource="{Binding Sequence}"
+                                  HorizontalAlignment="Stretch" ClipToBounds="True">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Height="32"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card Margin="1" Padding="2" Width="50" Height="32"
+                                                     Background="{DynamicResource PrimaryHueLightBrush}">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="{Binding IconKind}" Width="14" Height="14" Margin="0,0,2,0"/>
+                                        <TextBlock FontSize="10" Foreground="Black">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="{Binding Id}"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopStart}">
+                                                            <Setter Property="Text" Value="Start"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopEnd}">
+                                                            <Setter Property="Text" Value="End"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
 
                 <!-- Sequence list -->
                 <ListBox x:Name="SequenceList" Grid.Row="2" ItemsSource="{Binding Sequence}" AllowDrop="True"
