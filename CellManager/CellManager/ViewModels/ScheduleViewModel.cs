@@ -52,6 +52,7 @@ namespace CellManager.ViewModels
         private readonly IRestProfileRepository? _restRepo;
         private readonly IOcvProfileRepository? _ocvRepo;
         private readonly IEcmPulseProfileRepository? _ecmRepo;
+        private readonly IScheduleRepository? _scheduleRepo;
 
         [ObservableProperty]
         private bool _isViewEnabled = true;
@@ -73,20 +74,22 @@ namespace CellManager.ViewModels
         public RelayCommand SaveScheduleCommand { get; }
         public RelayCommand AddScheduleCommand { get; }
 
-        public ScheduleViewModel() : this(null, null, null, null, null) { }
+        public ScheduleViewModel() : this(null, null, null, null, null, null) { }
 
         public ScheduleViewModel(
             IChargeProfileRepository? chargeRepo,
             IDischargeProfileRepository? dischargeRepo,
             IEcmPulseProfileRepository? ecmRepo,
             IOcvProfileRepository? ocvRepo,
-            IRestProfileRepository? restRepo)
+            IRestProfileRepository? restRepo,
+            IScheduleRepository? scheduleRepo)
         {
             _chargeRepo = chargeRepo;
             _dischargeRepo = dischargeRepo;
             _restRepo = restRepo;
             _ocvRepo = ocvRepo;
             _ecmRepo = ecmRepo;
+            _scheduleRepo = scheduleRepo;
 
             Sequence.CollectionChanged += (_, __) =>
             {
@@ -98,13 +101,21 @@ namespace CellManager.ViewModels
             SaveScheduleCommand = new RelayCommand(SaveSchedule);
             AddScheduleCommand = new RelayCommand(AddSchedule);
 
+            if (_scheduleRepo != null)
+            {
+                LoadSchedules();
+            }
+            else
+            {
+                BuildMockSchedules();
+            }
+
             if (_chargeRepo == null)
             {
                 BuildMockLibrary();
             }
             else
             {
-                BuildMockSchedules();
                 WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
                 {
                     SelectedCell = m.SelectedCell;
@@ -113,6 +124,14 @@ namespace CellManager.ViewModels
             }
 
             UpdateTotalDuration();
+        }
+
+        private void LoadSchedules()
+        {
+            if (_scheduleRepo == null) return;
+            Schedules.Clear();
+            foreach (var sched in _scheduleRepo.GetAll())
+                Schedules.Add(sched);
         }
 
         private void BuildMockSchedules()
@@ -405,6 +424,7 @@ namespace CellManager.ViewModels
             SelectedSchedule.RepeatCount = RepeatCount;
             SelectedSchedule.LoopStartIndex = LoopStartIndex;
             SelectedSchedule.LoopEndIndex = LoopEndIndex;
+            _scheduleRepo?.Save(SelectedSchedule);
         }
     }
 }

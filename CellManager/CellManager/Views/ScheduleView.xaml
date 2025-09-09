@@ -42,7 +42,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Cell info status bar -->
@@ -92,9 +91,17 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Schedule name -->
-                <TextBox Grid.Row="0" Width="250" Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                         Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
+                <!-- Schedule name and save button -->
+                <Grid Grid.Row="0" Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Width="250" Style="{StaticResource MaterialDesignFilledTextBox}"
+                             Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
+                    <Button Grid.Column="1" Content="Save Schedule" Command="{Binding SaveScheduleCommand}"
+                            Margin="8,0,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                </Grid>
 
                 <!-- Timeline preview -->
                 <ItemsControl x:Name="TimelinePreview" Grid.Row="1" ItemsSource="{Binding Sequence}" Margin="0,0,0,8"
@@ -239,9 +246,5 @@
             </Grid>
         </Grid>
 
-        <!-- Bottom buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="8">
-            <Button Content="Save Schedule" Command="{Binding SaveScheduleCommand}" Margin="4" Style="{StaticResource MaterialDesignRaisedButton}"/>
-        </StackPanel>
     </Grid>
 </UserControl>
