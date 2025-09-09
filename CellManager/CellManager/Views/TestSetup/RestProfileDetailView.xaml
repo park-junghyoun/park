@@ -25,7 +25,13 @@
         <TextBox Grid.Row="3" Grid.Column="1" Margin="4" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
         <Border Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
-        <TextBlock Grid.Row="5" Text="Rest Time (s)" Margin="4"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Margin="4" Text="{Binding RestTime, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Row="5" Text="Rest Time" Margin="4"/>
+        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="4">
+            <TextBox Width="40" Text="{Binding RestHours, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text=":" Margin="2" VerticalAlignment="Center"/>
+            <TextBox Width="40" Text="{Binding RestMinutes, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text=":" Margin="2" VerticalAlignment="Center"/>
+            <TextBox Width="40" Text="{Binding RestSeconds, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
     </Grid>
 </UserControl>
