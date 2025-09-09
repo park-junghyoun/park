@@ -229,6 +229,7 @@ namespace CellManager.ViewModels
             });
 
             AddLoopControls();
+            UpdateScheduleDurations();
         }
 
         private void LoadStepLibrary()
@@ -329,6 +330,7 @@ namespace CellManager.ViewModels
 
             if (SelectedSchedule != null)
                 OnSelectedScheduleChanged(SelectedSchedule);
+            UpdateScheduleDurations();
         }
 
         private void AddLoopControls()
@@ -369,6 +371,8 @@ namespace CellManager.ViewModels
         private void UpdateTotalDuration()
         {
             TotalDuration = new TimeSpan(Sequence.Sum(s => s.Duration.Ticks));
+            if (SelectedSchedule != null)
+                SelectedSchedule.EstimatedDuration = TotalDuration;
             UpdateLoopIndices();
         }
 
@@ -376,6 +380,18 @@ namespace CellManager.ViewModels
         {
             for (int i = 0; i < Sequence.Count; i++)
                 Sequence[i].StepNumber = i + 1;
+        }
+
+        private void UpdateScheduleDurations()
+        {
+            foreach (var sched in Schedules)
+            {
+                var ticks = sched.TestProfileIds
+                    .Select(id => StepLibrary.SelectMany(g => g.Steps)
+                        .FirstOrDefault(s => s.Id == id)?.Duration.Ticks ?? 0)
+                    .Sum();
+                sched.EstimatedDuration = new TimeSpan(ticks);
+            }
         }
 
         private void UpdateLoopIndices()

@@ -77,5 +77,16 @@ namespace CellManager.Tests
             vm.InsertStep(template, -1);
             Assert.Equal(TimeSpan.FromHours(2), vm.TotalDuration);
         }
+
+        [Fact]
+        public void SelectedSchedule_TracksEstimatedDuration()
+        {
+            var vm = new ScheduleViewModel();
+            vm.AddScheduleCommand.Execute(null);
+            var template = vm.StepLibrary.First().Steps.First();
+            vm.InsertStep(template, -1);
+            vm.InsertStep(template, -1);
+            Assert.Equal(TimeSpan.FromHours(2), vm.SelectedSchedule?.EstimatedDuration);
+        }
     }
 }

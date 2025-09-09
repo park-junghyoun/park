@@ -80,6 +80,13 @@
                             <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="80"/>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
                             <GridViewColumn Header="Profiles" DisplayMemberBinding="{Binding TestProfileIds.Count}" Width="60"/>
+                            <GridViewColumn Header="Duration" Width="90">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding EstimatedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
