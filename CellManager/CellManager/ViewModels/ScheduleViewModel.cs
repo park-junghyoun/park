@@ -154,14 +154,6 @@ namespace CellManager.ViewModels
 
         public void InsertProfile(ProfileReference profile, int index)
         {
-            var existing = WorkingSchedule.FirstOrDefault(p => p.Reference.UniqueId == profile.UniqueId);
-            if (existing != null)
-            {
-                var oldIndex = WorkingSchedule.IndexOf(existing);
-                if (oldIndex < index) index--;
-                WorkingSchedule.RemoveAt(oldIndex);
-            }
-
             var item = new ScheduledProfile { Reference = profile };
             if (index < 0 || index > WorkingSchedule.Count)
                 WorkingSchedule.Add(item);
@@ -171,6 +163,17 @@ namespace CellManager.ViewModels
             RecalculateScheduleTimes();
             SaveScheduleCommand.NotifyCanExecuteChanged();
             ClearScheduleCommand.NotifyCanExecuteChanged();
+        }
+
+        public void MoveProfile(ScheduledProfile profile, int index)
+        {
+            var oldIndex = WorkingSchedule.IndexOf(profile);
+            if (oldIndex < 0) return;
+            if (oldIndex < index) index--;
+            if (index < 0) index = 0;
+            if (index >= WorkingSchedule.Count) index = WorkingSchedule.Count - 1;
+            WorkingSchedule.Move(oldIndex, index);
+            RecalculateScheduleTimes();
         }
 
         private void SaveSchedule()
