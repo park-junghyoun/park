@@ -316,14 +316,21 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
                             <Border x:Name="ItemRoot"
-                Background="Transparent"
-                BorderBrush="{StaticResource LbItemBorder}"
-                BorderThickness="0"
-                CornerRadius="8"
-                Padding="{TemplateBinding Padding}">
-                                <ContentPresenter
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    Background="Transparent"
+                                    BorderBrush="{StaticResource LbItemBorder}"
+                                    BorderThickness="0"
+                                    CornerRadius="8"
+                                    Padding="{TemplateBinding Padding}">
+                                <Grid>
+                                    <ContentPresenter
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    <!-- Bottom divider line -->
+                                    <Border HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Bottom"
+                                            Height="1"
+                                            Background="#E0E0E0"/>
+                                </Grid>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
@@ -343,15 +350,19 @@
             <!-- Flat ListBox for profile lists inside GroupBoxes -->
             <Style x:Key="ProfileListBox" TargetType="ListBox" BasedOn="{StaticResource DenseListBox}">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="#E5E7EB"/>
+                <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Margin" Value="0"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBox">
-                            <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
-                                <ItemsPresenter/>
-                            </ScrollViewer>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    SnapsToDevicePixels="True">
+                                <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
