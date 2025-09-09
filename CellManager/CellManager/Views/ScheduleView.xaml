@@ -76,6 +76,7 @@
                 <ListView ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" HorizontalAlignment="Stretch">
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="80"/>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
                             <GridViewColumn Header="Profiles" DisplayMemberBinding="{Binding TestProfileIds.Count}" Width="60"/>
                         </GridView>
@@ -212,38 +213,22 @@
                 </ListBox>
             </Grid>
 
-            <!-- Step library and options -->
-            <Grid Grid.Column="2" Margin="8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <GroupBox Grid.Row="0" Header="Step Library" Margin="0,0,0,8">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsControl ItemsSource="{Binding StepLibrary}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
-                                        <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
-                                                      PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
-                                                      PreviewMouseMove="ProfileList_PreviewMouseMove"/>
-                                    </Expander>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </GroupBox>
-
-                <GroupBox Grid.Row="1" Header="Schedule Options">
-                    <StackPanel Margin="8">
-                        <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                                 Text="{Binding RepeatCount}" materialDesign:HintAssist.Hint="Repeat Count"/>
-                        <TextBlock Text="{Binding LoopStartIndex, StringFormat=Loop Start: {0}}" Margin="0,0,0,4"/>
-                        <TextBlock Text="{Binding LoopEndIndex, StringFormat=Loop End: {0}}"/>
-                    </StackPanel>
-                </GroupBox>
-            </Grid>
+            <!-- Step library -->
+            <GroupBox Grid.Column="2" Margin="8" Header="Step Library">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding StepLibrary}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
+                                    <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+                                                  PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
+                                                  PreviewMouseMove="ProfileList_PreviewMouseMove"/>
+                                </Expander>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </GroupBox>
         </Grid>
 
     </Grid>

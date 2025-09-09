@@ -36,6 +36,7 @@ namespace CellManager.Tests
             vm.AddScheduleCommand.Execute(null);
             Assert.Equal(initialCount + 1, vm.Schedules.Count);
             Assert.Equal(vm.SelectedSchedule, vm.Schedules.Last());
+            Assert.Equal(initialCount + 1, vm.SelectedSchedule?.Ordering);
         }
 
         [Fact]

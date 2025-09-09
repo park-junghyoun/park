@@ -136,8 +136,8 @@ namespace CellManager.ViewModels
 
         private void BuildMockSchedules()
         {
-            Schedules.Add(new Schedule { Id = 1, Name = "Schedule A", TestProfileIds = { 1, 2 } });
-            Schedules.Add(new Schedule { Id = 2, Name = "Schedule B", TestProfileIds = { 3 } });
+            Schedules.Add(new Schedule { Id = 1, Ordering = 1, Name = "Schedule A", TestProfileIds = { 1, 2 } });
+            Schedules.Add(new Schedule { Id = 2, Ordering = 2, Name = "Schedule B", TestProfileIds = { 3 } });
         }
 
         private void BuildMockLibrary()
@@ -229,7 +229,6 @@ namespace CellManager.ViewModels
             });
 
             AddLoopControls();
-            BuildMockSchedules();
         }
 
         private void LoadStepLibrary()
@@ -409,7 +408,8 @@ namespace CellManager.ViewModels
         private void AddSchedule()
         {
             var newId = Schedules.Any() ? Schedules.Max(s => s.Id) + 1 : 1;
-            var sched = new Schedule { Id = newId, Name = $"Schedule {newId}" };
+            var newOrdering = Schedules.Any() ? Schedules.Max(s => s.Ordering) + 1 : 1;
+            var sched = new Schedule { Id = newId, Ordering = newOrdering, Name = $"Schedule {newId}" };
             Schedules.Add(sched);
             SelectedSchedule = sched;
             Sequence.Clear();
