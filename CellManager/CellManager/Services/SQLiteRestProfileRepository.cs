@@ -26,17 +26,39 @@ namespace CellManager.Services
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     CellId INTEGER NOT NULL,
                     Name TEXT NOT NULL,
-                    RestTime REAL
+                    RestTimeSeconds REAL
                 );";
             using var cmd = new SQLiteCommand(sql, conn);
             cmd.ExecuteNonQuery();
+
+            // Migration: ensure RestTimeSeconds column exists and migrate data if needed
+            using var pragma = new SQLiteCommand("PRAGMA table_info(RestProfiles);", conn);
+            using var reader = pragma.ExecuteReader();
+            var hasTimeSeconds = false;
+            var hasOldTime = false;
+            while (reader.Read())
+            {
+                var name = Convert.ToString(reader["name"]);
+                if (string.Equals(name, "RestTimeSeconds", StringComparison.OrdinalIgnoreCase)) hasTimeSeconds = true;
+                if (string.Equals(name, "RestTime", StringComparison.OrdinalIgnoreCase)) hasOldTime = true;
+            }
+            if (!hasTimeSeconds)
+            {
+                using var alter = new SQLiteCommand("ALTER TABLE RestProfiles ADD COLUMN RestTimeSeconds REAL;", conn);
+                alter.ExecuteNonQuery();
+                if (hasOldTime)
+                {
+                    using var update = new SQLiteCommand("UPDATE RestProfiles SET RestTimeSeconds = RestTime;", conn);
+                    update.ExecuteNonQuery();
+                }
+            }
         }
         public ObservableCollection<RestProfile> Load(int cellId)
         {
             var list = new ObservableCollection<RestProfile>();
             using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
             conn.Open();
-            var sql = "SELECT Id, Name, RestTime FROM RestProfiles WHERE CellId=@CellId ORDER BY Name;";
+            var sql = "SELECT Id, Name, RestTimeSeconds FROM RestProfiles WHERE CellId=@CellId ORDER BY Name;";
             using var cmd = new SQLiteCommand(sql, conn);
             cmd.Parameters.AddWithValue("@CellId", cellId);
             using var r = cmd.ExecuteReader();
@@ -46,7 +68,7 @@ namespace CellManager.Services
                 {
                     Id = Convert.ToInt32(r["Id"]),
                     Name = Convert.ToString(r["Name"]),
-                    RestTime = r["RestTime"] == DBNull.Value ? 0 : Convert.ToDouble(r["RestTime"]),
+                    RestTime = r["RestTimeSeconds"] == DBNull.Value ? TimeSpan.Zero : TimeSpan.FromSeconds(Convert.ToDouble(r["RestTimeSeconds"])),
                 });
             }
             return list;
@@ -58,22 +80,22 @@ namespace CellManager.Services
             if (p.Id == 0)
             {
                 p.Id = ProfileIdProvider.GetNextId(conn);
-                var sql = @"INSERT INTO RestProfiles(Id, CellId, Name, RestTime)
+                var sql = @"INSERT INTO RestProfiles(Id, CellId, Name, RestTimeSeconds)
                             VALUES (@Id, @CellId, @Name, @Rest);";
                 using var cmd = new SQLiteCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@Id", p.Id);
                 cmd.Parameters.AddWithValue("@CellId", cellId);
                 cmd.Parameters.AddWithValue("@Name", p.Name ?? "New Rest");
-                cmd.Parameters.AddWithValue("@Rest", (object?)p.RestTime ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Rest", p.RestTime == TimeSpan.Zero ? (object)DBNull.Value : p.RestTime.TotalSeconds);
                 cmd.ExecuteNonQuery();
             }
             else
             {
-                var sql = @"UPDATE RestProfiles SET Name=@Name, RestTime=@Rest WHERE Id=@Id;";
+                var sql = @"UPDATE RestProfiles SET Name=@Name, RestTimeSeconds=@Rest WHERE Id=@Id;";
                 using var cmd = new SQLiteCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@Id", p.Id);
                 cmd.Parameters.AddWithValue("@Name", p.Name ?? "Rest");
-                cmd.Parameters.AddWithValue("@Rest", (object?)p.RestTime ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Rest", p.RestTime == TimeSpan.Zero ? (object)DBNull.Value : p.RestTime.TotalSeconds);
                 cmd.ExecuteNonQuery();
             }
         }

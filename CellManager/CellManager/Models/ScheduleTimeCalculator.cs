@@ -29,9 +29,9 @@ namespace CellManager.Models
 
         private static TimeSpan? EstimateRest(RestProfile? profile)
         {
-            if (profile == null || profile.RestTime < 0)
+            if (profile == null || profile.RestTime < TimeSpan.Zero)
                 throw new ArgumentException("Invalid rest profile");
-            return TimeSpan.FromSeconds(profile.RestTime);
+            return profile.RestTime;
         }
 
         private static TimeSpan? EstimateOcv(OCVProfile? profile)
