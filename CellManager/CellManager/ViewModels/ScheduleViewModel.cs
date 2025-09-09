@@ -12,6 +12,13 @@ using CellManager.Services;
 
 namespace CellManager.ViewModels
 {
+    public enum StepKind
+    {
+        Profile,
+        LoopStart,
+        LoopEnd
+    }
+
     public class StepTemplate : ObservableObject
     {
         public int Id { get; set; }
@@ -19,6 +26,7 @@ namespace CellManager.ViewModels
         public string IconKind { get; set; } = string.Empty;
         public string Parameters { get; set; } = string.Empty;
         public TimeSpan Duration { get; set; }
+        public StepKind Kind { get; set; } = StepKind.Profile;
     }
 
     public class StepGroup : ObservableObject
@@ -51,6 +59,7 @@ namespace CellManager.ViewModels
         [ObservableProperty] private string _scheduleName = "New Schedule";
         [ObservableProperty] private int _repeatCount = 1;
         [ObservableProperty] private int _loopStartIndex;
+        [ObservableProperty] private int _loopEndIndex;
         [ObservableProperty] private TimeSpan _totalDuration;
         [ObservableProperty] private Cell? _selectedCell;
 
@@ -190,13 +199,18 @@ namespace CellManager.ViewModels
                 }
             });
 
+            AddLoopControls();
             BuildMockSchedules();
         }
 
         private void LoadStepLibrary()
         {
             StepLibrary.Clear();
-            if (SelectedCell == null) return;
+            if (SelectedCell == null)
+            {
+                AddLoopControls();
+                return;
+            }
 
             if (_chargeRepo != null)
             {
@@ -283,8 +297,18 @@ namespace CellManager.ViewModels
                 if (ecmGroup.Steps.Any()) StepLibrary.Add(ecmGroup);
             }
 
+            AddLoopControls();
+
             if (SelectedSchedule != null)
                 OnSelectedScheduleChanged(SelectedSchedule);
+        }
+
+        private void AddLoopControls()
+        {
+            var loopGroup = new StepGroup { Name = "Loop", IconKind = "Repeat" };
+            loopGroup.Steps.Add(new StepTemplate { Id = 0, Name = "Loop Start", IconKind = "Repeat", Kind = StepKind.LoopStart });
+            loopGroup.Steps.Add(new StepTemplate { Id = 0, Name = "Loop End", IconKind = "Repeat", Kind = StepKind.LoopEnd });
+            StepLibrary.Add(loopGroup);
         }
 
         public void InsertStep(StepTemplate template, int index)
@@ -295,7 +319,8 @@ namespace CellManager.ViewModels
                 Name = template.Name,
                 IconKind = template.IconKind,
                 Parameters = template.Parameters,
-                Duration = template.Duration
+                Duration = template.Duration,
+                Kind = template.Kind
             };
             if (index < 0 || index > Sequence.Count)
                 Sequence.Add(clone);
@@ -316,6 +341,13 @@ namespace CellManager.ViewModels
         private void UpdateTotalDuration()
         {
             TotalDuration = new TimeSpan(Sequence.Sum(s => s.Duration.Ticks));
+            UpdateLoopIndices();
+        }
+
+        private void UpdateLoopIndices()
+        {
+            LoopStartIndex = Sequence.IndexOf(Sequence.FirstOrDefault(s => s.Kind == StepKind.LoopStart)) + 1;
+            LoopEndIndex = Sequence.IndexOf(Sequence.FirstOrDefault(s => s.Kind == StepKind.LoopEnd)) + 1;
         }
 
         partial void OnSelectedScheduleChanged(Schedule? value)
@@ -323,12 +355,20 @@ namespace CellManager.ViewModels
             Sequence.Clear();
             if (value == null) return;
             ScheduleName = value.Name;
+            RepeatCount = value.RepeatCount;
             foreach (var id in value.TestProfileIds)
             {
-                var template = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Id == id);
+                var template = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Id == id && s.Kind == StepKind.Profile);
                 if (template != null)
                     InsertStep(template, -1);
             }
+            var startTemplate = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Kind == StepKind.LoopStart);
+            var endTemplate = StepLibrary.SelectMany(g => g.Steps).FirstOrDefault(s => s.Kind == StepKind.LoopEnd);
+            if (value.LoopStartIndex > 0 && startTemplate != null)
+                InsertStep(startTemplate, Math.Min(value.LoopStartIndex - 1, Sequence.Count));
+            if (value.LoopEndIndex > 0 && endTemplate != null)
+                InsertStep(endTemplate, Math.Min(value.LoopEndIndex - 1, Sequence.Count));
+            UpdateLoopIndices();
         }
 
         private void AddSchedule()
@@ -345,7 +385,10 @@ namespace CellManager.ViewModels
         {
             if (SelectedSchedule == null) return;
             SelectedSchedule.Name = ScheduleName;
-            SelectedSchedule.TestProfileIds = Sequence.Select(s => s.Id).ToList();
+            SelectedSchedule.TestProfileIds = Sequence.Where(s => s.Kind == StepKind.Profile).Select(s => s.Id).ToList();
+            SelectedSchedule.RepeatCount = RepeatCount;
+            SelectedSchedule.LoopStartIndex = LoopStartIndex;
+            SelectedSchedule.LoopEndIndex = LoopEndIndex;
         }
     }
 }

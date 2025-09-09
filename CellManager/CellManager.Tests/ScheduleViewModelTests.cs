@@ -50,5 +50,20 @@ namespace CellManager.Tests
             Assert.Equal("My Schedule", vm.SelectedSchedule?.Name);
             Assert.Contains(template.Id, vm.SelectedSchedule?.TestProfileIds);
         }
+
+        [Fact]
+        public void LoopMarkers_UpdateIndices()
+        {
+            var vm = new ScheduleViewModel();
+            var loopGroup = vm.StepLibrary.First(g => g.Name == "Loop");
+            var start = loopGroup.Steps.First(s => s.Kind == StepKind.LoopStart);
+            var end = loopGroup.Steps.First(s => s.Kind == StepKind.LoopEnd);
+            vm.InsertStep(start, -1);
+            var template = vm.StepLibrary.First().Steps.First();
+            vm.InsertStep(template, -1);
+            vm.InsertStep(end, -1);
+            Assert.Equal(1, vm.LoopStartIndex);
+            Assert.Equal(3, vm.LoopEndIndex);
+        }
     }
 }

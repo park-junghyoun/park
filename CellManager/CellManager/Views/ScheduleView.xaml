@@ -111,7 +111,18 @@
                                     <materialDesign:PackIcon Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding Parameters}" FontSize="12"/>
+                                        <TextBlock Text="{Binding Parameters}" FontSize="12">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Kind}" Value="Profile">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
                                     </StackPanel>
                                     <Button Grid.Column="2" Style="{StaticResource MaterialDesignToolButton}"
                                             Command="{Binding DataContext.RemoveStepCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
@@ -152,8 +163,8 @@
                     <StackPanel Margin="8">
                         <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
                                  Text="{Binding RepeatCount}" materialDesign:HintAssist.Hint="Repeat Count"/>
-                        <TextBox Margin="0,0,0,8" Style="{StaticResource MaterialDesignFilledTextBox}"
-                                 Text="{Binding LoopStartIndex}" materialDesign:HintAssist.Hint="Loop Start Step"/>
+                        <TextBlock Text="{Binding LoopStartIndex, StringFormat=Loop Start: {0}}" Margin="0,0,0,4"/>
+                        <TextBlock Text="{Binding LoopEndIndex, StringFormat=Loop End: {0}}"/>
                     </StackPanel>
                 </GroupBox>
             </Grid>

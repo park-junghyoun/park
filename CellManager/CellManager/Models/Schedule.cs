@@ -22,6 +22,15 @@ namespace CellManager.Models
         [ObservableProperty]
         private string? _notes;
 
+        [ObservableProperty]
+        private int _repeatCount = 1;
+
+        [ObservableProperty]
+        private int _loopStartIndex;
+
+        [ObservableProperty]
+        private int _loopEndIndex;
+
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
     }
 }
