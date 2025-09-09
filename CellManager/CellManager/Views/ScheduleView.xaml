@@ -74,7 +74,7 @@
                         <ItemsControl ItemsSource="{Binding StepLibrary}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Expander Header="{Binding Name}" Margin="0,0,0,4">
+                                    <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
                                         <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
                                                       PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
                                                       PreviewMouseMove="ProfileList_PreviewMouseMove"/>
