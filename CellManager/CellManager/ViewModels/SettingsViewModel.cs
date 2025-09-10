@@ -1,5 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace CellManager.ViewModels
 {
@@ -15,6 +15,15 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private string _boardPort = string.Empty;
 
+        [ObservableProperty]
+        private string _calibrationX = string.Empty;
+
+        [ObservableProperty]
+        private string _calibrationY = string.Empty;
+
+        [ObservableProperty]
+        private string _calibrationZ = string.Empty;
+
         // Default paths
         [ObservableProperty]
         private string _dataExportPath = string.Empty;
@@ -29,11 +38,17 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private bool _enableDarkTheme;
 
-        [RelayCommand]
-        private void CalibrateBoard()
+        public ObservableCollection<BoardSettingData> BoardSettingsData { get; } = new()
         {
-            // TODO: implement board calibration logic
-        }
+            new BoardSettingData { Parameter = "Firmware Version", Value = "1.0" },
+            new BoardSettingData { Parameter = "Serial Number", Value = "123456" }
+        };
+    }
+
+    public class BoardSettingData
+    {
+        public string Parameter { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
     }
 }
 

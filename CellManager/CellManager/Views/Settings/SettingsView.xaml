@@ -18,11 +18,39 @@
                              materialDesign:HintAssist.Hint="Board Port"
                              Text="{Binding BoardPort}"
                              Width="200"/>
-                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
-                            Content="Calibrate Board"
-                            Command="{Binding CalibrateBoardCommand}"
-                            Width="160"
-                            Margin="0,8,0,0"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0" Spacing="8">
+                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 materialDesign:HintAssist.Hint="Calib X"
+                                 Text="{Binding CalibrationX}"
+                                 Width="120"/>
+                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 materialDesign:HintAssist.Hint="Calib Y"
+                                 Text="{Binding CalibrationY}"
+                                 Width="120"/>
+                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 materialDesign:HintAssist.Hint="Calib Z"
+                                 Text="{Binding CalibrationZ}"
+                                 Width="120"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Board setting data -->
+            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Board Settings Data"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,16"/>
+                    <DataGrid ItemsSource="{Binding BoardSettingsData}"
+                              AutoGenerateColumns="False"
+                              HeadersVisibility="Column"
+                              CanUserAddRows="False"
+                              Margin="0,0,0,8">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Parameter" Binding="{Binding Parameter}"/>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </StackPanel>
             </materialDesign:Card>
 
