@@ -276,11 +276,12 @@
                     <!-- Sequence list -->
                     <StackPanel Grid.Row="1" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Script: #" FontWeight="Bold" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding SelectedSchedule.Ordering}" Margin="0,0,10,0" VerticalAlignment="Center" FontSize="13" FontWeight="Bold"/>
-                            <TextBox Width="250" Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name">
+                            <TextBlock Text="Script #" FontWeight="Bold" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding SelectedSchedule.Ordering}" Margin="0,0,16,0" VerticalAlignment="Center" FontSize="13" FontWeight="Bold"/>
+                            <TextBlock Text="Name" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBox Width="250" Margin="0,0,8,0" Text="{Binding ScheduleName}">
                                 <TextBox.Style>
-                                    <Style BasedOn="{StaticResource MaterialDesignFilledTextBox}" TargetType="TextBox">
+                                    <Style TargetType="TextBox">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
                                                 <Setter Property="IsEnabled" Value="False"/>
@@ -289,9 +290,9 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <Button Grid.Column="1" Content="Save" Command="{Binding SaveScheduleCommand}" Margin="8,0,0,0">
+                            <Button Command="{Binding SaveScheduleCommand}" Padding="6">
                                 <Button.Style>
-                                    <Style BasedOn="{StaticResource MaterialDesignRaisedButton}" TargetType="Button">
+                                    <Style BasedOn="{StaticResource PrimaryActionButton}" TargetType="Button">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
                                                 <Setter Property="IsEnabled" Value="False"/>
@@ -299,6 +300,10 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18"/>
+                                    <TextBlock Text=" Save"/>
+                                </StackPanel>
                             </Button>
                         </StackPanel>
                         <Grid>
