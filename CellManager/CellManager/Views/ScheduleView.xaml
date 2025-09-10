@@ -59,7 +59,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Schedule list -->
-            <GroupBox Grid.Column="0" Margin="8">
+            <GroupBox Grid.Column="0" Margin="8" MinWidth="300">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,8">
                         <TextBlock Text="Schedules" FontWeight="Bold" FontSize="16"/>
@@ -172,9 +172,9 @@
                         </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="80"/>
+                                <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="58"/>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                                <GridViewColumn Header="Duration" Width="90">
+                                <GridViewColumn Header="Duration" Width="60">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding EstimatedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
