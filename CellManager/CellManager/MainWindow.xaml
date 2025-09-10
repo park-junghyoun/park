@@ -41,9 +41,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
-            <Grid Background="#FFFFFF">
-                <TextBlock Text="Settings Content" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-            </Grid>
+            <views:SettingsView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:HelpViewModel}">
             <Grid Background="#FFFFFF">
