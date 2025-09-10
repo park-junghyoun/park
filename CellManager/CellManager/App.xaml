@@ -23,6 +23,13 @@
             <SolidColorBrush x:Key="PrimaryDisabledFg"  Color="#FFFFFF"/>
             <!-- Disabled fg(흰색 유지) -->
 
+            <!-- Error button colors -->
+            <SolidColorBrush x:Key="ErrorMain"        Color="#F44336"/>
+            <SolidColorBrush x:Key="ErrorHover"       Color="#E53935"/>
+            <SolidColorBrush x:Key="ErrorPressed"     Color="#C62828"/>
+            <SolidColorBrush x:Key="ErrorDisabledBg"  Color="#FFCDD2"/>
+            <SolidColorBrush x:Key="ErrorDisabledFg"  Color="#FFFFFF"/>
+
             <!-- 가로선 -->
             <Style x:Key="HDivider" TargetType="Border">
                 <Setter Property="Height" Value="1"/>
@@ -407,6 +414,53 @@
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter TargetName="bg" Property="Background" Value="{StaticResource PrimaryDisabledBg}"/>
                                     <Setter Property="Foreground" Value="{StaticResource PrimaryDisabledFg}"/>
+                                    <Setter Property="Opacity" Value="0.95"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="ErrorActionButton"
+       TargetType="Button"
+       BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                <Setter Property="Height" Value="36"/>
+                <Setter Property="Padding" Value="16,0"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="{StaticResource ErrorMain}"/>
+                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="6"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="bg"
+                Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding materialDesign:ButtonAssist.CornerRadius}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Margin="{TemplateBinding Padding}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- Hover / Pressed -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource ErrorHover}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource ErrorPressed}"/>
+                                </Trigger>
+
+                                <!-- Keyboard Focus (외곽선 살짝) -->
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter TargetName="bg" Property="BorderBrush" Value="#90CAF9"/>
+                                    <Setter TargetName="bg" Property="BorderThickness" Value="2"/>
+                                </Trigger>
+
+                                <!-- Disabled -->
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource ErrorDisabledBg}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource ErrorDisabledFg}"/>
                                     <Setter Property="Opacity" Value="0.95"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
