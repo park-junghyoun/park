@@ -12,6 +12,9 @@ namespace CellManager.ViewModels
     public partial class MainViewModel : ObservableObject
     {
         private readonly ICellRepository _cellRepository;
+        private readonly TestSetupViewModel _testSetupVm;
+        private readonly ScheduleViewModel _scheduleVm;
+        private readonly RunViewModel _runVm;
 
         public string HeaderText { get; } = "Main";
         public string IconName { get; } = "ViewDashboard";
@@ -39,6 +42,9 @@ namespace CellManager.ViewModels
         {
             Debug.WriteLine("MainViewModel DI ctor");
             _cellRepository = cellRepository;
+            _testSetupVm = testSetupVm;
+            _scheduleVm = scheduleVm;
+            _runVm = runVm;
 
             NavigationItems.Add(homeVm);
             NavigationItems.Add(cellLibraryVm);
@@ -52,6 +58,7 @@ namespace CellManager.ViewModels
             CurrentViewModel = NavigationItems.FirstOrDefault();
 
             LoadCells();
+            UpdateFeatureTabs();
 
             WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
             {
@@ -81,5 +88,15 @@ namespace CellManager.ViewModels
             if (SelectedCell != null)
                 WeakReferenceMessenger.Default.Send(new CellSelectedMessage(SelectedCell));
         }
+
+        private void UpdateFeatureTabs()
+        {
+            var enabled = SelectedCell != null;
+            _testSetupVm.IsViewEnabled = enabled;
+            _scheduleVm.IsViewEnabled = enabled;
+            _runVm.IsViewEnabled = enabled;
+        }
+
+        partial void OnSelectedCellChanged(Cell value) => UpdateFeatureTabs();
     }
 }
