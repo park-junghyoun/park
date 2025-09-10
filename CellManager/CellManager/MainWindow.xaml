@@ -25,9 +25,7 @@
             <views:ScheduleView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:RunViewModel}">
-            <Grid Background="#FFFFFF">
-                <TextBlock Text="Run Content" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-            </Grid>
+            <views:RunView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayViewModel}">
             <Grid Background="#FFFFFF">
