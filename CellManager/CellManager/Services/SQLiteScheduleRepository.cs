@@ -39,10 +39,27 @@ namespace CellManager.Services
                         TestProfileIds TEXT,
                         Ordering INTEGER,
                         Notes TEXT,
+                        RepeatCount INTEGER DEFAULT 1,
+                        LoopStartIndex INTEGER DEFAULT 0,
+                        LoopEndIndex INTEGER DEFAULT 0,
                         UNIQUE(CellId, Name)
                     );";
                 using var cmd = new SQLiteCommand(createTableSql, conn);
                 cmd.ExecuteNonQuery();
+
+                string[] columns = { "RepeatCount", "LoopStartIndex", "LoopEndIndex" };
+                foreach (var col in columns)
+                {
+                    try
+                    {
+                        using var addCmd = new SQLiteCommand($"ALTER TABLE Schedules ADD COLUMN {col} INTEGER DEFAULT 0", conn);
+                        addCmd.ExecuteNonQuery();
+                    }
+                    catch
+                    {
+                        // ignore if column exists
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -57,7 +74,7 @@ namespace CellManager.Services
             {
                 using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
                 conn.Open();
-                string sql = "SELECT * FROM Schedules WHERE CellId = @CellId ORDER BY Ordering";
+                string sql = "SELECT Id, CellId, Name, TestProfileIds, Ordering, Notes, RepeatCount, LoopStartIndex, LoopEndIndex FROM Schedules WHERE CellId = @CellId ORDER BY Ordering";
                 using var cmd = new SQLiteCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@CellId", cellId);
                 using var reader = cmd.ExecuteReader();
@@ -74,7 +91,10 @@ namespace CellManager.Services
                         Name = reader.GetString(2),
                         TestProfileIds = ids,
                         Ordering = reader.IsDBNull(4) ? 0 : reader.GetInt32(4),
-                        Notes = reader.IsDBNull(5) ? null : reader.GetString(5)
+                        Notes = reader.IsDBNull(5) ? null : reader.GetString(5),
+                        RepeatCount = reader.IsDBNull(6) ? 1 : reader.GetInt32(6),
+                        LoopStartIndex = reader.IsDBNull(7) ? 0 : reader.GetInt32(7),
+                        LoopEndIndex = reader.IsDBNull(8) ? 0 : reader.GetInt32(8)
                     });
                 }
             }
@@ -95,20 +115,23 @@ namespace CellManager.Services
 
                 if (schedule.Id == 0)
                 {
-                    string insertSql = @"INSERT INTO Schedules (CellId, Name, TestProfileIds, Ordering, Notes) VALUES (@CellId, @Name, @TestProfileIds, @Ordering, @Notes);";
+                    string insertSql = @"INSERT INTO Schedules (CellId, Name, TestProfileIds, Ordering, Notes, RepeatCount, LoopStartIndex, LoopEndIndex) VALUES (@CellId, @Name, @TestProfileIds, @Ordering, @Notes, @RepeatCount, @LoopStartIndex, @LoopEndIndex);";
                     using var cmd = new SQLiteCommand(insertSql, conn);
                     cmd.Parameters.AddWithValue("@CellId", cellId);
                     cmd.Parameters.AddWithValue("@Name", schedule.Name);
                     cmd.Parameters.AddWithValue("@TestProfileIds", idsText);
                     cmd.Parameters.AddWithValue("@Ordering", schedule.Ordering);
                     cmd.Parameters.AddWithValue("@Notes", (object?)schedule.Notes ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RepeatCount", schedule.RepeatCount);
+                    cmd.Parameters.AddWithValue("@LoopStartIndex", schedule.LoopStartIndex);
+                    cmd.Parameters.AddWithValue("@LoopEndIndex", schedule.LoopEndIndex);
                     cmd.ExecuteNonQuery();
                     schedule.Id = (int)conn.LastInsertRowId;
                     schedule.CellId = cellId;
                 }
                 else
                 {
-                    string updateSql = @"UPDATE Schedules SET Name = @Name, TestProfileIds = @TestProfileIds, Ordering = @Ordering, Notes = @Notes WHERE Id = @Id AND CellId = @CellId";
+                    string updateSql = @"UPDATE Schedules SET Name = @Name, TestProfileIds = @TestProfileIds, Ordering = @Ordering, Notes = @Notes, RepeatCount = @RepeatCount, LoopStartIndex = @LoopStartIndex, LoopEndIndex = @LoopEndIndex WHERE Id = @Id AND CellId = @CellId";
                     using var cmd = new SQLiteCommand(updateSql, conn);
                     cmd.Parameters.AddWithValue("@Id", schedule.Id);
                     cmd.Parameters.AddWithValue("@CellId", cellId);
@@ -116,6 +139,9 @@ namespace CellManager.Services
                     cmd.Parameters.AddWithValue("@TestProfileIds", idsText);
                     cmd.Parameters.AddWithValue("@Ordering", schedule.Ordering);
                     cmd.Parameters.AddWithValue("@Notes", (object?)schedule.Notes ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@RepeatCount", schedule.RepeatCount);
+                    cmd.Parameters.AddWithValue("@LoopStartIndex", schedule.LoopStartIndex);
+                    cmd.Parameters.AddWithValue("@LoopEndIndex", schedule.LoopEndIndex);
                     cmd.ExecuteNonQuery();
                 }
             }

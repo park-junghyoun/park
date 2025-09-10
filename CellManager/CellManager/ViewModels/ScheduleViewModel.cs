@@ -445,9 +445,12 @@ namespace CellManager.ViewModels
             {
                 SelectedSchedule.CellId = SelectedCell.Id;
                 _scheduleRepo.Save(SelectedCell.Id, SelectedSchedule);
+                if (SelectedSchedule.Id == 0)
+                    return;
                 var savedId = SelectedSchedule.Id;
                 LoadSchedules();
                 SelectedSchedule = Schedules.FirstOrDefault(s => s.Id == savedId);
+                UpdateScheduleDurations();
             }
         }
 
