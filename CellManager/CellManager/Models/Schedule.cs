@@ -11,6 +11,9 @@ namespace CellManager.Models
         private int _id;
 
         [ObservableProperty]
+        private int _cellId;
+
+        [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(DisplayNameAndId))]
         private string _name;
 
