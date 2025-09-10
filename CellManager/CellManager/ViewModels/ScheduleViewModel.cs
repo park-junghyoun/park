@@ -428,9 +428,8 @@ namespace CellManager.ViewModels
 
         private void AddSchedule()
         {
-            var newId = Schedules.Any() ? Schedules.Max(s => s.Id) + 1 : 1;
             var newOrdering = Schedules.Any() ? Schedules.Max(s => s.Ordering) + 1 : 1;
-            var sched = new Schedule { Id = newId, Ordering = newOrdering, Name = $"Schedule {newId}" };
+            var sched = new Schedule { Ordering = newOrdering, Name = $"Schedule {newOrdering}" };
             Schedules.Add(sched);
             SelectedSchedule = sched;
             Sequence.Clear();
@@ -446,6 +445,12 @@ namespace CellManager.ViewModels
             SelectedSchedule.LoopStartIndex = LoopStartIndex;
             SelectedSchedule.LoopEndIndex = LoopEndIndex;
             _scheduleRepo?.Save(SelectedSchedule);
+            if (_scheduleRepo != null)
+            {
+                var savedId = SelectedSchedule.Id;
+                LoadSchedules();
+                SelectedSchedule = Schedules.FirstOrDefault(s => s.Id == savedId);
+            }
         }
 
         private void DeleteSchedule(Schedule? schedule)
