@@ -11,9 +11,7 @@
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:HomeViewModel}">
-            <Grid Background="#FFFFFF">
-                <TextBlock Text="Home Content" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-            </Grid>
+            <views:HomeView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:CellLibraryViewModel}">
             <viewsCellLibary:CellLibraryView/>

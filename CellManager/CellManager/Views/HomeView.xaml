@@ -1,0 +1,81 @@
+<UserControl x:Class="CellManager.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Board image placeholder -->
+        <Border Background="#EEEEEE" CornerRadius="4" Margin="0,0,20,0"
+                materialDesign:ElevationAssist.Elevation="2">
+            <TextBlock Text="Board Image" Foreground="#888888" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        </Border>
+
+        <!-- Right side with status and quick launch cards -->
+        <StackPanel Grid.Column="1">
+            <!-- System status summary -->
+            <StackPanel Margin="0,0,0,20">
+                <TextBlock Text="System Status" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Board: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding DataContext.BoardStatus, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="Selected Cell: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding DataContext.SelectedCell.DisplayNameAndId, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=None}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Quick launch cards -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:Card Grid.Row="0" Grid.Column="0" Margin="5" Padding="0">
+                    <Button Command="{Binding NavigateToCellLibraryCommand}" Padding="16">
+                        <StackPanel HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Library" Height="32" Width="32"/>
+                            <TextBlock Text="셀 라이브러리" Margin="0,8,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </materialDesign:Card>
+
+                <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="5" Padding="0">
+                    <Button Command="{Binding NavigateToTestSetupCommand}" Padding="16">
+                        <StackPanel HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Flask" Height="32" Width="32"/>
+                            <TextBlock Text="테스트 설정" Margin="0,8,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </materialDesign:Card>
+
+                <materialDesign:Card Grid.Row="1" Grid.Column="0" Margin="5" Padding="0">
+                    <Button Command="{Binding NavigateToScheduleCommand}" Padding="16">
+                        <StackPanel HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="CalendarClock" Height="32" Width="32"/>
+                            <TextBlock Text="스케줄" Margin="0,8,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </materialDesign:Card>
+
+                <materialDesign:Card Grid.Row="1" Grid.Column="1" Margin="5" Padding="0">
+                    <Button Command="{Binding NavigateToRunCommand}" Padding="16">
+                        <StackPanel HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="PlayCircle" Height="32" Width="32"/>
+                            <TextBlock Text="실행" Margin="0,8,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </materialDesign:Card>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

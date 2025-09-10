@@ -24,6 +24,8 @@ namespace CellManager.ViewModels
         [ObservableProperty] private ObservableCollection<Cell> _availableCells = new();
         [ObservableProperty] private Cell _selectedCell;
 
+        [ObservableProperty] private string _boardStatus = "Disconnected";
+
         [ObservableProperty] private ObservableCollection<ObservableObject> _navigationItems = new();
         [ObservableProperty] private ObservableObject _currentViewModel;
 
@@ -76,6 +78,12 @@ namespace CellManager.ViewModels
                 var target = AvailableCells.FirstOrDefault(c => c.Id == m.DeletedCell.Id);
                 if (target != null) AvailableCells.Remove(target);
                 if (SelectedCell?.Id == m.DeletedCell.Id) SelectedCell = null;
+            });
+
+            WeakReferenceMessenger.Default.Register<NavigateToViewMessage>(this, (r, m) =>
+            {
+                var target = NavigationItems.FirstOrDefault(vm => vm.GetType() == m.Value);
+                if (target != null) CurrentViewModel = target;
             });
         }
 
