@@ -117,12 +117,16 @@ namespace CellManager.ViewModels
                 WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
                 {
                     SelectedCell = m.SelectedCell;
-                    LoadStepLibrary();
-                    LoadSchedules();
                 });
             }
 
             UpdateTotalDuration();
+        }
+
+        partial void OnSelectedCellChanged(Cell? value)
+        {
+            LoadStepLibrary();
+            LoadSchedules();
         }
 
         private void LoadSchedules()
@@ -131,6 +135,8 @@ namespace CellManager.ViewModels
             Schedules.Clear();
             foreach (var sched in _scheduleRepo.Load(SelectedCell.Id))
                 Schedules.Add(sched);
+            SelectedSchedule = Schedules.FirstOrDefault();
+            UpdateScheduleDurations();
         }
 
         private void BuildMockSchedules()
