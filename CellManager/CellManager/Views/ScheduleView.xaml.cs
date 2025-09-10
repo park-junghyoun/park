@@ -97,7 +97,13 @@ namespace CellManager.Views
             if (sender is not ListView listView) return;
             if (listView.View is not GridView gridView) return;
 
-            double workingWidth = listView.ActualWidth - SystemParameters.VerticalScrollBarWidth;
+            double workingWidth = listView.ActualWidth;
+
+            var scrollViewer = FindVisualChild<ScrollViewer>(listView);
+            if (scrollViewer?.ComputedVerticalScrollBarVisibility == Visibility.Visible)
+            {
+                workingWidth -= SystemParameters.VerticalScrollBarWidth;
+            }
 
             if (gridView.Columns.Count >= 3)
             {
@@ -105,6 +111,18 @@ namespace CellManager.Views
                 gridView.Columns[1].Width = workingWidth * 0.6;
                 gridView.Columns[2].Width = workingWidth * 0.2;
             }
+        }
+
+        private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T tChild) return tChild;
+                var result = FindVisualChild<T>(child);
+                if (result != null) return result;
+            }
+            return null;
         }
 
         private static int GetInsertIndex(ItemsControl list, Point position)
