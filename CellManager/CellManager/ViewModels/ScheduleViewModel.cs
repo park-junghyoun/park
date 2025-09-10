@@ -441,10 +441,10 @@ namespace CellManager.ViewModels
             SelectedSchedule.RepeatCount = RepeatCount;
             SelectedSchedule.LoopStartIndex = LoopStartIndex;
             SelectedSchedule.LoopEndIndex = LoopEndIndex;
-            if (SelectedCell != null)
+            if (SelectedCell != null && _scheduleRepo != null)
             {
                 SelectedSchedule.CellId = SelectedCell.Id;
-                _scheduleRepo?.Save(SelectedCell.Id, SelectedSchedule);
+                _scheduleRepo.Save(SelectedCell.Id, SelectedSchedule);
                 var savedId = SelectedSchedule.Id;
                 LoadSchedules();
                 SelectedSchedule = Schedules.FirstOrDefault(s => s.Id == savedId);
