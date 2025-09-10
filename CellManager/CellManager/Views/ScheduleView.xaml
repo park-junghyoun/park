@@ -9,31 +9,27 @@
              d:DesignHeight="800" d:DesignWidth="1200">
     <UserControl.Resources>
         <DataTemplate x:Key="StepTemplateItem">
-            <StackPanel Orientation="Horizontal" Margin="4">
-                <materialDesign:PackIcon Kind="{Binding IconKind}" Width="20" Height="20" Margin="0,0,4,0"/>
-                <TextBlock VerticalAlignment="Center">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <!-- Default to name so loop templates hide IDs -->
-                            <Setter Property="Text" Value="{Binding Name}"/>
-                            <Style.Triggers>
-                                <!-- Only profile steps show IDs -->
-                                <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
-                                    <Setter Property="Text">
-                                        <Setter.Value>
-                                            <MultiBinding StringFormat="ID: {0} - {1}">
-                                                <Binding Path="Id"/>
-                                                <Binding Path="Name"/>
-                                            </MultiBinding>
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <TextBlock Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" Margin="8,0,0,0" VerticalAlignment="Center"/>
-            </StackPanel>
+            <TextBlock Margin="4" VerticalAlignment="Center">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <!-- Default to name so loop templates hide IDs -->
+                        <Setter Property="Text" Value="{Binding Name}"/>
+                        <Style.Triggers>
+                            <!-- Only profile steps show IDs -->
+                            <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
+                                <Setter Property="Text">
+                                    <Setter.Value>
+                                        <MultiBinding StringFormat="ID: {0} - {1}">
+                                            <Binding Path="Id"/>
+                                            <Binding Path="Name"/>
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -80,7 +76,6 @@
                         <GridView>
                             <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="80"/>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                            <GridViewColumn Header="Profiles" DisplayMemberBinding="{Binding TestProfileIds.Count}" Width="60"/>
                             <GridViewColumn Header="Duration" Width="90">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
