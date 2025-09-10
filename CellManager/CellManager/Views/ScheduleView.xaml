@@ -53,45 +53,44 @@
         <!-- Main content -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="700"/>
+                <ColumnDefinition Width="400"/>
             </Grid.ColumnDefinitions>
 
             <!-- Schedule list -->
             <GroupBox Grid.Column="0" Margin="8">
-                <GroupBox.Header>
-                    <DockPanel>
-                        <TextBlock Text="Schedules" FontWeight="Bold" DockPanel.Dock="Left"/>
-                        <Button Command="{Binding AddScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}" DockPanel.Dock="Right">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,8">
+                        <TextBlock Text="Schedules" FontWeight="Bold" FontSize="16"/>
+                        <Button Command="{Binding AddScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
                         </Button>
-                        <Button Command="{Binding DeleteScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}" DockPanel.Dock="Right">
+                        <Button Command="{Binding DeleteScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
                         </Button>
-                    </DockPanel>
-                </GroupBox.Header>
-                <ListView ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" HorizontalAlignment="Stretch">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="80"/>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                            <GridViewColumn Header="Duration" Width="90">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding EstimatedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                    </StackPanel>
+                    <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" HorizontalAlignment="Stretch">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="80"/>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                                <GridViewColumn Header="Duration" Width="90">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding EstimatedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </DockPanel>
             </GroupBox>
 
             <!-- Sequence builder -->
             <Grid Grid.Column="1" Margin="8">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -100,25 +99,22 @@
                 <Grid Grid.Row="0" Margin="0,0,0,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Width="250" Style="{StaticResource MaterialDesignFilledTextBox}"
-                             Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
-                    <Button Grid.Column="1" Content="Save Schedule" Command="{Binding SaveScheduleCommand}"
-                            Margin="8,0,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
-                    <TextBlock Grid.Column="2" Text="{Binding TotalDuration, StringFormat='Total: {0:hh\\:mm\\:ss}'}"
-                               Margin="16,0,0,0" VerticalAlignment="Center"/>
                 </Grid>
 
                 <!-- Timeline preview -->
-                <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                    <TextBlock Text="Test Flow" Margin="0,0,0,4" FontWeight="Bold"/>
+                <StackPanel Grid.Row="0" Margin="0,0,0,8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Test Flow" Margin="0,0,0,4" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding TotalDuration, StringFormat='Total: {0:hh\\:mm\\:ss}'}"
+                               Margin="16,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
                     <ItemsControl x:Name="TimelinePreview" ItemsSource="{Binding Sequence}"
-                                  HorizontalAlignment="Stretch" ClipToBounds="True">
+                                  HorizontalAlignment="Stretch" ClipToBounds="True" Style="{x:Null}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" Height="32"/>
+                                <StackPanel Orientation="Horizontal" Height="40"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -150,90 +146,102 @@
                 </StackPanel>
 
                 <!-- Sequence list -->
-                <ListBox x:Name="SequenceList" Grid.Row="2" ItemsSource="{Binding Sequence}" AllowDrop="True"
-                         PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
-                         PreviewMouseMove="ScheduleList_PreviewMouseMove"
-                         Drop="ScheduleList_Drop" DragOver="ScheduleList_DragOver" DragLeave="ScheduleList_DragLeave">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <materialDesign:Card Margin="4" Padding="8">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding StepNumber}" FontWeight="Bold" Margin="0,0,8,0"/>
-                                    <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
-                                    <StackPanel Grid.Column="2">
-                                      <TextBlock>
-                                          <TextBlock.Style>
-                                              <Style TargetType="TextBlock">
-                                                  <Setter Property="Text" Value="{Binding Name}"/>
-                                                  <Style.Triggers>
-                                                      <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
-                                                          <Setter Property="Text">
-                                                              <Setter.Value>
-                                                                  <MultiBinding StringFormat="ID: {0} - {1}">
-                                                                      <Binding Path="Id"/>
-                                                                      <Binding Path="Name"/>
-                                                                  </MultiBinding>
-                                                              </Setter.Value>
-                                                          </Setter>
-                                                      </DataTrigger>
-                                                      <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopStart}">
-                                                          <Setter Property="Text" Value="Loop Start"/>
-                                                      </DataTrigger>
-                                                      <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopEnd}">
-                                                          <Setter Property="Text" Value="Loop End"/>
-                                                      </DataTrigger>
-                                                  </Style.Triggers>
-                                              </Style>
-                                          </TextBlock.Style>
-                                      </TextBlock>
-                                        <TextBlock Text="{Binding Parameters}" FontSize="12">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-                                    <TextBlock Grid.Column="3" Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" Margin="8,0" VerticalAlignment="Center"/>
-                                    <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}"
-                                            Command="{Binding DataContext.RemoveStepCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                            CommandParameter="{Binding}">
-                                        <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
-                                    </Button>
-                                </Grid>
-                            </materialDesign:Card>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="250" Style="{StaticResource MaterialDesignFilledTextBox}"
+         Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
+                        <Button Grid.Column="1" Content="Save" Command="{Binding SaveScheduleCommand}"
+        Margin="8,0,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                    </StackPanel>
+                    <ListBox x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto" Height="600"
+         PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
+         PreviewMouseMove="ScheduleList_PreviewMouseMove"
+         Drop="ScheduleList_Drop" DragOver="ScheduleList_DragOver" DragLeave="ScheduleList_DragLeave">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card Margin="4" Padding="8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding StepNumber}" FontWeight="Bold" Margin="0,0,8,0"/>
+                                        <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock>
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="{Binding Name}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
+                                                                <Setter Property="Text">
+                                                                    <Setter.Value>
+                                                                        <MultiBinding StringFormat="ID: {0} - {1}">
+                                                                            <Binding Path="Id"/>
+                                                                            <Binding Path="Name"/>
+                                                                        </MultiBinding>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopStart}">
+                                                                <Setter Property="Text" Value="Loop Start"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.LoopEnd}">
+                                                                <Setter Property="Text" Value="Loop End"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding Parameters}" FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Kind}" Value="{x:Static vm:StepKind.Profile}">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <TextBlock Grid.Column="3" Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" Margin="8,0" VerticalAlignment="Center"/>
+                                        <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}"
+                            Command="{Binding DataContext.RemoveStepCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                            CommandParameter="{Binding}">
+                                            <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
+                                        </Button>
+                                    </Grid>
+                                </materialDesign:Card>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+                
             </Grid>
 
             <!-- Step library -->
-            <GroupBox Grid.Column="2" Margin="8" Header="Step Library">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding StepLibrary}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
-                                    <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+            <GroupBox Grid.Column="2" Margin="8">
+                <StackPanel Orientation="Vertical" >
+                    <TextBlock Text="Step Libary" FontWeight="Bold" FontSize="16"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding StepLibrary}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Expander Header="{Binding Name}" Margin="0,0,0,4" IsExpanded="True">
+                                        <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
                                                   PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
                                                   PreviewMouseMove="ProfileList_PreviewMouseMove"/>
-                                </Expander>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                                    </Expander>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
             </GroupBox>
         </Grid>
 

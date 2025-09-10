@@ -148,14 +148,14 @@ namespace CellManager.ViewModels
             StepLibrary.Add(new StepGroup
             {
                 Name = "Charge",
-                IconKind = "Battery",
+                IconKind = "BatteryPlus",
                 Steps =
                 {
                     new StepTemplate
                     {
                         Id = id++,
                         Name = "Charge",
-                        IconKind = "Battery",
+                        IconKind = "BatteryPlus",
                         Parameters = "0.5A → 4.2V | 01:00:00",
                         Duration = TimeSpan.FromHours(1)
                     }
@@ -165,14 +165,14 @@ namespace CellManager.ViewModels
             StepLibrary.Add(new StepGroup
             {
                 Name = "Discharge",
-                IconKind = "ArrowDown",
+                IconKind = "BatteryMinus",
                 Steps =
                 {
                     new StepTemplate
                     {
                         Id = id++,
                         Name = "Discharge",
-                        IconKind = "ArrowDown",
+                        IconKind = "BatteryMinus",
                         Parameters = "0.5A → 3.0V | 00:30:00",
                         Duration = TimeSpan.FromMinutes(30)
                     }
@@ -182,14 +182,14 @@ namespace CellManager.ViewModels
             StepLibrary.Add(new StepGroup
             {
                 Name = "Rest",
-                IconKind = "Pause",
+                IconKind = "BatteryEco",
                 Steps =
                 {
                     new StepTemplate
                     {
                         Id = id++,
                         Name = "Rest",
-                        IconKind = "Pause",
+                        IconKind = "BatteryEco",
                         Parameters = "00:10:00",
                         Duration = TimeSpan.FromMinutes(10)
                     }
@@ -199,14 +199,14 @@ namespace CellManager.ViewModels
             StepLibrary.Add(new StepGroup
             {
                 Name = "OCV",
-                IconKind = "ChartBar",
+                IconKind = "StairsDown",
                 Steps =
                 {
                     new StepTemplate
                     {
                         Id = id++,
                         Name = "OCV",
-                        IconKind = "ChartBar",
+                        IconKind = "StairsDown",
                         Parameters = "01:00:00",
                         Duration = TimeSpan.FromHours(1)
                     }
@@ -216,14 +216,14 @@ namespace CellManager.ViewModels
             StepLibrary.Add(new StepGroup
             {
                 Name = "ECM",
-                IconKind = "Wrench",
+                IconKind = "Pulse",
                 Steps =
                 {
                     new StepTemplate
                     {
                         Id = id++,
                         Name = "ECM",
-                        IconKind = "Wrench",
+                        IconKind = "Pulse",
                         Parameters = "0.2A 00:05:00",
                         Duration = TimeSpan.FromMinutes(5)
                     }
@@ -245,14 +245,14 @@ namespace CellManager.ViewModels
 
             if (_chargeRepo != null)
             {
-                var chargeGroup = new StepGroup { Name = "Charge", IconKind = "Battery" };
+                var chargeGroup = new StepGroup { Name = "Charge", IconKind = "BatteryPlus" };
                 foreach (var p in _chargeRepo.Load(SelectedCell.Id))
                 {
                     chargeGroup.Steps.Add(new StepTemplate
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        IconKind = "Battery",
+                        IconKind = "BatteryPlus",
                         Parameters = p.PreviewText,
                         Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.Charge, p) ?? TimeSpan.Zero
                     });
@@ -262,14 +262,14 @@ namespace CellManager.ViewModels
 
             if (_dischargeRepo != null)
             {
-                var disGroup = new StepGroup { Name = "Discharge", IconKind = "ArrowDown" };
+                var disGroup = new StepGroup { Name = "Discharge", IconKind = "BatteryMinus" };
                 foreach (var p in _dischargeRepo.Load(SelectedCell.Id))
                 {
                     disGroup.Steps.Add(new StepTemplate
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        IconKind = "ArrowDown",
+                        IconKind = "BatteryMinus",
                         Parameters = p.PreviewText,
                         Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.Discharge, p) ?? TimeSpan.Zero
                     });
@@ -279,14 +279,14 @@ namespace CellManager.ViewModels
 
             if (_restRepo != null)
             {
-                var restGroup = new StepGroup { Name = "Rest", IconKind = "Pause" };
+                var restGroup = new StepGroup { Name = "Rest", IconKind = "BatteryEco" };
                 foreach (var p in _restRepo.Load(SelectedCell.Id))
                 {
                     restGroup.Steps.Add(new StepTemplate
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        IconKind = "Pause",
+                        IconKind = "BatteryEco",
                         Parameters = p.PreviewText,
                         Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.Rest, p) ?? TimeSpan.Zero
                     });
@@ -296,14 +296,14 @@ namespace CellManager.ViewModels
 
             if (_ocvRepo != null)
             {
-                var ocvGroup = new StepGroup { Name = "OCV", IconKind = "ChartBar" };
+                var ocvGroup = new StepGroup { Name = "OCV", IconKind = "StairsDown" };
                 foreach (var p in _ocvRepo.Load(SelectedCell.Id))
                 {
                     ocvGroup.Steps.Add(new StepTemplate
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        IconKind = "ChartBar",
+                        IconKind = "StairsDown",
                         Parameters = p.PreviewText,
                         Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.OCV, p) ?? TimeSpan.Zero
                     });
@@ -313,14 +313,14 @@ namespace CellManager.ViewModels
 
             if (_ecmRepo != null)
             {
-                var ecmGroup = new StepGroup { Name = "ECM", IconKind = "Wrench" };
+                var ecmGroup = new StepGroup { Name = "ECM", IconKind = "Pulse" };
                 foreach (var p in _ecmRepo.Load(SelectedCell.Id))
                 {
                     ecmGroup.Steps.Add(new StepTemplate
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        IconKind = "Wrench",
+                        IconKind = "Pulse",
                         Parameters = p.PreviewText,
                         Duration = ScheduleTimeCalculator.EstimateDuration(SelectedCell, TestProfileType.ECM, p) ?? TimeSpan.Zero
                     });
