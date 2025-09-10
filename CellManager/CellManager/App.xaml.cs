@@ -25,9 +25,8 @@ namespace CellManager
                     services.AddTransient<CellLibraryViewModel>();
                     services.AddTransient<TestSetupViewModel>();
                     services.AddTransient<ScheduleViewModel>();
-                    services.AddTransient<AnalysisViewModel>();
-                    services.AddTransient<DisplayViewModel>();
                     services.AddTransient<RunViewModel>();
+                    services.AddTransient<AnalysisViewModel>();
                     services.AddTransient<DataExportViewModel>();
                     services.AddTransient<SettingsViewModel>();
                     services.AddTransient<HelpViewModel>();

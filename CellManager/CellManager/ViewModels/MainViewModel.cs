@@ -30,9 +30,8 @@ namespace CellManager.ViewModels
             CellLibraryViewModel cellLibraryVm,
             TestSetupViewModel testSetupVm,
             ScheduleViewModel scheduleVm,
-            AnalysisViewModel analysisVm,
-            DisplayViewModel displayVm,
             RunViewModel runVm,
+            AnalysisViewModel analysisVm,
             DataExportViewModel dataExportVm,
             SettingsViewModel settingsVm,
             HelpViewModel helpVm
@@ -45,9 +44,8 @@ namespace CellManager.ViewModels
             NavigationItems.Add(cellLibraryVm);
             NavigationItems.Add(testSetupVm);
             NavigationItems.Add(scheduleVm);
-            NavigationItems.Add(analysisVm);
-            NavigationItems.Add(displayVm);
             NavigationItems.Add(runVm);
+            NavigationItems.Add(analysisVm);
             NavigationItems.Add(dataExportVm);
             NavigationItems.Add(settingsVm);
             NavigationItems.Add(helpVm);

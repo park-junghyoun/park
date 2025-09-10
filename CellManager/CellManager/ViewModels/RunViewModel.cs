@@ -8,6 +8,6 @@ namespace CellManager.ViewModels
         public string IconName { get; } = "Play";
 
         [ObservableProperty]
-        private bool _isViewEnabled = false;
+        private bool _isViewEnabled = true;
     }
 }
