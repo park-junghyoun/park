@@ -9,8 +9,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Board image placeholder -->
-        <Border Background="#EEEEEE" CornerRadius="4" Margin="0,0,20,0"
-                materialDesign:ElevationAssist.Elevation="2">
+        <Border Background="#EEEEEE" CornerRadius="4" Margin="0,0,20,0">
             <TextBlock Text="Board Image" Foreground="#888888" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
         </Border>
 
