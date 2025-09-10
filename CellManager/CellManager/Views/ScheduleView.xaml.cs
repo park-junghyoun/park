@@ -92,6 +92,21 @@ namespace CellManager.Views
             RemoveDragAdorner();
         }
 
+        private void ScheduleList_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (sender is not ListView listView) return;
+            if (listView.View is not GridView gridView) return;
+
+            double workingWidth = listView.ActualWidth - SystemParameters.VerticalScrollBarWidth;
+
+            if (gridView.Columns.Count >= 3)
+            {
+                gridView.Columns[0].Width = workingWidth * 0.2;
+                gridView.Columns[1].Width = workingWidth * 0.6;
+                gridView.Columns[2].Width = workingWidth * 0.2;
+            }
+        }
+
         private static int GetInsertIndex(ItemsControl list, Point position)
         {
             var orientation = GetOrientation(list);
