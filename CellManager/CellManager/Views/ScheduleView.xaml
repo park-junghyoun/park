@@ -63,11 +63,11 @@
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,8">
                         <TextBlock Text="Schedules" FontWeight="Bold" FontSize="16"/>
-                        <Button Command="{Binding AddScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}">
-                            <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
-                        </Button>
-                        <Button Command="{Binding DeleteScheduleCommand}" CommandParameter="{Binding SelectedSchedule}" Style="{StaticResource MaterialDesignToolButton}">
-                            <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                        <Button Style="{StaticResource PrimaryActionButton}"
+                                Command="{Binding AddScheduleCommand}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                            </StackPanel>
                         </Button>
                     </StackPanel>
                     <ListView DockPanel.Dock="Bottom"
@@ -172,9 +172,9 @@
                         </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="58"/>
-                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                                <GridViewColumn Header="Duration" Width="60">
+                                <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}"/>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Duration">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding EstimatedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
