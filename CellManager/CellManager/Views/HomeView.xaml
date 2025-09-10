@@ -25,27 +25,45 @@
                 </StackPanel>
             </materialDesign:Card>
 
-            <TextBlock Text="System Status" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+            <materialDesign:Card Margin="0,0,0,10" Padding="10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="DeveloperBoard" Width="32" Height="32" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Board" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding DataContext.BoardStatus, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <TextBlock Text="Board: " FontWeight="Bold"/>
-                <TextBlock Text="{Binding DataContext.BoardStatus, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
-            </StackPanel>
+            <materialDesign:Card Margin="0,0,0,10" Padding="10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="ViewList" Width="32" Height="32" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Cells" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding DataContext.AvailableCells.Count, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=0}"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <TextBlock Text="Cells: " FontWeight="Bold"/>
-                <TextBlock Text="{Binding DataContext.AvailableCells.Count, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=0}"/>
-            </StackPanel>
+            <materialDesign:Card Margin="0,0,0,10" Padding="10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="CalendarClock" Width="32" Height="32" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Schedules" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding DataContext.ScheduleCount, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=0}"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <TextBlock Text="Schedules: " FontWeight="Bold"/>
-                <TextBlock Text="{Binding DataContext.ScheduleCount, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=0}"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Selected Cell: " FontWeight="Bold"/>
-                <TextBlock Text="{Binding DataContext.SelectedCell.DisplayNameAndId, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=None}"/>
-            </StackPanel>
+            <materialDesign:Card Padding="10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Battery" Width="32" Height="32" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Selected Cell" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding DataContext.SelectedCell.DisplayNameAndId, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=None}"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
         </StackPanel>
     </Grid>
 </UserControl>
