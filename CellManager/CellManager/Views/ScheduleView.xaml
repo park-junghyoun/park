@@ -84,11 +84,12 @@
                             </StackPanel>
                         </Button>
                     </Grid>
-                    <ListView DockPanel.Dock="Bottom"
+                    <ListView x:Name="ScheduleList" DockPanel.Dock="Bottom"
                               ItemsSource="{Binding Schedules}"
                               SelectedItem="{Binding SelectedSchedule}"
                               HorizontalAlignment="Stretch"
-                              Tag="{Binding}">
+                              Tag="{Binding}"
+                              SizeChanged="ScheduleList_SizeChanged">
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <ContextMenu.ItemContainerStyle>
