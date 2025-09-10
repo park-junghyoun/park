@@ -74,13 +74,13 @@ namespace CellManager.Models.TestProfile
         {
             get
             {
-                var modeText = ChargeMode switch
+                var baseText = $"{ChargeCutoffVoltage} mV, {ChargeCurrent} mA, {CutoffCurrent} mA";
+                return ChargeMode switch
                 {
-                    ChargeMode.ChargeByCapacity => $"Capacity: {ChargeCapacityMah} mAh",
-                    ChargeMode.ChargeByTime => $"Time: {ChargeTime}",
-                    _ => "Full charge"
+                    ChargeMode.ChargeByCapacity => $"{baseText}, {ChargeCapacityMah} mAh",
+                    ChargeMode.ChargeByTime => $"{baseText}, {ChargeTime}",
+                    _ => baseText
                 };
-                return $"Mode: {ChargeMode}, Current: {ChargeCurrent} mA, Voltage: {ChargeCutoffVoltage} mV, Cutoff: {CutoffCurrent} mV";
             }
         }
     }

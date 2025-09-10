@@ -53,13 +53,13 @@ namespace CellManager.Models.TestProfile
         {
             get
             {
-                var modeText = DischargeMode switch
+                var baseText = $"{DischargeCutoffVoltage} mV, {DischargeCurrent} mA";
+                return DischargeMode switch
                 {
-                    DischargeMode.DischargeByCapacity => $"Capacity: {DischargeCapacityMah} mAh",
-                    DischargeMode.DischargeByTime => $"Time: {DischargeTime}",
-                    _ => "Full discharge"
+                    DischargeMode.DischargeByCapacity => $"{baseText}, {DischargeCapacityMah} mAh",
+                    DischargeMode.DischargeByTime => $"{baseText}, {DischargeTime}",
+                    _ => baseText
                 };
-                return $"Mode: {DischargeMode}, Current: {DischargeCurrent} mA, Cutoff: {DischargeCutoffVoltage} mV";
             }
         }
 
