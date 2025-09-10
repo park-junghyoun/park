@@ -9,54 +9,51 @@
     <ScrollViewer>
         <StackPanel Margin="16">
             <!-- Board configuration -->
-            <GroupBox Header="Board Settings" Margin="0,0,0,16">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="Board Port" VerticalAlignment="Center" Margin="0,0,16,0"/>
-                    <TextBox Grid.Column="1"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                             Text="{Binding BoardPort}" Width="150"/>
-                </Grid>
-            </GroupBox>
+            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Board Settings"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,16"/>
+                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="Board Port"
+                             Text="{Binding BoardPort}"
+                             Width="200"/>
+                </StackPanel>
+            </materialDesign:Card>
 
             <!-- Path configuration -->
-            <GroupBox Header="Paths" Margin="0,0,0,16">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Row="0" Text="Data Export Path" VerticalAlignment="Center" Margin="0,0,16,8"/>
-                    <TextBox Grid.Row="0" Grid.Column="1"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                             Text="{Binding DataExportPath}" Margin="0,0,0,8"/>
-
-                    <TextBlock Grid.Row="1" Text="Profile Path" VerticalAlignment="Center" Margin="0,0,16,0"/>
-                    <TextBox Grid.Row="1" Grid.Column="1"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                             Text="{Binding ProfilePath}"/>
-                </Grid>
-            </GroupBox>
+            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Paths"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,16"/>
+                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="Data Export Path"
+                             Text="{Binding DataExportPath}"
+                             Margin="0,0,0,8"
+                             HorizontalAlignment="Stretch"/>
+                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="Profile Path"
+                             Text="{Binding ProfilePath}"
+                             HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </materialDesign:Card>
 
             <!-- Feature switches -->
-            <GroupBox Header="Features">
+            <materialDesign:Card Margin="0,0,0,16" Padding="16">
                 <StackPanel>
-                    <CheckBox Content="Enable Advanced Features"
-                              IsChecked="{Binding EnableAdvancedFeatures}"
-                              Margin="0,0,0,8"/>
-                    <CheckBox Content="Enable Dark Theme"
-                              IsChecked="{Binding EnableDarkTheme}"/>
+                    <TextBlock Text="Features"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,16"/>
+                    <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Content="Enable Advanced Features"
+                                  IsChecked="{Binding EnableAdvancedFeatures}"
+                                  Margin="0,0,0,8"/>
+                    <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Content="Enable Dark Theme"
+                                  IsChecked="{Binding EnableDarkTheme}"/>
                 </StackPanel>
-            </GroupBox>
+            </materialDesign:Card>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
