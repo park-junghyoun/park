@@ -41,6 +41,9 @@ namespace CellManager
 
                     // Views
                     services.AddSingleton<MainWindow>();
+
+                    // Services
+                    services.AddSingleton<IServerStatusService, MySqlServerStatusService>();
                 })
                 .Build();
         }

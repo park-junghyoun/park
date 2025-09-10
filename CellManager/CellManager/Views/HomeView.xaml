@@ -17,7 +17,7 @@
             <TextBlock Text="System Status" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <TextBlock Text="Server: " FontWeight="Bold"/>
+                <TextBlock Text="DB Server: " FontWeight="Bold"/>
                 <TextBlock Text="{Binding DataContext.ServerStatus, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
             </StackPanel>
 
