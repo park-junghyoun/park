@@ -247,10 +247,11 @@
                 <!-- Sequence list -->
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding SelectedSchedule.Ordering}" Margin="0,0,8,0" VerticalAlignment="Center"/>
                         <TextBox Width="250" Style="{StaticResource MaterialDesignFilledTextBox}"
-         Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
+                                 Text="{Binding ScheduleName}" materialDesign:HintAssist.Hint="Schedule Name"/>
                         <Button Grid.Column="1" Content="Save" Command="{Binding SaveScheduleCommand}"
-        Margin="8,0,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                                Margin="8,0,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
                     </StackPanel>
                     <ListBox x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto" Height="600"
          PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
@@ -372,6 +373,7 @@
                                             </StackPanel>
                                         </Expander.Header>
                                         <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+                                                  Margin="24,0,0,0"
                                                   PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
                                                   PreviewMouseMove="ProfileList_PreviewMouseMove"/>
                                     </Expander>
