@@ -105,6 +105,23 @@
                 </Style>
             </ListView.Resources>
 
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <ContextMenu.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                        </Style>
+                    </ContextMenu.ItemContainerStyle>
+                    <MenuItem Header="Create Cell Library"
+                              Command="{Binding NewCellCommand}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
+
             <ListView.Template>
                 <ControlTemplate TargetType="ListView">
                     <Border BorderBrush="#E5E7EB" BorderThickness="1" SnapsToDevicePixels="True">
