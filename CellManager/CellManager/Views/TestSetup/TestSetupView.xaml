@@ -74,24 +74,24 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Width="16" Height="16" VerticalAlignment="Center">
-                                                    <materialDesign:PackIcon.Style>
-                                                        <Style TargetType="materialDesign:PackIcon">
-                                                            <Setter Property="Kind" Value="AlphaFBoxOutline"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.ChargeByTime}">
-                                                                    <Setter Property="Kind" Value="AlphaTBoxOutline"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.ChargeByCapacity}">
-                                                                    <Setter Property="Kind" Value="AlphaCBoxOutline"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </materialDesign:PackIcon.Style>
-                                                </materialDesign:PackIcon>
-                                                <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold" Margin="4,0,0,0"/>
-                                            </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold" Margin="4,0,0,0"/>
+                                            <materialDesign:PackIcon Width="16" Height="16" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon.Style>
+                                                    <Style TargetType="materialDesign:PackIcon">
+                                                        <Setter Property="Kind" Value="AlphaFBoxOutline"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.ChargeByTime}">
+                                                                <Setter Property="Kind" Value="AlphaTBoxOutline"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ChargeMode}" Value="{x:Static tp:ChargeMode.ChargeByCapacity}">
+                                                                <Setter Property="Kind" Value="AlphaCBoxOutline"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </materialDesign:PackIcon.Style>
+                                            </materialDesign:PackIcon>
+                                        </StackPanel>
                                             <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
                                                        TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
                                         </StackPanel>
@@ -182,24 +182,24 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Width="16" Height="16" VerticalAlignment="Center">
-                                                    <materialDesign:PackIcon.Style>
-                                                        <Style TargetType="materialDesign:PackIcon">
-                                                            <Setter Property="Kind" Value="AlphaFBoxOutline"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByTime}">
-                                                                    <Setter Property="Kind" Value="AlphaTBoxOutline"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByCapacity}">
-                                                                    <Setter Property="Kind" Value="AlphaCBoxOutline"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </materialDesign:PackIcon.Style>
-                                                </materialDesign:PackIcon>
-                                                <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold" Margin="4,0,0,0"/>
-                                            </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding DisplayNameAndId}" FontWeight="Bold" Margin="4,0,0,0"/>
+                                            <materialDesign:PackIcon Width="16" Height="16" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon.Style>
+                                                    <Style TargetType="materialDesign:PackIcon">
+                                                        <Setter Property="Kind" Value="AlphaFBoxOutline"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByTime}">
+                                                                <Setter Property="Kind" Value="AlphaTBoxOutline"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding DischargeMode}" Value="{x:Static tp:DischargeMode.DischargeByCapacity}">
+                                                                <Setter Property="Kind" Value="AlphaCBoxOutline"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </materialDesign:PackIcon.Style>
+                                            </materialDesign:PackIcon>
+                                        </StackPanel>
                                             <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
                                                        TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
                                         </StackPanel>
