@@ -1,4 +1,4 @@
-<UserControl x:Class="CellManager.Views.TestSetup.TestSetupView"
+﻿<UserControl x:Class="CellManager.Views.TestSetup.TestSetupView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -27,17 +27,31 @@
                     <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
-                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                        <!-- 상단 헤더 영역 -->
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <!-- 왼쪽: 아이콘+텍스트 -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- 오른쪽: 버튼 -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- 아이콘 + 텍스트 -->
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                                 <materialDesign:PackIcon Kind="BatteryPlus" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                <TextBlock Text="Charge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
-                                <Button Style="{StaticResource PrimaryActionButton}"
-                                        Command="{Binding AddChargeProfileCommand}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Charge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="15"/>
+                            </StackPanel>
+
+                            <!-- 버튼 -->
+                            <Button Grid.Column="1"
+                    Style="{StaticResource PrimaryActionButton}"
+                    Command="{Binding AddChargeProfileCommand}" Padding="6">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
                                 </StackPanel>
-                                </Button>
-                            </WrapPanel>
-                            <ListBox Style="{StaticResource ProfileListBox}"
+                            </Button>
+                        </Grid>
+                        <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding ChargeProfiles}"
                                      SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}">
                                 <ListBox.ContextMenu>
@@ -104,17 +118,31 @@
                     <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
-                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                        <!-- 상단 헤더 영역 -->
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <!-- 왼쪽: 아이콘+텍스트 -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- 오른쪽: 버튼 -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- 아이콘 + 텍스트 -->
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                                 <materialDesign:PackIcon Kind="BatteryMinus" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                <TextBlock Text="Discharge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
-                                <Button Style="{StaticResource PrimaryActionButton}"
-                                        Command="{Binding AddDischargeProfileCommand}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Discharge Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="15"/>
+                            </StackPanel>
+
+                            <!-- 버튼 -->
+                            <Button Grid.Column="1"
+                    Style="{StaticResource PrimaryActionButton}"
+                    Command="{Binding AddDischargeProfileCommand}" Padding="6">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
                                 </StackPanel>
-                                </Button>
-                            </WrapPanel>
-                            <ListBox Style="{StaticResource ProfileListBox}"
+                            </Button>
+                        </Grid>
+                        <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding DischargeProfiles}"
                                      SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}">
                                 <ListBox.ContextMenu>
@@ -181,17 +209,31 @@
                     <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
-                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
-                            <materialDesign:PackIcon Kind="BatteryEco" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                            <TextBlock Text="Rest Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
-                                <Button Style="{StaticResource PrimaryActionButton}"
-                                        Command="{Binding AddRestProfileCommand}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- 상단 헤더 영역 -->
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <!-- 왼쪽: 아이콘+텍스트 -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- 오른쪽: 버튼 -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- 아이콘 + 텍스트 -->
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="BatteryEco" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <TextBlock Text="Rest Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="15"/>
+                            </StackPanel>
+
+                            <!-- 버튼 -->
+                            <Button Grid.Column="1"
+                    Style="{StaticResource PrimaryActionButton}"
+                    Command="{Binding AddRestProfileCommand}" Padding="6">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
                                 </StackPanel>
-                                </Button>
-                            </WrapPanel>
-                            <ListBox Style="{StaticResource ProfileListBox}"
+                            </Button>
+                        </Grid>
+                        <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding RestProfiles}"
                                      SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}">
                                 <ListBox.ContextMenu>
@@ -258,21 +300,31 @@
                     <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
-                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
-                            <materialDesign:PackIcon Kind="StairsDown" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0">
-                                <materialDesign:PackIcon.LayoutTransform>
-                                    <ScaleTransform ScaleX="-1" />
-                                </materialDesign:PackIcon.LayoutTransform>
-                            </materialDesign:PackIcon>
-                            <TextBlock Text="OCV Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
-                                <Button Style="{StaticResource PrimaryActionButton}"
-                                        Command="{Binding AddOcvProfileCommand}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- 상단 헤더 영역 -->
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <!-- 왼쪽: 아이콘+텍스트 -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- 오른쪽: 버튼 -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- 아이콘 + 텍스트 -->
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Aurora" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <TextBlock Text="OCV Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="15"/>
+                            </StackPanel>
+
+                            <!-- 버튼 -->
+                            <Button Grid.Column="1"
+                    Style="{StaticResource PrimaryActionButton}"
+                    Command="{Binding AddOcvProfileCommand}" Padding="6">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
                                 </StackPanel>
-                                </Button>
-                            </WrapPanel>
-                            <ListBox Style="{StaticResource ProfileListBox}"
+                            </Button>
+                        </Grid>
+                        <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding OcvProfiles}"
                                      SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}">
                                 <ListBox.ContextMenu>
@@ -339,17 +391,31 @@
                     <GroupBox Margin="5,15,5,5" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
-                            <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,6" HorizontalAlignment="Right">
+                        <!-- 상단 헤더 영역 -->
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <!-- 왼쪽: 아이콘+텍스트 -->
+                                <ColumnDefinition Width="Auto"/>
+                                <!-- 오른쪽: 버튼 -->
+                            </Grid.ColumnDefinitions>
+
+                            <!-- 아이콘 + 텍스트 -->
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
                                 <materialDesign:PackIcon Kind="Pulse" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                                <TextBlock Text="ECM Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="16"/>
-                                <Button Style="{StaticResource PrimaryActionButton}"
-                                        Command="{Binding AddEcmProfileCommand}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="ECM Profiles" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="15"/>
+                            </StackPanel>
+
+                            <!-- 버튼 -->
+                            <Button Grid.Column="1"
+                    Style="{StaticResource PrimaryActionButton}"
+                    Command="{Binding AddEcmProfileCommand}" Padding="6">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                     <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
                                 </StackPanel>
-                                </Button>
-                            </WrapPanel>
-                            <ListBox Style="{StaticResource ProfileListBox}"
+                            </Button>
+                        </Grid>
+                        <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding EcmPulseProfiles}"
                                      SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}">
                                 <ListBox.ContextMenu>

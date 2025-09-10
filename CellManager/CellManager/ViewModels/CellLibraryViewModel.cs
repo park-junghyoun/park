@@ -17,7 +17,7 @@ namespace CellManager.ViewModels
     public partial class CellLibraryViewModel : ObservableObject
     {
         public string HeaderText { get; } = "Cell Library";
-        public string IconName { get; } = "Battery";
+        public string IconName { get; } = "BatteryMedium";
 
         [ObservableProperty]
         private bool _isViewEnabled = true;

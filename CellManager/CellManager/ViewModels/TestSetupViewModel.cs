@@ -24,7 +24,7 @@ namespace CellManager.ViewModels
         private readonly IEcmPulseProfileRepository _ecmRepo;
 
         public string HeaderText { get; } = "Test Setup";
-        public string IconName { get; } = "Tuning";
+        public string IconName { get; } = "FileSign";
         [ObservableProperty] private bool _isViewEnabled = true;
 
         [ObservableProperty] private ObservableCollection<ChargeProfile> _chargeProfiles = new();
