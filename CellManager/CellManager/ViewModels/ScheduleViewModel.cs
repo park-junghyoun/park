@@ -103,11 +103,7 @@ namespace CellManager.ViewModels
             AddScheduleCommand = new RelayCommand(AddSchedule);
             DeleteScheduleCommand = new RelayCommand<Schedule>(DeleteSchedule, s => s != null);
 
-            if (_scheduleRepo != null)
-            {
-                LoadSchedules();
-            }
-            else
+            if (_scheduleRepo == null)
             {
                 BuildMockSchedules();
             }
@@ -122,6 +118,7 @@ namespace CellManager.ViewModels
                 {
                     SelectedCell = m.SelectedCell;
                     LoadStepLibrary();
+                    LoadSchedules();
                 });
             }
 
@@ -130,16 +127,16 @@ namespace CellManager.ViewModels
 
         private void LoadSchedules()
         {
-            if (_scheduleRepo == null) return;
+            if (_scheduleRepo == null || SelectedCell == null) return;
             Schedules.Clear();
-            foreach (var sched in _scheduleRepo.GetAll())
+            foreach (var sched in _scheduleRepo.Load(SelectedCell.Id))
                 Schedules.Add(sched);
         }
 
         private void BuildMockSchedules()
         {
-            Schedules.Add(new Schedule { Id = 1, Ordering = 1, Name = "Schedule A", TestProfileIds = { 1, 2 } });
-            Schedules.Add(new Schedule { Id = 2, Ordering = 2, Name = "Schedule B", TestProfileIds = { 3 } });
+            Schedules.Add(new Schedule { Id = 1, CellId = 0, Ordering = 1, Name = "Schedule A", TestProfileIds = { 1, 2 } });
+            Schedules.Add(new Schedule { Id = 2, CellId = 0, Ordering = 2, Name = "Schedule B", TestProfileIds = { 3 } });
         }
 
         private void BuildMockLibrary()
@@ -429,7 +426,7 @@ namespace CellManager.ViewModels
         private void AddSchedule()
         {
             var newOrdering = Schedules.Any() ? Schedules.Max(s => s.Ordering) + 1 : 1;
-            var sched = new Schedule { Ordering = newOrdering, Name = $"Schedule {newOrdering}" };
+            var sched = new Schedule { Ordering = newOrdering, Name = $"Schedule {newOrdering}", CellId = SelectedCell?.Id ?? 0 };
             Schedules.Add(sched);
             SelectedSchedule = sched;
             Sequence.Clear();
@@ -444,9 +441,10 @@ namespace CellManager.ViewModels
             SelectedSchedule.RepeatCount = RepeatCount;
             SelectedSchedule.LoopStartIndex = LoopStartIndex;
             SelectedSchedule.LoopEndIndex = LoopEndIndex;
-            _scheduleRepo?.Save(SelectedSchedule);
-            if (_scheduleRepo != null)
+            if (SelectedCell != null)
             {
+                SelectedSchedule.CellId = SelectedCell.Id;
+                _scheduleRepo?.Save(SelectedCell.Id, SelectedSchedule);
                 var savedId = SelectedSchedule.Id;
                 LoadSchedules();
                 SelectedSchedule = Schedules.FirstOrDefault(s => s.Id == savedId);
@@ -457,7 +455,8 @@ namespace CellManager.ViewModels
         {
             var target = schedule ?? SelectedSchedule;
             if (target == null) return;
-            _scheduleRepo?.Delete(target.Id);
+            if (SelectedCell != null)
+                _scheduleRepo?.Delete(SelectedCell.Id, target.Id);
             var index = Schedules.IndexOf(target);
             Schedules.Remove(target);
             SelectedSchedule = index < Schedules.Count ? Schedules[index] : Schedules.FirstOrDefault();

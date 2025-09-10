@@ -34,10 +34,12 @@ namespace CellManager.Services
                 string createTableSql = @"
                     CREATE TABLE IF NOT EXISTS Schedules (
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Name TEXT NOT NULL UNIQUE,
+                        CellId INTEGER NOT NULL,
+                        Name TEXT NOT NULL,
                         TestProfileIds TEXT,
                         Ordering INTEGER,
-                        Notes TEXT
+                        Notes TEXT,
+                        UNIQUE(CellId, Name)
                     );";
                 using var cmd = new SQLiteCommand(createTableSql, conn);
                 cmd.ExecuteNonQuery();
@@ -48,73 +50,42 @@ namespace CellManager.Services
             }
         }
 
-        public List<Schedule> GetAll()
+        public List<Schedule> Load(int cellId)
         {
             var schedules = new List<Schedule>();
             try
             {
                 using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
                 conn.Open();
-                string sql = "SELECT * FROM Schedules ORDER BY Ordering";
+                string sql = "SELECT * FROM Schedules WHERE CellId = @CellId ORDER BY Ordering";
                 using var cmd = new SQLiteCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@CellId", cellId);
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    var idsText = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
+                    var idsText = reader.IsDBNull(3) ? string.Empty : reader.GetString(3);
                     var ids = idsText.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                                      .Select(int.Parse)
                                      .ToList();
                     schedules.Add(new Schedule
                     {
                         Id = reader.GetInt32(0),
-                        Name = reader.GetString(1),
+                        CellId = reader.GetInt32(1),
+                        Name = reader.GetString(2),
                         TestProfileIds = ids,
-                        Ordering = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
-                        Notes = reader.IsDBNull(4) ? null : reader.GetString(4)
+                        Ordering = reader.IsDBNull(4) ? 0 : reader.GetInt32(4),
+                        Notes = reader.IsDBNull(5) ? null : reader.GetString(5)
                     });
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"GetAll schedules failed: {ex.Message}");
+                Console.WriteLine($"Load schedules failed: {ex.Message}");
             }
             return schedules;
         }
 
-        public Schedule? GetById(int id)
-        {
-            try
-            {
-                using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
-                conn.Open();
-                string sql = "SELECT * FROM Schedules WHERE Id = @Id";
-                using var cmd = new SQLiteCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Id", id);
-                using var reader = cmd.ExecuteReader();
-                if (reader.Read())
-                {
-                    var idsText = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-                    var ids = idsText.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                     .Select(int.Parse)
-                                     .ToList();
-                    return new Schedule
-                    {
-                        Id = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        TestProfileIds = ids,
-                        Ordering = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
-                        Notes = reader.IsDBNull(4) ? null : reader.GetString(4)
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Get schedule by id failed: {ex.Message}");
-            }
-            return null;
-        }
-
-        public void Save(Schedule schedule)
+        public void Save(int cellId, Schedule schedule)
         {
             try
             {
@@ -124,20 +95,23 @@ namespace CellManager.Services
 
                 if (schedule.Id == 0)
                 {
-                    string insertSql = @"INSERT INTO Schedules (Name, TestProfileIds, Ordering, Notes) VALUES (@Name, @TestProfileIds, @Ordering, @Notes);";
+                    string insertSql = @"INSERT INTO Schedules (CellId, Name, TestProfileIds, Ordering, Notes) VALUES (@CellId, @Name, @TestProfileIds, @Ordering, @Notes);";
                     using var cmd = new SQLiteCommand(insertSql, conn);
+                    cmd.Parameters.AddWithValue("@CellId", cellId);
                     cmd.Parameters.AddWithValue("@Name", schedule.Name);
                     cmd.Parameters.AddWithValue("@TestProfileIds", idsText);
                     cmd.Parameters.AddWithValue("@Ordering", schedule.Ordering);
                     cmd.Parameters.AddWithValue("@Notes", (object?)schedule.Notes ?? DBNull.Value);
                     cmd.ExecuteNonQuery();
                     schedule.Id = (int)conn.LastInsertRowId;
+                    schedule.CellId = cellId;
                 }
                 else
                 {
-                    string updateSql = @"UPDATE Schedules SET Name = @Name, TestProfileIds = @TestProfileIds, Ordering = @Ordering, Notes = @Notes WHERE Id = @Id";
+                    string updateSql = @"UPDATE Schedules SET Name = @Name, TestProfileIds = @TestProfileIds, Ordering = @Ordering, Notes = @Notes WHERE Id = @Id AND CellId = @CellId";
                     using var cmd = new SQLiteCommand(updateSql, conn);
                     cmd.Parameters.AddWithValue("@Id", schedule.Id);
+                    cmd.Parameters.AddWithValue("@CellId", cellId);
                     cmd.Parameters.AddWithValue("@Name", schedule.Name);
                     cmd.Parameters.AddWithValue("@TestProfileIds", idsText);
                     cmd.Parameters.AddWithValue("@Ordering", schedule.Ordering);
@@ -151,15 +125,16 @@ namespace CellManager.Services
             }
         }
 
-        public void Delete(int id)
+        public void Delete(int cellId, int id)
         {
             try
             {
                 using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
                 conn.Open();
-                string sql = "DELETE FROM Schedules WHERE Id = @Id";
+                string sql = "DELETE FROM Schedules WHERE Id = @Id AND CellId = @CellId";
                 using var cmd = new SQLiteCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@Id", id);
+                cmd.Parameters.AddWithValue("@CellId", cellId);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)

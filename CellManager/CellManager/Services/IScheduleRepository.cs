@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using CellManager.Models;
 
 namespace CellManager.Services
 {
     public interface IScheduleRepository
     {
-        List<Schedule> GetAll();
-        Schedule? GetById(int id);
-        void Save(Schedule schedule);
-        void Delete(int id);
+        List<Schedule> Load(int cellId);
+        void Save(int cellId, Schedule schedule);
+        void Delete(int cellId, int id);
     }
 }
+
