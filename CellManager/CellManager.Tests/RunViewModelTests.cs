@@ -9,6 +9,14 @@ namespace CellManager.Tests
     public class RunViewModelTests
     {
         [Fact]
+        public void DemoSchedule_HasTimelineSteps()
+        {
+            var vm = new RunViewModel();
+            Assert.NotNull(vm.SelectedSchedule);
+            Assert.NotEmpty(vm.SelectedSchedule!.TestProfileIds);
+        }
+
+        [Fact]
         public async Task StartCommand_BeginsProgress()
         {
             var vm = new RunViewModel();

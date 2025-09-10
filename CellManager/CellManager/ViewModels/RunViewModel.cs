@@ -1,7 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Timers;
+using Timer = System.Timers.Timer;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -76,7 +76,13 @@ namespace CellManager.ViewModels
             if (_scheduleRepo == null)
             {
                 // Provide a demo schedule for design-time or tests
-                AvailableSchedules.Add(new Schedule { Id = 1, Name = "Demo", EstimatedDuration = TimeSpan.FromSeconds(5) });
+                AvailableSchedules.Add(new Schedule
+                {
+                    Id = 1,
+                    Name = "Demo",
+                    EstimatedDuration = TimeSpan.FromSeconds(5),
+                    TestProfileIds = { 1, 2, 3 }
+                });
                 SelectedSchedule = AvailableSchedules.FirstOrDefault();
             }
             else
@@ -109,7 +115,7 @@ namespace CellManager.ViewModels
             UpdateCommandStates();
         }
 
-        private void OnTimer(object? sender, ElapsedEventArgs e)
+        private void OnTimer(object? sender, System.Timers.ElapsedEventArgs e)
         {
             if (_isPaused || SelectedSchedule == null) return;
 
