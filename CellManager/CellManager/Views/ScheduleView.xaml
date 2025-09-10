@@ -10,6 +10,14 @@
     <UserControl.Resources>
         <DataTemplate x:Key="StepTemplateItem">
             <TextBlock Margin="4" VerticalAlignment="Center">
+                <TextBlock.ToolTip>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Id, StringFormat=ID\: {0}}"/>
+                        <TextBlock Text="{Binding Name, StringFormat=Name\: {0}}"/>
+                        <TextBlock Text="{Binding Parameters, StringFormat=Params\: {0}}"/>
+                        <TextBlock Text="{Binding Duration, StringFormat='Duration\: {0:hh\\:mm\\:ss}'}"/>
+                    </StackPanel>
+                </TextBlock.ToolTip>
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <!-- Default to name so loop templates hide IDs -->
