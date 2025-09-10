@@ -7,23 +7,9 @@
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800">
     <TabControl Margin="16">
-        <TabItem Header="Board">
+        <TabItem Header="Board Calibration">
             <ScrollViewer>
                 <StackPanel Margin="16">
-                    <!-- Board configuration -->
-                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock Text="Board Settings"
-                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                       Margin="0,0,0,16"/>
-                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     materialDesign:HintAssist.Hint="Board Port"
-                                     Text="{Binding BoardPort}"
-                                     Width="200"/>
-                        </StackPanel>
-                    </materialDesign:Card>
-
-                    <!-- Calibration layout -->
                     <materialDesign:Card Margin="0,0,0,16" Padding="16">
                         <StackPanel>
                             <TextBlock Text="Board Calibration"
@@ -106,8 +92,13 @@
                             </StackPanel>
                         </StackPanel>
                     </materialDesign:Card>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
 
-                    <!-- Board setting data -->
+        <TabItem Header="Board Data">
+            <ScrollViewer>
+                <StackPanel Margin="16">
                     <materialDesign:Card Margin="0,0,0,16" Padding="16">
                         <StackPanel>
                             <TextBlock Text="Board Settings Data"
@@ -123,6 +114,24 @@
                                     <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="System">
+            <ScrollViewer>
+                <StackPanel Margin="16">
+                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                        <StackPanel>
+                            <TextBlock Text="System Settings"
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       Margin="0,0,0,16"/>
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Board Port"
+                                     Text="{Binding BoardPort}"
+                                     Width="200"/>
                         </StackPanel>
                     </materialDesign:Card>
                 </StackPanel>
