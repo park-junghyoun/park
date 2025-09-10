@@ -18,7 +18,7 @@
                              materialDesign:HintAssist.Hint="Board Port"
                              Text="{Binding BoardPort}"
                              Width="200"/>
-                    <Button Style="{StaticResource MaterialDesignContainedButton}"
+                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
                             Content="Calibrate Board"
                             Command="{Binding CalibrateBoardCommand}"
                             Width="160"
