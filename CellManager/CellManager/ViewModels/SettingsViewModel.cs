@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CellManager.ViewModels
 {
@@ -27,5 +28,12 @@ namespace CellManager.ViewModels
 
         [ObservableProperty]
         private bool _enableDarkTheme;
+
+        [RelayCommand]
+        private void CalibrateBoard()
+        {
+            // TODO: implement board calibration logic
+        }
     }
 }
+
