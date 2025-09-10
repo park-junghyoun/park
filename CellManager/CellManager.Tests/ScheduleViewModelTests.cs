@@ -59,7 +59,7 @@ namespace CellManager.Tests
             var vm = new ScheduleViewModel();
             vm.AddScheduleCommand.Execute(null);
             var target = vm.SelectedSchedule;
-            vm.DeleteScheduleCommand.Execute(null);
+            vm.DeleteScheduleCommand.Execute(vm.SelectedSchedule);
             Assert.DoesNotContain(target, vm.Schedules);
         }
 

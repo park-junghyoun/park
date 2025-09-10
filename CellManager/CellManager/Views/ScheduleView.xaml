@@ -66,11 +66,38 @@
                         <Button Command="{Binding AddScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
                         </Button>
-                        <Button Command="{Binding DeleteScheduleCommand}" Style="{StaticResource MaterialDesignToolButton}">
+                        <Button Command="{Binding DeleteScheduleCommand}" CommandParameter="{Binding SelectedSchedule}" Style="{StaticResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
                         </Button>
                     </StackPanel>
                     <ListView DockPanel.Dock="Bottom" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" HorizontalAlignment="Stretch">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu>
+                                            <ContextMenu.ItemContainerStyle>
+                                                <Style TargetType="MenuItem">
+                                                    <Setter Property="FontSize" Value="14"/>
+                                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                                </Style>
+                                            </ContextMenu.ItemContainerStyle>
+                                            <MenuItem Header="Add" Command="{Binding PlacementTarget.Tag.AddScheduleCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                <MenuItem.Icon>
+                                                    <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Header="Delete" Command="{Binding PlacementTarget.Tag.DeleteScheduleCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}">
+                                                <MenuItem.Icon>
+                                                    <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Script #" DisplayMemberBinding="{Binding Ordering}" Width="80"/>
