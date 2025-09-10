@@ -15,6 +15,7 @@ namespace CellManager.ViewModels
         private readonly TestSetupViewModel _testSetupVm;
         private readonly ScheduleViewModel _scheduleVm;
         private readonly RunViewModel _runVm;
+        private readonly IServerStatusService _serverStatusService;
 
         public string HeaderText { get; } = "Main";
         public string IconName { get; } = "ViewDashboard";
@@ -24,8 +25,14 @@ namespace CellManager.ViewModels
         [ObservableProperty] private ObservableCollection<Cell> _availableCells = new();
         [ObservableProperty] private Cell _selectedCell;
 
+        [ObservableProperty] private string _boardStatus = "Disconnected";
+        [ObservableProperty] private string _serverStatus = "Disconnected";
+
         [ObservableProperty] private ObservableCollection<ObservableObject> _navigationItems = new();
         [ObservableProperty] private ObservableObject _currentViewModel;
+
+        public int CellLibraryCount => AvailableCells.Count;
+        public int ScheduleCount => _scheduleVm.Schedules.Count;
 
         public MainViewModel(
             ICellRepository cellRepository,
@@ -37,7 +44,8 @@ namespace CellManager.ViewModels
             AnalysisViewModel analysisVm,
             DataExportViewModel dataExportVm,
             SettingsViewModel settingsVm,
-            HelpViewModel helpVm
+            HelpViewModel helpVm,
+            IServerStatusService serverStatusService
         )
         {
             Debug.WriteLine("MainViewModel DI ctor");
@@ -45,6 +53,7 @@ namespace CellManager.ViewModels
             _testSetupVm = testSetupVm;
             _scheduleVm = scheduleVm;
             _runVm = runVm;
+            _serverStatusService = serverStatusService;
 
             NavigationItems.Add(homeVm);
             NavigationItems.Add(cellLibraryVm);
@@ -59,6 +68,10 @@ namespace CellManager.ViewModels
 
             LoadCells();
             UpdateFeatureTabs();
+            UpdateServerStatus();
+
+            AvailableCells.CollectionChanged += (_, __) => OnPropertyChanged(nameof(CellLibraryCount));
+            _scheduleVm.Schedules.CollectionChanged += (_, __) => OnPropertyChanged(nameof(ScheduleCount));
 
             WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
             {
@@ -97,6 +110,15 @@ namespace CellManager.ViewModels
             _runVm.IsViewEnabled = enabled;
         }
 
-        partial void OnSelectedCellChanged(Cell value) => UpdateFeatureTabs();
+        private async void UpdateServerStatus()
+        {
+            ServerStatus = await _serverStatusService.IsServerAvailableAsync() ? "Connected" : "Disconnected";
+        }
+
+        partial void OnSelectedCellChanged(Cell value)
+        {
+            UpdateFeatureTabs();
+            OnPropertyChanged(nameof(ScheduleCount));
+        }
     }
 }
