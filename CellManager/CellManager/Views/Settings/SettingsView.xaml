@@ -18,19 +18,89 @@
                              materialDesign:HintAssist.Hint="Board Port"
                              Text="{Binding BoardPort}"
                              Width="200"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0" Spacing="8">
-                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                 materialDesign:HintAssist.Hint="Calib X"
-                                 Text="{Binding CalibrationX}"
-                                 Width="120"/>
-                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                 materialDesign:HintAssist.Hint="Calib Y"
-                                 Text="{Binding CalibrationY}"
-                                 Width="120"/>
-                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                 materialDesign:HintAssist.Hint="Calib Z"
-                                 Text="{Binding CalibrationZ}"
-                                 Width="120"/>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Calibration layout -->
+            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Board Calibration"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,16"/>
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <!-- Voltage card -->
+                        <materialDesign:Card Padding="16" Width="300">
+                            <StackPanel>
+                                <TextBlock Text="Voltage"
+                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           Margin="0,0,0,8"/>
+                                <TextBlock Text="Low Side" FontWeight="Bold"/>
+                                <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Reference [mV]"
+                                             Text="{Binding VoltageLowReference}"
+                                             Width="120"/>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Result"
+                                             Text="{Binding VoltageLowResult}"
+                                             Width="120"/>
+                                </StackPanel>
+                                <TextBlock Text="High Side" FontWeight="Bold" Margin="0,8,0,0"/>
+                                <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Reference [mV]"
+                                             Text="{Binding VoltageHighReference}"
+                                             Width="120"/>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Result"
+                                             Text="{Binding VoltageHighResult}"
+                                             Width="120"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <!-- Current card -->
+                        <materialDesign:Card Padding="16" Width="260">
+                            <StackPanel>
+                                <TextBlock Text="Current"
+                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Reference [mA]"
+                                             Text="{Binding CurrentReference}"
+                                             Width="120"/>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Result"
+                                             Text="{Binding CurrentResult}"
+                                             Width="120"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+                                    <Button Content="Calibrate" Width="80"/>
+                                    <Button Content="Discharge" Width="80"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <!-- Temperature card -->
+                        <materialDesign:Card Padding="16" Width="260">
+                            <StackPanel>
+                                <TextBlock Text="Temperature"
+                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           Margin="0,0,0,8"/>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Reference [°C]"
+                                             Text="{Binding TemperatureReference}"
+                                             Width="120"/>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Result"
+                                             Text="{Binding TemperatureResult}"
+                                             Width="120"/>
+                                </StackPanel>
+                                <Button Content="Set Temp" Width="80" Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </materialDesign:Card>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>

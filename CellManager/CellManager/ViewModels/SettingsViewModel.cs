@@ -15,14 +15,30 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private string _boardPort = string.Empty;
 
+        // Calibration placeholders
         [ObservableProperty]
-        private string _calibrationX = string.Empty;
+        private string _voltageLowReference = "1000";
 
         [ObservableProperty]
-        private string _calibrationY = string.Empty;
+        private string _voltageLowResult = "0";
 
         [ObservableProperty]
-        private string _calibrationZ = string.Empty;
+        private string _voltageHighReference = "4000";
+
+        [ObservableProperty]
+        private string _voltageHighResult = "0";
+
+        [ObservableProperty]
+        private string _currentReference = "500";
+
+        [ObservableProperty]
+        private string _currentResult = "0";
+
+        [ObservableProperty]
+        private string _temperatureReference = "25";
+
+        [ObservableProperty]
+        private string _temperatureResult = "0";
 
         // Default paths
         [ObservableProperty]
