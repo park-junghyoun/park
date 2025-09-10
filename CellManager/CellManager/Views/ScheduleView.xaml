@@ -274,7 +274,7 @@
                     </StackPanel>
 
                     <!-- Sequence list -->
-                    <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,5,0,10">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Script #" FontWeight="Bold" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding SelectedSchedule.Ordering}" Margin="0,0,16,0" VerticalAlignment="Center" FontSize="13" FontWeight="Bold"/>
@@ -290,7 +290,7 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <Button Command="{Binding SaveScheduleCommand}" Padding="6" Height="30">
+                            <Button Command="{Binding SaveScheduleCommand}" Padding="2" Height="25">
                                 <Button.Style>
                                     <Style BasedOn="{StaticResource PrimaryActionButton}" TargetType="Button">
                                         <Style.Triggers>
@@ -427,66 +427,63 @@
 
 
             <!-- Step library -->
-                <GroupBox Grid.Column="2" Margin="8">
-                    <DockPanel>
-                        <TextBlock DockPanel.Dock="Top" Text="Step Library" FontWeight="Bold" FontSize="15" Margin="0,0,0,8"/>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <ItemsControl ItemsSource="{Binding StepLibrary}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <materialDesign:Card Margin="0,0,0,8" Padding="0">
-                                            <Expander IsExpanded="True">
-                                                <Expander.Header>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <materialDesign:PackIcon Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center">
-                                                            <materialDesign:PackIcon.Style>
-                                                                <Style TargetType="materialDesign:PackIcon">
-                                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Name}" Value="Charge">
-                                                                            <Setter Property="Kind" Value="BatteryPlus"/>
-                                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Name}" Value="Discharge">
-                                                                            <Setter Property="Kind" Value="BatteryMinus"/>
-                                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Name}" Value="Rest">
-                                                                            <Setter Property="Kind" Value="BatteryEco"/>
-                                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Name}" Value="OCV">
-                                                                            <Setter Property="Kind" Value="StairsDown"/>
-                                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                                            <Setter Property="LayoutTransform">
-                                                                                <Setter.Value>
-                                                                                    <ScaleTransform ScaleX="-1"/>
-                                                                                </Setter.Value>
-                                                                            </Setter>
-                                                                        </DataTrigger>
-                                                                        <DataTrigger Binding="{Binding Name}" Value="Loop">
-                                                                            <Setter Property="Kind" Value="Repeat"/>
-                                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </materialDesign:PackIcon.Style>
-                                                        </materialDesign:PackIcon>
-                                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="Bold"/>
-                                                    </StackPanel>
-                                                </Expander.Header>
-                                                <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+            <GroupBox Grid.Column="2" Margin="3" Style="{x:Null}" BorderThickness="0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding StepLibrary}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card Margin="0,0,0,8" Padding="0">
+                                    <Expander IsExpanded="True">
+                                        <Expander.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center">
+                                                    <materialDesign:PackIcon.Style>
+                                                        <Style TargetType="materialDesign:PackIcon">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Name}" Value="Charge">
+                                                                    <Setter Property="Kind" Value="BatteryPlus"/>
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Name}" Value="Discharge">
+                                                                    <Setter Property="Kind" Value="BatteryMinus"/>
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Name}" Value="Rest">
+                                                                    <Setter Property="Kind" Value="BatteryEco"/>
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Name}" Value="OCV">
+                                                                    <Setter Property="Kind" Value="StairsDown"/>
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Setter Property="LayoutTransform">
+                                                                        <Setter.Value>
+                                                                            <ScaleTransform ScaleX="-1"/>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Name}" Value="Loop">
+                                                                    <Setter Property="Kind" Value="Repeat"/>
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </materialDesign:PackIcon.Style>
+                                                </materialDesign:PackIcon>
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="Bold"/>
+                                            </StackPanel>
+                                        </Expander.Header>
+                                        <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
                                                               Margin="24,4,4,4"
                                                               PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
                                                               PreviewMouseMove="ProfileList_PreviewMouseMove"/>
-                                            </Expander>
-                                        </materialDesign:Card>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </DockPanel>
-                </GroupBox>
+                                    </Expander>
+                                </materialDesign:Card>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </GroupBox>
         </Grid>
 
     </Grid>
