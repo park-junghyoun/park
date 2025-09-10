@@ -114,7 +114,7 @@ namespace CellManager.Services
             return schedules;
         }
 
-        public void Save(int cellId, Schedule schedule)
+        public int Save(int cellId, Schedule schedule)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace CellManager.Services
 
                 if (schedule.Id == 0)
                 {
-                    string insertSql = @"INSERT INTO Schedules (CellId, Name, TestProfileIds, Ordering, Notes, RepeatCount, LoopStartIndex, LoopEndIndex) VALUES (@CellId, @Name, @TestProfileIds, @Ordering, @Notes, @RepeatCount, @LoopStartIndex, @LoopEndIndex);";
+                    const string insertSql = @"INSERT INTO Schedules (CellId, Name, TestProfileIds, Ordering, Notes, RepeatCount, LoopStartIndex, LoopEndIndex) VALUES (@CellId, @Name, @TestProfileIds, @Ordering, @Notes, @RepeatCount, @LoopStartIndex, @LoopEndIndex);";
                     using var cmd = new SQLiteCommand(insertSql, conn);
                     cmd.Parameters.AddWithValue("@CellId", cellId);
                     cmd.Parameters.AddWithValue("@Name", schedule.Name);
@@ -135,12 +135,13 @@ namespace CellManager.Services
                     cmd.Parameters.AddWithValue("@LoopStartIndex", schedule.LoopStartIndex);
                     cmd.Parameters.AddWithValue("@LoopEndIndex", schedule.LoopEndIndex);
                     cmd.ExecuteNonQuery();
-                    schedule.Id = (int)conn.LastInsertRowId;
+                    using var idCmd = new SQLiteCommand("SELECT last_insert_rowid();", conn);
+                    schedule.Id = Convert.ToInt32(idCmd.ExecuteScalar());
                     schedule.CellId = cellId;
                 }
                 else
                 {
-                    string updateSql = @"UPDATE Schedules SET Name = @Name, TestProfileIds = @TestProfileIds, Ordering = @Ordering, Notes = @Notes, RepeatCount = @RepeatCount, LoopStartIndex = @LoopStartIndex, LoopEndIndex = @LoopEndIndex WHERE Id = @Id AND CellId = @CellId";
+                    const string updateSql = @"UPDATE Schedules SET Name = @Name, TestProfileIds = @TestProfileIds, Ordering = @Ordering, Notes = @Notes, RepeatCount = @RepeatCount, LoopStartIndex = @LoopStartIndex, LoopEndIndex = @LoopEndIndex WHERE Id = @Id AND CellId = @CellId";
                     using var cmd = new SQLiteCommand(updateSql, conn);
                     cmd.Parameters.AddWithValue("@Id", schedule.Id);
                     cmd.Parameters.AddWithValue("@CellId", cellId);
@@ -153,10 +154,12 @@ namespace CellManager.Services
                     cmd.Parameters.AddWithValue("@LoopEndIndex", schedule.LoopEndIndex);
                     cmd.ExecuteNonQuery();
                 }
+                return schedule.Id;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Save schedule failed: {ex.Message}");
+                return 0;
             }
         }
 

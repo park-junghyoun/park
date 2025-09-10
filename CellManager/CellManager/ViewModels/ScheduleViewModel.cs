@@ -451,10 +451,10 @@ namespace CellManager.ViewModels
             if (SelectedCell != null && _scheduleRepo != null)
             {
                 SelectedSchedule.CellId = SelectedCell.Id;
-                _scheduleRepo.Save(SelectedCell.Id, SelectedSchedule);
-                if (SelectedSchedule.Id == 0)
+                var savedId = _scheduleRepo.Save(SelectedCell.Id, SelectedSchedule);
+                if (savedId == 0)
                     return;
-                var savedId = SelectedSchedule.Id;
+                SelectedSchedule.Id = savedId;
                 LoadSchedules();
                 SelectedSchedule = Schedules.FirstOrDefault(s => s.Id == savedId);
                 UpdateScheduleDurations();

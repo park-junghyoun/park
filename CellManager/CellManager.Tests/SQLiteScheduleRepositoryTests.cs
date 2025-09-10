@@ -36,8 +36,11 @@ namespace CellManager.Tests
                 }
 
                 var repo = new SQLiteScheduleRepository();
-                repo.Save(1, new Schedule { Name = "S1", Ordering = 1 });
-                repo.Save(2, new Schedule { Name = "S2", Ordering = 1 });
+                var id1 = repo.Save(1, new Schedule { Name = "S1", Ordering = 1 });
+                var id2 = repo.Save(2, new Schedule { Name = "S2", Ordering = 1 });
+
+                Assert.NotEqual(0, id1);
+                Assert.NotEqual(0, id2);
 
                 var cell1 = repo.Load(1);
                 var cell2 = repo.Load(2);
