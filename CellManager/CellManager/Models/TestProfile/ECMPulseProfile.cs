@@ -28,6 +28,6 @@ namespace CellManager.Models.TestProfile
         [NotifyPropertyChangedFor(nameof(PreviewText))]
         private double _samplingRateMs;
 
-        public string PreviewText => $"Current: {PulseCurrent} A, Duration: {PulseDuration} ms, Reset: {ResetTimeAfterPulse} ms, Sample: {SamplingRateMs} ms";
+        public string PreviewText => $"I: {PulseCurrent} A, Dur: {PulseDuration} ms";
     }
 }

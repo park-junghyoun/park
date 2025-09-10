@@ -32,6 +32,6 @@ namespace CellManager.Models.TestProfile
         [NotifyPropertyChangedFor(nameof(PreviewText))]
         private double _dischargeCutoffVoltage_OCV;
 
-        public string PreviewText => $"Qmax: {Qmax}, SOC Step: {SocStepPercent} %, Current: {DischargeCurrent_OCV} A, Rest: {RestTime_OCV} s, Cutoff: {DischargeCutoffVoltage_OCV} V";
+        public string PreviewText => $"I: {DischargeCurrent_OCV} A, Rest: {RestTime_OCV} s, V: {DischargeCutoffVoltage_OCV} V";
     }
 }

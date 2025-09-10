@@ -21,7 +21,7 @@ namespace CellManager.Models.TestProfile
         [ObservableProperty] private int _restMinutes;
         [ObservableProperty] private int _restSeconds;
 
-        public string PreviewText => $"Rest Time: {RestTime}";
+        public string PreviewText => $"{RestTime}";
 
         partial void OnRestHoursChanged(int value) => UpdateRestTime();
         partial void OnRestMinutesChanged(int value) => UpdateRestTime();
