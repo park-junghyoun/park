@@ -1,0 +1,35 @@
+<UserControl x:Class="CellManager.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+    <ScrollViewer>
+        <StackPanel Margin="16">
+            <GroupBox Header="Board Settings" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Board Port" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding BoardPort}" Width="200"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Paths" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Data Export Path" Margin="0,0,0,4"/>
+                    <TextBox Text="{Binding DataExportPath}" Width="300"/>
+                    <TextBlock Text="Profile Path" Margin="0,8,0,4"/>
+                    <TextBox Text="{Binding ProfilePath}" Width="300"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Features">
+                <StackPanel>
+                    <CheckBox Content="Enable Advanced Features" IsChecked="{Binding EnableAdvancedFeatures}" Margin="0,0,0,4"/>
+                    <CheckBox Content="Enable Dark Theme" IsChecked="{Binding EnableDarkTheme}"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
