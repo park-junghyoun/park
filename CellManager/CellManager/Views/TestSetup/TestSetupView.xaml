@@ -40,6 +40,12 @@
                             <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding ChargeProfiles}"
                                      SelectedItem="{Binding SelectedChargeProfile, Mode=TwoWay}">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add"
+                                                  Command="{Binding PlacementTarget.DataContext.AddChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -87,6 +93,12 @@
                             <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding DischargeProfiles}"
                                      SelectedItem="{Binding SelectedDischargeProfile, Mode=TwoWay}">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add"
+                                                  Command="{Binding PlacementTarget.DataContext.AddDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -134,6 +146,12 @@
                             <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding RestProfiles}"
                                      SelectedItem="{Binding SelectedRestProfile, Mode=TwoWay}">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add"
+                                                  Command="{Binding PlacementTarget.DataContext.AddRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -185,6 +203,12 @@
                             <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding OcvProfiles}"
                                      SelectedItem="{Binding SelectedOcvProfile, Mode=TwoWay}">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add"
+                                                  Command="{Binding PlacementTarget.DataContext.AddOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
@@ -232,6 +256,12 @@
                             <ListBox Style="{StaticResource ProfileListBox}"
                                      ItemsSource="{Binding EcmPulseProfiles}"
                                      SelectedItem="{Binding SelectedEcmPulseProfile, Mode=TwoWay}">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add"
+                                                  Command="{Binding PlacementTarget.DataContext.AddEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
