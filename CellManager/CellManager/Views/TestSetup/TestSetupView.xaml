@@ -51,7 +51,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -128,7 +128,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -205,7 +205,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -286,7 +286,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -363,7 +363,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
