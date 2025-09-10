@@ -8,26 +8,53 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <ScrollViewer>
         <StackPanel Margin="16">
+            <!-- Board configuration -->
             <GroupBox Header="Board Settings" Margin="0,0,0,16">
-                <StackPanel>
-                    <TextBlock Text="Board Port" Margin="0,0,0,4"/>
-                    <TextBox Text="{Binding BoardPort}" Width="200"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Board Port" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                    <TextBox Grid.Column="1"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding BoardPort}" Width="150"/>
+                </Grid>
             </GroupBox>
 
+            <!-- Path configuration -->
             <GroupBox Header="Paths" Margin="0,0,0,16">
-                <StackPanel>
-                    <TextBlock Text="Data Export Path" Margin="0,0,0,4"/>
-                    <TextBox Text="{Binding DataExportPath}" Width="300"/>
-                    <TextBlock Text="Profile Path" Margin="0,8,0,4"/>
-                    <TextBox Text="{Binding ProfilePath}" Width="300"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Data Export Path" VerticalAlignment="Center" Margin="0,0,16,8"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding DataExportPath}" Margin="0,0,0,8"/>
+
+                    <TextBlock Grid.Row="1" Text="Profile Path" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding ProfilePath}"/>
+                </Grid>
             </GroupBox>
 
+            <!-- Feature switches -->
             <GroupBox Header="Features">
                 <StackPanel>
-                    <CheckBox Content="Enable Advanced Features" IsChecked="{Binding EnableAdvancedFeatures}" Margin="0,0,0,4"/>
-                    <CheckBox Content="Enable Dark Theme" IsChecked="{Binding EnableDarkTheme}"/>
+                    <CheckBox Content="Enable Advanced Features"
+                              IsChecked="{Binding EnableAdvancedFeatures}"
+                              Margin="0,0,0,8"/>
+                    <CheckBox Content="Enable Dark Theme"
+                              IsChecked="{Binding EnableDarkTheme}"/>
                 </StackPanel>
             </GroupBox>
         </StackPanel>
