@@ -40,7 +40,8 @@
     <Compile Include="../CellManager/Services/SQLiteScheduleRepository.cs" Link="Services/SQLiteScheduleRepository.cs" />
     <Compile Include="../CellManager/Models/ScheduleTimeCalculator.cs" Link="Models/ScheduleTimeCalculator.cs" />
     <Compile Include="../CellManager/Messages/CellSelectedMessage.cs" Link="Messages/CellSelectedMessage.cs" />
-    <Compile Include="../CellManager/ViewModels/ScheduleViewModel.cs" Link="ViewModels/ScheduleViewModel.cs" />
-  </ItemGroup>
+      <Compile Include="../CellManager/ViewModels/ScheduleViewModel.cs" Link="ViewModels/ScheduleViewModel.cs" />
+      <Compile Include="../CellManager/ViewModels/RunViewModel.cs" Link="ViewModels/RunViewModel.cs" />
+    </ItemGroup>
 
-</Project>
+  </Project>
