@@ -47,17 +47,26 @@ namespace CellManager.Services
                 using var cmd = new SQLiteCommand(createTableSql, conn);
                 cmd.ExecuteNonQuery();
 
-                string[] columns = { "RepeatCount", "LoopStartIndex", "LoopEndIndex" };
-                foreach (var col in columns)
+                var existing = new HashSet<string>();
+                using (var infoCmd = new SQLiteCommand("PRAGMA table_info(Schedules);", conn))
+                using (var reader = infoCmd.ExecuteReader())
+                    while (reader.Read())
+                        existing.Add(Convert.ToString(reader["name"]));
+
+                var migrations = new (string Column, string Definition)[]
                 {
-                    try
+                    ("CellId", "INTEGER DEFAULT 0"),
+                    ("RepeatCount", "INTEGER DEFAULT 1"),
+                    ("LoopStartIndex", "INTEGER DEFAULT 0"),
+                    ("LoopEndIndex", "INTEGER DEFAULT 0")
+                };
+
+                foreach (var (column, definition) in migrations)
+                {
+                    if (!existing.Contains(column))
                     {
-                        using var addCmd = new SQLiteCommand($"ALTER TABLE Schedules ADD COLUMN {col} INTEGER DEFAULT 0", conn);
+                        using var addCmd = new SQLiteCommand($"ALTER TABLE Schedules ADD COLUMN {column} {definition};", conn);
                         addCmd.ExecuteNonQuery();
-                    }
-                    catch
-                    {
-                        // ignore if column exists
                     }
                 }
             }

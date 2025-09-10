@@ -37,6 +37,7 @@
     <Compile Include="../CellManager/Services/IOcvProfileRepository.cs" Link="Services/IOcvProfileRepository.cs" />
     <Compile Include="../CellManager/Services/IRestProfileRepository.cs" Link="Services/IRestProfileRepository.cs" />
     <Compile Include="../CellManager/Services/IScheduleRepository.cs" Link="Services/IScheduleRepository.cs" />
+    <Compile Include="../CellManager/Services/SQLiteScheduleRepository.cs" Link="Services/SQLiteScheduleRepository.cs" />
     <Compile Include="../CellManager/Models/ScheduleTimeCalculator.cs" Link="Models/ScheduleTimeCalculator.cs" />
     <Compile Include="../CellManager/Messages/CellSelectedMessage.cs" Link="Messages/CellSelectedMessage.cs" />
     <Compile Include="../CellManager/ViewModels/ScheduleViewModel.cs" Link="ViewModels/ScheduleViewModel.cs" />

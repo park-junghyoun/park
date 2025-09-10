@@ -131,8 +131,9 @@ namespace CellManager.ViewModels
 
         private void LoadSchedules()
         {
-            if (_scheduleRepo == null || SelectedCell == null) return;
             Schedules.Clear();
+            SelectedSchedule = null;
+            if (_scheduleRepo == null || SelectedCell == null) return;
             foreach (var sched in _scheduleRepo.Load(SelectedCell.Id))
                 Schedules.Add(sched);
             SelectedSchedule = Schedules.FirstOrDefault();
