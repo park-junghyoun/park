@@ -293,6 +293,15 @@
                                         </Style.Triggers>
                                     </Style>
                                 </ListBox.Style>
+                                <ListBox.Template>
+                                    <ControlTemplate TargetType="ListBox">
+                                        <Border BorderBrush="#E5E7EB" BorderThickness="1" SnapsToDevicePixels="True">
+                                            <ScrollViewer Focusable="False" HorizontalScrollBarVisibility="Disabled">
+                                                <ItemsPresenter />
+                                            </ScrollViewer>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ListBox.Template>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <materialDesign:Card Margin="4" Padding="8">
