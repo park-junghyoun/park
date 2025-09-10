@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <converters:IsNotLastItemConverter x:Key="IsNotLastItemConverter"/>
         <DataTemplate x:Key="StepTemplateItem">
-            <TextBlock Margin="4" VerticalAlignment="Center">
+            <TextBlock Margin="4" VerticalAlignment="Center" Cursor="SizeAll">
                 <TextBlock.ToolTip>
                     <StackPanel>
                         <TextBlock Text="{Binding Id, StringFormat=ID\: {0}}"/>
@@ -331,7 +331,7 @@
                                 </ListBox.Template>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <materialDesign:Card Margin="4" Padding="8">
+                                        <materialDesign:Card Margin="4" Padding="8" Cursor="SizeAll">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
@@ -382,7 +382,7 @@
                                                     </TextBlock>
                                                 </StackPanel>
                                                 <TextBlock Grid.Column="3" Text="{Binding Duration, StringFormat='{}{0:hh\\:mm\\:ss}'}" Margin="8,0" VerticalAlignment="Center"/>
-                                                <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}"
+                                                <Button Grid.Column="4" Style="{StaticResource MaterialDesignToolButton}" Cursor="Arrow"
                             Command="{Binding DataContext.RemoveStepCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                             CommandParameter="{Binding}">
                                                     <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
