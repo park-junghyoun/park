@@ -73,7 +73,7 @@ namespace CellManager.ViewModels
         public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
         public RelayCommand AddScheduleCommand { get; }
-        public RelayCommand DeleteScheduleCommand { get; }
+        public RelayCommand<Schedule> DeleteScheduleCommand { get; }
 
         public ScheduleViewModel() : this(null, null, null, null, null, null) { }
 
@@ -101,7 +101,7 @@ namespace CellManager.ViewModels
             RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
             SaveScheduleCommand = new RelayCommand(SaveSchedule);
             AddScheduleCommand = new RelayCommand(AddSchedule);
-            DeleteScheduleCommand = new RelayCommand(DeleteSchedule, () => SelectedSchedule != null);
+            DeleteScheduleCommand = new RelayCommand<Schedule>(DeleteSchedule, s => s != null);
 
             if (_scheduleRepo != null)
             {
@@ -448,12 +448,13 @@ namespace CellManager.ViewModels
             _scheduleRepo?.Save(SelectedSchedule);
         }
 
-        private void DeleteSchedule()
+        private void DeleteSchedule(Schedule? schedule)
         {
-            if (SelectedSchedule == null) return;
-            _scheduleRepo?.Delete(SelectedSchedule.Id);
-            var index = Schedules.IndexOf(SelectedSchedule);
-            Schedules.Remove(SelectedSchedule);
+            var target = schedule ?? SelectedSchedule;
+            if (target == null) return;
+            _scheduleRepo?.Delete(target.Id);
+            var index = Schedules.IndexOf(target);
+            Schedules.Remove(target);
             SelectedSchedule = index < Schedules.Count ? Schedules[index] : Schedules.FirstOrDefault();
         }
     }
