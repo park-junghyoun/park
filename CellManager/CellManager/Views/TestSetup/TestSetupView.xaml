@@ -43,7 +43,11 @@
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Add"
-                                                  Command="{Binding PlacementTarget.DataContext.AddChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                  Command="{Binding PlacementTarget.DataContext.AddChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
@@ -63,10 +67,18 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
                                                               Command="{Binding PlacementTarget.Tag.EditChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                     <MenuItem Header="Delete"
                                                               Command="{Binding PlacementTarget.Tag.DeleteChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
@@ -96,7 +108,11 @@
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Add"
-                                                  Command="{Binding PlacementTarget.DataContext.AddDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                  Command="{Binding PlacementTarget.DataContext.AddDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
@@ -116,10 +132,18 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
                                                               Command="{Binding PlacementTarget.Tag.EditDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                     <MenuItem Header="Delete"
                                                               Command="{Binding PlacementTarget.Tag.DeleteDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
@@ -149,7 +173,11 @@
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Add"
-                                                  Command="{Binding PlacementTarget.DataContext.AddRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                  Command="{Binding PlacementTarget.DataContext.AddRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
@@ -169,10 +197,18 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
                                                               Command="{Binding PlacementTarget.Tag.EditRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                     <MenuItem Header="Delete"
                                                               Command="{Binding PlacementTarget.Tag.DeleteRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
@@ -206,7 +242,11 @@
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Add"
-                                                  Command="{Binding PlacementTarget.DataContext.AddOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                  Command="{Binding PlacementTarget.DataContext.AddOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
@@ -226,10 +266,18 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
                                                               Command="{Binding PlacementTarget.Tag.EditOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                     <MenuItem Header="Delete"
                                                               Command="{Binding PlacementTarget.Tag.DeleteOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
@@ -259,7 +307,11 @@
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Add"
-                                                  Command="{Binding PlacementTarget.DataContext.AddEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                  Command="{Binding PlacementTarget.DataContext.AddEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
                                 <ListBox.ItemTemplate>
@@ -279,10 +331,18 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Edit"
                                                               Command="{Binding PlacementTarget.Tag.EditEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                     <MenuItem Header="Delete"
                                                               Command="{Binding PlacementTarget.Tag.DeleteEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                 </ContextMenu>
                                             </Setter.Value>
                                         </Setter>
