@@ -64,24 +64,26 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private string _firmwareVersion = string.Empty;
 
-        public ObservableCollection<BoardSettingData> BoardSettingsData { get; } = new()
-        {
-            new BoardSettingData { Parameter = "Firmware Version", Value = "1.0" },
-            new BoardSettingData { Parameter = "Serial Number", Value = "123456" }
-        };
+        public ObservableCollection<BoardDataSetting> BoardDataSettings { get; } = new();
 
         public ObservableCollection<ProtectionSetting> ProtectionSettings { get; } = new();
 
         public RelayCommand ReadProtectionCommand { get; }
         public RelayCommand WriteProtectionCommand { get; }
+        public RelayCommand ReadBoardDataCommand { get; }
+        public RelayCommand WriteBoardDataCommand { get; }
 
         private readonly Dictionary<string, List<ProtectionSetting>> _profiles = new();
+        private readonly string _boardDataFilePath = Path.Combine(AppContext.BaseDirectory, "BoardDataProfiles", "boarddata.json");
 
         public SettingsViewModel()
         {
             LoadProtectionConfigurations();
             ReadProtectionCommand = new RelayCommand(ReadProtectionSettings, CanReadWriteProtection);
             WriteProtectionCommand = new RelayCommand(WriteProtectionSettings, CanReadWriteProtection);
+            ReadBoardDataCommand = new RelayCommand(ReadBoardDataSettings);
+            WriteBoardDataCommand = new RelayCommand(WriteBoardDataSettings);
+            ReadBoardDataSettings();
         }
 
         private IEnumerable<string> SupportedFirmwareVersions => _profiles.Keys;
@@ -121,10 +123,14 @@ namespace CellManager.ViewModels
         }
     }
 
-    public class BoardSettingData
+    public class BoardDataSetting
     {
         public string Parameter { get; set; } = string.Empty;
-        public string Value { get; set; } = string.Empty;
+        public string Spec { get; set; } = string.Empty;
+        public string Unit { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public ObservableCollection<string> Options { get; } = new();
     }
 
     public class ProtectionSetting
@@ -135,6 +141,21 @@ namespace CellManager.ViewModels
         public string Description { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public ObservableCollection<string> Options { get; } = new();
+    }
+
+    internal class BoardDataProfile
+    {
+        [JsonPropertyName("settings")] public List<BoardDataSettingConfig> Settings { get; set; } = new();
+    }
+
+    internal class BoardDataSettingConfig
+    {
+        [JsonPropertyName("parameter")] public string Parameter { get; set; } = string.Empty;
+        [JsonPropertyName("unit")] public string Unit { get; set; } = string.Empty;
+        [JsonPropertyName("description")] public string Description { get; set; } = string.Empty;
+        [JsonPropertyName("defaultSpec")] public string Spec { get; set; } = string.Empty;
+        [JsonPropertyName("category")] public string Category { get; set; } = string.Empty;
+        [JsonPropertyName("options")] public List<string> Options { get; set; } = new();
     }
 
     internal class ProtectionProfile
@@ -193,6 +214,71 @@ namespace CellManager.ViewModels
                 {
                     // Ignore invalid profiles
                 }
+            }
+        }
+
+        private void ReadBoardDataSettings()
+        {
+            try
+            {
+                if (!File.Exists(_boardDataFilePath))
+                    return;
+
+                var profile = JsonSerializer.Deserialize<BoardDataProfile>(File.ReadAllText(_boardDataFilePath));
+                if (profile == null)
+                    return;
+
+                BoardDataSettings.Clear();
+                foreach (var s in profile.Settings)
+                {
+                    var bd = new BoardDataSetting
+                    {
+                        Parameter = s.Parameter,
+                        Spec = s.Spec,
+                        Unit = s.Unit,
+                        Description = s.Description,
+                        Category = s.Category
+                    };
+                    foreach (var option in s.Options)
+                    {
+                        bd.Options.Add(option);
+                    }
+                    BoardDataSettings.Add(bd);
+                }
+            }
+            catch
+            {
+                // Ignore invalid profiles
+            }
+        }
+
+        private void WriteBoardDataSettings()
+        {
+            try
+            {
+                var profile = new BoardDataProfile
+                {
+                    Settings = BoardDataSettings.Select(b => new BoardDataSettingConfig
+                    {
+                        Parameter = b.Parameter,
+                        Unit = b.Unit,
+                        Description = b.Description,
+                        Spec = b.Spec,
+                        Category = b.Category,
+                        Options = b.Options.ToList()
+                    }).ToList()
+                };
+
+                var json = JsonSerializer.Serialize(profile, new JsonSerializerOptions { WriteIndented = true });
+                var dir = Path.GetDirectoryName(_boardDataFilePath);
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                File.WriteAllText(_boardDataFilePath, json);
+            }
+            catch
+            {
+                // Ignore write errors
             }
         }
     }

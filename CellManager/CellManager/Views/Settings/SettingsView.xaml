@@ -150,20 +150,71 @@
             <ScrollViewer>
                 <StackPanel Margin="16">
                     <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                        <materialDesign:Card.Resources>
+                            <CollectionViewSource x:Key="BoardDataSettingsGrouped" Source="{Binding BoardDataSettings}">
+                                <CollectionViewSource.GroupDescriptions>
+                                    <PropertyGroupDescription PropertyName="Category" />
+                                </CollectionViewSource.GroupDescriptions>
+                            </CollectionViewSource>
+                        </materialDesign:Card.Resources>
                         <StackPanel>
                             <TextBlock Text="Board Settings Data"
                                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                        Margin="0,0,0,16"/>
-                            <DataGrid ItemsSource="{Binding BoardSettingsData}"
+                            <DataGrid ItemsSource="{Binding Source={StaticResource BoardDataSettingsGrouped}}"
                                       AutoGenerateColumns="False"
                                       HeadersVisibility="Column"
                                       CanUserAddRows="False"
-                                      Margin="0,0,0,8">
+                                      Margin="0,0,0,16">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Parameter" Binding="{Binding Parameter}"/>
-                                    <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+                                    <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Parameter}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Spec" CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Spec}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Unit">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Unit}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Description" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Description}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
+                                <DataGrid.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                            </DataTemplate>
+                                        </GroupStyle.HeaderTemplate>
+                                    </GroupStyle>
+                                </DataGrid.GroupStyle>
                             </DataGrid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="Read" Command="{Binding ReadBoardDataCommand}" Width="80" Margin="0,0,8,0"/>
+                                <Button Content="Write" Command="{Binding WriteBoardDataCommand}" Width="80"/>
+                            </StackPanel>
                         </StackPanel>
                     </materialDesign:Card>
                 </StackPanel>

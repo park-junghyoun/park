@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Include="ProtectionProfiles\**\*.json" CopyToOutputDirectory="Always" />
+    <None Include="BoardDataProfiles\**\*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>

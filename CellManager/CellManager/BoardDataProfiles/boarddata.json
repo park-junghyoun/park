@@ -1,0 +1,26 @@
+{
+  "settings": [
+    { "parameter": "SMBus Slave Address", "unit": "", "description": "", "defaultSpec": "", "category": "System Information" },
+    { "parameter": "Board Name", "unit": "", "description": "", "defaultSpec": "", "category": "System Information" },
+    { "parameter": "Serial Number", "unit": "", "description": "", "defaultSpec": "", "category": "System Information" },
+    { "parameter": "Consumption Current of Discharge", "unit": "mA", "description": "", "defaultSpec": "", "category": "System Information" },
+    { "parameter": "Mask Current", "unit": "mA", "description": "", "defaultSpec": "", "category": "System Information" },
+    { "parameter": "-40degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "-30degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "-20degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "-10degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "0degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "10degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "20degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "30degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "40degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "50degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "60degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "70degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "80degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "90degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "100degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "110degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" },
+    { "parameter": "120degC", "unit": "Ω", "description": "", "defaultSpec": "", "category": "Thermistor resistance Table" }
+  ]
+}
