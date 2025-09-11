@@ -99,7 +99,7 @@
                 <TextBlock Text="{Binding BoardStatus, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
 
                 <materialDesign:PackIcon Kind="Information" />
-                <TextBlock Text="{Binding BoardVersion, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                <TextBlock Text="{Binding BoardVersion, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A', StringFormat='HW Ver {0}'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
 
                 <materialDesign:PackIcon Kind="CalendarClock" />
                 <TextBlock Text="{Binding CurrentSchedule, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Schedule', FallbackValue='No Schedule'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
