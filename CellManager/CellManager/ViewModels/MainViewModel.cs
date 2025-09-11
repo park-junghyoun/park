@@ -27,6 +27,9 @@ namespace CellManager.ViewModels
 
         [ObservableProperty] private string _boardStatus = "Disconnected";
         [ObservableProperty] private string _serverStatus = "Disconnected";
+        [ObservableProperty] private string _boardVersion = string.Empty;
+        [ObservableProperty] private string _currentSchedule = string.Empty;
+        [ObservableProperty] private string _currentProfile = string.Empty;
 
         [ObservableProperty] private ObservableCollection<ObservableObject> _navigationItems = new();
         [ObservableProperty] private ObservableObject _currentViewModel;
@@ -54,6 +57,7 @@ namespace CellManager.ViewModels
             _scheduleVm = scheduleVm;
             _runVm = runVm;
             _serverStatusService = serverStatusService;
+            BoardVersion = settingsVm.FirmwareVersion;
 
             NavigationItems.Add(homeVm);
             NavigationItems.Add(cellLibraryVm);
@@ -89,6 +93,21 @@ namespace CellManager.ViewModels
                 var target = AvailableCells.FirstOrDefault(c => c.Id == m.DeletedCell.Id);
                 if (target != null) AvailableCells.Remove(target);
                 if (SelectedCell?.Id == m.DeletedCell.Id) SelectedCell = null;
+            });
+
+            WeakReferenceMessenger.Default.Register<BoardVersionChangedMessage>(this, (r, m) =>
+            {
+                BoardVersion = m.Version;
+            });
+
+            WeakReferenceMessenger.Default.Register<ScheduleChangedMessage>(this, (r, m) =>
+            {
+                CurrentSchedule = m.Schedule?.DisplayNameAndId ?? string.Empty;
+            });
+
+            WeakReferenceMessenger.Default.Register<ProfileChangedMessage>(this, (r, m) =>
+            {
+                CurrentProfile = m.Profile;
             });
         }
 

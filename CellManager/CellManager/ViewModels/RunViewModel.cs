@@ -2,7 +2,9 @@ using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using CellManager.Models;
+using CellManager.Messages;
 
 namespace CellManager.ViewModels
 {
@@ -38,6 +40,9 @@ namespace CellManager.ViewModels
         private int _currentStep;
 
         [ObservableProperty]
+        private string _currentProfile = string.Empty;
+
+        [ObservableProperty]
         private TimeSpan _elapsedTime;
 
         [ObservableProperty]
@@ -51,9 +56,27 @@ namespace CellManager.ViewModels
 
         public RunViewModel()
         {
-            StartCommand = new RelayCommand(() => { });
+            StartCommand = new RelayCommand(StartSchedule);
             PauseCommand = new RelayCommand(() => { });
             StopCommand = new RelayCommand(() => { });
+        }
+
+        private void StartSchedule()
+        {
+            if (SelectedSchedule != null)
+            {
+                WeakReferenceMessenger.Default.Send(new ScheduleChangedMessage(SelectedSchedule));
+
+                if (SelectedSchedule.TestProfileIds.Count > 0)
+                {
+                    CurrentProfile = $"Profile ID: {SelectedSchedule.TestProfileIds[0]}";
+                }
+            }
+        }
+
+        partial void OnCurrentProfileChanged(string value)
+        {
+            WeakReferenceMessenger.Default.Send(new ProfileChangedMessage(value));
         }
     }
 }
