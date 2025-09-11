@@ -158,6 +158,41 @@
             </ScrollViewer>
         </TabItem>
 
+        <TabItem Header="Protection">
+            <ScrollViewer>
+                <StackPanel Margin="16">
+                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                        <StackPanel>
+                            <TextBlock Text="Protection Settings"
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       Margin="0,0,0,16"/>
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Firmware Version"
+                                     Text="{Binding FirmwareVersion}"
+                                     Width="200"
+                                     Margin="0,0,0,16"/>
+                            <DataGrid ItemsSource="{Binding ProtectionSettings}"
+                                      AutoGenerateColumns="False"
+                                      HeadersVisibility="Column"
+                                      CanUserAddRows="False"
+                                      Margin="0,0,0,16">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Parameter" Binding="{Binding Parameter}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Spec" Binding="{Binding Spec}"/>
+                                    <DataGridTextColumn Header="Unit" Binding="{Binding Unit}"/>
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="Read" Command="{Binding ReadProtectionCommand}" Width="80" Margin="0,0,8,0"/>
+                                <Button Content="Write" Command="{Binding WriteProtectionCommand}" Width="80"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
         <TabItem Header="System">
             <ScrollViewer>
                 <StackPanel Margin="16">
