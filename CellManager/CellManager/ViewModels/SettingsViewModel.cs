@@ -1,6 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows;
 
 namespace CellManager.ViewModels
@@ -71,41 +75,39 @@ namespace CellManager.ViewModels
         public RelayCommand ReadProtectionCommand { get; }
         public RelayCommand WriteProtectionCommand { get; }
 
-        private const string SupportedFirmwareVersion = "1.0";
+        private readonly Dictionary<string, List<ProtectionSetting>> _profiles = new();
 
         public SettingsViewModel()
         {
+            LoadProtectionConfigurations();
             ReadProtectionCommand = new RelayCommand(ReadProtectionSettings, CanReadWriteProtection);
             WriteProtectionCommand = new RelayCommand(WriteProtectionSettings, CanReadWriteProtection);
         }
 
-        private bool CanReadWriteProtection() => FirmwareVersion == SupportedFirmwareVersion;
+        private IEnumerable<string> SupportedFirmwareVersions => _profiles.Keys;
+
+        private bool CanReadWriteProtection() => _profiles.ContainsKey(FirmwareVersion);
 
         private void ReadProtectionSettings()
         {
             if (!CanReadWriteProtection())
             {
-                MessageBox.Show("Unsupported firmware version.");
+                MessageBox.Show($"Unsupported firmware version. Supported versions: {string.Join(", ", SupportedFirmwareVersions)}");
                 return;
             }
 
             ProtectionSettings.Clear();
-            ProtectionSettings.Add(new ProtectionSetting
+            foreach (var setting in _profiles[FirmwareVersion])
             {
-                Parameter = "Charge Over Temperature",
-                Unit = "°C",
-                Spec = "55",
-                Options = new() { "50", "55", "60" }
-            });
-            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Voltage", Unit = "mV", Spec = "4200" });
-            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Current", Unit = "mA", Spec = "2000" });
+                ProtectionSettings.Add(setting);
+            }
         }
 
         private void WriteProtectionSettings()
         {
             if (!CanReadWriteProtection())
             {
-                MessageBox.Show("Unsupported firmware version.");
+                MessageBox.Show($"Unsupported firmware version. Supported versions: {string.Join(", ", SupportedFirmwareVersions)}");
                 return;
             }
 
@@ -132,6 +134,64 @@ namespace CellManager.ViewModels
         public string Unit { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public ObservableCollection<string> Options { get; } = new();
+    }
+
+    internal class ProtectionProfile
+    {
+        [JsonPropertyName("version")] public string Version { get; set; } = string.Empty;
+        [JsonPropertyName("settings")] public List<ProtectionSettingConfig> Settings { get; set; } = new();
+    }
+
+    internal class ProtectionSettingConfig
+    {
+        [JsonPropertyName("parameter")] public string Parameter { get; set; } = string.Empty;
+        [JsonPropertyName("unit")] public string Unit { get; set; } = string.Empty;
+        [JsonPropertyName("description")] public string Description { get; set; } = string.Empty;
+        [JsonPropertyName("defaultSpec")] public string Spec { get; set; } = string.Empty;
+        [JsonPropertyName("options")] public List<string> Options { get; set; } = new();
+    }
+
+    partial class SettingsViewModel
+    {
+        private void LoadProtectionConfigurations()
+        {
+            var profilesPath = Path.Combine(AppContext.BaseDirectory, "ProtectionProfiles");
+            if (!Directory.Exists(profilesPath))
+                return;
+
+            foreach (var file in Directory.GetFiles(profilesPath, "*.json"))
+            {
+                try
+                {
+                    var profile = JsonSerializer.Deserialize<ProtectionProfile>(File.ReadAllText(file));
+                    if (profile?.Version == null)
+                        continue;
+
+                    var settings = new List<ProtectionSetting>();
+                    foreach (var s in profile.Settings)
+                    {
+                        var ps = new ProtectionSetting
+                        {
+                            Parameter = s.Parameter,
+                            Spec = s.Spec,
+                            Unit = s.Unit,
+                            Description = s.Description
+                        };
+                        foreach (var option in s.Options)
+                        {
+                            ps.Options.Add(option);
+                        }
+                        settings.Add(ps);
+                    }
+
+                    _profiles[profile.Version] = settings;
+                }
+                catch
+                {
+                    // Ignore invalid profiles
+                }
+            }
+        }
     }
 }
 
