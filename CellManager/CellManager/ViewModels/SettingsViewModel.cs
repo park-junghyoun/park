@@ -90,7 +90,13 @@ namespace CellManager.ViewModels
             }
 
             ProtectionSettings.Clear();
-            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Charge Over Temperature", Unit = "°C", Spec = "55" });
+            ProtectionSettings.Add(new ProtectionSetting
+            {
+                Parameter = "Charge Over Temperature",
+                Unit = "°C",
+                Spec = "55",
+                Options = new() { "50", "55", "60" }
+            });
             ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Voltage", Unit = "mV", Spec = "4200" });
             ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Current", Unit = "mA", Spec = "2000" });
         }
@@ -125,6 +131,7 @@ namespace CellManager.ViewModels
         public string Spec { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public ObservableCollection<string> Options { get; } = new();
     }
 }
 
