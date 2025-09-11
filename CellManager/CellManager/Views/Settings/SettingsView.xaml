@@ -94,6 +94,11 @@
                                                      Text="{Binding VoltageHighResult}"
                                                      Width="120"/>
                                         </StackPanel>
+                                        <Button Content="Calculate"
+                                                Command="{Binding CalculateVoltageCalibrationCommand}"
+                                                Width="80" Margin="0,8,0,0"/>
+                                        <TextBlock Text="{Binding VoltageCalibrationResult}"
+                                                   Margin="0,8,0,0"/>
                                     </StackPanel>
                                 </materialDesign:Card>
 
