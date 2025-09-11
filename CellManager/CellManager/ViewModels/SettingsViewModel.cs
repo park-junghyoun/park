@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace CellManager.ViewModels
@@ -89,10 +90,10 @@ namespace CellManager.ViewModels
                 return;
             }
 
-            ProtectionSettings.Clear();
-            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Charge Over Temperature", Unit = "°C", Spec = "55" });
-            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Voltage", Unit = "mV", Spec = "4200" });
-            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Current", Unit = "mA", Spec = "2000" });
+            foreach (var setting in ProtectionSettings)
+            {
+                setting.Spec = setting.DefaultSpec;
+            }
         }
 
         private void WriteProtectionSettings()
@@ -103,13 +104,23 @@ namespace CellManager.ViewModels
                 return;
             }
 
-            // Placeholder for writing logic
+            foreach (var setting in ProtectionSettings)
+            {
+                // Placeholder for writing each setting
+            }
         }
 
         partial void OnFirmwareVersionChanged(string value)
         {
             ReadProtectionCommand.NotifyCanExecuteChanged();
             WriteProtectionCommand.NotifyCanExecuteChanged();
+
+            var profile = ProtectionProfileLoader.Load(FirmwareVersion);
+            ProtectionSettings.Clear();
+            foreach (var setting in profile)
+            {
+                ProtectionSettings.Add(setting);
+            }
         }
     }
 
@@ -125,6 +136,8 @@ namespace CellManager.ViewModels
         public string Spec { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public string DefaultSpec { get; set; } = string.Empty;
+        public List<string> Options { get; set; } = new();
     }
 }
 
