@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace CellManager.ViewModels
 {
@@ -54,17 +56,75 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private bool _enableDarkTheme;
 
+        // Firmware
+        [ObservableProperty]
+        private string _firmwareVersion = string.Empty;
+
         public ObservableCollection<BoardSettingData> BoardSettingsData { get; } = new()
         {
             new BoardSettingData { Parameter = "Firmware Version", Value = "1.0" },
             new BoardSettingData { Parameter = "Serial Number", Value = "123456" }
         };
+
+        public ObservableCollection<ProtectionSetting> ProtectionSettings { get; } = new();
+
+        public RelayCommand ReadProtectionCommand { get; }
+        public RelayCommand WriteProtectionCommand { get; }
+
+        private const string SupportedFirmwareVersion = "1.0";
+
+        public SettingsViewModel()
+        {
+            ReadProtectionCommand = new RelayCommand(ReadProtectionSettings, CanReadWriteProtection);
+            WriteProtectionCommand = new RelayCommand(WriteProtectionSettings, CanReadWriteProtection);
+        }
+
+        private bool CanReadWriteProtection() => FirmwareVersion == SupportedFirmwareVersion;
+
+        private void ReadProtectionSettings()
+        {
+            if (!CanReadWriteProtection())
+            {
+                MessageBox.Show("Unsupported firmware version.");
+                return;
+            }
+
+            ProtectionSettings.Clear();
+            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Charge Over Temperature", Unit = "°C", Spec = "55" });
+            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Voltage", Unit = "mV", Spec = "4200" });
+            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Current", Unit = "mA", Spec = "2000" });
+        }
+
+        private void WriteProtectionSettings()
+        {
+            if (!CanReadWriteProtection())
+            {
+                MessageBox.Show("Unsupported firmware version.");
+                return;
+            }
+
+            // Placeholder for writing logic
+        }
+
+        partial void OnFirmwareVersionChanged(string value)
+        {
+            ReadProtectionCommand.NotifyCanExecuteChanged();
+            WriteProtectionCommand.NotifyCanExecuteChanged();
+        }
     }
 
     public class BoardSettingData
     {
         public string Parameter { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
+    }
+
+    public class ProtectionSetting
+    {
+        public string Parameter { get; set; } = string.Empty;
+        public string Spec { get; set; } = string.Empty;
+        public string Unit { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }
 
