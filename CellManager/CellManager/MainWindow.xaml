@@ -94,7 +94,16 @@
         <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#F8F8F8" BorderBrush="#E0E0E0" BorderThickness="1,1,1,1">
             <StackPanel Orientation="Horizontal" Margin="20,10">
                 <materialDesign:PackIcon Kind="DeveloperBoard" />
-                <TextBlock Text="{Binding BoardStatus}" VerticalAlignment="Center" Margin="0,0,50,0"/>
+                <TextBlock Text="{Binding BoardStatus}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+
+                <materialDesign:PackIcon Kind="Information" />
+                <TextBlock Text="{Binding BoardVersion}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+
+                <materialDesign:PackIcon Kind="CalendarClock" />
+                <TextBlock Text="{Binding CurrentSchedule}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+
+                <materialDesign:PackIcon Kind="ClipboardText" />
+                <TextBlock Text="{Binding CurrentProfile}" VerticalAlignment="Center" Margin="0,0,20,0"/>
 
                 <materialDesign:PackIcon Kind="Battery" />
                 <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" VerticalAlignment="Center" Foreground="#007ACC" FontWeight="Bold"/>

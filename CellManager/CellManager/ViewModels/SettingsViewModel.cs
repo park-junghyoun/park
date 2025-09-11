@@ -1,11 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
+using CellManager.Messages;
 
 namespace CellManager.ViewModels
 {
@@ -62,7 +64,7 @@ namespace CellManager.ViewModels
 
         // Firmware
         [ObservableProperty]
-        private string _firmwareVersion = string.Empty;
+        private string _firmwareVersion = "1.0";
 
         public ObservableCollection<BoardSettingData> BoardSettingsData { get; } = new()
         {
@@ -118,6 +120,7 @@ namespace CellManager.ViewModels
         {
             ReadProtectionCommand.NotifyCanExecuteChanged();
             WriteProtectionCommand.NotifyCanExecuteChanged();
+            WeakReferenceMessenger.Default.Send(new BoardVersionChangedMessage(value));
         }
     }
 
