@@ -233,21 +233,16 @@
                             </CollectionViewSource>
                         </materialDesign:Card.Resources>
                         <StackPanel>
-                            <TextBlock Text="Protection Settings"
+                            <TextBlock Text="Protection Settings Data"
                                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                        Margin="0,0,0,16"/>
-                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     materialDesign:HintAssist.Hint="Firmware Version"
-                                     Text="{Binding FirmwareVersion}"
-                                     Width="200"
-                                     Margin="0,0,0,16"/>
                             <DataGrid ItemsSource="{Binding Source={StaticResource ProtectionSettingsGrouped}}"
                                       AutoGenerateColumns="False"
                                       HeadersVisibility="Column"
                                       CanUserAddRows="False"
                                       Margin="0,0,0,16">
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Parameter" IsReadOnly="True">
+                                    <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Parameter}"/>
