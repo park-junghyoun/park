@@ -12,16 +12,16 @@
             </ResourceDictionary.MergedDictionaries>
             
             <!-- 컬러 토큰 -->
-            <SolidColorBrush x:Key="PrimaryMain"        Color="#2196F3"/>
-            <!-- Base (Blue 500) -->
-            <SolidColorBrush x:Key="PrimaryHover"       Color="#1E88E5"/>
+            <SolidColorBrush x:Key="PrimaryMain"        Color="#00589E"/>
+            <!-- Base -->
+            <SolidColorBrush x:Key="PrimaryHover"       Color="#0066B3"/>
             <!-- Hover -->
-            <SolidColorBrush x:Key="PrimaryPressed"     Color="#1565C0"/>
+            <SolidColorBrush x:Key="PrimaryPressed"     Color="#004C87"/>
             <!-- Pressed -->
-            <SolidColorBrush x:Key="PrimaryDisabledBg"  Color="#BBDEFB"/>
+            <SolidColorBrush x:Key="PrimaryDisabledBg"  Color="#8CB3D1"/>
             <!-- Disabled bg -->
             <SolidColorBrush x:Key="PrimaryDisabledFg"  Color="#FFFFFF"/>
-            <!-- Disabled fg(흰색 유지) -->
+            <!-- Disabled fg(white) -->
 
             <!-- Error button colors -->
             <SolidColorBrush x:Key="ErrorMain"        Color="#F44336"/>
