@@ -94,22 +94,37 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border Grid.Row="0" Grid.ColumnSpan="2" Background="#F8F8F8" BorderBrush="#E0E0E0" BorderThickness="1,1,1,1">
-            <StackPanel Orientation="Horizontal" Margin="20,10">
-                <materialDesign:PackIcon Kind="DeveloperBoard" />
-                <TextBlock Text="{Binding BoardStatus, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            <Grid Margin="20,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <materialDesign:PackIcon Kind="Information" />
-                <TextBlock Text="{Binding BoardVersion, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A', StringFormat='HW Ver {0}'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <materialDesign:PackIcon Kind="DeveloperBoard" />
+                    <TextBlock Text="{Binding BoardStatus, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
 
-                <materialDesign:PackIcon Kind="CalendarClock" />
-                <TextBlock Text="{Binding CurrentSchedule, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Schedule', FallbackValue='No Schedule'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <materialDesign:PackIcon Kind="Battery" />
+                    <TextBlock Text="{Binding SelectedCell.DisplayNameAndId, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Cell Selected', FallbackValue='No Cell Selected'}" VerticalAlignment="Center" Foreground="#007ACC" FontWeight="Bold"/>
+                </StackPanel>
 
-                <materialDesign:PackIcon Kind="ClipboardText" />
-                <TextBlock Text="{Binding CurrentProfile, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Profile', FallbackValue='No Profile'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
+                    <materialDesign:PackIcon Kind="CalendarClock" />
+                    <TextBlock Text="{Binding CurrentSchedule, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Schedule', FallbackValue='No Schedule'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
 
-                <materialDesign:PackIcon Kind="Battery" />
-                <TextBlock Text="{Binding SelectedCell.DisplayNameAndId, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Cell Selected', FallbackValue='No Cell Selected'}" VerticalAlignment="Center" Foreground="#007ACC" FontWeight="Bold"/>
-            </StackPanel>
+                    <materialDesign:PackIcon Kind="ClipboardText" />
+                    <TextBlock Text="{Binding CurrentProfile, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Profile', FallbackValue='No Profile'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+
+                    <materialDesign:PackIcon Kind="Beaker" />
+                    <TextBlock Text="{Binding TestStatus, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='Idle', FallbackValue='Idle'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                    <materialDesign:PackIcon Kind="Information" />
+                    <TextBlock Text="{Binding BoardVersion, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A', StringFormat='HW Ver {0}'}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
         </Border>
         <Border Grid.Row="1" Background="#F8F8F8" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0"/>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">

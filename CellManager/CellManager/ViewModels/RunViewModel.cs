@@ -58,7 +58,7 @@ namespace CellManager.ViewModels
         {
             StartCommand = new RelayCommand(StartSchedule);
             PauseCommand = new RelayCommand(() => { });
-            StopCommand = new RelayCommand(() => { });
+            StopCommand = new RelayCommand(StopSchedule);
         }
 
         private void StartSchedule()
@@ -71,7 +71,14 @@ namespace CellManager.ViewModels
                 {
                     CurrentProfile = $"Profile ID: {SelectedSchedule.TestProfileIds[0]}";
                 }
+
+                WeakReferenceMessenger.Default.Send(new TestStatusChangedMessage("Testing"));
             }
+        }
+
+        private void StopSchedule()
+        {
+            WeakReferenceMessenger.Default.Send(new TestStatusChangedMessage(string.Empty));
         }
 
         partial void OnCurrentProfileChanged(string value)

@@ -30,6 +30,7 @@ namespace CellManager.ViewModels
         [ObservableProperty] private string _boardVersion = string.Empty;
         [ObservableProperty] private string _currentSchedule = string.Empty;
         [ObservableProperty] private string _currentProfile = string.Empty;
+        [ObservableProperty] private string _testStatus = string.Empty;
 
         [ObservableProperty] private ObservableCollection<ObservableObject> _navigationItems = new();
         [ObservableProperty] private ObservableObject _currentViewModel;
@@ -108,6 +109,11 @@ namespace CellManager.ViewModels
             WeakReferenceMessenger.Default.Register<ProfileChangedMessage>(this, (r, m) =>
             {
                 CurrentProfile = m.Profile;
+            });
+
+            WeakReferenceMessenger.Default.Register<TestStatusChangedMessage>(this, (r, m) =>
+            {
+                TestStatus = m.Status;
             });
         }
 
