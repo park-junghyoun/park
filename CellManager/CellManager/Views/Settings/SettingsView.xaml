@@ -178,7 +178,7 @@
                                       Margin="0,0,0,16">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Parameter" Binding="{Binding Parameter}" IsReadOnly="True"/>
-                                    <DataGridTextColumn Header="Spec" Binding="{Binding Spec}"/>
+                                    <DataGridComboBoxColumn Header="Spec" SelectedItemBinding="{Binding Spec}" ItemsSource="{Binding Options}"/>
                                     <DataGridTextColumn Header="Unit" Binding="{Binding Unit}"/>
                                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True"/>
                                 </DataGrid.Columns>
