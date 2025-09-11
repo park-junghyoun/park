@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:CellManager.Converters"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800">
     <TabControl Margin="16"
@@ -44,6 +45,17 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <DataTemplate x:Key="SpecTextBoxTemplate">
+                <TextBox Text="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="SpecComboBoxTemplate">
+                <ComboBox ItemsSource="{Binding Options}"
+                          SelectedItem="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTemplate>
+            <converters:SpecTemplateSelector x:Key="SpecTemplateSelector"
+                                             TextBoxTemplate="{StaticResource SpecTextBoxTemplate}"
+                                             ComboBoxTemplate="{StaticResource SpecComboBoxTemplate}"/>
         </TabControl.Resources>
         <TabItem Header="Board Calibration">
             <ScrollViewer>
@@ -177,10 +189,40 @@
                                       CanUserAddRows="False"
                                       Margin="0,0,0,16">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Parameter" Binding="{Binding Parameter}" IsReadOnly="True"/>
-                                    <DataGridComboBoxColumn Header="Spec" SelectedItemBinding="{Binding Spec}" ItemsSource="{Binding Options}"/>
-                                    <DataGridTextColumn Header="Unit" Binding="{Binding Unit}"/>
-                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True"/>
+                                    <DataGridTemplateColumn Header="Parameter" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Parameter}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Spec"
+                                                            CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Spec}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Unit">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Unit}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Description" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Description}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

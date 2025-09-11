@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace CellManager.ViewModels
@@ -90,10 +89,16 @@ namespace CellManager.ViewModels
                 return;
             }
 
-            foreach (var setting in ProtectionSettings)
+            ProtectionSettings.Clear();
+            ProtectionSettings.Add(new ProtectionSetting
             {
-                setting.Spec = setting.DefaultSpec;
-            }
+                Parameter = "Charge Over Temperature",
+                Unit = "°C",
+                Spec = "55",
+                Options = new() { "50", "55", "60" }
+            });
+            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Voltage", Unit = "mV", Spec = "4200" });
+            ProtectionSettings.Add(new ProtectionSetting { Parameter = "Over Current", Unit = "mA", Spec = "2000" });
         }
 
         private void WriteProtectionSettings()
@@ -104,23 +109,13 @@ namespace CellManager.ViewModels
                 return;
             }
 
-            foreach (var setting in ProtectionSettings)
-            {
-                // Placeholder for writing each setting
-            }
+            // Placeholder for writing logic
         }
 
         partial void OnFirmwareVersionChanged(string value)
         {
             ReadProtectionCommand.NotifyCanExecuteChanged();
             WriteProtectionCommand.NotifyCanExecuteChanged();
-
-            var profile = ProtectionProfileLoader.Load(FirmwareVersion);
-            ProtectionSettings.Clear();
-            foreach (var setting in profile)
-            {
-                ProtectionSettings.Add(setting);
-            }
         }
     }
 
@@ -136,8 +131,7 @@ namespace CellManager.ViewModels
         public string Spec { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public string DefaultSpec { get; set; } = string.Empty;
-        public List<string> Options { get; set; } = new();
+        public ObservableCollection<string> Options { get; } = new();
     }
 }
 
