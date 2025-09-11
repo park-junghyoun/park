@@ -62,6 +62,12 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private bool _enableDarkTheme;
 
+        [ObservableProperty]
+        private bool _enableNotifications;
+
+        [ObservableProperty]
+        private bool _enableAutoUpdates;
+
         // Firmware
         [ObservableProperty]
         private string _firmwareVersion = "1.0";

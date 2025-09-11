@@ -351,13 +351,57 @@
                             <TextBlock Text="Features"
                                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                        Margin="0,0,0,16"/>
-                            <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                          Content="Enable Advanced Features"
-                                          IsChecked="{Binding EnableAdvancedFeatures}"
-                                          Margin="0,0,0,8"/>
-                            <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                          Content="Enable Dark Theme"
-                                          IsChecked="{Binding EnableDarkTheme}"/>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Text="Advanced Features"
+                                           VerticalAlignment="Center"/>
+                                <ToggleButton Grid.Row="0"
+                                              Grid.Column="1"
+                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                              IsChecked="{Binding EnableAdvancedFeatures}"
+                                              Margin="16,0,0,0"/>
+
+                                <TextBlock Grid.Row="1"
+                                           Text="Dark Theme"
+                                           VerticalAlignment="Center"
+                                           Margin="0,8,0,0"/>
+                                <ToggleButton Grid.Row="1"
+                                              Grid.Column="1"
+                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                              IsChecked="{Binding EnableDarkTheme}"
+                                              Margin="16,8,0,0"/>
+
+                                <TextBlock Grid.Row="2"
+                                           Text="Notifications"
+                                           VerticalAlignment="Center"
+                                           Margin="0,8,0,0"/>
+                                <ToggleButton Grid.Row="2"
+                                              Grid.Column="1"
+                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                              IsChecked="{Binding EnableNotifications}"
+                                              Margin="16,8,0,0"/>
+
+                                <TextBlock Grid.Row="3"
+                                           Text="Auto Updates"
+                                           VerticalAlignment="Center"
+                                           Margin="0,8,0,0"/>
+                                <ToggleButton Grid.Row="3"
+                                              Grid.Column="1"
+                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                              IsChecked="{Binding EnableAutoUpdates}"
+                                              Margin="16,8,0,0"/>
+                            </Grid>
                         </StackPanel>
                     </materialDesign:Card>
                 </StackPanel>
