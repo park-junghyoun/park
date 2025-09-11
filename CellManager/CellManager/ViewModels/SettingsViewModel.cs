@@ -133,6 +133,7 @@ namespace CellManager.ViewModels
         public string Spec { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
         public ObservableCollection<string> Options { get; } = new();
     }
 
@@ -148,6 +149,7 @@ namespace CellManager.ViewModels
         [JsonPropertyName("unit")] public string Unit { get; set; } = string.Empty;
         [JsonPropertyName("description")] public string Description { get; set; } = string.Empty;
         [JsonPropertyName("defaultSpec")] public string Spec { get; set; } = string.Empty;
+        [JsonPropertyName("category")] public string Category { get; set; } = string.Empty;
         [JsonPropertyName("options")] public List<string> Options { get; set; } = new();
     }
 
@@ -175,7 +177,8 @@ namespace CellManager.ViewModels
                             Parameter = s.Parameter,
                             Spec = s.Spec,
                             Unit = s.Unit,
-                            Description = s.Description
+                            Description = s.Description,
+                            Category = s.Category
                         };
                         foreach (var option in s.Options)
                         {

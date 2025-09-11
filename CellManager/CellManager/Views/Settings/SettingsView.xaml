@@ -174,6 +174,13 @@
             <ScrollViewer>
                 <StackPanel Margin="16">
                     <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                        <materialDesign:Card.Resources>
+                            <CollectionViewSource x:Key="ProtectionSettingsGrouped" Source="{Binding ProtectionSettings}">
+                                <CollectionViewSource.GroupDescriptions>
+                                    <PropertyGroupDescription PropertyName="Category" />
+                                </CollectionViewSource.GroupDescriptions>
+                            </CollectionViewSource>
+                        </materialDesign:Card.Resources>
                         <StackPanel>
                             <TextBlock Text="Protection Settings"
                                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
@@ -183,7 +190,7 @@
                                      Text="{Binding FirmwareVersion}"
                                      Width="200"
                                      Margin="0,0,0,16"/>
-                            <DataGrid ItemsSource="{Binding ProtectionSettings}"
+                            <DataGrid ItemsSource="{Binding Source={StaticResource ProtectionSettingsGrouped}}"
                                       AutoGenerateColumns="False"
                                       HeadersVisibility="Column"
                                       CanUserAddRows="False"
@@ -224,6 +231,15 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
+                                <DataGrid.GroupStyle>
+                                    <GroupStyle>
+                                        <GroupStyle.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                            </DataTemplate>
+                                        </GroupStyle.HeaderTemplate>
+                                    </GroupStyle>
+                                </DataGrid.GroupStyle>
                             </DataGrid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Button Content="Read" Command="{Binding ReadProtectionCommand}" Width="80" Margin="0,0,8,0"/>
