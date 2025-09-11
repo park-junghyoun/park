@@ -43,12 +43,16 @@
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="0" Header="Timeline Preview" Margin="0,0,8,0">
-                <local:TimelinePreviewControl Schedule="{Binding SelectedSchedule}"/>
+            <GroupBox Grid.Column="0" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="Timeline Preview" FontWeight="Bold" FontSize="15"/>
+                    <local:TimelinePreviewControl Schedule="{Binding SelectedSchedule}"/>
+                </StackPanel>
             </GroupBox>
 
-            <GroupBox Grid.Column="1" Header="Board Status">
+            <GroupBox Grid.Column="1">
                 <StackPanel>
+                    <TextBlock Text="Board Status" FontWeight="Bold" FontSize="15"/>
                     <TextBlock Text="{Binding BoardVoltage, StringFormat='Voltage: {0:F2} V'}" Margin="0,0,0,4"/>
                     <TextBlock Text="{Binding BoardCurrent, StringFormat='Current: {0:F2} A'}" Margin="0,0,0,4"/>
                     <TextBlock Text="{Binding BoardTemperature, StringFormat='Temperature: {0:F1} °C'}" Margin="0,0,0,4"/>
@@ -58,8 +62,9 @@
         </Grid>
 
         <!-- Controls -->
-        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Controls" Margin="8">
+        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Margin="8">
             <StackPanel>
+                <TextBlock Text="Controls" FontWeight="Bold" FontSize="15"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4">
                     <Button Content="Start" Command="{Binding StartCommand}" Style="{StaticResource PrimaryActionButton}" Margin="0,0,8,0"/>
                     <Button Content="Pause" Command="{Binding PauseCommand}" Margin="0,0,8,0"/>
@@ -75,9 +80,12 @@
         </GroupBox>
 
         <!-- Run logs -->
-        <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Run Logs" Margin="8">
-            <ListBox ItemsSource="{Binding RunLogs}" Height="120"
+        <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Margin="8">
+            <StackPanel>
+                <TextBlock Text="Run Logs" FontWeight="Bold" FontSize="15"/>
+                <ListBox ItemsSource="{Binding RunLogs}" Height="120"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
         </GroupBox>
     </Grid>
 </UserControl>

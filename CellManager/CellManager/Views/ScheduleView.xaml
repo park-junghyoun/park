@@ -78,7 +78,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <!-- 오른쪽: 버튼 -->
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Schedules List" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Column="0" Text="Schedules List" FontWeight="Bold" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <Button Grid.Column="1" Style="{StaticResource PrimaryActionButton}" Padding="6"
                                 Command="{Binding AddScheduleCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
