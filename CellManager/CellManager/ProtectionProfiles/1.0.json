@@ -1,0 +1,5 @@
+[
+  {"parameter": "Charge Over Temperature", "spec": "55", "unit": "°C", "description": ""},
+  {"parameter": "Over Voltage", "spec": "4200", "unit": "mV", "description": ""},
+  {"parameter": "Over Current", "spec": "2000", "unit": "mA", "description": ""}
+]
