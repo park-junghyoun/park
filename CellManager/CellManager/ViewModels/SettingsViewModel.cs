@@ -91,6 +91,7 @@ namespace CellManager.ViewModels
             WriteProtectionCommand = new RelayCommand(WriteProtectionSettings, CanReadWriteProtection);
             ReadBoardDataCommand = new RelayCommand(ReadBoardDataSettings);
             WriteBoardDataCommand = new RelayCommand(WriteBoardDataSettings);
+            ReadProtectionSettings();
             ReadBoardDataSettings();
         }
 
