@@ -44,9 +44,7 @@
             <views:SettingsView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:HelpViewModel}">
-            <Grid Background="#FFFFFF">
-                <TextBlock Text="Help Content" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-            </Grid>
+            <views:HelpView/>
         </DataTemplate>
 
         <Style TargetType="TabItem">
