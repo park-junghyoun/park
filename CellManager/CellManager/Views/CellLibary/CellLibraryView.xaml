@@ -253,33 +253,65 @@
                                               Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
                                               CommandParameter="{Binding}"
                                               Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
-                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"/>
+                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"
+                                              HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+
                     <!-- Cell Name -->
-                    <GridViewColumn Header="Cell name" 
-                                    DisplayMemberBinding="{Binding ModelName}"/>
+                    <GridViewColumn Header="Cell Name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ModelName}" Margin="10,0,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Serial Number -->
-                    <GridViewColumn Header="Serial Number" 
-                                    DisplayMemberBinding="{Binding SerialNumber}"/>
+                    <GridViewColumn Header="Serial Number">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SerialNumber}" Margin="10,0,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Part Number -->
-                    <GridViewColumn Header="Part Number" 
-                                    DisplayMemberBinding="{Binding PartNumber}"/>
+                    <GridViewColumn Header="Part Number">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PartNumber}" Margin="10,0,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Update Date -->
-                    <GridViewColumn Header="Update Date" Width="180"
-                                    DisplayMemberBinding="{Binding LastUpdated, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}"/>
+                    <GridViewColumn Header="Update Date" Width="180">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding LastUpdated, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Margin="10,0,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Cell Type -->
-                    <GridViewColumn Header="Cell Type" 
-                                    DisplayMemberBinding="{Binding CellType}"/>
+                    <GridViewColumn Header="Cell Type">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CellType}" Margin="10,0,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <!-- Manufacturer -->
-                    <GridViewColumn Header="Cell Manufacturer"
-                                    DisplayMemberBinding="{Binding Manufacturer}"/>
+                    <GridViewColumn Header="Cell Manufacturer">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Manufacturer}" Margin="10,0,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                 </GridView>
             </ListView.View>
