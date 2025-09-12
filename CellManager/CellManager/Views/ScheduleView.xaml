@@ -79,11 +79,10 @@
                             <!-- 오른쪽: 버튼 -->
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Schedules List" FontWeight="Bold" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <Button Grid.Column="1" Style="{StaticResource PrimaryActionButton}" Padding="6"
+                        <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
                                 Command="{Binding AddScheduleCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                            </StackPanel>
+                            <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                     </Grid>
                     <ListView x:Name="ScheduleList" DockPanel.Dock="Bottom"
@@ -103,7 +102,7 @@
                                 <MenuItem Header="New Schedule"
                                           Command="{Binding PlacementTarget.Tag.AddScheduleCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                     <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                        <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>
@@ -290,9 +289,10 @@
                                     </Style>
                                 </TextBox.Style>
                             </TextBox>
-                            <Button Command="{Binding SaveScheduleCommand}" Padding="2" Height="25">
+                            <Button Command="{Binding SaveScheduleCommand}" Width="32" Height="32" Padding="0">
                                 <Button.Style>
-                                    <Style BasedOn="{StaticResource PrimaryActionButton}" TargetType="Button">
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="White"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
                                                 <Setter Property="IsEnabled" Value="False"/>
@@ -300,10 +300,8 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18"/>
-                                    <TextBlock Text=" Save"/>
-                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Foreground="#00589E"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </StackPanel>
                         <Grid>

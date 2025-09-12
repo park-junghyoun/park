@@ -44,12 +44,10 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1"
-                    Style="{StaticResource PrimaryActionButton}"
-                    Command="{Binding AddChargeProfileCommand}" Padding="6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                </StackPanel>
+                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
+                                    Command="{Binding AddChargeProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </Grid>
                         <ListBox Style="{StaticResource ProfileListBox}"
@@ -66,7 +64,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -152,12 +150,10 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1"
-                    Style="{StaticResource PrimaryActionButton}"
-                    Command="{Binding AddDischargeProfileCommand}" Padding="6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                </StackPanel>
+                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
+                                    Command="{Binding AddDischargeProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </Grid>
                         <ListBox Style="{StaticResource ProfileListBox}"
@@ -174,7 +170,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -260,12 +256,10 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1"
-                    Style="{StaticResource PrimaryActionButton}"
-                    Command="{Binding AddRestProfileCommand}" Padding="6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                </StackPanel>
+                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
+                                    Command="{Binding AddRestProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </Grid>
                         <ListBox Style="{StaticResource ProfileListBox}"
@@ -282,7 +276,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -351,12 +345,10 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1"
-                    Style="{StaticResource PrimaryActionButton}"
-                    Command="{Binding AddOcvProfileCommand}" Padding="6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                </StackPanel>
+                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
+                                    Command="{Binding AddOcvProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </Grid>
                         <ListBox Style="{StaticResource ProfileListBox}"
@@ -373,7 +365,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -442,12 +434,10 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1"
-                    Style="{StaticResource PrimaryActionButton}"
-                    Command="{Binding AddEcmProfileCommand}" Padding="6">
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
-                                </StackPanel>
+                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
+                                    Command="{Binding AddEcmProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
+                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </Grid>
                         <ListBox Style="{StaticResource ProfileListBox}"
@@ -464,7 +454,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
