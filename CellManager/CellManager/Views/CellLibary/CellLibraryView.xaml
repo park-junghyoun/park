@@ -246,15 +246,18 @@
                 <GridView>
 
                     <!-- Select Badge -->
-                    <GridViewColumn Header="Select">
+                    <GridViewColumn Header="Select" Width="70">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ToggleButton IsChecked="{Binding IsActive}"
-                                              Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
-                                              CommandParameter="{Binding}"
-                                              Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
-                                              ToolTip="MaterialDesignSwitchSecondaryToggleButton"
-                                              HorizontalAlignment="Center"/>
+                                <Grid>
+                                    <ToggleButton IsChecked="{Binding IsActive}"
+                                                  Command="{Binding DataContext.SelectCellCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                  CommandParameter="{Binding}"
+                                                  Style="{StaticResource MaterialDesignSwitchSecondaryToggleButton}"
+                                                  ToolTip="MaterialDesignSwitchSecondaryToggleButton"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                                </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
