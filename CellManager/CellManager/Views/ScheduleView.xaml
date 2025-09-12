@@ -82,7 +82,7 @@
                         <Button Grid.Column="1" Style="{StaticResource PrimaryActionButton}" Padding="6"
                                 Command="{Binding AddScheduleCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"/>
                             </StackPanel>
                         </Button>
                     </Grid>
@@ -103,7 +103,7 @@
                                 <MenuItem Header="New Schedule"
                                           Command="{Binding PlacementTarget.Tag.AddScheduleCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                     <MenuItem.Icon>
-                                        <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
+                                        <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>
@@ -300,10 +300,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18"/>
-                                    <TextBlock Text=" Save"/>
-                                </StackPanel>
+                                <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Foreground="#00589E"/>
                             </Button>
                         </StackPanel>
                         <Grid>

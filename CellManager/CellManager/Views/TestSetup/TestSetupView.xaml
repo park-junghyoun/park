@@ -48,7 +48,7 @@
                     Style="{StaticResource PrimaryActionButton}"
                     Command="{Binding AddChargeProfileCommand}" Padding="6">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                    <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"/>
                                 </StackPanel>
                             </Button>
                         </Grid>
@@ -66,7 +66,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -156,7 +156,7 @@
                     Style="{StaticResource PrimaryActionButton}"
                     Command="{Binding AddDischargeProfileCommand}" Padding="6">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                    <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"/>
                                 </StackPanel>
                             </Button>
                         </Grid>
@@ -174,7 +174,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -264,7 +264,7 @@
                     Style="{StaticResource PrimaryActionButton}"
                     Command="{Binding AddRestProfileCommand}" Padding="6">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                    <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"/>
                                 </StackPanel>
                             </Button>
                         </Grid>
@@ -282,7 +282,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -355,7 +355,7 @@
                     Style="{StaticResource PrimaryActionButton}"
                     Command="{Binding AddOcvProfileCommand}" Padding="6">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                    <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"/>
                                 </StackPanel>
                             </Button>
                         </Grid>
@@ -373,7 +373,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
@@ -446,7 +446,7 @@
                     Style="{StaticResource PrimaryActionButton}"
                     Command="{Binding AddEcmProfileCommand}" Padding="6">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                                    <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"/>
                                 </StackPanel>
                             </Button>
                         </Grid>
@@ -464,7 +464,7 @@
                                         <MenuItem Header="Add"
                                                   Command="{Binding PlacementTarget.DataContext.AddEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                             <MenuItem.Icon>
-                                                <materialDesign:PackIcon Kind="LibraryAdd" Width="16" Height="16"/>
+                                                <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Foreground="#00589E"/>
                                             </MenuItem.Icon>
                                         </MenuItem>
                                     </ContextMenu>
