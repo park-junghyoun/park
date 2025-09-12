@@ -107,9 +107,9 @@ namespace CellManager.Views
 
             if (gridView.Columns.Count >= 3)
             {
-                gridView.Columns[0].Width = workingWidth * 0.2;
-                gridView.Columns[1].Width = workingWidth * 0.6;
-                gridView.Columns[2].Width = workingWidth * 0.2;
+                gridView.Columns[0].Width = workingWidth * 0.15;
+                gridView.Columns[1].Width = workingWidth * 0.60;
+                gridView.Columns[2].Width = workingWidth * 0.25;
             }
         }
 
