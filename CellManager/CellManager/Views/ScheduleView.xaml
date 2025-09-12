@@ -43,14 +43,14 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Cell info status bar -->
-        <StatusBar Grid.Row="0" Margin="10">
+        <StatusBar Grid.Row="0">
             <WrapPanel>
                 <TextBlock Text="{Binding DataContext.SelectedCell.DisplayNameAndId, RelativeSource={RelativeSource AncestorType=Window}}" Margin="0,0,16,4"/>
                 <TextBlock Text="{Binding DataContext.SelectedCell.LastUpdated, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
@@ -189,9 +189,9 @@
                         </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Script" DisplayMemberBinding="{Binding Ordering}" Width="50"/>
+                                <GridViewColumn Header="Script" DisplayMemberBinding="{Binding Ordering}" Width="45"/>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
-                                <GridViewColumn Header="Duration" Width="52">
+                                <GridViewColumn Header="Duration" Width="80">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding EstimatedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>

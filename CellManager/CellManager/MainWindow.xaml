@@ -103,7 +103,8 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <materialDesign:PackIcon Kind="DeveloperBoard" />
-                    <TextBlock Text="{Binding BoardStatus, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <TextBlock Text="{Binding BoardStatus, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A'}" VerticalAlignment="Center"/>
+                    <Rectangle Width="1" Height="20" Fill="#E0E0E0" Margin="10,0"/>
 
                     <materialDesign:PackIcon Kind="Battery" />
                     <TextBlock Text="{Binding SelectedCell.DisplayNameAndId, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Cell Selected', FallbackValue='No Cell Selected'}" VerticalAlignment="Center" Foreground="#007ACC" FontWeight="Bold"/>
@@ -111,13 +112,15 @@
 
                 <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
                     <materialDesign:PackIcon Kind="CalendarClock" />
-                    <TextBlock Text="{Binding CurrentSchedule, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Schedule', FallbackValue='No Schedule'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <TextBlock Text="{Binding CurrentSchedule, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Schedule', FallbackValue='No Schedule'}" VerticalAlignment="Center"/>
+                    <Rectangle Width="1" Height="20" Fill="#E0E0E0" Margin="10,0"/>
 
                     <materialDesign:PackIcon Kind="ClipboardText" />
-                    <TextBlock Text="{Binding CurrentProfile, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Profile', FallbackValue='No Profile'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <TextBlock Text="{Binding CurrentProfile, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Profile', FallbackValue='No Profile'}" VerticalAlignment="Center"/>
+                    <Rectangle Width="1" Height="20" Fill="#E0E0E0" Margin="10,0"/>
 
                     <materialDesign:PackIcon Kind="Beaker" />
-                    <TextBlock Text="{Binding TestStatus, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='Idle', FallbackValue='Idle'}" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <TextBlock Text="{Binding TestStatus, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='Idle', FallbackValue='Idle'}" VerticalAlignment="Center"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">

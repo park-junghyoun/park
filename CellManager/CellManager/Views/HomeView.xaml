@@ -19,8 +19,11 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Database" Width="32" Height="32" Margin="0,0,10,0"/>
                     <StackPanel>
-                        <TextBlock Text="MySQL Server" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding DataContext.ServerStatus, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        <TextBlock Text="MySQL Server" FontWeight="Bold" FontSize="20"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Status: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.ServerStatus, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
@@ -29,38 +32,75 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="DeveloperBoard" Width="32" Height="32" Margin="0,0,10,0"/>
                     <StackPanel>
-                        <TextBlock Text="Board" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding DataContext.BoardStatus, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        <TextBlock Text="Board" FontWeight="Bold" FontSize="20"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Connection: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Mode: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.BoardStatus, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="HW Version: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.HWversion, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="FW Version: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.FWversion, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
-
+            
             <materialDesign:Card Margin="0,0,0,10" Padding="10">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="ViewList" Width="32" Height="32" Margin="0,0,10,0"/>
+                    <materialDesign:PackIcon Kind="Battery" Width="32" Height="32" Margin="0,0,10,0"/>
                     <StackPanel>
-                        <TextBlock Text="Cells" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding DataContext.AvailableCells.Count, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=0}"/>
+                        <TextBlock Text="Cell" FontWeight="Bold" FontSize="20"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Voltage: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.Voltage, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
-
+          
             <materialDesign:Card Margin="0,0,0,10" Padding="10">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="CalendarClock" Width="32" Height="32" Margin="0,0,10,0"/>
                     <StackPanel>
-                        <TextBlock Text="Schedules" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding DataContext.ScheduleCount, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=0}"/>
+                        <TextBlock Text="Schedule Execution" FontWeight="Bold" FontSize="20"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Active Schedule: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Active Profile: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Estimated Start Time: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Estimated End Time: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Run Time: " FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
 
-            <materialDesign:Card Padding="10">
+            <materialDesign:Card Margin="0,0,0,10" Padding="10">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Battery" Width="32" Height="32" Margin="0,0,10,0"/>
+                    <materialDesign:PackIcon Kind="HelpCircle" Width="32" Height="32" Margin="0,0,10,0"/>
                     <StackPanel>
-                        <TextBlock Text="Selected Cell" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding DataContext.SelectedCell.DisplayNameAndId, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=None}"/>
+                        <TextBlock Text="What is the order of the cell's evaluation? " FontWeight="Bold"/>
+                        <TextBlock Text="{Binding DataContext.AvailableCells.Count, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Evaluationmethod }"/>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
