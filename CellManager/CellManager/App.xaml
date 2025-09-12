@@ -212,8 +212,8 @@
             </Style>
 
             <Style x:Key="DenseGroupBox" TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
-                <Setter Property="Padding" Value="12"/>
-                <Setter Property="Margin"  Value="6"/>
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="Margin"  Value="4"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="GroupBox">
@@ -296,8 +296,8 @@
                 <Setter Property="Background" Value="{StaticResource SurfaceBackgroundBrush}"/>
                 <Setter Property="BorderBrush" Value="{StaticResource SurfaceBorderBrush}"/>
                 <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Padding" Value="12"/>
-                <Setter Property="Margin"  Value="6"/>
+                <Setter Property="Padding" Value="6"/>
+                <Setter Property="Margin"  Value="4"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBox">
@@ -318,7 +318,7 @@
 
             <!-- Dense ListBoxItem -->
             <Style x:Key="DenseListBoxItem" TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                <Setter Property="Padding" Value="8,5"/>
+                <Setter Property="Padding" Value="6,3"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
