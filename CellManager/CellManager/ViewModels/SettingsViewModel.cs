@@ -82,7 +82,7 @@ namespace CellManager.ViewModels
         public RelayCommand WriteBoardDataCommand { get; }
 
         private readonly Dictionary<string, List<ProtectionSetting>> _profiles = new();
-        private readonly string _boardDataFilePath = Path.Combine(AppContext.BaseDirectory, "BoardDataProfiles", "boarddata.json");
+        private readonly string _boardDataFilePath = Path.Combine(AppContext.BaseDirectory, "BoardDataProfiles", "1.0.json");
 
         public SettingsViewModel()
         {
