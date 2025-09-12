@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -57,6 +58,12 @@ namespace CellManager.ViewModels
         public RelayCommand StopCommand { get; }
 
         private readonly IScheduleRepository? _scheduleRepo;
+
+        public RunViewModel() : this(null)
+        {
+            AvailableSchedules.Add(new Schedule { Id = 1, Name = "Sample Schedule", TestProfileIds = new List<int> { 1 } });
+            SelectedSchedule = AvailableSchedules.FirstOrDefault();
+        }
 
         public RunViewModel(IScheduleRepository? scheduleRepo)
         {
