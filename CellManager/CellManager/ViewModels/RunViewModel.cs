@@ -61,7 +61,12 @@ namespace CellManager.ViewModels
 
         public RunViewModel() : this(null)
         {
-            AvailableSchedules.Add(new Schedule { Id = 1, Name = "Sample Schedule", TestProfileIds = new List<int> { 1 } });
+            AvailableSchedules.Add(new Schedule
+            {
+                Id = 1,
+                Name = "Sample Schedule",
+                TestProfileIds = new List<int> { 1, 2, 3 }
+            });
             SelectedSchedule = AvailableSchedules.FirstOrDefault();
         }
 

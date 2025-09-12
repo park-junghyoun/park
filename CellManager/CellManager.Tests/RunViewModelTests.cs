@@ -33,5 +33,14 @@ namespace CellManager.Tests
             Assert.Equal(2, vm.AvailableSchedules.Count);
             Assert.Equal(vm.AvailableSchedules[0], vm.SelectedSchedule);
         }
+
+        [Fact]
+        public void DesignTimeConstructor_SeedsSampleSchedule()
+        {
+            var vm = new RunViewModel();
+            Assert.Single(vm.AvailableSchedules);
+            Assert.NotNull(vm.SelectedSchedule);
+            Assert.True(vm.SelectedSchedule!.TestProfileIds.Count > 0);
+        }
     }
 }
