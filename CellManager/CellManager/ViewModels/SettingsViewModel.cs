@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
 using CellManager.Messages;
+using CellManager.Services;
 
 namespace CellManager.ViewModels
 {
@@ -35,6 +36,9 @@ namespace CellManager.ViewModels
 
         [ObservableProperty]
         private string _voltageHighResult = "0";
+
+        [ObservableProperty]
+        private string _voltageCalibrationResult = string.Empty;
 
         [ObservableProperty]
         private string _currentReference = "500";
@@ -123,6 +127,25 @@ namespace CellManager.ViewModels
             }
 
             // Placeholder for writing logic
+        }
+
+        [RelayCommand]
+        private void CalculateVoltageCalibration()
+        {
+            if (double.TryParse(VoltageLowReference, out var refLow)
+                && double.TryParse(VoltageLowResult, out var resLow)
+                && double.TryParse(VoltageHighReference, out var refHigh)
+                && double.TryParse(VoltageHighResult, out var resHigh))
+            {
+                var result = CalibrationService.CalculateLinearCalibration(refLow, resLow, refHigh, resHigh);
+                VoltageCalibrationResult = result.HasValue
+                    ? $"Gain: {result.Value.Gain:F6}, Offset: {result.Value.Offset:F2}"
+                    : "Invalid input";
+            }
+            else
+            {
+                VoltageCalibrationResult = "Invalid input";
+            }
         }
 
         partial void OnFirmwareVersionChanged(string value)

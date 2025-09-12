@@ -41,6 +41,7 @@
     <Compile Include="../CellManager/Models/ScheduleTimeCalculator.cs" Link="Models/ScheduleTimeCalculator.cs" />
     <Compile Include="../CellManager/Messages/CellSelectedMessage.cs" Link="Messages/CellSelectedMessage.cs" />
     <Compile Include="../CellManager/ViewModels/ScheduleViewModel.cs" Link="ViewModels/ScheduleViewModel.cs" />
+    <Compile Include="../CellManager/Services/CalibrationService.cs" Link="Services/CalibrationService.cs" />
   </ItemGroup>
 
 </Project>
