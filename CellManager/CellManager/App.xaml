@@ -52,18 +52,22 @@
             <!-- 헤더 칩 -->
             <SolidColorBrush x:Key="HeaderForegroundBrush"  Color="#333333"/>
             <!-- 헤더 텍스트 -->
-            <Thickness       x:Key="SurfacePadding">14</Thickness>
-            <CornerRadius    x:Key="SurfaceCornerRadius">12</CornerRadius>
-            <CornerRadius    x:Key="HeaderCornerRadius">8</CornerRadius>
+            <Thickness       x:Key="SurfacePadding">12</Thickness>
+            <CornerRadius    x:Key="SurfaceCornerRadius">10</CornerRadius>
+            <CornerRadius    x:Key="HeaderCornerRadius">6</CornerRadius>
             <!-- ListBoxItem -->
             <SolidColorBrush x:Key="LbItemForeground"   Color="#222222"/>
             <SolidColorBrush x:Key="LbItemHoverBg"      Color="#F5F5F5"/>
             <SolidColorBrush x:Key="LbItemSelectedBg"   Color="#EDEFF3"/>
             <SolidColorBrush x:Key="LbItemBorder"       Color="#E3E6EA"/>
             <!-- 그림자(버전 안전) -->
-            <DropShadowEffect x:Key="SoftShadow" BlurRadius="10" Opacity="0.18" ShadowDepth="2"/>
-            <DropShadowEffect x:Key="TinyShadow" BlurRadius="6"  Opacity="0.14" ShadowDepth="1"/>
-
+            <DropShadowEffect x:Key="SoftShadow" BlurRadius="8" Opacity="0.14" ShadowDepth="1.5"/>
+            <DropShadowEffect x:Key="TinyShadow" BlurRadius="4"  Opacity="0.1" ShadowDepth="1"/>
+            <!-- Status Bar(Cell info)-->
+            <SolidColorBrush x:Key="TitleBrush" Color="#111827"/>
+            <SolidColorBrush x:Key="MetaLabelBrush" Color="#6B7280"/>
+            <SolidColorBrush x:Key="MetaValueBrush" Color="#374151"/>
+            <SolidColorBrush x:Key="SepBrush" Color="#9CA3AF"/>
             <!-- ===== Card: 버전 안전 템플릿 =====
            ShadowAssist/CornerRadius 같은 버전 의존 속성 사용 안 함 -->
             <Style TargetType="materialDesign:Card" BasedOn="{StaticResource {x:Type materialDesign:Card}}">

@@ -45,31 +45,68 @@
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Cell info status bar -->
-        <StatusBar Grid.Row="0">
-            <WrapPanel>
-                <TextBlock Text="{Binding DataContext.SelectedCell.DisplayNameAndId, RelativeSource={RelativeSource AncestorType=Window}}" Margin="0,0,16,4"/>
-                <TextBlock Text="{Binding DataContext.SelectedCell.LastUpdated, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
-                <TextBlock Text="{Binding DataContext.SelectedCell.Manufacturer, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='Manufacturer: {0}'}" Margin="0,0,16,4"/>
-                <TextBlock Text="{Binding DataContext.SelectedCell.CellType, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='Type: {0}'}" Margin="0,0,16,4"/>
-                <TextBlock Text="{Binding DataContext.SelectedCell.SerialNumber, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
-            </WrapPanel>
-        </StatusBar>
+        <GroupBox Grid.Row="0" Margin="0" Padding="0">
+            <TextBlock FontSize="14"
+             TextWrapping="NoWrap"
+             TextTrimming="CharacterEllipsis"
+             VerticalAlignment="Center"
+             ToolTipService.ShowDuration="60000" Margin="20,0,0,0">
+    <!-- 선택 셀: 타이틀(가장 강조) -->
+    <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"
+         FontWeight="SemiBold" Foreground="{StaticResource TitleBrush}"/>
+
+    <!-- 구분자 -->
+    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
+
+    <!-- 메타: 레이블은 라이트 그레이, 값은 다크 그레이 -->
+    <Run Text="SN " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.SerialNumber}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="Type " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.CellType}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="MFR " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.Manufacturer}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="Updated " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm}}" 
+         Foreground="{StaticResource MetaValueBrush}"/>
+
+    <!-- 전체 원문 툴팁(잘릴 때 대비) -->
+                <TextBlock.ToolTip>
+                    <TextBlock>
+        <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"/>
+        <Run Text="  |  SN: "/><Run Text="{Binding SelectedCell.SerialNumber}"/>
+        <Run Text="  |  Type: "/><Run Text="{Binding SelectedCell.CellType}"/>
+        <Run Text="  |  MFR: "/><Run Text="{Binding SelectedCell.Manufacturer}"/>
+        <Run Text="  |  Updated: "/><Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+                    </TextBlock>
+                </TextBlock.ToolTip>
+  </TextBlock>
+        </GroupBox>
 
         <!-- Main content -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="700"/>
-                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="350"/>
             </Grid.ColumnDefinitions>
 
             <!-- Schedule list -->
-            <GroupBox Grid.Column="0" Margin="8" MinWidth="300">
+            <GroupBox Grid.Column="0" Margin="0" MinWidth="300">
                 <DockPanel>
                     <Grid DockPanel.Dock="Top">
                         <Grid.ColumnDefinitions>
@@ -204,7 +241,7 @@
             </GroupBox>
 
             <!-- Sequence builder -->
-            <GroupBox Grid.Column="1" Margin="8">
+            <GroupBox Grid.Column="1" Margin="10,0,10,0">
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -212,7 +249,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- Schedule name, save button and total duration -->
-                    <Grid Grid.Row="0" Margin="0,0,0,8">
+                    <Grid Grid.Row="0" Margin="0,0,0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
@@ -220,11 +257,11 @@
                     </Grid>
 
                     <!-- Timeline preview -->
-                    <StackPanel Grid.Row="0" Margin="0,0,0,8">
-                        <StackPanel Orientation="Horizontal">
+                    <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <TextBlock Text="Test Flow" FontWeight="Bold" FontSize="15"/>
                             <TextBlock Text="{Binding TotalDuration, StringFormat='Total: {0:hh\\:mm\\:ss}'}"
-                               Margin="16,0,0,0" VerticalAlignment="Center"/>
+                               Margin="30,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                         <ItemsControl x:Name="TimelinePreview" ItemsSource="{Binding Sequence}"
                                   HorizontalAlignment="Stretch" ClipToBounds="True" Style="{x:Null}" AlternationCount="1000">
@@ -238,7 +275,7 @@
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <Border Margin="1" Padding="2" Width="50" Height="32"
                                                 Background="{DynamicResource PrimaryHueLightBrush}"
-                                                BorderBrush="Black" BorderThickness="1" CornerRadius="0">
+                                                BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="0">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                 <materialDesign:PackIcon Kind="{Binding IconKind}" Width="14" Height="14" Margin="0,0,2,0"/>
                                                 <TextBlock FontSize="10" Foreground="Black">
@@ -425,12 +462,12 @@
 
 
             <!-- Step library -->
-            <GroupBox Grid.Column="2" Margin="3" Style="{x:Null}" BorderThickness="0">
+            <GroupBox Grid.Column="2" Margin="0" Style="{x:Null}" BorderThickness="0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding StepLibrary}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <materialDesign:Card Margin="0,0,0,8" Padding="0">
+                                <materialDesign:Card Margin="0,0,0,10" Padding="0">
                                     <Expander IsExpanded="True">
                                         <Expander.Header>
                                             <StackPanel Orientation="Horizontal">
@@ -452,13 +489,8 @@
                                                                     <Setter Property="Visibility" Value="Visible"/>
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding Name}" Value="OCV">
-                                                                    <Setter Property="Kind" Value="StairsDown"/>
+                                                                    <Setter Property="Kind" Value="Aurora"/>
                                                                     <Setter Property="Visibility" Value="Visible"/>
-                                                                    <Setter Property="LayoutTransform">
-                                                                        <Setter.Value>
-                                                                            <ScaleTransform ScaleX="-1"/>
-                                                                        </Setter.Value>
-                                                                    </Setter>
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding Name}" Value="Loop">
                                                                     <Setter Property="Kind" Value="Repeat"/>
@@ -472,7 +504,7 @@
                                             </StackPanel>
                                         </Expander.Header>
                                         <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
-                                                              Margin="24,4,4,4"
+                                                              Margin="45,-5,4,8"
                                                               PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
                                                               PreviewMouseMove="ProfileList_PreviewMouseMove"/>
                                     </Expander>

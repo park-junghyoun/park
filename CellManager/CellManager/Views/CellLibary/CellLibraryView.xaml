@@ -53,15 +53,15 @@
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="15"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Row="0" Grid.Column="0"  BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="5" Margin="5" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+        <Border Grid.Row="0" Grid.Column="0"  BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="5" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <Grid>
                 <TextBlock Text="Search &amp; Filter" Margin="8" VerticalAlignment="Center" Foreground="Gray" Opacity="0.6" IsHitTestVisible="False" >
                     <TextBlock.Style>
@@ -92,7 +92,7 @@
             </Button>
         </StackPanel>
 
-        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" Margin="5" SizeChanged="ListView_SizeChanged" >
+        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" SizeChanged="ListView_SizeChanged" >
 
             <ListView.Resources>
                 <!-- GridViewColumnHeader 스타일을 Items 컬렉션과 분리하여 정의 -->

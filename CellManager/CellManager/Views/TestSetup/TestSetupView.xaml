@@ -9,23 +9,60 @@
             mc:Ignorable="d">
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StatusBar Grid.Row="0">
-            <WrapPanel>
-                <TextBlock Text="{Binding SelectedCell.DisplayNameAndId}" Margin="0,0,16,4"/>
-                <TextBlock Text="{Binding SelectedCell.LastUpdated, StringFormat='Updated: {0:yyyy-MM-dd HH:mm:ss}'}" Margin="0,0,16,4"/>
-                <TextBlock Text="{Binding SelectedCell.Manufacturer, StringFormat='Manufacturer: {0}'}" Margin="0,0,16,4"/>
-                <TextBlock Text="{Binding SelectedCell.CellType, StringFormat='Type: {0}'}" Margin="0,0,16,4"/>
-                <TextBlock Text="{Binding SelectedCell.SerialNumber, StringFormat='SN: {0}'}" Margin="0,0,0,4"/>
-            </WrapPanel>
-        </StatusBar>
-        <DockPanel Grid.Row="1">
+        <GroupBox Grid.Row="0" Margin="0" Padding="0">
+            <TextBlock FontSize="14"
+             TextWrapping="NoWrap"
+             TextTrimming="CharacterEllipsis"
+             VerticalAlignment="Center"
+             ToolTipService.ShowDuration="60000" Margin="20,0,0,0">
+    <!-- 선택 셀: 타이틀(가장 강조) -->
+    <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"
+         FontWeight="SemiBold" Foreground="{StaticResource TitleBrush}"/>
+
+    <!-- 구분자 -->
+    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
+
+    <!-- 메타: 레이블은 라이트 그레이, 값은 다크 그레이 -->
+    <Run Text="SN " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.SerialNumber}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="Type " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.CellType}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="MFR " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.Manufacturer}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="Updated " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm}}" 
+         Foreground="{StaticResource MetaValueBrush}"/>
+
+    <!-- 전체 원문 툴팁(잘릴 때 대비) -->
+                <TextBlock.ToolTip>
+                    <TextBlock>
+        <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"/>
+        <Run Text="  |  SN: "/><Run Text="{Binding SelectedCell.SerialNumber}"/>
+        <Run Text="  |  Type: "/><Run Text="{Binding SelectedCell.CellType}"/>
+        <Run Text="  |  MFR: "/><Run Text="{Binding SelectedCell.Manufacturer}"/>
+        <Run Text="  |  Updated: "/><Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+                    </TextBlock>
+                </TextBlock.ToolTip>
+  </TextBlock>
+        </GroupBox>
+        <DockPanel Grid.Row="2" >
             <UniformGrid x:Name="ProfilesGrid" Rows="1">
 
                     <!-- Charge Profiles -->
-                    <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
+                    <GroupBox Margin="0,0,5,10" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                         <!-- 상단 헤더 영역 -->
@@ -131,7 +168,7 @@
                     </GroupBox>
 
                     <!-- Discharge Profiles -->
-                    <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
+                    <GroupBox Margin="8,0,8,10" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                         <!-- 상단 헤더 영역 -->
@@ -237,7 +274,7 @@
                     </GroupBox>
 
                     <!-- Rest Profiles -->
-                    <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
+                    <GroupBox Margin="8,0,8,10" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                         <!-- 상단 헤더 영역 -->
@@ -326,7 +363,7 @@
                     </GroupBox>
 
                     <!-- OCV Profiles -->
-                    <GroupBox Margin="5,15,16,5" VerticalAlignment="Stretch"
+                    <GroupBox Margin="8,0,8,10" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                         <!-- 상단 헤더 영역 -->
@@ -415,7 +452,7 @@
                     </GroupBox>
 
                     <!-- ECM Profiles -->
-                    <GroupBox Margin="5,15,5,5" VerticalAlignment="Stretch"
+                    <GroupBox Margin="8,0,0,10" VerticalAlignment="Stretch"
                               MaxHeight="{Binding ElementName=ProfilesGrid, Path=ActualHeight}">
                         <DockPanel>
                         <!-- 상단 헤더 영역 -->
