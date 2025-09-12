@@ -189,9 +189,9 @@
                         </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Script" DisplayMemberBinding="{Binding Ordering}" Width="50"/>
+                                <GridViewColumn Header="Script" DisplayMemberBinding="{Binding Ordering}" Width="45"/>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
-                                <GridViewColumn Header="Duration" Width="52">
+                                <GridViewColumn Header="Duration" Width="80">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding EstimatedDuration, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
