@@ -31,14 +31,14 @@
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsSelected" Value="True">
                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryMain}"/>
-                                    <Setter TargetName="ContentSite" Property="Foreground" Value="White"/>
+                                    <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryHover}"/>
-                                    <Setter TargetName="ContentSite" Property="Foreground" Value="White"/>
+                                    <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="ContentSite" Property="Foreground" Value="#9E9E9E"/>
+                                    <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="#9E9E9E"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
