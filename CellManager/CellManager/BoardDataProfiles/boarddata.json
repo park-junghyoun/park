@@ -1,4 +1,5 @@
 {
+  "version": "1.0",
   "settings": [
     { "parameter": "SMBus Slave Address", "unit": "", "description": "", "defaultSpec": "", "category": "System Information" },
     { "parameter": "Board Name", "unit": "", "description": "", "defaultSpec": "", "category": "System Information" },
