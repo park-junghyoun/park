@@ -348,6 +348,7 @@
                         <Grid Grid.Row="1">
                             <ListBox x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto"
          PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
+         PreviewMouseLeftButtonUp="ScheduleList_PreviewMouseLeftButtonUp"
          PreviewMouseMove="ScheduleList_PreviewMouseMove"
          Drop="ScheduleList_Drop" DragOver="ScheduleList_DragOver" DragLeave="ScheduleList_DragLeave">
                                 <ListBox.Style>
@@ -510,6 +511,7 @@
                                         <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
                                                               Margin="45,-5,4,8"
                                                               PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
+                                                              PreviewMouseLeftButtonUp="ProfileList_PreviewMouseLeftButtonUp"
                                                               PreviewMouseMove="ProfileList_PreviewMouseMove"/>
                                     </Expander>
                                 </materialDesign:Card>

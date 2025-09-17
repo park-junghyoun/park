@@ -10,7 +10,12 @@ namespace CellManager.Views
 {
     public partial class ScheduleView : UserControl
     {
+        private const string DragSourceFormat = "ScheduleView_IsFromSequence";
+
         private Point _dragStart;
+        private ItemsControl? _dragSourceList;
+        private FrameworkElement? _dragItemContainer;
+        private StepTemplate? _dragTemplate;
         private InsertionAdorner? _insertionAdorner;
         private DragAdorner? _dragAdorner;
         private UIElement? _dragScope;
@@ -23,6 +28,12 @@ namespace CellManager.Views
         private void ProfileList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _dragStart = e.GetPosition(null);
+            CaptureDragStart(sender, e);
+        }
+
+        private void ProfileList_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ResetDragState();
         }
 
         private void ProfileList_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -32,19 +43,22 @@ namespace CellManager.Views
             if (Math.Abs(pos.X - _dragStart.X) < SystemParameters.MinimumHorizontalDragDistance &&
                 Math.Abs(pos.Y - _dragStart.Y) < SystemParameters.MinimumVerticalDragDistance)
                 return;
-            if (sender is ItemsControl list)
-            {
-                var item = GetItemUnderMouse(list, e.GetPosition(list));
-                if (item?.DataContext is StepTemplate template)
-                {
-                    BeginDrag(list, item, template, DragDropEffects.Copy);
-                }
-            }
+            if (sender is not ItemsControl list) return;
+            if (!ReferenceEquals(list, _dragSourceList)) return;
+            if (_dragItemContainer is not FrameworkElement item) return;
+            if (_dragTemplate == null) return;
+            BeginDrag(list, item, _dragTemplate, DragDropEffects.Copy);
         }
 
         private void ScheduleList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _dragStart = e.GetPosition(null);
+            CaptureDragStart(sender, e);
+        }
+
+        private void ScheduleList_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ResetDragState();
         }
 
         private void ScheduleList_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -54,13 +68,31 @@ namespace CellManager.Views
             if (Math.Abs(pos.X - _dragStart.X) < SystemParameters.MinimumHorizontalDragDistance &&
                 Math.Abs(pos.Y - _dragStart.Y) < SystemParameters.MinimumVerticalDragDistance)
                 return;
-            if (sender is ItemsControl list && GetItemUnderMouse(list, e.GetPosition(list)) is FrameworkElement item)
+            if (sender is not ItemsControl list) return;
+            if (!ReferenceEquals(list, _dragSourceList)) return;
+            if (_dragItemContainer is not FrameworkElement item) return;
+            if (_dragTemplate == null) return;
+            BeginDrag(list, item, _dragTemplate, DragDropEffects.Move);
+        }
+
+        private void CaptureDragStart(object sender, MouseButtonEventArgs e)
+        {
+            ResetDragState();
+            if (sender is not ItemsControl list) return;
+
+            _dragSourceList = list;
+            _dragItemContainer = GetItemUnderMouse(list, e.GetPosition(list));
+            if (_dragItemContainer?.DataContext is StepTemplate template)
             {
-                if (item.DataContext is StepTemplate step)
-                {
-                    BeginDrag(list, item, step, DragDropEffects.Move);
-                }
+                _dragTemplate = template;
             }
+        }
+
+        private void ResetDragState()
+        {
+            _dragSourceList = null;
+            _dragItemContainer = null;
+            _dragTemplate = null;
         }
 
         private void ScheduleList_DragOver(object sender, DragEventArgs e)
@@ -83,7 +115,10 @@ namespace CellManager.Views
             var index = GetInsertIndex(list, e.GetPosition(list));
             var step = (StepTemplate)e.Data.GetData(typeof(StepTemplate));
 
-            if (vm.Sequence.Contains(step))
+            var isFromSequence = e.Data.GetDataPresent(DragSourceFormat) &&
+                                 e.Data.GetData(DragSourceFormat) is bool fromSequence && fromSequence;
+
+            if (isFromSequence)
                 vm.MoveStep(step, index);
             else
                 vm.InsertStep(step, index);
@@ -132,9 +167,8 @@ namespace CellManager.Views
             {
                 if (list.ItemContainerGenerator.ContainerFromIndex(i) is FrameworkElement item)
                 {
-                    var bounds = VisualTreeHelper.GetDescendantBounds(item);
                     var topLeft = item.TranslatePoint(new Point(), list);
-                    var rect = new Rect(topLeft, bounds.Size);
+                    var rect = new Rect(topLeft, item.RenderSize);
                     if (rect.Contains(position))
                     {
                         if (orientation == Orientation.Horizontal)
@@ -163,9 +197,8 @@ namespace CellManager.Views
             {
                 if (list.ItemContainerGenerator.ContainerFromIndex(i) is FrameworkElement item)
                 {
-                    var bounds = VisualTreeHelper.GetDescendantBounds(item);
                     var topLeft = item.TranslatePoint(new Point(), list);
-                    var rect = new Rect(topLeft, bounds.Size);
+                    var rect = new Rect(topLeft, item.RenderSize);
                     if (rect.Contains(point)) return item;
                 }
             }
@@ -200,6 +233,7 @@ namespace CellManager.Views
         private void BeginDrag(ItemsControl source, FrameworkElement item, StepTemplate step, DragDropEffects effect)
         {
             var data = new DataObject(typeof(StepTemplate), step);
+            data.SetData(DragSourceFormat, effect == DragDropEffects.Move);
             _dragScope = Window.GetWindow(this)?.Content as UIElement;
             if (_dragScope != null)
             {
@@ -214,6 +248,7 @@ namespace CellManager.Views
             }
             DragDrop.DoDragDrop(source, data, effect);
             RemoveDragAdorner();
+            ResetDragState();
         }
 
         private void DragScope_DragOver(object sender, DragEventArgs e)
