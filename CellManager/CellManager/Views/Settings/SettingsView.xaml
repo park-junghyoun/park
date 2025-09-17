@@ -114,8 +114,13 @@
                                                      Width="120"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                            <Button Content="Calibrate" Width="80" Margin="0,0,8,0"/>
-                                            <Button Content="Discharge" Width="80"/>
+                                            <Button Content="Calibrate"
+                                                    Width="80"
+                                                    Margin="0,0,8,0"
+                                                    Style="{StaticResource SecondaryActionButton}"/>
+                                            <Button Content="Discharge"
+                                                    Width="80"
+                                                    Style="{StaticResource SecondaryActionButton}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </materialDesign:Card>
@@ -136,7 +141,10 @@
                                                      Text="{Binding TemperatureResult}"
                                                      Width="120"/>
                                         </StackPanel>
-                                        <Button Content="Set Temp" Width="80" Margin="0,8,0,0"/>
+                                        <Button Content="Set Temp"
+                                                Width="80"
+                                                Margin="0,8,0,0"
+                                                Style="{StaticResource SecondaryActionButton}"/>
                                     </StackPanel>
                                 </materialDesign:Card>
                             </StackPanel>
@@ -212,8 +220,15 @@
                                 </DataGrid.GroupStyle>
                             </DataGrid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Content="Read" Command="{Binding ReadBoardDataCommand}" Width="80" Margin="0,0,8,0"/>
-                                <Button Content="Write" Command="{Binding WriteBoardDataCommand}" Width="80"/>
+                                <Button Content="Read"
+                                        Command="{Binding ReadBoardDataCommand}"
+                                        Width="80"
+                                        Margin="0,0,8,0"
+                                        Style="{StaticResource SecondaryActionButton}"/>
+                                <Button Content="Write"
+                                        Command="{Binding WriteBoardDataCommand}"
+                                        Width="80"
+                                        Style="{StaticResource SecondaryActionButton}"/>
                             </StackPanel>
                         </StackPanel>
                     </materialDesign:Card>
@@ -288,8 +303,15 @@
                                 </DataGrid.GroupStyle>
                             </DataGrid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Content="Read" Command="{Binding ReadProtectionCommand}" Width="80" Margin="0,0,8,0"/>
-                                <Button Content="Write" Command="{Binding WriteProtectionCommand}" Width="80"/>
+                                <Button Content="Read"
+                                        Command="{Binding ReadProtectionCommand}"
+                                        Width="80"
+                                        Margin="0,0,8,0"
+                                        Style="{StaticResource SecondaryActionButton}"/>
+                                <Button Content="Write"
+                                        Command="{Binding WriteProtectionCommand}"
+                                        Width="80"
+                                        Style="{StaticResource SecondaryActionButton}"/>
                             </StackPanel>
                         </StackPanel>
                     </materialDesign:Card>
