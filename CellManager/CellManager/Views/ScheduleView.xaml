@@ -345,7 +345,8 @@
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </StackPanel>
-                        <ListBox Grid.Row="1" x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto"
+                        <Grid Grid.Row="1">
+                            <ListBox x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto"
          PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
          PreviewMouseMove="ScheduleList_PreviewMouseMove"
          Drop="ScheduleList_Drop" DragOver="ScheduleList_DragOver" DragLeave="ScheduleList_DragLeave">
@@ -457,7 +458,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                        </ListBox>
+                        </Grid>
                     </Grid>
 
                 </Grid>
