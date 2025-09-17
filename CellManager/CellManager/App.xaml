@@ -23,6 +23,15 @@
             <SolidColorBrush x:Key="PrimaryDisabledFg"  Color="#FFFFFF"/>
             <!-- Disabled fg(white) -->
 
+            <!-- Secondary button colors -->
+            <SolidColorBrush x:Key="SecondaryMain"        Color="#F3F4F6"/>
+            <SolidColorBrush x:Key="SecondaryHover"       Color="#E5E7EB"/>
+            <SolidColorBrush x:Key="SecondaryPressed"     Color="#D1D5DB"/>
+            <SolidColorBrush x:Key="SecondaryBorder"      Color="#D1D5DB"/>
+            <SolidColorBrush x:Key="SecondaryForeground" Color="#1F2937"/>
+            <SolidColorBrush x:Key="SecondaryDisabledBg"  Color="#F9FAFB"/>
+            <SolidColorBrush x:Key="SecondaryDisabledFg"  Color="#9CA3AF"/>
+
             <!-- Error button colors -->
             <SolidColorBrush x:Key="ErrorMain"        Color="#F44336"/>
             <SolidColorBrush x:Key="ErrorHover"       Color="#E53935"/>
@@ -465,6 +474,60 @@
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter TargetName="bg" Property="Background" Value="{StaticResource ErrorDisabledBg}"/>
                                     <Setter Property="Foreground" Value="{StaticResource ErrorDisabledFg}"/>
+                                    <Setter Property="Opacity" Value="0.95"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="SecondaryActionButton"
+       TargetType="Button"
+       BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                <Setter Property="Height" Value="36"/>
+                <Setter Property="Padding" Value="16,0"/>
+                <Setter Property="Foreground" Value="{StaticResource SecondaryForeground}"/>
+                <Setter Property="Background" Value="{StaticResource SecondaryMain}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource SecondaryBorder}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="6"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="bg"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding materialDesign:ButtonAssist.CornerRadius}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Margin="{TemplateBinding Padding}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- Hover / Pressed -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource SecondaryHover}"/>
+                                    <Setter TargetName="bg" Property="BorderBrush" Value="{StaticResource SecondaryHover}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource SecondaryPressed}"/>
+                                    <Setter TargetName="bg" Property="BorderBrush" Value="{StaticResource SecondaryPressed}"/>
+                                </Trigger>
+
+                                <!-- Keyboard Focus (외곽선 살짝) -->
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter TargetName="bg" Property="BorderBrush" Value="#90CAF9"/>
+                                    <Setter TargetName="bg" Property="BorderThickness" Value="2"/>
+                                </Trigger>
+
+                                <!-- Disabled -->
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="bg" Property="Background" Value="{StaticResource SecondaryDisabledBg}"/>
+                                    <Setter TargetName="bg" Property="BorderBrush" Value="{StaticResource SecondaryBorder}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource SecondaryDisabledFg}"/>
                                     <Setter Property="Opacity" Value="0.95"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>

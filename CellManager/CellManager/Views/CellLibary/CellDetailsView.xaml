@@ -245,15 +245,21 @@
                     CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                     Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18"/>
+                    <materialDesign:PackIcon Kind="ContentSave"
+                                            Width="18"
+                                            Height="18"
+                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
                     <TextBlock Text=" Save"/>
                 </StackPanel>
             </Button>
-            <Button Style="{StaticResource PrimaryActionButton}"
+            <Button Style="{StaticResource SecondaryActionButton}"
                     Command="{Binding CancelCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Cancel" Width="18" Height="18"/>
+                    <materialDesign:PackIcon Kind="Cancel"
+                                            Width="18"
+                                            Height="18"
+                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
                     <TextBlock Text=" Cancel"/>
                 </StackPanel>
             </Button>

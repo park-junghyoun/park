@@ -17,16 +17,24 @@
                        FontWeight="Bold"
                        Margin="0,8,0,16"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Margin="0,0,8,0" IsCancel="True">
+                <Button Margin="0,0,8,0"
+                        IsCancel="True"
+                        Style="{StaticResource SecondaryActionButton}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <materialDesign:PackIcon Kind="Cancel" Width="18" Height="18"/>
+                        <materialDesign:PackIcon Kind="Cancel"
+                                                Width="18"
+                                                Height="18"
+                                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
                         <TextBlock Text=" Cancel"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource PrimaryActionButton}"
+                <Button Style="{StaticResource ErrorActionButton}"
                         Click="Delete_Click" IsDefault="True">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <materialDesign:PackIcon Kind="Delete" Width="18" Height="18"/>
+                        <materialDesign:PackIcon Kind="Delete"
+                                                Width="18"
+                                                Height="18"
+                                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
                         <TextBlock Text=" Delete"/>
                     </StackPanel>
                 </Button>

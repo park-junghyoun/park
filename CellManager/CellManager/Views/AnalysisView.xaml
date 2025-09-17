@@ -28,6 +28,40 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="FilledTabItemStyle" TargetType="TabItem">
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Foreground" Value="{StaticResource HeaderForegroundBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Border"
+                                Background="Transparent"
+                                CornerRadius="4"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="ContentSite"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryMain}"/>
+                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryHover}"/>
+                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="#9E9E9E"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <DataTemplate x:Key="WarningTemplate" DataType="{x:Type viewModels:AnalysisWarning}">
             <Border Background="#FEF3C7" BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,4,0,0">
                 <Grid>
@@ -64,10 +98,12 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <Button Command="{Binding DataContext.RemoveDatasetCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}" Style="{StaticResource MaterialDesignToolForegroundButton}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
-                                <TextBlock Text="Remove" Margin="4,0,0,0"/>
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource ErrorActionButton}"
+                                HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Delete" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                <TextBlock Text=" Remove"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -88,9 +124,24 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
                         <Button Command="{Binding DataContext.ApplyTemplateCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}" Style="{StaticResource PrimaryActionButton}" Margin="0,0,4,0">Apply</Button>
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource PrimaryActionButton}"
+                                Margin="0,0,4,0"
+                                HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="PlayCircleOutline" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                <TextBlock Text=" Apply"/>
+                            </StackPanel>
+                        </Button>
                         <Button Command="{Binding DataContext.DeleteTemplateCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}" Style="{StaticResource MaterialDesignToolForegroundButton}">Delete</Button>
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource ErrorActionButton}"
+                                HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Delete" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                <TextBlock Text=" Delete"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -122,9 +173,24 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
                     <ComboBox Width="220" Margin="0,0,8,0" ItemsSource="{Binding LoadedSessionHistory}" SelectedItem="{Binding SelectedSessionSnapshot}" DisplayMemberPath="Title"/>
-                    <Button Content="Load RAW..." Command="{Binding LoadRawCommand}" Style="{StaticResource PrimaryActionButton}"/>
-                    <Button Content="Reload" Margin="8,0,0,0" Command="{Binding ReloadCommand}"/>
-                    <Button Content="Save Session" Margin="8,0,0,0" Command="{Binding SaveSessionCommand}"/>
+                    <Button Command="{Binding LoadRawCommand}" Style="{StaticResource PrimaryActionButton}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="FileUpload" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                            <TextBlock Text=" Load RAW"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="8,0,0,0" Command="{Binding ReloadCommand}" Style="{StaticResource SecondaryActionButton}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Refresh" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                            <TextBlock Text=" Reload"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="8,0,0,0" Command="{Binding SaveSessionCommand}" Style="{StaticResource PrimaryActionButton}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                            <TextBlock Text=" Save Session"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </Grid>
         </materialDesign:Card>
@@ -144,8 +210,23 @@
                         <DockPanel Margin="0,0,0,8">
                             <TextBlock DockPanel.Dock="Left" Text="Datasets" FontSize="16" FontWeight="SemiBold"/>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                <Button Content="Add file" Margin="0,0,6,0" Command="{Binding LoadRawCommand}" Style="{StaticResource PrimaryActionButton}"/>
-                                <Button Content="Remove" Command="{Binding RemoveSelectedDatasetCommand}"/>
+                                <Button Margin="0,0,6,0"
+                                        Command="{Binding LoadRawCommand}"
+                                        Style="{StaticResource PrimaryActionButton}"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="PlusBox" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                        <TextBlock Text=" Add file"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding RemoveSelectedDatasetCommand}"
+                                        Style="{StaticResource ErrorActionButton}"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="Delete" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                        <TextBlock Text=" Remove"/>
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </DockPanel>
                         <ListBox ItemsSource="{Binding Datasets}" SelectedItem="{Binding SelectedDataset}" ItemTemplate="{StaticResource DatasetTemplate}"/>
@@ -180,8 +261,23 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <StackPanel Orientation="Horizontal" Margin="0,12,0,0" HorizontalAlignment="Right">
-                            <Button Content="Save preset" Margin="0,0,6,0" Command="{Binding SaveComparisonPresetCommand}" Style="{StaticResource PrimaryActionButton}"/>
-                            <Button Content="Load preset" Command="{Binding LoadComparisonPresetCommand}"/>
+                            <Button Margin="0,0,6,0"
+                                    Command="{Binding SaveComparisonPresetCommand}"
+                                    Style="{StaticResource PrimaryActionButton}"
+                                    HorizontalAlignment="Left">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="ContentSaveOutline" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                    <TextBlock Text=" Save preset"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding LoadComparisonPresetCommand}"
+                                    Style="{StaticResource SecondaryActionButton}"
+                                    HorizontalAlignment="Left">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="FolderOpen" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                    <TextBlock Text=" Load preset"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
                 </materialDesign:Card>
@@ -190,7 +286,15 @@
                     <StackPanel>
                         <DockPanel>
                             <TextBlock DockPanel.Dock="Left" Text="Session templates" FontSize="16" FontWeight="SemiBold"/>
-                            <Button DockPanel.Dock="Right" Content="Save current setup" Margin="8,0,0,0" Command="{Binding SaveTemplateCommand}" Style="{StaticResource PrimaryActionButton}"/>
+                            <Button DockPanel.Dock="Right"
+                                    Margin="8,0,0,0"
+                                    Command="{Binding SaveTemplateCommand}"
+                                    Style="{StaticResource PrimaryActionButton}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                    <TextBlock Text=" Save current setup"/>
+                                </StackPanel>
+                            </Button>
                         </DockPanel>
                         <ListBox ItemsSource="{Binding SessionTemplates}" ItemTemplate="{StaticResource TemplateItemTemplate}"/>
                     </StackPanel>
@@ -205,7 +309,13 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TabControl Grid.Row="0" Margin="0,0,0,8" SelectedItem="{Binding SelectedChartMode}" ItemsSource="{Binding ChartModes}">
+                        <TabControl Grid.Row="0"
+                                    Margin="0,0,0,8"
+                                    SelectedItem="{Binding SelectedChartMode}"
+                                    ItemsSource="{Binding ChartModes}"
+                                    Background="Transparent"
+                                    ItemContainerStyle="{StaticResource FilledTabItemStyle}"
+                                    materialDesign:TabAssist.HasFilledTab="True">
                             <TabControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="8,0">
@@ -302,7 +412,14 @@
                     <StackPanel>
                         <DockPanel>
                             <TextBlock Text="Automatic analysis" DockPanel.Dock="Left" FontSize="16" FontWeight="SemiBold"/>
-                            <Button DockPanel.Dock="Right" Content="Export report" Command="{Binding ExportReportCommand}" Style="{StaticResource PrimaryActionButton}"/>
+                            <Button DockPanel.Dock="Right"
+                                    Command="{Binding ExportReportCommand}"
+                                    Style="{StaticResource PrimaryActionButton}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="FileDocumentOutline" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                    <TextBlock Text=" Export report"/>
+                                </StackPanel>
+                            </Button>
                         </DockPanel>
                         <ItemsControl ItemsSource="{Binding AutomaticAnalyses}" Margin="0,8,0,0">
                             <ItemsControl.ItemTemplate>
@@ -323,7 +440,15 @@
                                                 </StackPanel>
                                                 <TextBlock Text="{Binding ErrorMessage}" Foreground="#B91C1C" FontSize="12" Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                             </StackPanel>
-                                            <Button Grid.Column="1" Content="Recompute" Command="{Binding RecomputeCommand}" Style="{StaticResource PrimaryActionButton}" VerticalAlignment="Top"/>
+                                            <Button Grid.Column="1"
+                                                    Command="{Binding RecomputeCommand}"
+                                                    Style="{StaticResource PrimaryActionButton}"
+                                                    VerticalAlignment="Top">
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="Refresh" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                                    <TextBlock Text=" Recompute"/>
+                                                </StackPanel>
+                                            </Button>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -338,8 +463,23 @@
                                                 <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
                                                 <TextBlock Text="{Binding Subtitle}" Foreground="#6B7280" FontSize="12"/>
                                                 <StackPanel Orientation="Horizontal" Margin="0,6,0,0" HorizontalAlignment="Right">
-                                                    <Button Content="Open" Margin="0,0,8,0" Command="{Binding OpenCommand}"/>
-                                                    <Button Content="Remove" Command="{Binding RemoveCommand}"/>
+                                                    <Button Margin="0,0,8,0"
+                                                            Command="{Binding OpenCommand}"
+                                                            Style="{StaticResource SecondaryActionButton}"
+                                                            HorizontalAlignment="Left">
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                            <materialDesign:PackIcon Kind="OpenInNew" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                                            <TextBlock Text=" Open"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                    <Button Command="{Binding RemoveCommand}"
+                                                            Style="{StaticResource ErrorActionButton}"
+                                                            HorizontalAlignment="Left">
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                            <materialDesign:PackIcon Kind="Delete" Width="18" Height="18" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                                            <TextBlock Text=" Remove"/>
+                                                        </StackPanel>
+                                                    </Button>
                                                 </StackPanel>
                                             </StackPanel>
                                         </Border>

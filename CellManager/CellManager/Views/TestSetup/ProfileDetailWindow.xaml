@@ -29,12 +29,24 @@
         </Grid.RowDefinitions>
         <ContentControl Content="{Binding}"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Style="{StaticResource MaterialDesignToolButton}" Width="32" Height="32" Padding="0" Margin="0,0,10,0" IsDefault="True" Click="OnSaveClick">
-                <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18"/>
-            </Button>
-            <Button Style="{StaticResource PrimaryActionButton}" IsCancel="True">
+            <Button Style="{StaticResource PrimaryActionButton}"
+                    Margin="0,0,10,0"
+                    IsDefault="True"
+                    Click="OnSaveClick">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Cancel" Width="18" Height="18"/>
+                    <materialDesign:PackIcon Kind="ContentSave"
+                                            Width="18"
+                                            Height="18"
+                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                    <TextBlock Text=" Save"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource SecondaryActionButton}" IsCancel="True">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Cancel"
+                                            Width="18"
+                                            Height="18"
+                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
                     <TextBlock Text=" Cancel"/>
                 </StackPanel>
             </Button>

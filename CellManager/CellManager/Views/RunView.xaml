@@ -79,7 +79,10 @@
                     <TextBlock Text="Controls" FontWeight="Bold" FontSize="15"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4">
                         <Button Content="Start" Command="{Binding StartCommand}" Style="{StaticResource PrimaryActionButton}" Margin="0,0,8,0"/>
-                        <Button Content="Pause" Command="{Binding PauseCommand}" Margin="0,0,8,0"/>
+                        <Button Content="Pause"
+                                Command="{Binding PauseCommand}"
+                                Style="{StaticResource SecondaryActionButton}"
+                                Margin="0,0,8,0"/>
                         <Button Content="Stop" Command="{Binding StopCommand}" Style="{StaticResource ErrorActionButton}"/>
                         <ProgressBar Width="200" Height="18" Margin="16,0,0,0" Value="{Binding Progress}" Maximum="100"/>
                     </StackPanel>
