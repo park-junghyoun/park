@@ -43,6 +43,8 @@
     <Compile Include="../CellManager/Messages/ScheduleChangedMessage.cs" Link="Messages/ScheduleChangedMessage.cs" />
     <Compile Include="../CellManager/Messages/ProfileChangedMessage.cs" Link="Messages/ProfileChangedMessage.cs" />
     <Compile Include="../CellManager/Messages/TestStatusChangedMessage.cs" Link="Messages/TestStatusChangedMessage.cs" />
+    <Compile Include="../CellManager/Messages/TestProfilesUpdatedMessage.cs" Link="Messages/TestProfilesUpdatedMessage.cs" />
+    <Compile Include="../CellManager/Messages/SchedulesUpdatedMessage.cs" Link="Messages/SchedulesUpdatedMessage.cs" />
     <Compile Include="../CellManager/ViewModels/ScheduleViewModel.cs" Link="ViewModels/ScheduleViewModel.cs" />
     <Compile Include="../CellManager/ViewModels/RunViewModel.cs" Link="ViewModels/RunViewModel.cs" />
   </ItemGroup>

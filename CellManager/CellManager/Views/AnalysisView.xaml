@@ -250,9 +250,11 @@
                 <materialDesign:Card>
                     <StackPanel>
                         <TextBlock Text="Residual analysis" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                        <Grid Height="180" Background="#F9FAFB" CornerRadius="6">
-                            <TextBlock Text="Residual plot placeholder" Foreground="#9CA3AF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
+                        <Border Height="180" Background="#F9FAFB" CornerRadius="6">
+                            <Grid>
+                                <TextBlock Text="Residual plot placeholder" Foreground="#9CA3AF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
                     </StackPanel>
                 </materialDesign:Card>
             </StackPanel>
