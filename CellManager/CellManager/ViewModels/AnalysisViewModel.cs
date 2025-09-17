@@ -203,12 +203,19 @@ namespace CellManager.ViewModels
         private void AddMockDataset()
         {
             var index = Datasets.Count + 1;
-            var color = index % 3 switch
+            Brush color;
+            switch (index % 3)
             {
-                1 => Brushes.SteelBlue,
-                2 => Brushes.IndianRed,
-                _ => Brushes.OliveDrab
-            };
+                case 1:
+                    color = Brushes.SteelBlue;
+                    break;
+                case 2:
+                    color = Brushes.IndianRed;
+                    break;
+                default:
+                    color = Brushes.OliveDrab;
+                    break;
+            }
 
             var dataset = new AnalysisDataset($"Cycle {index}",
                 $"Imported {DateTime.Now:yyyy-MM-dd HH:mm} • 4 channels • 10k samples",
