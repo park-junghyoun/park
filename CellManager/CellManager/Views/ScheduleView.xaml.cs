@@ -10,6 +10,8 @@ namespace CellManager.Views
 {
     public partial class ScheduleView : UserControl
     {
+        private const string DragSourceFormat = "ScheduleView_IsFromSequence";
+
         private Point _dragStart;
         private InsertionAdorner? _insertionAdorner;
         private DragAdorner? _dragAdorner;
@@ -83,7 +85,10 @@ namespace CellManager.Views
             var index = GetInsertIndex(list, e.GetPosition(list));
             var step = (StepTemplate)e.Data.GetData(typeof(StepTemplate));
 
-            if (vm.Sequence.Contains(step))
+            var isFromSequence = e.Data.GetDataPresent(DragSourceFormat) &&
+                                 e.Data.GetData(DragSourceFormat) is bool fromSequence && fromSequence;
+
+            if (isFromSequence)
                 vm.MoveStep(step, index);
             else
                 vm.InsertStep(step, index);
@@ -200,6 +205,7 @@ namespace CellManager.Views
         private void BeginDrag(ItemsControl source, FrameworkElement item, StepTemplate step, DragDropEffects effect)
         {
             var data = new DataObject(typeof(StepTemplate), step);
+            data.SetData(DragSourceFormat, effect == DragDropEffects.Move);
             _dragScope = Window.GetWindow(this)?.Content as UIElement;
             if (_dragScope != null)
             {
