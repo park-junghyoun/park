@@ -137,9 +137,8 @@ namespace CellManager.Views
             {
                 if (list.ItemContainerGenerator.ContainerFromIndex(i) is FrameworkElement item)
                 {
-                    var bounds = VisualTreeHelper.GetDescendantBounds(item);
                     var topLeft = item.TranslatePoint(new Point(), list);
-                    var rect = new Rect(topLeft, bounds.Size);
+                    var rect = new Rect(topLeft, item.RenderSize);
                     if (rect.Contains(position))
                     {
                         if (orientation == Orientation.Horizontal)
@@ -168,9 +167,8 @@ namespace CellManager.Views
             {
                 if (list.ItemContainerGenerator.ContainerFromIndex(i) is FrameworkElement item)
                 {
-                    var bounds = VisualTreeHelper.GetDescendantBounds(item);
                     var topLeft = item.TranslatePoint(new Point(), list);
-                    var rect = new Rect(topLeft, bounds.Size);
+                    var rect = new Rect(topLeft, item.RenderSize);
                     if (rect.Contains(point)) return item;
                 }
             }
