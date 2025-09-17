@@ -118,7 +118,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(profile))
             {
                 _chargeRepo.Save(profile, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -129,7 +129,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(copy))
             {
                 _chargeRepo.Save(copy, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -137,7 +137,7 @@ namespace CellManager.ViewModels
         {
             if (profile == null) return;
             _chargeRepo.Delete(profile);
-            ReloadAll();
+            ReloadAllAndNotify();
         }
 
         private void AddDischargeProfile()
@@ -146,7 +146,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(profile))
             {
                 _dischargeRepo.Save(profile, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -157,7 +157,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(copy))
             {
                 _dischargeRepo.Save(copy, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -165,7 +165,7 @@ namespace CellManager.ViewModels
         {
             if (profile == null) return;
             _dischargeRepo.Delete(profile);
-            ReloadAll();
+            ReloadAllAndNotify();
         }
 
         private void AddRestProfile()
@@ -174,7 +174,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(profile))
             {
                 _restRepo.Save(profile, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -185,7 +185,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(copy))
             {
                 _restRepo.Save(copy, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -193,7 +193,7 @@ namespace CellManager.ViewModels
         {
             if (profile == null) return;
             _restRepo.Delete(profile);
-            ReloadAll();
+            ReloadAllAndNotify();
         }
 
         private void AddOcvProfile()
@@ -202,7 +202,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(profile))
             {
                 _ocvRepo.Save(profile, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -213,7 +213,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(copy))
             {
                 _ocvRepo.Save(copy, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -221,7 +221,7 @@ namespace CellManager.ViewModels
         {
             if (profile == null) return;
             _ocvRepo.Delete(profile);
-            ReloadAll();
+            ReloadAllAndNotify();
         }
 
         private void AddEcmProfile()
@@ -230,7 +230,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(profile))
             {
                 _ecmRepo.Save(profile, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -241,7 +241,7 @@ namespace CellManager.ViewModels
             if (OpenEditor(copy))
             {
                 _ecmRepo.Save(copy, SelectedCell!.Id);
-                ReloadAll();
+                ReloadAllAndNotify();
             }
         }
 
@@ -249,7 +249,7 @@ namespace CellManager.ViewModels
         {
             if (profile == null) return;
             _ecmRepo.Delete(profile);
-            ReloadAll();
+            ReloadAllAndNotify();
         }
 
         private static T Clone<T>(T source) => JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(source))!;
@@ -307,6 +307,18 @@ namespace CellManager.ViewModels
                 OcvProfiles.Clear();
                 EcmPulseProfiles.Clear();
             }
+        }
+
+        private void ReloadAllAndNotify()
+        {
+            ReloadAll();
+            NotifyProfilesUpdated();
+        }
+
+        private void NotifyProfilesUpdated()
+        {
+            if (SelectedCell?.Id > 0)
+                WeakReferenceMessenger.Default.Send(new TestProfilesUpdatedMessage(SelectedCell.Id));
         }
     }
 }

@@ -70,6 +70,7 @@ namespace CellManager.ViewModels
         private readonly IEcmPulseProfileRepository? _ecmRepo;
 
         private readonly Dictionary<int, StepTemplate> _profileTemplates = new();
+        private Cell? _currentCell;
 
         public RunViewModel()
             : this(null, null, null, null, null, null)
@@ -105,10 +106,21 @@ namespace CellManager.ViewModels
             {
                 OnCellSelected(m.SelectedCell);
             });
+
+            WeakReferenceMessenger.Default.Register<TestProfilesUpdatedMessage>(this, (r, m) =>
+            {
+                OnProfilesUpdated(m.Value);
+            });
+
+            WeakReferenceMessenger.Default.Register<SchedulesUpdatedMessage>(this, (r, m) =>
+            {
+                OnSchedulesUpdated(m.Value);
+            });
         }
 
-        private void LoadSchedules(Cell? cell)
+        private void LoadSchedules(Cell? cell, int? preferredScheduleId = null)
         {
+            var previousId = preferredScheduleId ?? SelectedSchedule?.Id;
             AvailableSchedules.Clear();
             if (_scheduleRepo == null || cell == null)
             {
@@ -119,11 +131,16 @@ namespace CellManager.ViewModels
             foreach (var sched in _scheduleRepo.Load(cell.Id))
                 AvailableSchedules.Add(sched);
 
-            SelectedSchedule = AvailableSchedules.FirstOrDefault();
+            if (previousId.HasValue)
+                SelectedSchedule = AvailableSchedules.FirstOrDefault(s => s.Id == previousId.Value);
+
+            if (SelectedSchedule == null)
+                SelectedSchedule = AvailableSchedules.FirstOrDefault();
         }
 
         private void OnCellSelected(Cell? cell)
         {
+            _currentCell = cell;
             LoadStepTemplates(cell);
             LoadSchedules(cell);
         }
@@ -199,6 +216,25 @@ namespace CellManager.ViewModels
                         ScheduleTimeCalculator.EstimateDuration(cell, TestProfileType.ECM, profile) ?? TimeSpan.Zero);
                 }
             }
+        }
+
+        private void OnProfilesUpdated(int cellId)
+        {
+            if (_currentCell?.Id != cellId)
+                return;
+
+            LoadStepTemplates(_currentCell);
+            UpdateTimelineSteps(SelectedSchedule);
+            RemainingTime = TimeSpan.FromTicks(TimelineSteps.Sum(s => s.Duration.Ticks));
+        }
+
+        private void OnSchedulesUpdated(int cellId)
+        {
+            if (_currentCell?.Id != cellId)
+                return;
+
+            var previousId = SelectedSchedule?.Id;
+            LoadSchedules(_currentCell, previousId);
         }
 
         private void UpdateTimelineSteps(Schedule? schedule)

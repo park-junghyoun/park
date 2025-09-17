@@ -120,6 +120,12 @@ namespace CellManager.ViewModels
                 });
             }
 
+            WeakReferenceMessenger.Default.Register<TestProfilesUpdatedMessage>(this, (r, m) =>
+            {
+                if (SelectedCell?.Id == m.Value)
+                    LoadStepLibrary();
+            });
+
             UpdateTotalDuration();
         }
 
@@ -129,14 +135,18 @@ namespace CellManager.ViewModels
             LoadSchedules();
         }
 
-        private void LoadSchedules()
+        private void LoadSchedules(int? preferredScheduleId = null)
         {
+            var previousId = preferredScheduleId ?? SelectedSchedule?.Id;
             Schedules.Clear();
             SelectedSchedule = null;
             if (_scheduleRepo == null || SelectedCell == null) return;
             foreach (var sched in _scheduleRepo.Load(SelectedCell.Id))
                 Schedules.Add(sched);
-            SelectedSchedule = Schedules.FirstOrDefault();
+            if (previousId.HasValue)
+                SelectedSchedule = Schedules.FirstOrDefault(s => s.Id == previousId.Value);
+            if (SelectedSchedule == null)
+                SelectedSchedule = Schedules.FirstOrDefault();
             UpdateScheduleDurations();
         }
 
@@ -455,9 +465,9 @@ namespace CellManager.ViewModels
                 if (savedId == 0)
                     return;
                 SelectedSchedule.Id = savedId;
-                LoadSchedules();
-                SelectedSchedule = Schedules.FirstOrDefault(s => s.Id == savedId);
-                UpdateScheduleDurations();
+                LoadSchedules(savedId);
+                if (SelectedCell.Id > 0)
+                    WeakReferenceMessenger.Default.Send(new SchedulesUpdatedMessage(SelectedCell.Id));
             }
         }
 
@@ -470,6 +480,9 @@ namespace CellManager.ViewModels
             var index = Schedules.IndexOf(target);
             Schedules.Remove(target);
             SelectedSchedule = index < Schedules.Count ? Schedules[index] : Schedules.FirstOrDefault();
+            UpdateScheduleDurations();
+            if (SelectedCell?.Id > 0)
+                WeakReferenceMessenger.Default.Send(new SchedulesUpdatedMessage(SelectedCell.Id));
         }
     }
 }
