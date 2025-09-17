@@ -38,7 +38,7 @@
             <ComboBox Grid.Column="1"
                       ItemsSource="{Binding AvailableSchedules}"
                       SelectedItem="{Binding SelectedSchedule}"
-                      DisplayMemberPath="DisplayNameAndId"
+                      DisplayMemberPath="DisplayNameAndScript"
                       Margin="8,0,0,0"/>
         </Grid>
 

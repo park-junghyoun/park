@@ -8,6 +8,8 @@ namespace CellManager.Models
     public partial class Schedule : ObservableObject
     {
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(DisplayNameAndId))]
+        [NotifyPropertyChangedFor(nameof(DisplayNameAndScript))]
         private int _id;
 
         [ObservableProperty]
@@ -15,12 +17,14 @@ namespace CellManager.Models
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(DisplayNameAndId))]
+        [NotifyPropertyChangedFor(nameof(DisplayNameAndScript))]
         private string _name;
 
         [ObservableProperty]
         private List<int> _testProfileIds = new();
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(DisplayNameAndScript))]
         private int _ordering;
 
         [ObservableProperty]
@@ -39,5 +43,14 @@ namespace CellManager.Models
         private TimeSpan _estimatedDuration;
 
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
+
+        public string DisplayNameAndScript
+        {
+            get
+            {
+                var scriptNumber = Ordering > 0 ? Ordering : Id;
+                return $"Script {scriptNumber} - {Name}";
+            }
+        }
     }
 }
