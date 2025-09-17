@@ -3,6 +3,9 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Models
 {
+    /// <summary>
+    ///     Lightweight projection of a test profile used for list selections and schedule references.
+    /// </summary>
     public class ProfileReference : IEquatable<ProfileReference>
     {
         public int CellId { get; set; }
@@ -17,6 +20,7 @@ namespace CellManager.Models
         /// </summary>
         public int UniqueId => (CellId * 1_000_000) + ((int)Type * 10_000) + Id;
 
+        /// <summary>Formatted text used when listing profile choices to the operator.</summary>
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
 
         public override bool Equals(object? obj) => Equals(obj as ProfileReference);

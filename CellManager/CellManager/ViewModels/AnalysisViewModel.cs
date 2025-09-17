@@ -8,6 +8,9 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CellManager.ViewModels
 {
+    /// <summary>
+    ///     Provides a rich, design-time friendly façade for the analysis tab including mock data and commands.
+    /// </summary>
     public partial class AnalysisViewModel : ObservableObject
     {
         public string HeaderText { get; } = "Analysis";
@@ -195,11 +198,13 @@ namespace CellManager.ViewModels
             RefreshDerivedState();
         }
 
+        /// <summary>Keeps the alignment hint text synchronized with the slider.</summary>
         partial void OnAlignmentOffsetChanged(double value)
         {
             BaselineAlignmentHint = $"{value:F1} s";
         }
 
+        /// <summary>Creates a fake dataset entry and updates derived summary values.</summary>
         private void AddMockDataset()
         {
             var index = Datasets.Count + 1;
@@ -237,6 +242,7 @@ namespace CellManager.ViewModels
             RefreshDerivedState();
         }
 
+        /// <summary>Updates statistics when the selected dataset changes.</summary>
         partial void OnSelectedDatasetChanged(AnalysisDataset? value)
         {
             if (value != null)
@@ -245,6 +251,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Removes the dataset from the list and ensures a baseline remains.</summary>
         private void RemoveDataset(AnalysisDataset dataset)
         {
             dataset.PropertyChanged -= OnDatasetPropertyChanged;
@@ -262,6 +269,7 @@ namespace CellManager.ViewModels
             RefreshDerivedState();
         }
 
+        /// <summary>Persists the current analysis configuration as a reusable template.</summary>
         private void SaveCurrentTemplate()
         {
             var template = new AnalysisTemplate(
@@ -278,6 +286,7 @@ namespace CellManager.ViewModels
             AnalysisLog.Add($"Template '{template.Name}' saved");
         }
 
+        /// <summary>Simulates an analysis workflow to populate UI state without backend logic.</summary>
         private void SimulateAnalysis(string analysisName)
         {
             var status = AutomaticAnalyses.FirstOrDefault(a => a.Title == analysisName);
@@ -308,6 +317,7 @@ namespace CellManager.ViewModels
             AnalysisLog.Add($"{analysisName} analysis finished");
         }
 
+        /// <summary>Deletes pinned results so the panel does not accumulate duplicates.</summary>
         private void RemovePinnedResult(string analysisName)
         {
             var item = PinnedResults.FirstOrDefault(r => r.Title == analysisName);
@@ -318,6 +328,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Seeds collections with realistic data for mock/demo scenarios.</summary>
         private void BuildDesignTimeData()
         {
             if (Datasets.Count == 0)
@@ -386,6 +397,7 @@ namespace CellManager.ViewModels
             CurrentCellLabel = "Cell A1 • SN-4812";
         }
 
+        /// <summary>Updates summary metrics displayed in the header area.</summary>
         private void UpdateStatisticsFor(AnalysisDataset dataset)
         {
             if (dataset == null)
@@ -402,6 +414,7 @@ namespace CellManager.ViewModels
             SelectionDurationText = "Span: 00:20:00";
         }
 
+        /// <summary>Ensures only one dataset is marked as baseline and logs inclusion changes.</summary>
         private void OnDatasetPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (sender is not AnalysisDataset dataset)
@@ -423,6 +436,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Updates lightweight counters that keep the UI badges in sync.</summary>
         private void RefreshDerivedState()
         {
             LoadedFileCount = Datasets.Count;
@@ -430,6 +444,7 @@ namespace CellManager.ViewModels
         }
     }
 
+    /// <summary>Represents an analysed dataset including metadata and baseline flags.</summary>
     public partial class AnalysisDataset : ObservableObject
     {
         public AnalysisDataset(string displayName, string metadata, Brush seriesBrush)
@@ -456,6 +471,7 @@ namespace CellManager.ViewModels
         private string? _notes;
     }
 
+    /// <summary>Reusable configuration for applying analysis preferences to future sessions.</summary>
     public partial class AnalysisTemplate : ObservableObject
     {
         public AnalysisTemplate(string name, string description, DateTime createdAt)
@@ -479,6 +495,7 @@ namespace CellManager.ViewModels
         private string? _resampleOption;
     }
 
+    /// <summary>Captures an issue detected during analysis and a suggested follow-up action.</summary>
     public partial class AnalysisWarning : ObservableObject
     {
         public AnalysisWarning(string message, string suggestedAction)
@@ -491,6 +508,7 @@ namespace CellManager.ViewModels
         public string SuggestedAction { get; }
     }
 
+    /// <summary>Selectable series that can be toggled on and off in the comparison chart.</summary>
     public partial class ComparisonSeriesOption : ObservableObject
     {
         public ComparisonSeriesOption(string name)
@@ -504,6 +522,7 @@ namespace CellManager.ViewModels
         private bool _isVisible = true;
     }
 
+    /// <summary>Represents a chart layout option with a matching icon.</summary>
     public partial class ChartModeOption : ObservableObject
     {
         public ChartModeOption(string name, string icon)
@@ -516,6 +535,7 @@ namespace CellManager.ViewModels
         public string Icon { get; }
     }
 
+    /// <summary>Tracks background analysis jobs and exposes progress for the UI.</summary>
     public partial class AnalysisOperationStatus : ObservableObject
     {
         public AnalysisOperationStatus(string title, string description, IRelayCommand recomputeCommand)
@@ -552,6 +572,7 @@ namespace CellManager.ViewModels
         partial void OnErrorMessageChanged(string? value) => OnPropertyChanged(nameof(HasError));
     }
 
+    /// <summary>Summary tile for quick access to a stored analysis result.</summary>
     public partial class AnalysisResultSummary : ObservableObject
     {
         public AnalysisResultSummary(string title, string subtitle, IRelayCommand openCommand, IRelayCommand removeCommand)
@@ -568,6 +589,7 @@ namespace CellManager.ViewModels
         public IRelayCommand RemoveCommand { get; }
     }
 
+    /// <summary>Represents a saved analysis session that can be reloaded later.</summary>
     public partial class SessionSnapshot : ObservableObject
     {
         public SessionSnapshot(string title, DateTime savedAt)

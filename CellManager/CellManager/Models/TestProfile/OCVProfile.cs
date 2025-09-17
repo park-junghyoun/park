@@ -2,6 +2,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CellManager.Models.TestProfile
 {
+    /// <summary>
+    ///     Describes the parameters required to capture an OCV (Open Circuit Voltage) profile.
+    /// </summary>
     public partial class OCVProfile : ObservableObject
     {
         [ObservableProperty] private int _id;
@@ -32,6 +35,9 @@ namespace CellManager.Models.TestProfile
         [NotifyPropertyChangedFor(nameof(PreviewText))]
         private double _dischargeCutoffVoltage_OCV;
 
+        /// <summary>
+        ///     Concise textual representation displayed in the UI profile tree.
+        /// </summary>
         public string PreviewText => $"I: {DischargeCurrent_OCV} A, Rest: {RestTime_OCV} s, V: {DischargeCutoffVoltage_OCV} V";
     }
 }

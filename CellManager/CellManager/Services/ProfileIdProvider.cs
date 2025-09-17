@@ -3,6 +3,9 @@ using System.Data.SQLite;
 
 namespace CellManager.Services
 {
+    /// <summary>
+    ///     Utility that scans all profile tables to determine the next available identifier.
+    /// </summary>
     internal static class ProfileIdProvider
     {
         public static int GetNextId(SQLiteConnection conn)

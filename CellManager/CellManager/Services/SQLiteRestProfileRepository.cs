@@ -6,6 +6,7 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Services
 {
+    /// <summary>SQLite repository for storing rest profiles.</summary>
     public class SQLiteRestProfileRepository : IRestProfileRepository
     {
         private readonly string _dbPath;
@@ -16,6 +17,7 @@ namespace CellManager.Services
             _dbPath = Path.Combine(dataDir, "test_profiles.db");
             Initialize();
         }
+        /// <summary>Creates the database file and rest profile schema if needed.</summary>
         private void Initialize()
         {
             if (!File.Exists(_dbPath)) SQLiteConnection.CreateFile(_dbPath);
@@ -53,6 +55,7 @@ namespace CellManager.Services
                 }
             }
         }
+        /// <inheritdoc />
         public ObservableCollection<RestProfile> Load(int cellId)
         {
             var list = new ObservableCollection<RestProfile>();
@@ -73,6 +76,7 @@ namespace CellManager.Services
             }
             return list;
         }
+        /// <inheritdoc />
         public void Save(RestProfile p, int cellId)
         {
             using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
@@ -99,6 +103,7 @@ namespace CellManager.Services
                 cmd.ExecuteNonQuery();
             }
         }
+        /// <inheritdoc />
         public void Delete(RestProfile p)
         {
             if (p?.Id <= 0) return;

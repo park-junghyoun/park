@@ -2,6 +2,9 @@
 
 namespace CellManager.ViewModels
 {
+    /// <summary>
+    ///     Placeholder VM representing a future display-focused feature area.
+    /// </summary>
     public partial class DisplayViewModel : ObservableObject
     {
         public string HeaderText { get; } = "Display";

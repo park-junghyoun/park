@@ -5,8 +5,13 @@ using System.Windows.Data;
 
 namespace CellManager.Converters
 {
+    /// <summary>
+    ///     Converts an item's index and collection size into a <see cref="Visibility"/> value
+    ///     so list separators can be hidden for the final item.
+    /// </summary>
     public class IsNotLastItemConverter : IMultiValueConverter
     {
+        /// <inheritdoc />
         public object Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
         {
             if (values.Length < 2) return Visibility.Visible;
@@ -17,6 +22,7 @@ namespace CellManager.Converters
             return Visibility.Visible;
         }
 
+        /// <inheritdoc />
         public object[] ConvertBack(object value, Type[] targetTypes, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

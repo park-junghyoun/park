@@ -4,6 +4,9 @@ using System;
 
 namespace CellManager.Models
 {
+    /// <summary>
+    ///     Aggregates the various profile subtypes so they can be persisted and edited as a unit.
+    /// </summary>
     public partial class TestProfileModel : ObservableObject
     {
         [ObservableProperty]
@@ -19,6 +22,7 @@ namespace CellManager.Models
         [ObservableProperty]
         private TestProfileType _profileType;
 
+        /// <summary>Human-friendly identifier used by list controls.</summary>
         public string DisplayNameAndId => $"ID: {Id} - {ProfileName}";
 
         [ObservableProperty]

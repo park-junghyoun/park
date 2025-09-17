@@ -14,6 +14,9 @@ using CellManager.Views.CellLibary;
 
 namespace CellManager.ViewModels
 {
+    /// <summary>
+    ///     Manages the cell library tab, including filtering, CRUD operations, and messaging.
+    /// </summary>
     public partial class CellLibraryViewModel : ObservableObject
     {
         public string HeaderText { get; } = "Cell Library";
@@ -95,6 +98,9 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Returns <c>true</c> when the provided cell matches the current search text.
+        /// </summary>
         private bool OnFilter(object obj)
         {
             if (obj is not Cell c) return false;
@@ -106,6 +112,9 @@ namespace CellManager.ViewModels
                    (c.PartNumber?.IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
+        /// <summary>
+        ///     Refreshes the observable collection from the repository while attempting to preserve selection.
+        /// </summary>
         private void ExecuteLoadData()
         {
             var prevId = SelectedCell?.Id ?? 0;
@@ -127,6 +136,9 @@ namespace CellManager.ViewModels
         }
 
         // -------- New / Save / Cancel / Delete --------
+        /// <summary>
+        ///     Launches the new cell dialog using a temporary editing model.
+        /// </summary>
         private void StartNewCell()
         {
             // 리스트에 추가하지 않고 임시 모델만 생성 → 우측 상세(CurrentCell)로 표시
@@ -151,6 +163,9 @@ namespace CellManager.ViewModels
             view.ShowDialog();
         }
 
+        /// <summary>
+        ///     Persists either the active editing model or updates the currently selected cell.
+        /// </summary>
         private void SaveCurrent()
         {
             // 새로 만들기 저장 흐름
@@ -184,12 +199,18 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Discards the temporary editing cell without touching the repository.
+        /// </summary>
         private void CancelNew()
         {
             // 임시 편집 폐기 → 리스트/DB 변화 없음
             EditingCell = null;
         }
 
+        /// <summary>
+        ///     Confirms with the user before removing a cell from the library and notifying listeners.
+        /// </summary>
         private void DeleteCell(Cell cell)
         {
             if (cell == null || cell.Id <= 0) return;
@@ -215,6 +236,9 @@ namespace CellManager.ViewModels
         }
 
         // -------- 기타 --------
+        /// <summary>
+        ///     Handles selection toggles from the list view and synchronizes the active indicator flag.
+        /// </summary>
         private void ExecuteSelectCell(Cell cell)
         {
             if (EditingCell != null) return; // New 중에는 실수로 리스트 선택 바뀌지 않게 잠금
@@ -238,6 +262,9 @@ namespace CellManager.ViewModels
             FilteredCells.Refresh();
         }
 
+        /// <summary>
+        ///     Opens the details dialog for the chosen cell using an isolated copy for editing.
+        /// </summary>
         private void ExecuteOpenDetails(Cell cell)
         {
             if (cell == null) return;
@@ -255,6 +282,9 @@ namespace CellManager.ViewModels
             view.ShowDialog();
         }
 
+        /// <summary>
+        ///     Re-evaluates the commands' <c>CanExecute</c> state when editing or selection changes.
+        /// </summary>
         private void UpdateCanExecutes()
         {
             NewCellCommand?.NotifyCanExecuteChanged();

@@ -7,6 +7,7 @@ using CellManager.Models;
 
 namespace CellManager.Services
 {
+    /// <summary>SQLite implementation of the schedule repository.</summary>
     public class SQLiteScheduleRepository : IScheduleRepository
     {
         private const string ScheduleDbFileName = "schedules.db";
@@ -76,6 +77,7 @@ namespace CellManager.Services
             }
         }
 
+        /// <inheritdoc />
         public List<Schedule> Load(int cellId)
         {
             var schedules = new List<Schedule>();
@@ -114,6 +116,7 @@ namespace CellManager.Services
             return schedules;
         }
 
+        /// <inheritdoc />
         public int Save(int cellId, Schedule schedule)
         {
             try
@@ -163,6 +166,7 @@ namespace CellManager.Services
             }
         }
 
+        /// <inheritdoc />
         public void Delete(int cellId, int id)
         {
             try

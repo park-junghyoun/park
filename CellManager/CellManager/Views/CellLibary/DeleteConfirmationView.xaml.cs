@@ -2,6 +2,7 @@ using System.Windows;
 
 namespace CellManager.Views.CellLibary
 {
+    /// <summary>Modal dialog that confirms whether a cell should be removed.</summary>
     public partial class DeleteConfirmationView : Window
     {
         public DeleteConfirmationView()

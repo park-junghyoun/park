@@ -5,6 +5,9 @@ using System.Text.Json;
 
 namespace CellManager.ViewModels
 {
+    /// <summary>
+    ///     Utility for loading protection profile definitions from JSON files located next to the application.
+    /// </summary>
     public static class ProtectionProfileLoader
     {
         public static IList<ProtectionSetting> Load(string firmwareVersion)

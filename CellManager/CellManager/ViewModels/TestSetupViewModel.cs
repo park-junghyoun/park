@@ -15,6 +15,9 @@ using CellManager.Views.TestSetup;
 
 namespace CellManager.ViewModels
 {
+    /// <summary>
+    ///     Coordinates creation and maintenance of reusable test profiles for the selected cell.
+    /// </summary>
     public partial class TestSetupViewModel : ObservableObject
     {
         private readonly IChargeProfileRepository _chargeRepo;
@@ -103,6 +106,7 @@ namespace CellManager.ViewModels
 
         partial void OnSelectedCellChanged(Cell value) => UpdateCanExecutes();
 
+        /// <summary>Refreshes command availability whenever the selected cell changes.</summary>
         private void UpdateCanExecutes()
         {
             AddChargeProfileCommand.NotifyCanExecuteChanged();
@@ -112,6 +116,7 @@ namespace CellManager.ViewModels
             AddEcmProfileCommand.NotifyCanExecuteChanged();
         }
 
+        /// <summary>Opens the editor for a new charge profile and persists it.</summary>
         private void AddChargeProfile()
         {
             var profile = new ChargeProfile { Name = "New Charge" };
@@ -122,6 +127,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Creates an isolated copy of the profile for editing and saves changes.</summary>
         private void EditChargeProfile(ChargeProfile profile)
         {
             if (profile == null) return;
@@ -133,6 +139,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Deletes the supplied charge profile from the repository.</summary>
         private void DeleteChargeProfile(ChargeProfile profile)
         {
             if (profile == null) return;
@@ -140,6 +147,7 @@ namespace CellManager.ViewModels
             ReloadAllAndNotify();
         }
 
+        /// <summary>Creates a new discharge profile and saves it if the dialog is confirmed.</summary>
         private void AddDischargeProfile()
         {
             var profile = new DischargeProfile { Name = "New Discharge" };
@@ -150,6 +158,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Edits an existing discharge profile via a cloned instance.</summary>
         private void EditDischargeProfile(DischargeProfile profile)
         {
             if (profile == null) return;
@@ -161,6 +170,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Removes the selected discharge profile.</summary>
         private void DeleteDischargeProfile(DischargeProfile profile)
         {
             if (profile == null) return;
@@ -168,6 +178,7 @@ namespace CellManager.ViewModels
             ReloadAllAndNotify();
         }
 
+        /// <summary>Creates a rest profile template for the current cell.</summary>
         private void AddRestProfile()
         {
             var profile = new RestProfile { Name = "New Rest" };
@@ -178,6 +189,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Edits an existing rest profile.</summary>
         private void EditRestProfile(RestProfile profile)
         {
             if (profile == null) return;
@@ -189,6 +201,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Deletes a rest profile entry.</summary>
         private void DeleteRestProfile(RestProfile profile)
         {
             if (profile == null) return;
@@ -196,6 +209,7 @@ namespace CellManager.ViewModels
             ReloadAllAndNotify();
         }
 
+        /// <summary>Initialises a new OCV profile and persists it.</summary>
         private void AddOcvProfile()
         {
             var profile = new OCVProfile { Name = "New OCV" };
@@ -206,6 +220,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Opens the editor for an existing OCV profile.</summary>
         private void EditOcvProfile(OCVProfile profile)
         {
             if (profile == null) return;
@@ -217,6 +232,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Removes the supplied OCV profile.</summary>
         private void DeleteOcvProfile(OCVProfile profile)
         {
             if (profile == null) return;
@@ -224,6 +240,7 @@ namespace CellManager.ViewModels
             ReloadAllAndNotify();
         }
 
+        /// <summary>Creates an ECM pulse profile skeleton and saves it once confirmed.</summary>
         private void AddEcmProfile()
         {
             var profile = new ECMPulseProfile { Name = "New ECM" };
@@ -234,6 +251,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Provides an editor for modifying an ECM pulse profile.</summary>
         private void EditEcmProfile(ECMPulseProfile profile)
         {
             if (profile == null) return;
@@ -245,6 +263,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Deletes an ECM pulse profile from storage.</summary>
         private void DeleteEcmProfile(ECMPulseProfile profile)
         {
             if (profile == null) return;
@@ -252,8 +271,14 @@ namespace CellManager.ViewModels
             ReloadAllAndNotify();
         }
 
+        /// <summary>
+        ///     Performs a deep clone using JSON serialization to avoid mutating the original objects.
+        /// </summary>
         private static T Clone<T>(T source) => JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(source))!;
 
+        /// <summary>
+        ///     Retrieves the next available profile identifier from the shared SQLite database.
+        /// </summary>
         private int GetNextProfileId()
         {
             var dataDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
@@ -264,6 +289,9 @@ namespace CellManager.ViewModels
             return ProfileIdProvider.GetNextId(conn);
         }
 
+        /// <summary>
+        ///     Applies display identifiers and opens the appropriate detail window for the supplied profile.
+        /// </summary>
         private bool OpenEditor(object profile)
         {
             switch (profile)
@@ -289,6 +317,9 @@ namespace CellManager.ViewModels
             return window.ShowDialog() == true;
         }
 
+        /// <summary>
+        ///     Refreshes the in-memory collections for each profile category.
+        /// </summary>
         private void ReloadAll()
         {
             if (SelectedCell?.Id > 0)
@@ -309,12 +340,14 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Reloads profiles and informs listeners that the profile list has changed.</summary>
         private void ReloadAllAndNotify()
         {
             ReloadAll();
             NotifyProfilesUpdated();
         }
 
+        /// <summary>Sends a messenger notification so schedules can update their references.</summary>
         private void NotifyProfilesUpdated()
         {
             if (SelectedCell?.Id > 0)

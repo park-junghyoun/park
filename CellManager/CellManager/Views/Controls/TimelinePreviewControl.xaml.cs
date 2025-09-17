@@ -5,6 +5,7 @@ using CellManager.ViewModels;
 
 namespace CellManager.Views.Controls
 {
+    /// <summary>Reusable control that visualises schedule steps without editing affordances.</summary>
     public partial class TimelinePreviewControl : UserControl
     {
         public TimelinePreviewControl()

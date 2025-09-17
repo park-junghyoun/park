@@ -2,6 +2,9 @@
 
 namespace CellManager.ViewModels.Profiles
 {
+    /// <summary>
+    ///     View model representing a charge step within the schedule tree preview.
+    /// </summary>
     public partial class ChargeProfileViewModel : ProfileNodeViewModel
     {
         [ObservableProperty] private double chargeCurrent;         // A

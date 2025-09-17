@@ -6,6 +6,9 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Services
 {
+    /// <summary>
+    ///     SQLite-backed repository storing discharge profiles for each cell.
+    /// </summary>
     public class SQLiteDischargeProfileRepository : IDischargeProfileRepository
     {
         private readonly string _dbPath;
@@ -16,6 +19,7 @@ namespace CellManager.Services
             _dbPath = Path.Combine(dataDir, "test_profiles.db");
             Initialize();
         }
+        /// <summary>Ensures database and discharge profile schema exist.</summary>
         private void Initialize()
         {
             if (!File.Exists(_dbPath)) SQLiteConnection.CreateFile(_dbPath);
@@ -53,6 +57,7 @@ namespace CellManager.Services
                 alter.ExecuteNonQuery();
             }
         }
+        /// <inheritdoc />
         public ObservableCollection<DischargeProfile> Load(int cellId)
         {
             var list = new ObservableCollection<DischargeProfile>();
@@ -77,6 +82,7 @@ namespace CellManager.Services
             }
             return list;
         }
+        /// <inheritdoc />
         public void Save(DischargeProfile p, int cellId)
         {
             using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
@@ -112,6 +118,7 @@ namespace CellManager.Services
                 cmd.ExecuteNonQuery();
             }
         }
+        /// <inheritdoc />
         public void Delete(DischargeProfile p)
         {
             if (p?.Id <= 0) return;

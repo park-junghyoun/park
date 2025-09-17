@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 namespace CellManager.Views.TestSetup
 {
+    /// <summary>Container view for managing reusable test profiles.</summary>
     public partial class TestSetupView : UserControl
     {
         public TestSetupView()

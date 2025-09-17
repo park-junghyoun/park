@@ -7,6 +7,9 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Services
 {
+    /// <summary>
+    ///     SQLite-backed implementation of <see cref="IChargeProfileRepository"/> that stores test profiles per cell.
+    /// </summary>
     public class SQLiteChargeProfileRepository : IChargeProfileRepository
     {
         private readonly string _dbPath;
@@ -19,6 +22,7 @@ namespace CellManager.Services
             Initialize();
         }
 
+        /// <summary>Ensures the profile database and table schema exist.</summary>
         private void Initialize()
         {
             if (!File.Exists(_dbPath)) SQLiteConnection.CreateFile(_dbPath);
@@ -55,6 +59,7 @@ namespace CellManager.Services
                 new SQLiteCommand("ALTER TABLE ChargeProfiles ADD COLUMN ChargeTimeSeconds INTEGER;", conn).ExecuteNonQuery();
         }
 
+        /// <inheritdoc />
         public ObservableCollection<ChargeProfile> Load(int cellId)
         {
             var list = new ObservableCollection<ChargeProfile>();
@@ -81,6 +86,7 @@ namespace CellManager.Services
             return list;
         }
 
+        /// <inheritdoc />
         public void Save(ChargeProfile p, int cellId)
         {
             using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
@@ -121,6 +127,7 @@ namespace CellManager.Services
             }
         }
 
+        /// <inheritdoc />
         public void Delete(ChargeProfile p)
         {
             if (p?.Id <= 0) return;

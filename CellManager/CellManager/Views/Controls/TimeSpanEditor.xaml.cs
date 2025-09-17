@@ -3,6 +3,7 @@ using System.Windows.Controls;
 
 namespace CellManager.Views.Controls
 {
+    /// <summary>Simple composite control for editing hours, minutes, and seconds.</summary>
     public partial class TimeSpanEditor : UserControl
     {
         public TimeSpanEditor()

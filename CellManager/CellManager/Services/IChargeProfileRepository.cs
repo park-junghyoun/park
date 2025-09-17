@@ -3,6 +3,7 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Services
 {
+    /// <summary>Persists charge profile templates per cell.</summary>
     public interface IChargeProfileRepository
     {
         ObservableCollection<ChargeProfile> Load(int cellId);

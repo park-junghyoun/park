@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace CellManager.Services
 {
+    /// <summary>SQLite-backed implementation of <see cref="ICellRepository"/>.</summary>
     public class SQLiteCellRepository : ICellRepository
     {
         private const string DbFileName = "cell_library.db";
@@ -20,6 +21,7 @@ namespace CellManager.Services
             InitializeDatabase();
         }
 
+        /// <summary>Creates the cell database and upgrades schema as needed.</summary>
         private void InitializeDatabase()
         {
             try
@@ -106,6 +108,7 @@ namespace CellManager.Services
             }
         }
 
+        /// <inheritdoc />
         public List<Cell> LoadCells()
         {
             var cells = new List<Cell>();
@@ -168,6 +171,7 @@ namespace CellManager.Services
             return cells;
         }
 
+        /// <inheritdoc />
         public int GetNextCellId()
         {
             try
@@ -187,6 +191,7 @@ namespace CellManager.Services
             }
         }
 
+        /// <inheritdoc />
         public void SaveCell(Cell cell)
         {
             if (cell == null) throw new ArgumentNullException(nameof(cell));

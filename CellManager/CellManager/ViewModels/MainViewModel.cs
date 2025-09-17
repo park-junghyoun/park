@@ -9,6 +9,9 @@ using CellManager.Models;
 
 namespace CellManager.ViewModels
 {
+    /// <summary>
+    ///     Coordinates high-level navigation, state sharing, and messaging between the major tabs.
+    /// </summary>
     public partial class MainViewModel : ObservableObject
     {
         private readonly ICellRepository _cellRepository;
@@ -117,6 +120,9 @@ namespace CellManager.ViewModels
             });
         }
 
+        /// <summary>
+        ///     Loads persisted cells into the navigation list and re-broadcasts the active selection.
+        /// </summary>
         private void LoadCells()
         {
             AvailableCells.Clear();
@@ -127,6 +133,9 @@ namespace CellManager.ViewModels
                 WeakReferenceMessenger.Default.Send(new CellSelectedMessage(SelectedCell));
         }
 
+        /// <summary>
+        ///     Enables or disables feature tabs depending on whether a cell has been selected.
+        /// </summary>
         private void UpdateFeatureTabs()
         {
             var enabled = SelectedCell != null;
@@ -135,11 +144,17 @@ namespace CellManager.ViewModels
             _runVm.IsViewEnabled = enabled;
         }
 
+        /// <summary>
+        ///     Queries the background service to present the current connectivity state.
+        /// </summary>
         private async void UpdateServerStatus()
         {
             ServerStatus = await _serverStatusService.IsServerAvailableAsync() ? "Connected" : "Disconnected";
         }
 
+        /// <summary>
+        ///     Recomputes dependent counts whenever the user chooses a different cell.
+        /// </summary>
         partial void OnSelectedCellChanged(Cell value)
         {
             UpdateFeatureTabs();

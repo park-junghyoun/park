@@ -7,6 +7,10 @@ using CellManager.ViewModels;
 
 namespace CellManager
 {
+    /// <summary>
+    ///     Application bootstrapper that wires up the dependency injection container
+    ///     and ensures the SQLite database is ready before showing the main window.
+    /// </summary>
     public partial class App : Application
     {
         public static IHost HostRef { get; private set; } = default!;
@@ -48,6 +52,10 @@ namespace CellManager
                 .Build();
         }
 
+        /// <summary>
+        ///     Creates the main window once the database schema has been verified.
+        /// </summary>
+        /// <param name="e">Default WPF startup arguments.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
             // Ensure DB schema exists
@@ -64,6 +72,10 @@ namespace CellManager
             base.OnStartup(e);
         }
 
+        /// <summary>
+        ///     Gracefully stops the host so that singletons and scoped services can dispose correctly.
+        /// </summary>
+        /// <param name="e">Default WPF exit arguments.</param>
         protected override async void OnExit(ExitEventArgs e)
         {
             await HostRef.StopAsync();

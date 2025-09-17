@@ -3,6 +3,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CellManager.Models.TestProfile
 {
+    /// <summary>
+    ///     Captures the timing information for rest periods between charge/discharge steps.
+    /// </summary>
     public partial class RestProfile : ObservableObject
     {
         [ObservableProperty] private int _id;
@@ -21,6 +24,7 @@ namespace CellManager.Models.TestProfile
         [ObservableProperty] private int _restMinutes;
         [ObservableProperty] private int _restSeconds;
 
+        /// <summary>Displays the rest duration in a user-friendly format.</summary>
         public string PreviewText => $"{RestTime}";
 
         partial void OnRestHoursChanged(int value) => UpdateRestTime();
@@ -34,6 +38,9 @@ namespace CellManager.Models.TestProfile
             SetProperty(ref _restSeconds, value.Seconds, nameof(RestSeconds));
         }
 
+        /// <summary>
+        ///     Combines the individual hour, minute and second fields into the backing <see cref="TimeSpan"/>.
+        /// </summary>
         private void UpdateRestTime()
         {
             RestTime = new TimeSpan(RestHours, RestMinutes, RestSeconds);

@@ -11,6 +11,9 @@ using CellManager.Messages;
 
 namespace CellManager.ViewModels
 {
+    /// <summary>
+    ///     Hosts firmware- and board-related configuration, including profile loading from JSON assets.
+    /// </summary>
     public partial class SettingsViewModel : ObservableObject
     {
         public string HeaderText { get; } = "Settings";
@@ -99,6 +102,7 @@ namespace CellManager.ViewModels
 
         private bool CanReadWriteProtection() => _profiles.ContainsKey(FirmwareVersion);
 
+        /// <summary>Loads protection settings for the currently selected firmware version.</summary>
         private void ReadProtectionSettings()
         {
             if (!CanReadWriteProtection())
@@ -114,6 +118,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Placeholder for pushing updated protection settings back to hardware.</summary>
         private void WriteProtectionSettings()
         {
             if (!CanReadWriteProtection())
@@ -133,6 +138,7 @@ namespace CellManager.ViewModels
         }
     }
 
+    /// <summary>Editable board configuration entry loaded from JSON metadata.</summary>
     public class BoardDataSetting
     {
         public string Parameter { get; set; } = string.Empty;
@@ -143,6 +149,7 @@ namespace CellManager.ViewModels
         public ObservableCollection<string> Options { get; } = new();
     }
 
+    /// <summary>Represents a single protection threshold or delay exposed to the UI.</summary>
     public class ProtectionSetting
     {
         public string Parameter { get; set; } = string.Empty;
@@ -186,6 +193,7 @@ namespace CellManager.ViewModels
 
     partial class SettingsViewModel
     {
+        /// <summary>Reads protection configuration templates from disk into memory.</summary>
         private void LoadProtectionConfigurations()
         {
             var profilesPath = Path.Combine(AppContext.BaseDirectory, "ProtectionProfiles");
@@ -227,6 +235,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Loads board data settings from the JSON profile file.</summary>
         private void ReadBoardDataSettings()
         {
             try
@@ -262,6 +271,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Persists the in-memory board data settings back to disk.</summary>
         private void WriteBoardDataSettings()
         {
             try

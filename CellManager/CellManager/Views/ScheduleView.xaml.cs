@@ -8,6 +8,9 @@ using CellManager.ViewModels;
 
 namespace CellManager.Views
 {
+    /// <summary>
+    ///     Code-behind for the schedule view handling drag/drop and layout adjustments for steps.
+    /// </summary>
     public partial class ScheduleView : UserControl
     {
         private const string DragSourceFormat = "ScheduleView_IsFromSequence";
