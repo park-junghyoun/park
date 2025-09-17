@@ -3,6 +3,7 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Services
 {
+    /// <summary>Provides access to stored discharge profile definitions.</summary>
     public interface IDischargeProfileRepository
     {
         ObservableCollection<DischargeProfile> Load(int cellId);

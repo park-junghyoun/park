@@ -12,6 +12,9 @@ using CellManager.Services;
 
 namespace CellManager.ViewModels
 {
+    /// <summary>
+    ///     Drives the run tab by presenting schedules, tracking execution progress, and emitting status messages.
+    /// </summary>
     public partial class RunViewModel : ObservableObject
     {
         public string HeaderText { get; } = "Run";
@@ -118,6 +121,7 @@ namespace CellManager.ViewModels
             });
         }
 
+        /// <summary>Populates the available schedules from the repository.</summary>
         private void LoadSchedules(Cell? cell, int? preferredScheduleId = null)
         {
             var previousId = preferredScheduleId ?? SelectedSchedule?.Id;
@@ -138,6 +142,7 @@ namespace CellManager.ViewModels
                 SelectedSchedule = AvailableSchedules.FirstOrDefault();
         }
 
+        /// <summary>Responds to cell selection changes by reloading templates and schedules.</summary>
         private void OnCellSelected(Cell? cell)
         {
             _currentCell = cell;
@@ -145,6 +150,9 @@ namespace CellManager.ViewModels
             LoadSchedules(cell);
         }
 
+        /// <summary>
+        ///     Builds a lookup of step templates for the supplied cell so the timeline can be rendered.
+        /// </summary>
         private void LoadStepTemplates(Cell? cell)
         {
             _profileTemplates.Clear();
@@ -218,6 +226,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Reloads timeline entries when the underlying profile definitions change.</summary>
         private void OnProfilesUpdated(int cellId)
         {
             if (_currentCell?.Id != cellId)
@@ -228,6 +237,7 @@ namespace CellManager.ViewModels
             RemainingTime = TimeSpan.FromTicks(TimelineSteps.Sum(s => s.Duration.Ticks));
         }
 
+        /// <summary>Refreshes the schedule list if the repository reports an update.</summary>
         private void OnSchedulesUpdated(int cellId)
         {
             if (_currentCell?.Id != cellId)
@@ -237,6 +247,7 @@ namespace CellManager.ViewModels
             LoadSchedules(_currentCell, previousId);
         }
 
+        /// <summary>Regenerates the timeline view to match the provided schedule.</summary>
         private void UpdateTimelineSteps(Schedule? schedule)
         {
             TimelineSteps.Clear();
@@ -268,6 +279,7 @@ namespace CellManager.ViewModels
                 TimelineSteps.Add(step);
         }
 
+        /// <summary>Returns a copy of the template associated with the profile identifier.</summary>
         private StepTemplate CloneTemplateForTimeline(int id)
         {
             if (_profileTemplates.TryGetValue(id, out var template))
@@ -284,6 +296,7 @@ namespace CellManager.ViewModels
             };
         }
 
+        /// <summary>Creates a shallow copy of the template for use in the timeline.</summary>
         private static StepTemplate CloneStep(StepTemplate template)
         {
             return new StepTemplate
@@ -297,6 +310,7 @@ namespace CellManager.ViewModels
             };
         }
 
+        /// <summary>Generates a pseudo-step to represent loop boundaries.</summary>
         private static StepTemplate CreateLoopStep(bool isStart)
         {
             return new StepTemplate
@@ -310,6 +324,7 @@ namespace CellManager.ViewModels
             };
         }
 
+        /// <summary>Helper used to turn repository entries into <see cref="StepTemplate"/> instances.</summary>
         private static StepTemplate CreateProfileTemplate(int id, string? name, string iconKind, string? parameters, TimeSpan duration)
         {
             return new StepTemplate
@@ -323,6 +338,7 @@ namespace CellManager.ViewModels
             };
         }
 
+        /// <summary>Initializes dummy data for the designer or when repositories are not provided.</summary>
         private void BuildDesignTimeData()
         {
             _profileTemplates.Clear();
@@ -349,6 +365,7 @@ namespace CellManager.ViewModels
             RemainingTime = TimeSpan.FromTicks(TimelineSteps.Sum(s => s.Duration.Ticks));
         }
 
+        /// <summary>Kicks off the selected schedule and broadcasts status updates.</summary>
         private void StartSchedule()
         {
             if (SelectedSchedule == null)
@@ -365,6 +382,7 @@ namespace CellManager.ViewModels
             WeakReferenceMessenger.Default.Send(new TestStatusChangedMessage("Testing"));
         }
 
+        /// <summary>Resets the run tab state when execution is stopped.</summary>
         private void StopSchedule()
         {
             CurrentTimelineStep = null;
@@ -374,6 +392,7 @@ namespace CellManager.ViewModels
             WeakReferenceMessenger.Default.Send(new TestStatusChangedMessage(string.Empty));
         }
 
+        /// <summary>Rebuilds the timeline when the operator selects a new schedule.</summary>
         partial void OnSelectedScheduleChanged(Schedule? value)
         {
             UpdateTimelineSteps(value);
@@ -382,6 +401,7 @@ namespace CellManager.ViewModels
             CurrentTimelineStep = null;
         }
 
+        /// <summary>Updates the display labels when the highlighted timeline step changes.</summary>
         partial void OnCurrentTimelineStepChanged(StepTemplate? value)
         {
             if (value != null)
@@ -396,6 +416,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Broadcasts the currently active profile name to interested view models.</summary>
         partial void OnCurrentProfileChanged(string value)
         {
             WeakReferenceMessenger.Default.Send(new ProfileChangedMessage(value));

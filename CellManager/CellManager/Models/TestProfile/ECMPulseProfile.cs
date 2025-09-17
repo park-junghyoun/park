@@ -2,6 +2,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CellManager.Models.TestProfile
 {
+    /// <summary>
+    ///     Represents settings for ECM pulse measurements used to identify equivalent circuit models.
+    /// </summary>
     public partial class ECMPulseProfile : ObservableObject
     {
         [ObservableProperty] private int _id;
@@ -28,6 +31,7 @@ namespace CellManager.Models.TestProfile
         [NotifyPropertyChangedFor(nameof(PreviewText))]
         private double _samplingRateMs;
 
+        /// <summary>Compact summary displayed in the pulse profile list.</summary>
         public string PreviewText => $"I: {PulseCurrent} A, Dur: {PulseDuration} ms";
     }
 }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CellManager.Models
 {
+    /// <summary>
+    ///     Simple POCO representing a single sample captured during a discharge experiment.
+    /// </summary>
     public class DischargeData
     {
         public int Id { get; set; }

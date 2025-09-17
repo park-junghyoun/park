@@ -3,6 +3,7 @@ using CellManager.Models;
 
 namespace CellManager.Services
 {
+    /// <summary>Persists composed schedules and retrieves them for a given cell.</summary>
     public interface IScheduleRepository
     {
         List<Schedule> Load(int cellId);

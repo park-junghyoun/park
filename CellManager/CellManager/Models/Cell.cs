@@ -2,6 +2,9 @@
 
 namespace CellManager.Models
 {
+    /// <summary>
+    ///     View-model friendly representation of a cell entry stored in the SQLite repository.
+    /// </summary>
     public partial class Cell : ObservableObject
     {
         [ObservableProperty]
@@ -78,6 +81,7 @@ namespace CellManager.Models
         [ObservableProperty]
         private bool _isActive = false;  
 
+        /// <summary>Formatted name used for display in selection lists.</summary>
         public string DisplayNameAndId => $"ID: {Id} - {ModelName}";
 
         public Cell() { }
@@ -121,6 +125,9 @@ namespace CellManager.Models
             LastUpdated = source.LastUpdated;
             IsActive = source.IsActive;
         }
+        /// <summary>
+        ///     Copies all persisted properties from <paramref name="source"/> into this instance.
+        /// </summary>
         public void CopyFrom(Cell source)
         {
             Id = source.Id;

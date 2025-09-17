@@ -3,6 +3,9 @@ using System;
 
 namespace CellManager.Models.TestProfile
 {
+    /// <summary>
+    ///     Supported discharge termination strategies for a test profile.
+    /// </summary>
     public enum DischargeMode
     {
         DischargeByCapacity,
@@ -10,6 +13,10 @@ namespace CellManager.Models.TestProfile
         FullDischarge
     }
 
+    /// <summary>
+    ///     Represents the configuration for the discharge segment of a test profile, including
+    ///     preview text helpers that summarize the selected settings.
+    /// </summary>
     public partial class DischargeProfile : ObservableObject
     {
         [ObservableProperty] private int _id;
@@ -49,6 +56,9 @@ namespace CellManager.Models.TestProfile
         [NotifyPropertyChangedFor(nameof(PreviewText))]
         private double? _dischargeCapacityMah;
 
+        /// <summary>
+        ///     User-facing summary of the discharge configuration shown in the profile tree.
+        /// </summary>
         public string PreviewText
         {
             get
@@ -74,6 +84,9 @@ namespace CellManager.Models.TestProfile
             SetProperty(ref _dischargeSeconds, value.Seconds, nameof(DischargeSeconds));
         }
 
+        /// <summary>
+        ///     Reconstructs the <see cref="TimeSpan"/> whenever one of the individual components changes.
+        /// </summary>
         private void UpdateDischargeTime()
         {
             DischargeTime = new TimeSpan(DischargeHours, DischargeMinutes, DischargeSeconds);

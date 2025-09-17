@@ -5,6 +5,9 @@ using System.Xml.Linq;
 
 namespace CellManager.Models
 {
+    /// <summary>
+    ///     Represents an ordered sequence of profiles that defines an automated test schedule.
+    /// </summary>
     public partial class Schedule : ObservableObject
     {
         [ObservableProperty]
@@ -42,8 +45,12 @@ namespace CellManager.Models
         [ObservableProperty]
         private TimeSpan _estimatedDuration;
 
+        /// <summary>Friendly label that includes both the schedule identifier and name.</summary>
         public string DisplayNameAndId => $"ID: {Id} - {Name}";
 
+        /// <summary>
+        ///     Label used when presenting schedules as scripts in the run workflow, preferring the user-defined order.
+        /// </summary>
         public string DisplayNameAndScript
         {
             get

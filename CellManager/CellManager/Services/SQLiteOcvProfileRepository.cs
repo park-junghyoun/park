@@ -6,6 +6,7 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Services
 {
+    /// <summary>SQLite-backed storage for OCV profiles.</summary>
     public class SQLiteOcvProfileRepository : IOcvProfileRepository
     {
         private readonly string _dbPath;
@@ -16,6 +17,7 @@ namespace CellManager.Services
             _dbPath = Path.Combine(dataDir, "test_profiles.db");
             Initialize();
         }
+        /// <summary>Creates the OCV profile table when it is missing.</summary>
         private void Initialize()
         {
             if (!File.Exists(_dbPath)) SQLiteConnection.CreateFile(_dbPath);
@@ -35,6 +37,7 @@ namespace CellManager.Services
             using var cmd = new SQLiteCommand(sql, conn);
             cmd.ExecuteNonQuery();
         }
+        /// <inheritdoc />
         public ObservableCollection<OCVProfile> Load(int cellId)
         {
             var list = new ObservableCollection<OCVProfile>();
@@ -59,6 +62,7 @@ namespace CellManager.Services
             }
             return list;
         }
+        /// <inheritdoc />
         public void Save(OCVProfile p, int cellId)
         {
             using var conn = new SQLiteConnection($"Data Source={_dbPath};Version=3;");
@@ -94,6 +98,7 @@ namespace CellManager.Services
                 cmd.ExecuteNonQuery();
             }
         }
+        /// <inheritdoc />
         public void Delete(OCVProfile p)
         {
             if (p?.Id <= 0) return;

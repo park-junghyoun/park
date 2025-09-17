@@ -3,8 +3,14 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Models
 {
+    /// <summary>
+    ///     Provides heuristics for estimating how long different profile steps will take for a given cell.
+    /// </summary>
     public static class ScheduleTimeCalculator
     {
+        /// <summary>
+        ///     Returns an estimated duration for the supplied profile instance, guarding against invalid data.
+        /// </summary>
         public static TimeSpan? EstimateDuration(Cell cell, TestProfileType type, object? profile)
         {
             try
@@ -27,6 +33,7 @@ namespace CellManager.Models
             }
         }
 
+        /// <summary>Validates and returns the rest duration contained in the profile.</summary>
         private static TimeSpan? EstimateRest(RestProfile? profile)
         {
             if (profile == null || profile.RestTime < TimeSpan.Zero)
@@ -34,6 +41,7 @@ namespace CellManager.Models
             return profile.RestTime;
         }
 
+        /// <summary>Estimates total time for an OCV sweep including per-step rest periods.</summary>
         private static TimeSpan? EstimateOcv(OCVProfile? profile)
         {
             if (profile == null || profile.DischargeCurrent_OCV <= 0 || profile.SocStepPercent <= 0)
@@ -43,6 +51,7 @@ namespace CellManager.Models
             return TimeSpan.FromSeconds(dischargeSeconds + restSeconds);
         }
 
+        /// <summary>Determines charge duration based on the configured termination mode.</summary>
         private static TimeSpan? EstimateCharge(Cell cell, ChargeProfile? profile)
         {
             if (profile == null || profile.ChargeCurrent <= 0)
@@ -64,6 +73,7 @@ namespace CellManager.Models
             return null;
         }
 
+        /// <summary>Calculates discharge time according to the selected cutoff condition.</summary>
         private static TimeSpan? EstimateDischarge(Cell cell, DischargeProfile? profile)
         {
             if (profile == null || profile.DischargeCurrent <= 0)

@@ -3,6 +3,7 @@ using CellManager.Models.TestProfile;
 
 namespace CellManager.Services
 {
+    /// <summary>Stores ECM pulse profile setups keyed by cell.</summary>
     public interface IEcmPulseProfileRepository
     {
         ObservableCollection<ECMPulseProfile> Load(int cellId);

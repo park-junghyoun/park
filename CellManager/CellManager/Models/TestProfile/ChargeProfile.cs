@@ -3,6 +3,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CellManager.Models.TestProfile
 {
+    /// <summary>
+    ///     Stores the configuration of a charging step, including helpers for keeping split time inputs synchronized.
+    /// </summary>
     public partial class ChargeProfile : ObservableObject
     {
         [ObservableProperty] private int _id;
@@ -62,6 +65,9 @@ namespace CellManager.Models.TestProfile
             _updatingChargeTime = false;
         }
 
+        /// <summary>
+        ///     Updates the aggregate <see cref="TimeSpan"/> when one of the component fields changes.
+        /// </summary>
         private void UpdateChargeTime()
         {
             if (_updatingChargeTime) return;
@@ -70,6 +76,9 @@ namespace CellManager.Models.TestProfile
             _updatingChargeTime = false;
         }
 
+        /// <summary>
+        ///     Text displayed in the UI profile tree summarizing the key charge settings.
+        /// </summary>
         public string PreviewText
         {
             get
@@ -85,6 +94,9 @@ namespace CellManager.Models.TestProfile
         }
     }
 
+    /// <summary>
+    ///     Available strategies for determining when to stop the charge step.
+    /// </summary>
     public enum ChargeMode
     {
         ChargeByCapacity,

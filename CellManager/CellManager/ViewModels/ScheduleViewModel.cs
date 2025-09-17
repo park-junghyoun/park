@@ -12,6 +12,7 @@ using CellManager.Services;
 
 namespace CellManager.ViewModels
 {
+    /// <summary>Identifies the type of step represented in the schedule sequence.</summary>
     public enum StepKind
     {
         Profile,
@@ -19,6 +20,9 @@ namespace CellManager.ViewModels
         LoopEnd
     }
 
+    /// <summary>
+    ///     Represents a selectable step from the library, including metadata used during scheduling.
+    /// </summary>
     public class StepTemplate : ObservableObject
     {
         public int Id { get; set; }
@@ -35,6 +39,7 @@ namespace CellManager.ViewModels
         }
     }
 
+    /// <summary>Grouping of step templates displayed within the library panel.</summary>
     public class StepGroup : ObservableObject
     {
         public string Name { get; set; } = string.Empty;
@@ -42,6 +47,9 @@ namespace CellManager.ViewModels
         public ObservableCollection<StepTemplate> Steps { get; } = new();
     }
 
+    /// <summary>
+    ///     Allows operators to compose ordered sequences of profile steps into executable schedules.
+    /// </summary>
     public partial class ScheduleViewModel : ObservableObject
     {
         public string HeaderText { get; } = "Schedule";
@@ -129,12 +137,16 @@ namespace CellManager.ViewModels
             UpdateTotalDuration();
         }
 
+        /// <summary>Reloads the schedule and library data when the active cell changes.</summary>
         partial void OnSelectedCellChanged(Cell? value)
         {
             LoadStepLibrary();
             LoadSchedules();
         }
 
+        /// <summary>
+        ///     Refreshes schedules from the repository and optionally reselects the previously active schedule.
+        /// </summary>
         private void LoadSchedules(int? preferredScheduleId = null)
         {
             var previousId = preferredScheduleId ?? SelectedSchedule?.Id;
@@ -150,12 +162,14 @@ namespace CellManager.ViewModels
             UpdateScheduleDurations();
         }
 
+        /// <summary>Creates a few in-memory schedules used when no repository is wired up.</summary>
         private void BuildMockSchedules()
         {
             Schedules.Add(new Schedule { Id = 1, CellId = 0, Ordering = 1, Name = "Schedule A", TestProfileIds = { 1, 2 } });
             Schedules.Add(new Schedule { Id = 2, CellId = 0, Ordering = 2, Name = "Schedule B", TestProfileIds = { 3 } });
         }
 
+        /// <summary>Populates the step library with sample entries for design-time usage.</summary>
         private void BuildMockLibrary()
         {
             var id = 1;
@@ -248,6 +262,9 @@ namespace CellManager.ViewModels
             UpdateScheduleDurations();
         }
 
+        /// <summary>
+        ///     Loads available profile steps for the selected cell and rebuilds the loop controls.
+        /// </summary>
         private void LoadStepLibrary()
         {
             StepLibrary.Clear();
@@ -349,6 +366,7 @@ namespace CellManager.ViewModels
             UpdateScheduleDurations();
         }
 
+        /// <summary>Adds virtual steps that represent the start and end of a loop block.</summary>
         private void AddLoopControls()
         {
             var loopGroup = new StepGroup { Name = "Loop", IconKind = "Repeat" };
@@ -357,6 +375,7 @@ namespace CellManager.ViewModels
             StepLibrary.Add(loopGroup);
         }
 
+        /// <summary>Inserts a copy of the provided template into the sequence at the given index.</summary>
         public void InsertStep(StepTemplate template, int index)
         {
             var clone = new StepTemplate
@@ -374,6 +393,7 @@ namespace CellManager.ViewModels
                 Sequence.Insert(index, clone);
         }
 
+        /// <summary>Moves an existing step to a new index, adjusting for the removal offset.</summary>
         public void MoveStep(StepTemplate step, int index)
         {
             var oldIndex = Sequence.IndexOf(step);
@@ -384,6 +404,7 @@ namespace CellManager.ViewModels
             Sequence.Move(oldIndex, index);
         }
 
+        /// <summary>Aggregates the duration of all steps to update the total runtime.</summary>
         private void UpdateTotalDuration()
         {
             TotalDuration = new TimeSpan(Sequence.Sum(s => s.Duration.Ticks));
@@ -392,12 +413,14 @@ namespace CellManager.ViewModels
             UpdateLoopIndices();
         }
 
+        /// <summary>Renumbers the steps to maintain human-readable ordering.</summary>
         private void UpdateStepNumbers()
         {
             for (int i = 0; i < Sequence.Count; i++)
                 Sequence[i].StepNumber = i + 1;
         }
 
+        /// <summary>Calculates the estimated duration for each saved schedule.</summary>
         private void UpdateScheduleDurations()
         {
             foreach (var sched in Schedules)
@@ -410,12 +433,14 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Updates cached indices for loop start and end markers in the sequence.</summary>
         private void UpdateLoopIndices()
         {
             LoopStartIndex = Sequence.IndexOf(Sequence.FirstOrDefault(s => s.Kind == StepKind.LoopStart)) + 1;
             LoopEndIndex = Sequence.IndexOf(Sequence.FirstOrDefault(s => s.Kind == StepKind.LoopEnd)) + 1;
         }
 
+        /// <summary>Loads the steps of the selected schedule into the editable sequence.</summary>
         partial void OnSelectedScheduleChanged(Schedule? value)
         {
             Sequence.Clear();
@@ -440,6 +465,7 @@ namespace CellManager.ViewModels
             DeleteScheduleCommand.NotifyCanExecuteChanged();
         }
 
+        /// <summary>Creates a new blank schedule and selects it for editing.</summary>
         private void AddSchedule()
         {
             var newOrdering = Schedules.Any() ? Schedules.Max(s => s.Ordering) + 1 : 1;
@@ -450,6 +476,7 @@ namespace CellManager.ViewModels
             ScheduleName = sched.Name;
         }
 
+        /// <summary>Persists the current schedule to the repository and notifies listeners.</summary>
         private void SaveSchedule()
         {
             if (SelectedSchedule == null) return;
@@ -471,6 +498,7 @@ namespace CellManager.ViewModels
             }
         }
 
+        /// <summary>Deletes the provided schedule and updates the remaining selection.</summary>
         private void DeleteSchedule(Schedule? schedule)
         {
             var target = schedule ?? SelectedSchedule;
