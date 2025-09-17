@@ -6,9 +6,13 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:CellManager.Views.Controls"
              xmlns:viewModels="clr-namespace:CellManager.ViewModels"
+             xmlns:converters="clr-namespace:CellManager.Converters"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200"
              d:DataContext="{d:DesignInstance Type=viewModels:RunViewModel, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <converters:NullOrEmptyToPlaceholderConverter x:Key="NullOrEmptyToPlaceholderConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -48,7 +52,7 @@
             <GroupBox Grid.Column="0" Margin="0,0,8,0">
                 <StackPanel>
                     <TextBlock Text="Timeline Preview" FontWeight="Bold" FontSize="15"/>
-                    <local:TimelinePreviewControl Schedule="{Binding SelectedSchedule}"/>
+                    <local:TimelinePreviewControl Steps="{Binding TimelineSteps}"/>
                 </StackPanel>
             </GroupBox>
 
@@ -63,23 +67,53 @@
             </GroupBox>
         </Grid>
 
-        <!-- Controls -->
-        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Margin="8">
-            <StackPanel>
-                <TextBlock Text="Controls" FontWeight="Bold" FontSize="15"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4">
-                    <Button Content="Start" Command="{Binding StartCommand}" Style="{StaticResource PrimaryActionButton}" Margin="0,0,8,0"/>
-                    <Button Content="Pause" Command="{Binding PauseCommand}" Margin="0,0,8,0"/>
-                    <Button Content="Stop" Command="{Binding StopCommand}" Style="{StaticResource ErrorActionButton}"/>
-                    <ProgressBar Width="200" Height="18" Margin="16,0,0,0" Value="{Binding Progress}" Maximum="100"/>
+        <!-- Controls and current step details -->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="340"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="Controls" FontWeight="Bold" FontSize="15"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4">
+                        <Button Content="Start" Command="{Binding StartCommand}" Style="{StaticResource PrimaryActionButton}" Margin="0,0,8,0"/>
+                        <Button Content="Pause" Command="{Binding PauseCommand}" Margin="0,0,8,0"/>
+                        <Button Content="Stop" Command="{Binding StopCommand}" Style="{StaticResource ErrorActionButton}"/>
+                        <ProgressBar Width="200" Height="18" Margin="16,0,0,0" Value="{Binding Progress}" Maximum="100"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0">
+                        <TextBlock Text="{Binding CurrentStep, StringFormat='Step: {0}'}" Margin="0,0,16,0"/>
+                        <TextBlock Text="{Binding ElapsedTime, StringFormat='Elapsed: {0:hh\\:mm\\:ss}'}" Margin="0,0,16,0"/>
+                        <TextBlock Text="{Binding RemainingTime, StringFormat='Remaining: {0:hh\\:mm\\:ss}'}"/>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0">
-                    <TextBlock Text="{Binding CurrentStep, StringFormat='Step: {0}'}" Margin="0,0,16,0"/>
-                    <TextBlock Text="{Binding ElapsedTime, StringFormat='Elapsed: {0:hh\\:mm\\:ss}'}" Margin="0,0,16,0"/>
-                    <TextBlock Text="{Binding RemainingTime, StringFormat='Remaining: {0:hh\\:mm\\:ss}'}"/>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Margin="8,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="Current Step" FontWeight="Bold" FontSize="15"/>
+                    <StackPanel Margin="0,8,0,0">
+                        <TextBlock Text="{Binding CurrentTimelineStep.Name, TargetNullValue='No active step'}" FontSize="14" FontWeight="SemiBold"/>
+                        <TextBlock Margin="0,4,0,0">
+                            <Run Text="Step: "/>
+                            <Run Text="{Binding CurrentTimelineStep.StepNumber, TargetNullValue='-'}"/>
+                            <Run Text="   •   Profile ID: "/>
+                            <Run Text="{Binding CurrentTimelineStep.Id, TargetNullValue='-'}"/>
+                        </TextBlock>
+                        <TextBlock Margin="0,4,0,0">
+                            <Run Text="Parameters: "/>
+                            <Run Text="{Binding CurrentTimelineStep.Parameters, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='-'}"/>
+                        </TextBlock>
+                        <TextBlock Margin="0,4,0,0">
+                            <Run Text="Duration: "/>
+                            <Run Text="{Binding CurrentTimelineStep.Duration, TargetNullValue='-:--:--', StringFormat={}{0:hh\\:mm\\:ss}}"/>
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </GroupBox>
+            </GroupBox>
+        </Grid>
 
         <!-- Run logs -->
         <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Margin="8">

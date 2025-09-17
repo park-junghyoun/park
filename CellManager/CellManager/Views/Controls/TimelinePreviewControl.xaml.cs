@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using CellManager.Models;
+using CellManager.ViewModels;
 
 namespace CellManager.Views.Controls
 {
@@ -12,20 +13,20 @@ namespace CellManager.Views.Controls
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="Schedule"/> displayed by this control.
+        /// Gets or sets the timeline steps rendered by the preview.
         /// </summary>
-        public Schedule? Schedule
+        public IEnumerable<StepTemplate>? Steps
         {
-            get => (Schedule?)GetValue(ScheduleProperty);
-            set => SetValue(ScheduleProperty, value);
+            get => (IEnumerable<StepTemplate>?)GetValue(StepsProperty);
+            set => SetValue(StepsProperty, value);
         }
 
-        public static readonly DependencyProperty ScheduleProperty =
+        public static readonly DependencyProperty StepsProperty =
             DependencyProperty.Register(
-                nameof(Schedule),
-                typeof(Schedule),
+                nameof(Steps),
+                typeof(IEnumerable<StepTemplate>),
                 typeof(TimelinePreviewControl),
-                new PropertyMetadata(default(Schedule)));
+                new PropertyMetadata(null));
     }
 }
 
