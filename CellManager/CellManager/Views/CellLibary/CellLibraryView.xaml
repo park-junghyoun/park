@@ -86,7 +86,10 @@
             <Button Style="{StaticResource PrimaryActionButton}"
         Command="{Binding NewCellCommand}" Width="180">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                    <materialDesign:PackIcon Kind="LibraryAdd" Width="18" Height="18"/>
+                    <materialDesign:PackIcon Kind="LibraryAdd"
+                                            Width="18"
+                                            Height="18"
+                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
                     <TextBlock Text=" Create Cell Library"/>
                 </StackPanel>
             </Button>

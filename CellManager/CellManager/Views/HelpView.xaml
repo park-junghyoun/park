@@ -20,7 +20,17 @@
                     <TextBlock Text="Find detailed instructions on using the application."
                                TextWrapping="Wrap"
                                Margin="32,0,0,0"/>
-                    <Button Content="Open User Guide" HorizontalAlignment="Left" Margin="32,8,0,0"/>
+                    <Button HorizontalAlignment="Left"
+                            Margin="32,8,0,0"
+                            Style="{StaticResource PrimaryActionButton}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="OpenInNew"
+                                                    Width="18"
+                                                    Height="18"
+                                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                            <TextBlock Text=" Open User Guide"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </materialDesign:Card>
 

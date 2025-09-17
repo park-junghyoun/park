@@ -510,9 +510,11 @@
                                 <!-- Hover / Pressed -->
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter TargetName="bg" Property="Background" Value="{StaticResource SecondaryHover}"/>
+                                    <Setter TargetName="bg" Property="BorderBrush" Value="{StaticResource SecondaryHover}"/>
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter TargetName="bg" Property="Background" Value="{StaticResource SecondaryPressed}"/>
+                                    <Setter TargetName="bg" Property="BorderBrush" Value="{StaticResource SecondaryPressed}"/>
                                 </Trigger>
 
                                 <!-- Keyboard Focus (외곽선 살짝) -->

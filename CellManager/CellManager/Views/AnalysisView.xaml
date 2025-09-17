@@ -64,10 +64,14 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <Button Command="{Binding DataContext.RemoveDatasetCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}" Style="{StaticResource MaterialDesignToolForegroundButton}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
-                                <TextBlock Text="Remove" Margin="4,0,0,0"/>
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource ErrorActionButton}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Delete"
+                                                        Width="16"
+                                                        Height="16"
+                                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                <TextBlock Text=" Remove"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -90,7 +94,16 @@
                         <Button Command="{Binding DataContext.ApplyTemplateCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                 CommandParameter="{Binding}" Style="{StaticResource PrimaryActionButton}" Margin="0,0,4,0">Apply</Button>
                         <Button Command="{Binding DataContext.DeleteTemplateCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}" Style="{StaticResource MaterialDesignToolForegroundButton}">Delete</Button>
+                                CommandParameter="{Binding}"
+                                Style="{StaticResource ErrorActionButton}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Delete"
+                                                        Width="16"
+                                                        Height="16"
+                                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                <TextBlock Text=" Delete"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -151,9 +164,16 @@
                             <TextBlock DockPanel.Dock="Left" Text="Datasets" FontSize="16" FontWeight="SemiBold"/>
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                 <Button Content="Add file" Margin="0,0,6,0" Command="{Binding LoadRawCommand}" Style="{StaticResource PrimaryActionButton}"/>
-                                <Button Content="Remove"
-                                        Command="{Binding RemoveSelectedDatasetCommand}"
-                                        Style="{StaticResource SecondaryActionButton}"/>
+                                <Button Command="{Binding RemoveSelectedDatasetCommand}"
+                                        Style="{StaticResource ErrorActionButton}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="Delete"
+                                                                Width="16"
+                                                                Height="16"
+                                                                Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                        <TextBlock Text=" Remove"/>
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </DockPanel>
                         <ListBox ItemsSource="{Binding Datasets}" SelectedItem="{Binding SelectedDataset}" ItemTemplate="{StaticResource DatasetTemplate}"/>
@@ -352,9 +372,16 @@
                                                             Margin="0,0,8,0"
                                                             Command="{Binding OpenCommand}"
                                                             Style="{StaticResource SecondaryActionButton}"/>
-                                                    <Button Content="Remove"
-                                                            Command="{Binding RemoveCommand}"
-                                                            Style="{StaticResource SecondaryActionButton}"/>
+                                                    <Button Command="{Binding RemoveCommand}"
+                                                            Style="{StaticResource ErrorActionButton}">
+                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                            <materialDesign:PackIcon Kind="Delete"
+                                                                                    Width="16"
+                                                                                    Height="16"
+                                                                                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+                                                            <TextBlock Text=" Remove"/>
+                                                        </StackPanel>
+                                                    </Button>
                                                 </StackPanel>
                                             </StackPanel>
                                         </Border>
