@@ -81,8 +81,9 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
-                                    Command="{Binding AddChargeProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Button Grid.Column="1" Width="32" Height="32" Padding="0"
+                                    Command="{Binding AddChargeProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                    Style="{StaticResource MaterialDesignToolButton}">
                                 <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
@@ -187,8 +188,9 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
-                                    Command="{Binding AddDischargeProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Button Grid.Column="1" Width="32" Height="32" Padding="0"
+                                    Command="{Binding AddDischargeProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                    Style="{StaticResource MaterialDesignToolButton}">
                                 <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
@@ -293,8 +295,9 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
-                                    Command="{Binding AddRestProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Button Grid.Column="1" Width="32" Height="32" Padding="0"
+                                    Command="{Binding AddRestProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                    Style="{StaticResource MaterialDesignToolButton}">
                                 <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
@@ -382,8 +385,9 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
-                                    Command="{Binding AddOcvProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Button Grid.Column="1" Width="32" Height="32" Padding="0"
+                                    Command="{Binding AddOcvProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                    Style="{StaticResource MaterialDesignToolButton}">
                                 <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
@@ -471,8 +475,9 @@
                             </StackPanel>
 
                             <!-- 버튼 -->
-                            <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
-                                    Command="{Binding AddEcmProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <Button Grid.Column="1" Width="32" Height="32" Padding="0"
+                                    Command="{Binding AddEcmProfileCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                    Style="{StaticResource MaterialDesignToolButton}">
                                 <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>

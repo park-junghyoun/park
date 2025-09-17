@@ -116,8 +116,9 @@
                             <!-- 오른쪽: 버튼 -->
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Schedules List" FontWeight="Bold" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <Button Grid.Column="1" Width="32" Height="32" Background="White" Padding="0"
-                                Command="{Binding AddScheduleCommand}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <Button Grid.Column="1" Width="32" Height="32" Padding="0"
+                                Command="{Binding AddScheduleCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                Style="{StaticResource MaterialDesignToolButton}">
                             <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
@@ -310,8 +311,12 @@
                     </StackPanel>
 
                     <!-- Sequence list -->
-                    <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,5,0,10">
-                        <StackPanel Orientation="Horizontal">
+                    <Grid Grid.Row="1" Margin="0,5,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
                             <TextBlock Text="Script #" FontWeight="Bold" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding SelectedSchedule.Ordering}" Margin="0,0,16,0" VerticalAlignment="Center" FontSize="13" FontWeight="Bold"/>
                             <TextBlock Text="Name:" Margin="0,0,8,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/>
@@ -328,8 +333,7 @@
                             </TextBox>
                             <Button Command="{Binding SaveScheduleCommand}" Width="32" Height="32" Padding="0">
                                 <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Background" Value="White"/>
+                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignToolButton}">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
                                                 <Setter Property="IsEnabled" Value="False"/>
@@ -341,8 +345,7 @@
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
                         </StackPanel>
-                        <Grid>
-                            <ListBox x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto" Height="600"
+                        <ListBox Grid.Row="1" x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto"
          PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
          PreviewMouseMove="ScheduleList_PreviewMouseMove"
          Drop="ScheduleList_Drop" DragOver="ScheduleList_DragOver" DragLeave="ScheduleList_DragLeave">
@@ -358,7 +361,7 @@
                                 <ListBox.Template>
                                     <ControlTemplate TargetType="ListBox">
                                         <Border BorderBrush="#E5E7EB" BorderThickness="1" SnapsToDevicePixels="True">
-                                            <ScrollViewer Focusable="False" HorizontalScrollBarVisibility="Disabled">
+                                            <ScrollViewer Focusable="False" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
                                                 <ItemsPresenter />
                                             </ScrollViewer>
                                         </Border>
@@ -454,8 +457,8 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                        </Grid>
-                    </StackPanel>
+                        </ListBox>
+                    </Grid>
 
                 </Grid>
             </GroupBox>
