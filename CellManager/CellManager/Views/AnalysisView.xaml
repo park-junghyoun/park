@@ -1,0 +1,378 @@
+<UserControl x:Class="CellManager.Views.AnalysisView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewModels="clr-namespace:CellManager.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="900" d:DesignWidth="1600"
+             d:DataContext="{d:DesignInstance Type=viewModels:AnalysisViewModel, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style TargetType="ToggleButton" x:Key="SectionToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+            <Setter Property="Margin" Value="4,0"/>
+            <Setter Property="Padding" Value="12,4"/>
+            <Setter Property="Background" Value="#F3F4F6"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PrimaryMain}"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryPressed}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="WarningTemplate" DataType="{x:Type viewModels:AnalysisWarning}">
+            <Border Background="#FEF3C7" BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,4,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="AlertCircle" Width="20" Height="20" Foreground="#92400E"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="{Binding Message}" FontWeight="SemiBold" Foreground="#78350F"/>
+                        <TextBlock Text="{Binding SuggestedAction}" Foreground="#92400E" FontSize="12" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="DatasetTemplate" DataType="{x:Type viewModels:AnalysisDataset}">
+            <Border BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,4,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Ellipse Width="16" Height="16" Fill="{Binding SeriesBrush}" VerticalAlignment="Top"/>
+                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                        <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding Metadata}" Foreground="#6B7280" FontSize="12" TextWrapping="Wrap"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                            <CheckBox Content="Baseline" IsChecked="{Binding IsBaseline, Mode=TwoWay}"/>
+                            <CheckBox Content="Include" IsChecked="{Binding IsIncluded, Mode=TwoWay}" Margin="12,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Button Command="{Binding DataContext.RemoveDatasetCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}" Style="{StaticResource MaterialDesignToolForegroundButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16"/>
+                                <TextBlock Text="Remove" Margin="4,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="TemplateItemTemplate" DataType="{x:Type viewModels:AnalysisTemplate}">
+            <Border BorderThickness="1" BorderBrush="#E5E7EB" CornerRadius="8" Padding="8" Margin="0,4,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding Description}" Foreground="#6B7280" FontSize="12" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding CreatedAt, StringFormat='Saved {0:yyyy-MM-dd HH:mm}'}" Foreground="#9CA3AF" FontSize="11"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Button Command="{Binding DataContext.ApplyTemplateCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}" Style="{StaticResource PrimaryActionButton}" Margin="0,0,4,0">Apply</Button>
+                        <Button Command="{Binding DataContext.DeleteTemplateCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}" Style="{StaticResource MaterialDesignToolForegroundButton}">Delete</Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header ribbon -->
+        <materialDesign:Card Grid.Row="0" Margin="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ChartAreaspline" Width="26" Height="26" Margin="0,0,12,0"/>
+                    <StackPanel Margin="0,0,12,0">
+                        <TextBlock Text="Analyzer" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding CurrentCellLabel}" Foreground="#6B7280"/>
+                    </StackPanel>
+                    <ToggleButton Content="Compare mode" Margin="12,0,0,0" IsChecked="{Binding IsCompareMode}" Style="{StaticResource SectionToggleButton}"/>
+                    <ToggleButton Content="Show pinned" Margin="8,0,0,0" IsChecked="{Binding IsPinnedResultsExpanded}" Style="{StaticResource SectionToggleButton}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                    <ComboBox Width="220" Margin="0,0,8,0" ItemsSource="{Binding LoadedSessionHistory}" SelectedItem="{Binding SelectedSessionSnapshot}" DisplayMemberPath="Title"/>
+                    <Button Content="Load RAW..." Command="{Binding LoadRawCommand}" Style="{StaticResource PrimaryActionButton}"/>
+                    <Button Content="Reload" Margin="8,0,0,0" Command="{Binding ReloadCommand}"/>
+                    <Button Content="Save Session" Margin="8,0,0,0" Command="{Binding SaveSessionCommand}"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+
+        <!-- Body -->
+        <Grid Grid.Row="1" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="340"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="360"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left column: data management -->
+            <StackPanel Grid.Column="0">
+                <materialDesign:Card>
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,8">
+                            <TextBlock DockPanel.Dock="Left" Text="Datasets" FontSize="16" FontWeight="SemiBold"/>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <Button Content="Add file" Margin="0,0,6,0" Command="{Binding LoadRawCommand}" Style="{StaticResource PrimaryActionButton}"/>
+                                <Button Content="Remove" Command="{Binding RemoveSelectedDatasetCommand}"/>
+                            </StackPanel>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding Datasets}" SelectedItem="{Binding SelectedDataset}" ItemTemplate="{StaticResource DatasetTemplate}"/>
+                        <Separator Margin="0,12"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Baseline alignment" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding BaselineAlignmentHint}" Foreground="#6B7280" Margin="8,0,0,0"/>
+                        </StackPanel>
+                        <Slider Minimum="-120" Maximum="120" Value="{Binding AlignmentOffset}" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Visibility="{Binding IsCompareMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="Comparison options" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <StackPanel Width="140">
+                                <TextBlock Text="Normalize" FontWeight="SemiBold"/>
+                                <ComboBox ItemsSource="{Binding NormalizationOptions}" SelectedItem="{Binding SelectedNormalization}"/>
+                            </StackPanel>
+                            <StackPanel Margin="16,0,0,0" Width="140">
+                                <TextBlock Text="Resample" FontWeight="SemiBold"/>
+                                <ComboBox ItemsSource="{Binding ResampleOptions}" SelectedItem="{Binding SelectedResampleOption}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Text="Series visibility" FontWeight="SemiBold"/>
+                        <ItemsControl ItemsSource="{Binding ChartSeriesOptions}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsVisible, Mode=TwoWay}" Margin="0,4,0,0"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0" HorizontalAlignment="Right">
+                            <Button Content="Save preset" Margin="0,0,6,0" Command="{Binding SaveComparisonPresetCommand}" Style="{StaticResource PrimaryActionButton}"/>
+                            <Button Content="Load preset" Command="{Binding LoadComparisonPresetCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card>
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Left" Text="Session templates" FontSize="16" FontWeight="SemiBold"/>
+                            <Button DockPanel.Dock="Right" Content="Save current setup" Margin="8,0,0,0" Command="{Binding SaveTemplateCommand}" Style="{StaticResource PrimaryActionButton}"/>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding SessionTemplates}" ItemTemplate="{StaticResource TemplateItemTemplate}"/>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+
+            <!-- Center column: charts -->
+            <StackPanel Grid.Column="1">
+                <materialDesign:Card>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TabControl Grid.Row="0" Margin="0,0,0,8" SelectedItem="{Binding SelectedChartMode}" ItemsSource="{Binding ChartModes}">
+                            <TabControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="8,0">
+                                        <materialDesign:PackIcon Kind="{Binding Icon}" Width="16" Height="16" Margin="0,0,4,0"/>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                            <TabControl.ContentTemplate>
+                                <DataTemplate>
+                                    <Grid Background="#F9FAFB" Height="340" Margin="0,0,0,8">
+                                        <TextBlock Text="Interactive chart placeholder" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#9CA3AF"/>
+                                        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="12" Padding="12" Background="#FFFFFF" BorderBrush="#D1D5DB" BorderThickness="1" CornerRadius="8">
+                                            <StackPanel>
+                                                <TextBlock Text="Selection" FontWeight="SemiBold"/>
+                                                <TextBlock Text="{Binding DataContext.SelectionSummary, RelativeSource={RelativeSource AncestorType=TabControl}}" FontSize="12"/>
+                                                <TextBlock Text="{Binding DataContext.SelectionDurationText, RelativeSource={RelativeSource AncestorType=TabControl}}" FontSize="12"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </TabControl.ContentTemplate>
+                        </TabControl>
+                        <Expander Grid.Row="1" Header="Context timelines" IsExpanded="True">
+                            <ItemsControl ItemsSource="{Binding Datasets}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#EEF2FF" BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="4" Padding="8" Margin="0,4,0,0">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                                <Ellipse Width="12" Height="12" Fill="{Binding SeriesBrush}" Margin="0,0,8,0"/>
+                                                <TextBlock Text="{Binding DisplayName}" Width="160"/>
+                                                <TextBlock Text="Sparkline placeholder" Foreground="#9CA3AF"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Expander>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card>
+                    <StackPanel>
+                        <TextBlock Text="Residual analysis" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <Border Height="180" Background="#F9FAFB" CornerRadius="6">
+                            <Grid>
+                                <TextBlock Text="Residual plot placeholder" Foreground="#9CA3AF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+
+            <!-- Right column: insights -->
+            <StackPanel Grid.Column="2">
+                <materialDesign:Card Visibility="{Binding HasWarnings, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel>
+                        <TextBlock Text="Data quality checks" FontSize="16" FontWeight="SemiBold"/>
+                        <ItemsControl ItemsSource="{Binding Warnings}" ItemTemplate="{StaticResource WarningTemplate}"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card>
+                    <StackPanel>
+                        <TextBlock Text="Summary" FontSize="16" FontWeight="SemiBold"/>
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Duration" Grid.Row="0" Grid.Column="0" Foreground="#6B7280"/>
+                            <TextBlock Text="{Binding TotalTestDurationText}" Grid.Row="0" Grid.Column="1" FontWeight="SemiBold"/>
+                            <TextBlock Text="Voltage (min / max / avg)" Grid.Row="1" Grid.Column="0" Foreground="#6B7280"/>
+                            <TextBlock Text="{Binding VoltageSummary}" Grid.Row="1" Grid.Column="1" FontWeight="SemiBold"/>
+                            <TextBlock Text="Current (min / max / avg)" Grid.Row="2" Grid.Column="0" Foreground="#6B7280"/>
+                            <TextBlock Text="{Binding CurrentSummary}" Grid.Row="2" Grid.Column="1" FontWeight="SemiBold"/>
+                            <TextBlock Text="Energy throughput" Grid.Row="3" Grid.Column="0" Foreground="#6B7280"/>
+                            <TextBlock Text="{Binding EnergySummary}" Grid.Row="3" Grid.Column="1" FontWeight="SemiBold"/>
+                        </Grid>
+                        <Separator Margin="0,12"/>
+                        <TextBlock Text="Selection" FontSize="14" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding SelectionSummary}" Foreground="#6B7280"/>
+                        <TextBlock Text="{Binding SelectionVoltageSummary}" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card>
+                    <StackPanel>
+                        <DockPanel>
+                            <TextBlock Text="Automatic analysis" DockPanel.Dock="Left" FontSize="16" FontWeight="SemiBold"/>
+                            <Button DockPanel.Dock="Right" Content="Export report" Command="{Binding ExportReportCommand}" Style="{StaticResource PrimaryActionButton}"/>
+                        </DockPanel>
+                        <ItemsControl ItemsSource="{Binding AutomaticAnalyses}" Margin="0,8,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type viewModels:AnalysisOperationStatus}">
+                                    <Border BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,4,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+                                                <TextBlock Text="{Binding Description}" Foreground="#6B7280" FontSize="12" TextWrapping="Wrap"/>
+                                                <ProgressBar Value="{Binding Progress}" Minimum="0" Maximum="100" Height="6" Margin="0,8,0,0" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                                    <TextBlock Text="{Binding StatusMessage}" Margin="0,0,12,0" FontSize="12" Foreground="#4B5563"/>
+                                                    <TextBlock Text="{Binding LastRunText}" FontSize="12" Foreground="#9CA3AF"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding ErrorMessage}" Foreground="#B91C1C" FontSize="12" Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                            </StackPanel>
+                                            <Button Grid.Column="1" Content="Recompute" Command="{Binding RecomputeCommand}" Style="{StaticResource PrimaryActionButton}" VerticalAlignment="Top"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Expander Header="Pinned results" IsExpanded="{Binding IsPinnedResultsExpanded}" Margin="0,12,0,0">
+                            <ItemsControl ItemsSource="{Binding PinnedResults}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type viewModels:AnalysisResultSummary}">
+                                        <Border BorderBrush="#E5E7EB" BorderThickness="1" CornerRadius="8" Padding="8" Margin="0,4,0,0">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold"/>
+                                                <TextBlock Text="{Binding Subtitle}" Foreground="#6B7280" FontSize="12"/>
+                                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0" HorizontalAlignment="Right">
+                                                    <Button Content="Open" Margin="0,0,8,0" Command="{Binding OpenCommand}"/>
+                                                    <Button Content="Remove" Command="{Binding RemoveCommand}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Expander>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card>
+                    <StackPanel>
+                        <TextBlock Text="Analysis log" FontSize="16" FontWeight="SemiBold"/>
+                        <ListBox ItemsSource="{Binding AnalysisLog}" Height="140"/>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+        </Grid>
+
+        <!-- Status bar -->
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Files:" Margin="0,0,8,0" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding LoadedFileCount}" Margin="0,0,8,0"/>
+                    <Border Style="{StaticResource VDivider}" Margin="8,0"/>
+                    <TextBlock Text="Sample rate" FontWeight="SemiBold" Margin="8,0,8,0"/>
+                    <TextBlock Text="{Binding SampleRateStatus}" Margin="0,0,8,0"/>
+                    <Border Style="{StaticResource VDivider}" Margin="8,0"/>
+                    <TextBlock Text="Last analysis" FontWeight="SemiBold" Margin="8,0,8,0"/>
+                    <TextBlock Text="{Binding LastAnalysisTimestampText}" Margin="0,0,8,0"/>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</UserControl>

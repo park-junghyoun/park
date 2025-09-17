@@ -33,9 +33,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:AnalysisViewModel}">
-            <Grid Background="#FFFFFF">
-                <TextBlock Text="Analysis Content" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
-            </Grid>
+            <views:AnalysisView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DataExportViewModel}">
             <Grid Background="#FFFFFF">
