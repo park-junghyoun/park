@@ -147,7 +147,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -155,7 +155,7 @@
         </Grid.RowDefinitions>
 
         <!-- Header ribbon -->
-        <materialDesign:Card Grid.Row="0" Margin="8">
+        <materialDesign:Card Grid.Row="0" Margin="0,0,0,12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -195,7 +195,7 @@
         </materialDesign:Card>
 
         <!-- Body -->
-        <Grid Grid.Row="1" Margin="0,0,0,8">
+        <Grid Grid.Row="1" Margin="0,0,0,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="340"/>
                 <ColumnDefinition Width="*"/>
@@ -204,7 +204,7 @@
 
             <!-- Left column: data management -->
             <StackPanel Grid.Column="0">
-                <materialDesign:Card>
+                <materialDesign:Card Margin="0,0,0,12">
                     <StackPanel>
                         <DockPanel Margin="0,0,0,8">
                             <TextBlock DockPanel.Dock="Left" Text="Datasets" FontSize="16" FontWeight="SemiBold"/>
@@ -238,7 +238,7 @@
                     </StackPanel>
                 </materialDesign:Card>
 
-                <materialDesign:Card Visibility="{Binding IsCompareMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:Card Margin="0,0,0,12" Visibility="{Binding IsCompareMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel>
                         <TextBlock Text="Comparison options" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
@@ -302,7 +302,7 @@
 
             <!-- Center column: charts -->
             <StackPanel Grid.Column="1">
-                <materialDesign:Card>
+                <materialDesign:Card Margin="0,0,0,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -370,14 +370,14 @@
 
             <!-- Right column: insights -->
             <StackPanel Grid.Column="2">
-                <materialDesign:Card Visibility="{Binding HasWarnings, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:Card Margin="0,0,0,12" Visibility="{Binding HasWarnings, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel>
                         <TextBlock Text="Data quality checks" FontSize="16" FontWeight="SemiBold"/>
                         <ItemsControl ItemsSource="{Binding Warnings}" ItemTemplate="{StaticResource WarningTemplate}"/>
                     </StackPanel>
                 </materialDesign:Card>
 
-                <materialDesign:Card>
+                <materialDesign:Card Margin="0,0,0,12">
                     <StackPanel>
                         <TextBlock Text="Summary" FontSize="16" FontWeight="SemiBold"/>
                         <Grid Margin="0,8,0,0">
@@ -407,7 +407,7 @@
                     </StackPanel>
                 </materialDesign:Card>
 
-                <materialDesign:Card>
+                <materialDesign:Card Margin="0,0,0,12">
                     <StackPanel>
                         <DockPanel>
                             <TextBlock Text="Automatic analysis" DockPanel.Dock="Left" FontSize="16" FontWeight="SemiBold"/>
