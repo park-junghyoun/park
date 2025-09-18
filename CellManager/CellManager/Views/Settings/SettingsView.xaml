@@ -7,422 +7,439 @@
              xmlns:converters="clr-namespace:CellManager.Converters"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800">
-    <TabControl Margin="16"
-                Background="Transparent"
-                materialDesign:TabAssist.HasFilledTab="True">
-        <TabControl.Resources>
-            <Style TargetType="TabItem">
-                <Setter Property="Margin" Value="0,0,8,0"/>
-                <Setter Property="Padding" Value="12,6"/>
-                <Setter Property="Foreground" Value="{StaticResource HeaderForegroundBrush}"/>
-                <Setter Property="FontWeight" Value="SemiBold"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="TabItem">
-                            <Border x:Name="Border"
-                                    Background="Transparent"
-                                    CornerRadius="4"
-                                    Padding="{TemplateBinding Padding}">
-                                <ContentPresenter x:Name="ContentSite"
-                                                  VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center"
-                                                  ContentSource="Header"/>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryMain}"/>
-                                    <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryHover}"/>
-                                    <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="#9E9E9E"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <DataTemplate x:Key="SpecTextBoxTemplate">
-                <TextBox Text="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </DataTemplate>
-            <DataTemplate x:Key="SpecComboBoxTemplate">
-                <ComboBox ItemsSource="{Binding Options}"
-                          SelectedItem="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </DataTemplate>
-            <converters:SpecTemplateSelector x:Key="SpecTemplateSelector"
-                                             TextBoxTemplate="{StaticResource SpecTextBoxTemplate}"
-                                             ComboBoxTemplate="{StaticResource SpecComboBoxTemplate}"/>
-        </TabControl.Resources>
-        <TabItem Header="Board Calibration">
-            <ScrollViewer>
-                <StackPanel Margin="16">
-                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock Text="Board Calibration"
-                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                       Margin="0,0,0,16"/>
-                            <StackPanel Orientation="Horizontal">
-                                <!-- Voltage card -->
-                                <materialDesign:Card Padding="16" Width="300" Margin="0,0,16,0">
-                                    <StackPanel>
-                                        <TextBlock Text="Voltage"
-                                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                   Margin="0,0,0,8"/>
-                                        <TextBlock Text="Low Side" FontWeight="Bold"/>
-                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Reference [mV]"
-                                                     Text="{Binding VoltageLowReference}"
-                                                     Width="120" Margin="0,0,8,0"/>
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Result"
-                                                     Text="{Binding VoltageLowResult}"
-                                                     Width="120"/>
-                                        </StackPanel>
-                                        <TextBlock Text="High Side" FontWeight="Bold" Margin="0,8,0,0"/>
-                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Reference [mV]"
-                                                     Text="{Binding VoltageHighReference}"
-                                                     Width="120" Margin="0,0,8,0"/>
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Result"
-                                                     Text="{Binding VoltageHighResult}"
-                                                     Width="120"/>
-                                        </StackPanel>
+        <materialDesign:Card Grid.Row="0" Padding="12" Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="Cog" Width="26" Height="26" Margin="0,0,12,0"/>
+                <StackPanel>
+                    <TextBlock Text="Settings" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="Configure board calibration, firmware, and defaults." Foreground="#6B7280"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
+
+        <TabControl Grid.Row="1" Margin="0,8,0,0"
+                        Background="Transparent"
+                        materialDesign:TabAssist.HasFilledTab="True">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Margin" Value="0,0,8,0"/>
+                        <Setter Property="Padding" Value="12,6"/>
+                        <Setter Property="Foreground" Value="{StaticResource HeaderForegroundBrush}"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border x:Name="Border"
+                                            Background="Transparent"
+                                            CornerRadius="4"
+                                            Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter x:Name="ContentSite"
+                                                          VerticalAlignment="Center"
+                                                          HorizontalAlignment="Center"
+                                                          ContentSource="Header"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryMain}"/>
+                                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryHover}"/>
+                                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="#9E9E9E"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <DataTemplate x:Key="SpecTextBoxTemplate">
+                        <TextBox Text="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DataTemplate>
+                    <DataTemplate x:Key="SpecComboBoxTemplate">
+                        <ComboBox ItemsSource="{Binding Options}"
+                                  SelectedItem="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DataTemplate>
+                    <converters:SpecTemplateSelector x:Key="SpecTemplateSelector"
+                                                     TextBoxTemplate="{StaticResource SpecTextBoxTemplate}"
+                                                     ComboBoxTemplate="{StaticResource SpecComboBoxTemplate}"/>
+                </TabControl.Resources>
+                <TabItem Header="Board Calibration">
+                    <ScrollViewer>
+                        <StackPanel Margin="16">
+                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                                <StackPanel>
+                                    <TextBlock Text="Board Calibration"
+                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                               Margin="0,0,0,16"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <!-- Voltage card -->
+                                        <materialDesign:Card Padding="16" Width="300" Margin="0,0,16,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Voltage"
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                           Margin="0,0,0,8"/>
+                                                <TextBlock Text="Low Side" FontWeight="Bold"/>
+                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Reference [mV]"
+                                                             Text="{Binding VoltageLowReference}"
+                                                             Width="120" Margin="0,0,8,0"/>
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Result"
+                                                             Text="{Binding VoltageLowResult}"
+                                                             Width="120"/>
+                                                </StackPanel>
+                                                <TextBlock Text="High Side" FontWeight="Bold" Margin="0,8,0,0"/>
+                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Reference [mV]"
+                                                             Text="{Binding VoltageHighReference}"
+                                                             Width="120" Margin="0,0,8,0"/>
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Result"
+                                                             Text="{Binding VoltageHighResult}"
+                                                             Width="120"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </materialDesign:Card>
+
+                                        <!-- Current card -->
+                                        <materialDesign:Card Padding="16" Width="260" Margin="0,0,16,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Current"
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                           Margin="0,0,0,8"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Reference [mA]"
+                                                             Text="{Binding CurrentReference}"
+                                                             Width="120" Margin="0,0,8,0"/>
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Result"
+                                                             Text="{Binding CurrentResult}"
+                                                             Width="120"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                                    <Button Content="Calibrate"
+                                                            Width="80"
+                                                            Margin="0,0,8,0"
+                                                            Style="{StaticResource SecondaryActionButton}"/>
+                                                    <Button Content="Discharge"
+                                                            Width="80"
+                                                            Style="{StaticResource SecondaryActionButton}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </materialDesign:Card>
+
+                                        <!-- Temperature card -->
+                                        <materialDesign:Card Padding="16" Width="260">
+                                            <StackPanel>
+                                                <TextBlock Text="Temperature"
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                           Margin="0,0,0,8"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Reference [°C]"
+                                                             Text="{Binding TemperatureReference}"
+                                                             Width="120" Margin="0,0,8,0"/>
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Result"
+                                                             Text="{Binding TemperatureResult}"
+                                                             Width="120"/>
+                                                </StackPanel>
+                                                <Button Content="Set Temp"
+                                                        Width="80"
+                                                        Margin="0,8,0,0"
+                                                        Style="{StaticResource SecondaryActionButton}"/>
+                                            </StackPanel>
+                                        </materialDesign:Card>
                                     </StackPanel>
-                                </materialDesign:Card>
+                                </StackPanel>
+                            </materialDesign:Card>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
 
-                                <!-- Current card -->
-                                <materialDesign:Card Padding="16" Width="260" Margin="0,0,16,0">
-                                    <StackPanel>
-                                        <TextBlock Text="Current"
-                                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                   Margin="0,0,0,8"/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Reference [mA]"
-                                                     Text="{Binding CurrentReference}"
-                                                     Width="120" Margin="0,0,8,0"/>
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Result"
-                                                     Text="{Binding CurrentResult}"
-                                                     Width="120"/>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                            <Button Content="Calibrate"
-                                                    Width="80"
-                                                    Margin="0,0,8,0"
-                                                    Style="{StaticResource SecondaryActionButton}"/>
-                                            <Button Content="Discharge"
-                                                    Width="80"
-                                                    Style="{StaticResource SecondaryActionButton}"/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </materialDesign:Card>
-
-                                <!-- Temperature card -->
-                                <materialDesign:Card Padding="16" Width="260">
-                                    <StackPanel>
-                                        <TextBlock Text="Temperature"
-                                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                   Margin="0,0,0,8"/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Reference [°C]"
-                                                     Text="{Binding TemperatureReference}"
-                                                     Width="120" Margin="0,0,8,0"/>
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Result"
-                                                     Text="{Binding TemperatureResult}"
-                                                     Width="120"/>
-                                        </StackPanel>
-                                        <Button Content="Set Temp"
+                <TabItem Header="Board Data">
+                    <ScrollViewer>
+                        <StackPanel Margin="16">
+                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                                <materialDesign:Card.Resources>
+                                    <CollectionViewSource x:Key="BoardDataSettingsGrouped" Source="{Binding BoardDataSettings}">
+                                        <CollectionViewSource.GroupDescriptions>
+                                            <PropertyGroupDescription PropertyName="Category" />
+                                        </CollectionViewSource.GroupDescriptions>
+                                    </CollectionViewSource>
+                                </materialDesign:Card.Resources>
+                                <StackPanel>
+                                    <TextBlock Text="Board Settings Data"
+                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                               Margin="0,0,0,16"/>
+                                    <DataGrid ItemsSource="{Binding Source={StaticResource BoardDataSettingsGrouped}}"
+                                              AutoGenerateColumns="False"
+                                              HeadersVisibility="Column"
+                                              CanUserAddRows="False"
+                                              Margin="0,0,0,16">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Parameter}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="Spec" CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Spec}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="Unit">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Unit}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                                <DataGridTemplateColumn.CellEditingTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellEditingTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="Description" IsReadOnly="True">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Description}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                        <DataGrid.GroupStyle>
+                                            <GroupStyle>
+                                                <GroupStyle.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                                    </DataTemplate>
+                                                </GroupStyle.HeaderTemplate>
+                                            </GroupStyle>
+                                        </DataGrid.GroupStyle>
+                                    </DataGrid>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="Read"
+                                                Command="{Binding ReadBoardDataCommand}"
                                                 Width="80"
-                                                Margin="0,8,0,0"
+                                                Margin="0,0,8,0"
+                                                Style="{StaticResource SecondaryActionButton}"/>
+                                        <Button Content="Write"
+                                                Command="{Binding WriteBoardDataCommand}"
+                                                Width="80"
                                                 Style="{StaticResource SecondaryActionButton}"/>
                                     </StackPanel>
-                                </materialDesign:Card>
-                            </StackPanel>
+                                </StackPanel>
+                            </materialDesign:Card>
                         </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
+                    </ScrollViewer>
+                </TabItem>
 
-        <TabItem Header="Board Data">
-            <ScrollViewer>
-                <StackPanel Margin="16">
-                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                        <materialDesign:Card.Resources>
-                            <CollectionViewSource x:Key="BoardDataSettingsGrouped" Source="{Binding BoardDataSettings}">
-                                <CollectionViewSource.GroupDescriptions>
-                                    <PropertyGroupDescription PropertyName="Category" />
-                                </CollectionViewSource.GroupDescriptions>
-                            </CollectionViewSource>
-                        </materialDesign:Card.Resources>
-                        <StackPanel>
-                            <TextBlock Text="Board Settings Data"
-                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                       Margin="0,0,0,16"/>
-                            <DataGrid ItemsSource="{Binding Source={StaticResource BoardDataSettingsGrouped}}"
-                                      AutoGenerateColumns="False"
-                                      HeadersVisibility="Column"
-                                      CanUserAddRows="False"
-                                      Margin="0,0,0,16">
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Parameter}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Spec" CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Spec}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Unit">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Unit}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                        <DataGridTemplateColumn.CellEditingTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellEditingTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Description" IsReadOnly="True">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Description}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                                <DataGrid.GroupStyle>
-                                    <GroupStyle>
-                                        <GroupStyle.HeaderTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                                            </DataTemplate>
-                                        </GroupStyle.HeaderTemplate>
-                                    </GroupStyle>
-                                </DataGrid.GroupStyle>
-                            </DataGrid>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Content="Read"
-                                        Command="{Binding ReadBoardDataCommand}"
-                                        Width="80"
-                                        Margin="0,0,8,0"
-                                        Style="{StaticResource SecondaryActionButton}"/>
-                                <Button Content="Write"
-                                        Command="{Binding WriteBoardDataCommand}"
-                                        Width="80"
-                                        Style="{StaticResource SecondaryActionButton}"/>
-                            </StackPanel>
+                <TabItem Header="Protection">
+                    <ScrollViewer>
+                        <StackPanel Margin="16">
+                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                                <materialDesign:Card.Resources>
+                                    <CollectionViewSource x:Key="ProtectionSettingsGrouped" Source="{Binding ProtectionSettings}">
+                                        <CollectionViewSource.GroupDescriptions>
+                                            <PropertyGroupDescription PropertyName="Category" />
+                                        </CollectionViewSource.GroupDescriptions>
+                                    </CollectionViewSource>
+                                </materialDesign:Card.Resources>
+                                <StackPanel>
+                                    <TextBlock Text="Protection Settings Data"
+                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                               Margin="0,0,0,16"/>
+                                    <DataGrid ItemsSource="{Binding Source={StaticResource ProtectionSettingsGrouped}}"
+                                              AutoGenerateColumns="False"
+                                              HeadersVisibility="Column"
+                                              CanUserAddRows="False"
+                                              Margin="0,0,0,16">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Parameter}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="Spec"
+                                                                    CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Spec}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="Unit">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Unit}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                                <DataGridTemplateColumn.CellEditingTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellEditingTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTemplateColumn Header="Description" IsReadOnly="True">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Description}"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                        <DataGrid.GroupStyle>
+                                            <GroupStyle>
+                                                <GroupStyle.HeaderTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                                    </DataTemplate>
+                                                </GroupStyle.HeaderTemplate>
+                                            </GroupStyle>
+                                        </DataGrid.GroupStyle>
+                                    </DataGrid>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Content="Read"
+                                                Command="{Binding ReadProtectionCommand}"
+                                                Width="80"
+                                                Margin="0,0,8,0"
+                                                Style="{StaticResource SecondaryActionButton}"/>
+                                        <Button Content="Write"
+                                                Command="{Binding WriteProtectionCommand}"
+                                                Width="80"
+                                                Style="{StaticResource SecondaryActionButton}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </materialDesign:Card>
                         </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
+                    </ScrollViewer>
+                </TabItem>
 
-        <TabItem Header="Protection">
-            <ScrollViewer>
-                <StackPanel Margin="16">
-                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                        <materialDesign:Card.Resources>
-                            <CollectionViewSource x:Key="ProtectionSettingsGrouped" Source="{Binding ProtectionSettings}">
-                                <CollectionViewSource.GroupDescriptions>
-                                    <PropertyGroupDescription PropertyName="Category" />
-                                </CollectionViewSource.GroupDescriptions>
-                            </CollectionViewSource>
-                        </materialDesign:Card.Resources>
-                        <StackPanel>
-                            <TextBlock Text="Protection Settings Data"
-                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                       Margin="0,0,0,16"/>
-                            <DataGrid ItemsSource="{Binding Source={StaticResource ProtectionSettingsGrouped}}"
-                                      AutoGenerateColumns="False"
-                                      HeadersVisibility="Column"
-                                      CanUserAddRows="False"
-                                      Margin="0,0,0,16">
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Parameter}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Spec"
-                                                            CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Spec}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Unit">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Unit}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                        <DataGridTemplateColumn.CellEditingTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellEditingTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Header="Description" IsReadOnly="True">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Description}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                                <DataGrid.GroupStyle>
-                                    <GroupStyle>
-                                        <GroupStyle.HeaderTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                                            </DataTemplate>
-                                        </GroupStyle.HeaderTemplate>
-                                    </GroupStyle>
-                                </DataGrid.GroupStyle>
-                            </DataGrid>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Content="Read"
-                                        Command="{Binding ReadProtectionCommand}"
-                                        Width="80"
-                                        Margin="0,0,8,0"
-                                        Style="{StaticResource SecondaryActionButton}"/>
-                                <Button Content="Write"
-                                        Command="{Binding WriteProtectionCommand}"
-                                        Width="80"
-                                        Style="{StaticResource SecondaryActionButton}"/>
-                            </StackPanel>
+                <TabItem Header="System">
+                    <ScrollViewer>
+                        <StackPanel Margin="16">
+                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                                <StackPanel>
+                                    <TextBlock Text="System Settings"
+                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                               Margin="0,0,0,16"/>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Board Port"
+                                             Text="{Binding BoardPort}"
+                                             Width="200"/>
+                                </StackPanel>
+                            </materialDesign:Card>
                         </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
+                    </ScrollViewer>
+                </TabItem>
 
-        <TabItem Header="System">
-            <ScrollViewer>
-                <StackPanel Margin="16">
-                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock Text="System Settings"
-                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                       Margin="0,0,0,16"/>
-                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     materialDesign:HintAssist.Hint="Board Port"
-                                     Text="{Binding BoardPort}"
-                                     Width="200"/>
+                <TabItem Header="Paths">
+                    <ScrollViewer>
+                        <StackPanel Margin="16">
+                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                                <StackPanel>
+                                    <TextBlock Text="Paths"
+                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                               Margin="0,0,0,16"/>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Data Export Path"
+                                             Text="{Binding DataExportPath}"
+                                             Margin="0,0,0,8"
+                                             HorizontalAlignment="Stretch"/>
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="Profile Path"
+                                             Text="{Binding ProfilePath}"
+                                             HorizontalAlignment="Stretch"/>
+                                </StackPanel>
+                            </materialDesign:Card>
                         </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
+                    </ScrollViewer>
+                </TabItem>
 
-        <TabItem Header="Paths">
-            <ScrollViewer>
-                <StackPanel Margin="16">
-                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock Text="Paths"
-                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                       Margin="0,0,0,16"/>
-                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     materialDesign:HintAssist.Hint="Data Export Path"
-                                     Text="{Binding DataExportPath}"
-                                     Margin="0,0,0,8"
-                                     HorizontalAlignment="Stretch"/>
-                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     materialDesign:HintAssist.Hint="Profile Path"
-                                     Text="{Binding ProfilePath}"
-                                     HorizontalAlignment="Stretch"/>
-                        </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
+                <TabItem Header="Features">
+                    <ScrollViewer>
+                        <StackPanel Margin="16">
+                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                                <StackPanel>
+                                    <TextBlock Text="Features"
+                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                               Margin="0,0,0,16"/>
+                                    <Grid Margin="0,8,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
 
-        <TabItem Header="Features">
-            <ScrollViewer>
-                <StackPanel Margin="16">
-                    <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock Text="Features"
-                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                       Margin="0,0,0,16"/>
-                            <Grid Margin="0,8,0,0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0"
+                                                   Text="Advanced Features"
+                                                   VerticalAlignment="Center"/>
+                                        <ToggleButton Grid.Row="0"
+                                                      Grid.Column="1"
+                                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                      IsChecked="{Binding EnableAdvancedFeatures}"
+                                                      Margin="16,0,0,0"/>
 
-                                <TextBlock Grid.Row="0"
-                                           Text="Advanced Features"
-                                           VerticalAlignment="Center"/>
-                                <ToggleButton Grid.Row="0"
-                                              Grid.Column="1"
-                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                              IsChecked="{Binding EnableAdvancedFeatures}"
-                                              Margin="16,0,0,0"/>
+                                        <TextBlock Grid.Row="1"
+                                                   Text="Dark Theme"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,8,0,0"/>
+                                        <ToggleButton Grid.Row="1"
+                                                      Grid.Column="1"
+                                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                      IsChecked="{Binding EnableDarkTheme}"
+                                                      Margin="16,8,0,0"/>
 
-                                <TextBlock Grid.Row="1"
-                                           Text="Dark Theme"
-                                           VerticalAlignment="Center"
-                                           Margin="0,8,0,0"/>
-                                <ToggleButton Grid.Row="1"
-                                              Grid.Column="1"
-                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                              IsChecked="{Binding EnableDarkTheme}"
-                                              Margin="16,8,0,0"/>
+                                        <TextBlock Grid.Row="2"
+                                                   Text="Notifications"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,8,0,0"/>
+                                        <ToggleButton Grid.Row="2"
+                                                      Grid.Column="1"
+                                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                      IsChecked="{Binding EnableNotifications}"
+                                                      Margin="16,8,0,0"/>
 
-                                <TextBlock Grid.Row="2"
-                                           Text="Notifications"
-                                           VerticalAlignment="Center"
-                                           Margin="0,8,0,0"/>
-                                <ToggleButton Grid.Row="2"
-                                              Grid.Column="1"
-                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                              IsChecked="{Binding EnableNotifications}"
-                                              Margin="16,8,0,0"/>
-
-                                <TextBlock Grid.Row="3"
-                                           Text="Auto Updates"
-                                           VerticalAlignment="Center"
-                                           Margin="0,8,0,0"/>
-                                <ToggleButton Grid.Row="3"
-                                              Grid.Column="1"
-                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                              IsChecked="{Binding EnableAutoUpdates}"
-                                              Margin="16,8,0,0"/>
+                                        <TextBlock Grid.Row="3"
+                                                   Text="Auto Updates"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,8,0,0"/>
+                                        <ToggleButton Grid.Row="3"
+                                                      Grid.Column="1"
+                                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                      IsChecked="{Binding EnableAutoUpdates}"
+                                                      Margin="16,8,0,0"/>
                             </Grid>
+                                </StackPanel>
+                            </materialDesign:Card>
                         </StackPanel>
-                    </materialDesign:Card>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
-    </TabControl>
+                    </ScrollViewer>
+                </TabItem>
+        </TabControl>
+    </Grid>
 </UserControl>

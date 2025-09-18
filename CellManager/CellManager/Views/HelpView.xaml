@@ -3,10 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <ScrollViewer>
-        <StackPanel Margin="20">
-            <TextBlock Text="Help &amp; Support"
-                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                       Margin="0,0,0,16"/>
+        <StackPanel Margin="12">
+            <materialDesign:Card Margin="0,0,0,12" Padding="16">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="HelpCircle" Width="26" Height="26" Margin="0,0,12,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Help &amp; Support" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="Find documentation, FAQs, and contact options below." Foreground="#6B7280"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:Card>
 
             <materialDesign:Card Margin="0,0,0,16" Padding="16">
                 <StackPanel>

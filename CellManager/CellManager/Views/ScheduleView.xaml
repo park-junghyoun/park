@@ -46,18 +46,31 @@
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Cell info status bar -->
-        <GroupBox Grid.Row="0" Margin="0" Padding="0">
-            <TextBlock FontSize="14"
-             TextWrapping="NoWrap"
-             TextTrimming="CharacterEllipsis"
-             VerticalAlignment="Center"
-             ToolTipService.ShowDuration="60000" Margin="20,0,0,0">
+        <materialDesign:Card Grid.Row="0" Margin="0,0,0,8" Padding="12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Calendar" Width="26" Height="26" Margin="0,0,12,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Schedule" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="Review the active cell details and assigned schedules." Foreground="#6B7280"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock Grid.Column="1" FontSize="14"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center"
+                           ToolTipService.ShowDuration="60000" Margin="24,0,0,0">
     <!-- 선택 셀: 타이틀(가장 강조) -->
     <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"
          FontWeight="SemiBold" Foreground="{StaticResource TitleBrush}"/>
@@ -82,21 +95,22 @@
     <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
 
     <Run Text="Updated " Foreground="{StaticResource MetaLabelBrush}"/>
-    <Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm}}" 
+    <Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm}}"
          Foreground="{StaticResource MetaValueBrush}"/>
 
     <!-- 전체 원문 툴팁(잘릴 때 대비) -->
-                <TextBlock.ToolTip>
-                    <TextBlock>
+                    <TextBlock.ToolTip>
+                        <TextBlock>
         <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"/>
         <Run Text="  |  SN: "/><Run Text="{Binding SelectedCell.SerialNumber}"/>
         <Run Text="  |  Type: "/><Run Text="{Binding SelectedCell.CellType}"/>
         <Run Text="  |  MFR: "/><Run Text="{Binding SelectedCell.Manufacturer}"/>
         <Run Text="  |  Updated: "/><Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
-                    </TextBlock>
-                </TextBlock.ToolTip>
+                        </TextBlock>
+                    </TextBlock.ToolTip>
   </TextBlock>
-        </GroupBox>
+            </Grid>
+        </materialDesign:Card>
 
         <!-- Main content -->
         <Grid Grid.Row="2">
