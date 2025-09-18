@@ -38,8 +38,6 @@
                             <controls:TimeSpanEditor Hours="{Binding RestHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Minutes="{Binding RestMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Seconds="{Binding RestSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Rest}, FieldNames='RestHours, RestMinutes, RestSeconds'}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

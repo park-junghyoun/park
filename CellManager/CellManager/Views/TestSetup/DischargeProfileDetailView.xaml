@@ -111,8 +111,6 @@
                             <controls:TimeSpanEditor Hours="{Binding DischargeHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Minutes="{Binding DischargeMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Seconds="{Binding DischargeSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldNames='DischargeHours, DischargeMinutes, DischargeSeconds'}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
