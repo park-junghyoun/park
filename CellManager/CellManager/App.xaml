@@ -52,6 +52,21 @@
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
             </Style>
 
+            <Style x:Key="RangeHintTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBodyLightBrush}"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
             <!-- 공통 토큰 -->
             <SolidColorBrush x:Key="SurfaceBackgroundBrush" Color="#FFFFFFFF"/>
             <!-- 본체 -->
