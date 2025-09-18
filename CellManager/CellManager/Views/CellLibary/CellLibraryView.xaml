@@ -57,19 +57,21 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Margin="0,0,0,8">
-            <GroupBox.Header>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="BatteryMedium" Width="20" Height="20" Margin="0,0,6,0"/>
-                    <TextBlock Text="Cell Library" FontWeight="SemiBold" FontSize="16"/>
-                </StackPanel>
-            </GroupBox.Header>
+        <materialDesign:Card Grid.Row="0" Margin="0,0,0,8" Padding="12">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="5" Background="White" Margin="0,0,12,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="BatteryMedium" Width="26" Height="26" Margin="0,0,12,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Cell Library" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="Search and manage cell definitions." Foreground="#6B7280"/>
+                    </StackPanel>
+                </StackPanel>
+                <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="5" Background="White" Margin="24,0,12,0" VerticalAlignment="Center">
                     <Grid>
                         <TextBlock Text="Search &amp; Filter" Margin="8" VerticalAlignment="Center" Foreground="Gray" Opacity="0.6" IsHitTestVisible="False">
                             <TextBlock.Style>
@@ -90,7 +92,7 @@
                                  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                 </Border>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <Button Style="{StaticResource PrimaryActionButton}"
                             Command="{Binding NewCellCommand}" Width="180">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -100,7 +102,7 @@
                     </Button>
                 </StackPanel>
             </Grid>
-        </GroupBox>
+        </materialDesign:Card>
 
 
 <ListView Grid.Row="1" Margin="0,8,0,0" x:Name="lv_cells" ItemsSource="{Binding FilteredCells}" SizeChanged="ListView_SizeChanged" >

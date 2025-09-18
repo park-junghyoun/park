@@ -26,29 +26,32 @@
         </Grid.ColumnDefinitions>
 
         <!-- Header and schedule selection -->
-        <GroupBox Grid.Row="0" Grid.ColumnSpan="2" Margin="8,8,8,0">
-            <GroupBox.Header>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Play" Width="20" Height="20" Margin="0,0,6,0"/>
-                    <TextBlock Text="Run" FontWeight="SemiBold" FontSize="16"/>
-                </StackPanel>
-            </GroupBox.Header>
+        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="8,8,8,0" Padding="12">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="240"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical" Margin="0,0,12,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Play" Width="26" Height="26" Margin="0,0,12,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Run" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="Prepare and control schedule execution." Foreground="#6B7280"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="24,0,12,0" VerticalAlignment="Center">
                     <TextBlock Text="Selected schedule" FontWeight="SemiBold"/>
                     <TextBlock Text="{Binding SelectedSchedule.DisplayNameAndScript, TargetNullValue='No schedule selected'}" Foreground="#6B7280" TextWrapping="Wrap"/>
                 </StackPanel>
-                <ComboBox Grid.Column="1"
+                <ComboBox Grid.Column="2"
                           ItemsSource="{Binding AvailableSchedules}"
                           SelectedItem="{Binding SelectedSchedule}"
                           DisplayMemberPath="DisplayNameAndScript"
-                          Margin="0"/>
+                          Margin="0"
+                          VerticalAlignment="Center"/>
             </Grid>
-        </GroupBox>
+        </materialDesign:Card>
 
         <!-- Timeline preview and board status -->
         <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="8">

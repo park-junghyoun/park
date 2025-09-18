@@ -4,15 +4,15 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <ScrollViewer>
         <StackPanel Margin="12">
-            <GroupBox Margin="0,0,0,12">
-                <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <materialDesign:PackIcon Kind="HelpCircle" Width="20" Height="20" Margin="0,0,6,0"/>
-                        <TextBlock Text="Help &amp; Support" FontWeight="SemiBold" FontSize="16"/>
+            <materialDesign:Card Margin="0,0,0,12" Padding="16">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="HelpCircle" Width="26" Height="26" Margin="0,0,12,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Help &amp; Support" FontSize="20" FontWeight="Bold"/>
+                        <TextBlock Text="Find documentation, FAQs, and contact options below." Foreground="#6B7280"/>
                     </StackPanel>
-                </GroupBox.Header>
-                <TextBlock Text="Find documentation, FAQs, and contact options below." Foreground="#6B7280"/>
-            </GroupBox>
+                </StackPanel>
+            </materialDesign:Card>
 
             <materialDesign:Card Margin="0,0,0,16" Padding="16">
                 <StackPanel>
