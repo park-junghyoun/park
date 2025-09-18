@@ -166,10 +166,14 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Cell Type" Style="{StaticResource FormLabelTextStyle}"/>
                             <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
-                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                         materialDesign:HintAssist.HelperText="{config:CellDetailTextRangeHint PropertyName='CellType'}"
-                                         Text="{Binding Cell.CellType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                         MaxLength="{x:Static config:CellDetailTextRules.CellTypeMaxLength}"/>
+                                <ComboBox Style="{StaticResource ValidationComboBoxStyle}"
+                                          materialDesign:HintAssist.HelperText="{config:CellDetailTextRangeHint PropertyName='CellType'}"
+                                          SelectedValuePath="Content"
+                                          SelectedValue="{Binding Cell.CellType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                                    <ComboBoxItem Content="Cylindrical"/>
+                                    <ComboBoxItem Content="Prismatic"/>
+                                    <ComboBoxItem Content="Pouch"/>
+                                </ComboBox>
                             </StackPanel>
 
                             <TextBlock Grid.Row="0" Grid.Column="3" Text="Weight (g)" Style="{StaticResource FormLabelTextStyle}"/>
