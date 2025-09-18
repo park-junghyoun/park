@@ -79,6 +79,66 @@ namespace CellManager.Tests
         }
 
         [Fact]
+        public void SaveScheduleCommand_ClearsLoopIndices_WhenEndMissing()
+        {
+            var vm = new ScheduleViewModel();
+            vm.AddScheduleCommand.Execute(null);
+            var loopGroup = vm.StepLibrary.First(g => g.Name == "Loop");
+            var start = loopGroup.Steps.First(s => s.Kind == StepKind.LoopStart);
+            vm.InsertStep(start, -1);
+
+            Assert.True(vm.LoopStartIndex > 0);
+            Assert.True(vm.SaveScheduleCommand.CanExecute(null));
+
+            vm.SaveScheduleCommand.Execute(null);
+
+            Assert.Equal(0, vm.LoopStartIndex);
+            Assert.Equal(0, vm.LoopEndIndex);
+            Assert.Equal(0, vm.SelectedSchedule?.LoopStartIndex);
+            Assert.Equal(0, vm.SelectedSchedule?.LoopEndIndex);
+        }
+
+        [Fact]
+        public void SaveScheduleCommand_ClearsLoopIndices_WhenStartMissing()
+        {
+            var vm = new ScheduleViewModel();
+            vm.AddScheduleCommand.Execute(null);
+            var loopGroup = vm.StepLibrary.First(g => g.Name == "Loop");
+            var end = loopGroup.Steps.First(s => s.Kind == StepKind.LoopEnd);
+            vm.InsertStep(end, -1);
+
+            Assert.True(vm.LoopEndIndex > 0);
+            Assert.True(vm.SaveScheduleCommand.CanExecute(null));
+
+            vm.SaveScheduleCommand.Execute(null);
+
+            Assert.Equal(0, vm.LoopStartIndex);
+            Assert.Equal(0, vm.LoopEndIndex);
+            Assert.Equal(0, vm.SelectedSchedule?.LoopStartIndex);
+            Assert.Equal(0, vm.SelectedSchedule?.LoopEndIndex);
+        }
+
+        [Fact]
+        public void SaveScheduleCommand_Disabled_WhenEndPrecedesStart()
+        {
+            var vm = new ScheduleViewModel();
+            vm.AddScheduleCommand.Execute(null);
+            var loopGroup = vm.StepLibrary.First(g => g.Name == "Loop");
+            var start = loopGroup.Steps.First(s => s.Kind == StepKind.LoopStart);
+            var end = loopGroup.Steps.First(s => s.Kind == StepKind.LoopEnd);
+
+            vm.InsertStep(end, -1);
+            vm.InsertStep(start, -1);
+
+            Assert.False(vm.SaveScheduleCommand.CanExecute(null));
+
+            vm.SaveScheduleCommand.Execute(null);
+
+            Assert.Equal(0, vm.SelectedSchedule?.LoopStartIndex);
+            Assert.Equal(0, vm.SelectedSchedule?.LoopEndIndex);
+        }
+
+        [Fact]
         public void TotalDuration_SumsStepDurations()
         {
             var vm = new ScheduleViewModel();

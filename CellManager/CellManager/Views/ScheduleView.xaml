@@ -6,6 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vm="clr-namespace:CellManager.ViewModels"
              xmlns:converters="clr-namespace:CellManager.Converters"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200">
     <UserControl.Resources>
@@ -344,6 +345,24 @@
                                 <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Foreground="#00589E"
                                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Button>
+                            <Border Style="{StaticResource VDivider}" Margin="8,0"/>
+                            <TextBlock Text="Loop Count:" Margin="8,0,4,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/>
+                            <xctk:IntegerUpDown Width="70"
+                                                Height="28"
+                                                VerticalAlignment="Center"
+                                                Value="{Binding RepeatCount, Mode=TwoWay}"
+                                                Minimum="1"
+                                                HorizontalContentAlignment="Center">
+                                <xctk:IntegerUpDown.Style>
+                                    <Style TargetType="xctk:IntegerUpDown">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </xctk:IntegerUpDown.Style>
+                            </xctk:IntegerUpDown>
                         </StackPanel>
                         <Grid Grid.Row="1">
                             <ListBox x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto"
