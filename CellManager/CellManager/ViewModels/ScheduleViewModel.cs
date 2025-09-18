@@ -104,10 +104,11 @@ namespace CellManager.ViewModels
             {
                 UpdateTotalDuration();
                 UpdateStepNumbers();
+                SaveScheduleCommand?.NotifyCanExecuteChanged();
             };
 
             RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
-            SaveScheduleCommand = new RelayCommand(SaveSchedule);
+            SaveScheduleCommand = new RelayCommand(SaveSchedule, () => CanSaveSchedule);
             AddScheduleCommand = new RelayCommand(AddSchedule);
             DeleteScheduleCommand = new RelayCommand<Schedule>(DeleteSchedule, s => s != null);
 
@@ -378,6 +379,10 @@ namespace CellManager.ViewModels
         /// <summary>Inserts a copy of the provided template into the sequence at the given index.</summary>
         public void InsertStep(StepTemplate template, int index)
         {
+            if (template.Kind == StepKind.LoopStart && Sequence.Any(s => s.Kind == StepKind.LoopStart))
+                return;
+            if (template.Kind == StepKind.LoopEnd && Sequence.Any(s => s.Kind == StepKind.LoopEnd))
+                return;
             var clone = new StepTemplate
             {
                 Id = template.Id,
@@ -440,6 +445,9 @@ namespace CellManager.ViewModels
             LoopEndIndex = Sequence.IndexOf(Sequence.FirstOrDefault(s => s.Kind == StepKind.LoopEnd)) + 1;
         }
 
+        /// <summary>Determines whether the current schedule configuration can be persisted.</summary>
+        public bool CanSaveSchedule => SelectedSchedule != null && TryGetNormalizedLoopBounds(out _, out _);
+
         /// <summary>Loads the steps of the selected schedule into the editable sequence.</summary>
         partial void OnSelectedScheduleChanged(Schedule? value)
         {
@@ -469,6 +477,7 @@ namespace CellManager.ViewModels
                 LoopEndIndex = 0;
             }
             DeleteScheduleCommand.NotifyCanExecuteChanged();
+            SaveScheduleCommand?.NotifyCanExecuteChanged();
         }
 
         /// <summary>Creates a new blank schedule and selects it for editing.</summary>
@@ -489,10 +498,14 @@ namespace CellManager.ViewModels
         private void SaveSchedule()
         {
             if (SelectedSchedule == null) return;
+            if (!TryGetNormalizedLoopBounds(out var normalizedStart, out var normalizedEnd))
+                return;
             SelectedSchedule.Name = ScheduleName;
             SelectedSchedule.TestProfileIds = Sequence.Where(s => s.Kind == StepKind.Profile).Select(s => s.Id).ToList();
             RepeatCount = Math.Max(1, RepeatCount);
             SelectedSchedule.RepeatCount = RepeatCount;
+            LoopStartIndex = normalizedStart;
+            LoopEndIndex = normalizedEnd;
             SelectedSchedule.LoopStartIndex = LoopStartIndex;
             SelectedSchedule.LoopEndIndex = LoopEndIndex;
             if (SelectedCell != null && _scheduleRepo != null)
@@ -521,6 +534,50 @@ namespace CellManager.ViewModels
             UpdateScheduleDurations();
             if (SelectedCell?.Id > 0)
                 WeakReferenceMessenger.Default.Send(new SchedulesUpdatedMessage(SelectedCell.Id));
+        }
+
+        /// <summary>Normalizes loop markers and validates that the end follows the start.</summary>
+        private bool TryGetNormalizedLoopBounds(out int normalizedStartIndex, out int normalizedEndIndex)
+        {
+            var loopStart = -1;
+            var loopEnd = -1;
+            for (var i = 0; i < Sequence.Count; i++)
+            {
+                if (loopStart < 0 && Sequence[i].Kind == StepKind.LoopStart)
+                    loopStart = i;
+                if (loopEnd < 0 && Sequence[i].Kind == StepKind.LoopEnd)
+                    loopEnd = i;
+                if (loopStart >= 0 && loopEnd >= 0)
+                    break;
+            }
+
+            if (loopStart < 0 || loopEnd < 0)
+            {
+                normalizedStartIndex = 0;
+                normalizedEndIndex = 0;
+                return true;
+            }
+
+            if (loopEnd <= loopStart)
+            {
+                normalizedStartIndex = 0;
+                normalizedEndIndex = 0;
+                return false;
+            }
+
+            normalizedStartIndex = loopStart + 1;
+            normalizedEndIndex = loopEnd + 1;
+            return true;
+        }
+
+        partial void OnLoopStartIndexChanged(int value)
+        {
+            SaveScheduleCommand?.NotifyCanExecuteChanged();
+        }
+
+        partial void OnLoopEndIndexChanged(int value)
+        {
+            SaveScheduleCommand?.NotifyCanExecuteChanged();
         }
     }
 }
