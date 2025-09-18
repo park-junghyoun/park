@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+#if CELL_MANAGER_WPF
 using CellManager.Configuration;
+#endif
 
 namespace CellManager.Models.TestProfile
 {
@@ -25,8 +27,20 @@ namespace CellManager.Models.TestProfile
             }
 
             var value = GetPropertyValue(profile, propertyName);
+            return GetValidationError(profileType, propertyName, value);
+        }
+
+#if CELL_MANAGER_WPF
+        private static string? GetValidationError(TestProfileType profileType, string propertyName, object? value)
+        {
             return TestProfileValidationRules.Validate(profileType, propertyName, value);
         }
+#else
+        private static string? GetValidationError(TestProfileType profileType, string propertyName, object? value)
+        {
+            return null;
+        }
+#endif
 
         private static string NormalizeColumnName(string columnName)
         {
