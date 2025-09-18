@@ -119,8 +119,6 @@
                             <controls:TimeSpanEditor Hours="{Binding ChargeHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Minutes="{Binding ChargeMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Seconds="{Binding ChargeSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldNames='ChargeHours, ChargeMinutes, ChargeSeconds'}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
