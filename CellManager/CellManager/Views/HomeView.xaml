@@ -86,15 +86,12 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <materialDesign:PackIcon Kind="CalendarClock" Width="32" Height="32" Margin="0,0,10,0"/>
                         <StackPanel>
-                            <TextBlock Text="Schedule Execution" FontWeight="Bold" FontSize="20"/>
+                            <TextBlock Text="Recent Running History" FontWeight="Bold" FontSize="20"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Active Schedule: " FontWeight="SemiBold"/>
+                                <TextBlock Text="Running Schedule: " FontWeight="SemiBold"/>
                                 <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Active Profile: " FontWeight="SemiBold"/>
-                                <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
-                            </StackPanel>
+
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Estimated Start Time: " FontWeight="SemiBold"/>
                                 <TextBlock Text="{Binding DataContext.Connetection, RelativeSource={RelativeSource AncestorType=Window}, FallbackValue=Unknown}"/>
