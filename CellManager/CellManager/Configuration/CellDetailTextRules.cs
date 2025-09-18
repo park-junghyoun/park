@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using CellManager.Models;
 
 namespace CellManager.Configuration
@@ -54,6 +55,16 @@ namespace CellManager.Configuration
             }
 
             return Rules.TryGetValue(propertyName, out rule);
+        }
+
+        public static TextFieldRule GetRule(string propertyName)
+        {
+            if (TryGetRule(propertyName, out var rule))
+            {
+                return rule;
+            }
+
+            throw new KeyNotFoundException($"No text rule defined for property '{propertyName}'.");
         }
     }
 
@@ -111,6 +122,36 @@ namespace CellManager.Configuration
             }
 
             return $"{DisplayName} must be {Range.MaxLength} characters or fewer.";
+        }
+
+        public string CreateRangeDescription()
+        {
+            if (Range.MaxLength == int.MaxValue && Range.MinLength == 0)
+            {
+                return string.Empty;
+            }
+
+            if (Range.MinLength == Range.MaxLength)
+            {
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Length: {0} characters",
+                    Range.MinLength);
+            }
+
+            if (Range.MinLength > 0)
+            {
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Length: {0}–{1} characters",
+                    Range.MinLength,
+                    Range.MaxLength);
+            }
+
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "Max length: {0} characters",
+                Range.MaxLength);
         }
     }
 }

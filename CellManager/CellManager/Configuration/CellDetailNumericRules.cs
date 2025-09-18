@@ -206,6 +206,38 @@ namespace CellManager.Configuration
                 maxText);
         }
 
+        public string CreateRangeDescription()
+        {
+            var minText = FormatValue(Range.MinValue);
+            var maxText = FormatValue(Range.MaxValue);
+
+            if (double.IsNegativeInfinity(Range.MinValue) && double.IsPositiveInfinity(Range.MaxValue))
+            {
+                return string.Empty;
+            }
+
+            if (double.IsNegativeInfinity(Range.MinValue))
+            {
+                return string.Format(CultureInfo.CurrentCulture, "≤ {0}", maxText);
+            }
+
+            if (double.IsPositiveInfinity(Range.MaxValue))
+            {
+                return string.Format(CultureInfo.CurrentCulture, "≥ {0}", minText);
+            }
+
+            if (Range.MinValue.Equals(Range.MaxValue))
+            {
+                return string.Format(CultureInfo.CurrentCulture, "Value: {0}", minText);
+            }
+
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "Range: {0} – {1}",
+                minText,
+                maxText);
+        }
+
         private static string FormatValue(double value)
         {
             return value.ToString("0.###", CultureInfo.CurrentCulture);
