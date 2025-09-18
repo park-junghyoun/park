@@ -13,7 +13,7 @@
     <UserControl.Resources>
         <converters:NullOrEmptyToPlaceholderConverter x:Key="NullOrEmptyToPlaceholderConverter"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -26,7 +26,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Header and schedule selection -->
-        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="8,8,8,0" Padding="12">
+        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,12" Padding="12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -54,13 +54,13 @@
         </materialDesign:Card>
 
         <!-- Timeline preview and board status -->
-        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="8">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="0" Margin="0,0,8,0">
+            <GroupBox Grid.Column="0" Margin="0,0,12,0">
                 <StackPanel>
                     <TextBlock Text="Timeline Preview" FontWeight="Bold" FontSize="15"/>
                     <local:TimelinePreviewControl Steps="{Binding TimelineSteps}"/>
@@ -79,13 +79,13 @@
         </Grid>
 
         <!-- Controls and current step details -->
-        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="8">
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,0,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="340"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="0" Margin="0,0,8,0">
+            <GroupBox Grid.Column="0" Margin="0,0,12,0">
                 <StackPanel>
                     <TextBlock Text="Controls" FontWeight="Bold" FontSize="15"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4">
@@ -105,7 +105,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Grid.Column="1" Margin="8,0,0,0">
+            <GroupBox Grid.Column="1" Margin="12,0,0,0">
                 <StackPanel>
                     <TextBlock Text="Current Step" FontWeight="Bold" FontSize="15"/>
                     <StackPanel Margin="0,8,0,0">
@@ -130,7 +130,7 @@
         </Grid>
 
         <!-- Run logs -->
-        <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Margin="8">
+        <GroupBox Grid.Row="3" Grid.ColumnSpan="2">
             <StackPanel>
                 <TextBlock Text="Run Logs" FontWeight="Bold" FontSize="15"/>
                 <ListBox ItemsSource="{Binding RunLogs}" Height="120"
