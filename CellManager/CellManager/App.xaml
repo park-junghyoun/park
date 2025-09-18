@@ -9,6 +9,7 @@
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Indigo" SecondaryColor="Blue" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml"/>
+                <ResourceDictionary Source="Views/Shared/FormStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
             <!-- 컬러 토큰 -->
@@ -50,6 +51,21 @@
                 <Setter Property="Width" Value="1"/>
                 <Setter Property="Background" Value="#E5E7EB"/>
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
+            </Style>
+
+            <Style x:Key="RangeHintTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBodyLightBrush}"/>
+                <Setter Property="Margin" Value="0,2,0,0"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
             </Style>
 
             <!-- 공통 토큰 -->

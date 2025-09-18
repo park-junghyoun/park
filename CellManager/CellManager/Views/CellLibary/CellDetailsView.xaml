@@ -10,13 +10,6 @@
         Title="Cell Details" Height="650" Width="800"
         WindowStartupLocation="CenterScreen">
 
-    <Window.Resources>
-        <Style x:Key="ValidationTextBoxStyle" TargetType="TextBox">
-            <Setter Property="ToolTip"
-                    Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
-        </Style>
-    </Window.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -28,9 +21,9 @@
                 <TextBlock Text="Cell Details" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
                 <TextBlock Text="{Binding DisplayId, StringFormat=Cell ID\: {0}}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10"/>
 
-                <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                <Border Style="{StaticResource FormSectionBorderStyle}">
                     <StackPanel>
-                        <TextBlock Text="General Information" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="General Information" Style="{StaticResource FormSectionHeaderTextStyle}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -42,36 +35,44 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Model Name" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                     MaxLength="{x:Static config:CellDetailTextRules.ModelNameMaxLength}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Model Name" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailTextRangeHint PropertyName='ModelName'}"
+                                         Text="{Binding Cell.ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                         MaxLength="{x:Static config:CellDetailTextRules.ModelNameMaxLength}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Manufacturer" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.Manufacturer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                     MaxLength="{x:Static config:CellDetailTextRules.ManufacturerMaxLength}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Manufacturer" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailTextRangeHint PropertyName='Manufacturer'}"
+                                         Text="{Binding Cell.Manufacturer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                         MaxLength="{x:Static config:CellDetailTextRules.ManufacturerMaxLength}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Serial Number" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.SerialNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                     MaxLength="{x:Static config:CellDetailTextRules.SerialNumberMaxLength}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Serial Number" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailTextRangeHint PropertyName='SerialNumber'}"
+                                         Text="{Binding Cell.SerialNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                         MaxLength="{x:Static config:CellDetailTextRules.SerialNumberMaxLength}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Part Number" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="3" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.PartNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                     MaxLength="{x:Static config:CellDetailTextRules.PartNumberMaxLength}"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Part Number" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailTextRangeHint PropertyName='PartNumber'}"
+                                         Text="{Binding Cell.PartNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                         MaxLength="{x:Static config:CellDetailTextRules.PartNumberMaxLength}"/>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Border>
 
-                <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                <Border Style="{StaticResource FormSectionBorderStyle}">
                     <StackPanel>
-                        <TextBlock Text="Cell Rated Parameter" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="Cell Rated Parameter" Style="{StaticResource FormSectionHeaderTextStyle}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -87,52 +88,68 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Rated Capacity (mAh)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.RatedCapacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Rated Capacity (mAh)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='RatedCapacity'}"
+                                         Text="{Binding Cell.RatedCapacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Nominal Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.NominalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Nominal Voltage (mV)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='NominalVoltage'}"
+                                         Text="{Binding Cell.NominalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Self-Discharge (%/month)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.SelfDischarge, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Self-Discharge (%/month)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='SelfDischarge'}"
+                                         Text="{Binding Cell.SelfDischarge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Max Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.MaxVoltage, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Max Voltage (mV)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='MaxVoltage'}"
+                                         Text="{Binding Cell.MaxVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Cycle Life" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.CycleLife, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Cycle Life" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='CycleLife'}"
+                                         Text="{Binding Cell.CycleLife, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Initial AC Impedance (mΩ)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.InitialACImpedance, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Initial AC Impedance (mΩ)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="2" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='InitialACImpedance'}"
+                                         Text="{Binding Cell.InitialACImpedance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Initial DC Resistance (mΩ)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="3" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.InitialDCResistance, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Initial DC Resistance (mΩ)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='InitialDCResistance'}"
+                                         Text="{Binding Cell.InitialDCResistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="3" Grid.Column="3" Text="Energy (Wh)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="3" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.EnergyWh, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="3" Grid.Column="3" Text="Energy (Wh)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="3" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='EnergyWh'}"
+                                         Text="{Binding Cell.EnergyWh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Border>
 
-                <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                <Border Style="{StaticResource FormSectionBorderStyle}">
                     <StackPanel>
-                        <TextBlock Text="Cell Mechanical Parameter" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="Cell Mechanical Parameter" Style="{StaticResource FormSectionHeaderTextStyle}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -147,49 +164,63 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Cell Type" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.CellType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                     MaxLength="{x:Static config:CellDetailTextRules.CellTypeMaxLength}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Cell Type" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailTextRangeHint PropertyName='CellType'}"
+                                         Text="{Binding Cell.CellType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                         MaxLength="{x:Static config:CellDetailTextRules.CellTypeMaxLength}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Weight (g)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.Weight, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Weight (g)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='Weight'}"
+                                         Text="{Binding Cell.Weight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Diameter (mm)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.Diameter, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Diameter (mm)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='Diameter'}"
+                                         Text="{Binding Cell.Diameter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Thickness (mm)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.Thickness, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Thickness (mm)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='Thickness'}"
+                                         Text="{Binding Cell.Thickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Width (mm)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.Width, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Width (mm)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='Width'}"
+                                         Text="{Binding Cell.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Height (mm)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.Height, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Height (mm)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="2" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='Height'}"
+                                         Text="{Binding Cell.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Expansion Behavior" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="3" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.ExpansionBehavior, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                     MaxLength="{x:Static config:CellDetailTextRules.ExpansionBehaviorMaxLength}"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Expansion Behavior" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailTextRangeHint PropertyName='ExpansionBehavior'}"
+                                         Text="{Binding Cell.ExpansionBehavior, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                         MaxLength="{x:Static config:CellDetailTextRules.ExpansionBehaviorMaxLength}"/>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Border>
 
-                <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                <Border Style="{StaticResource FormSectionBorderStyle}">
                     <StackPanel>
-                        <TextBlock Text="Charge Parameter" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="Charge Parameter" Style="{StaticResource FormSectionHeaderTextStyle}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -204,43 +235,55 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Charging Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.ChargingVoltage, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Charging Voltage (mV)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='ChargingVoltage'}"
+                                         Text="{Binding Cell.ChargingVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Cut-off Current (mA)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.CutOffCurrent_Charge, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Cut-off Current (mA)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='CutOffCurrent_Charge'}"
+                                         Text="{Binding Cell.CutOffCurrent_Charge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Charging Current (mA)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.MaxChargingCurrent, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Charging Current (mA)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='MaxChargingCurrent'}"
+                                         Text="{Binding Cell.MaxChargingCurrent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Max Charging Temp (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.MaxChargingTemp, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Max Charging Temp (°C)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='MaxChargingTemp'}"
+                                         Text="{Binding Cell.MaxChargingTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Charge Temp High (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.ChargeTempHigh, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Charge Temp High (°C)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='ChargeTempHigh'}"
+                                         Text="{Binding Cell.ChargeTempHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Charge Temp Low (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.ChargeTempLow, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Charge Temp Low (°C)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="2" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='ChargeTempLow'}"
+                                         Text="{Binding Cell.ChargeTempLow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
                         </Grid>
                     </StackPanel>
                 </Border>
 
-                <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                <Border Style="{StaticResource FormSectionBorderStyle}">
                     <StackPanel>
-                        <TextBlock Text="Discharge Parameter" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="Discharge Parameter" Style="{StaticResource FormSectionHeaderTextStyle}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -255,32 +298,40 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Discharge Cut-off Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.DischargeCutOffVoltage, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Discharge Cut-off Voltage (mV)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='DischargeCutOffVoltage'}"
+                                         Text="{Binding Cell.DischargeCutOffVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Max Discharging Current (mA)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.MaxDischargingCurrent, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Max Discharging Current (mA)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='MaxDischargingCurrent'}"
+                                         Text="{Binding Cell.MaxDischargingCurrent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Discharge Temp High (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.DischargeTempHigh, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Discharge Temp High (°C)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='DischargeTempHigh'}"
+                                         Text="{Binding Cell.DischargeTempHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Discharge Temp Low (°C)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="4"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.DischargeTempLow, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Discharge Temp Low (°C)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="4" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='DischargeTempLow'}"
+                                         Text="{Binding Cell.DischargeTempLow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Border>
 
-                <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                <Border Style="{StaticResource FormSectionBorderStyle}">
                     <StackPanel>
-                        <TextBlock Text="Pre Charge Parameter" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="Pre Charge Parameter" Style="{StaticResource FormSectionHeaderTextStyle}"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -294,20 +345,26 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Constant Current (mA)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="0" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.ConstantCurrent_PreCharge, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Constant Current (mA)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='ConstantCurrent_PreCharge'}"
+                                         Text="{Binding Cell.ConstantCurrent_PreCharge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Pre charge Start Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="1" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.PreChargeStartVoltage, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Pre charge Start Voltage (mV)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='PreChargeStartVoltage'}"
+                                         Text="{Binding Cell.PreChargeStartVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Pre charge End Voltage (mV)" Margin="0,5,10,5"/>
-                            <TextBox Grid.Row="2" Grid.Column="1"
-                                     Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Cell.PreChargeEndVoltage, Mode=TwoWay, ValidatesOnDataErrors=True}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Pre charge End Voltage (mV)" Style="{StaticResource FormLabelTextStyle}"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
+                                <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                         materialDesign:HintAssist.HelperText="{config:CellDetailNumericRangeHint PropertyName='PreChargeEndVoltage'}"
+                                         Text="{Binding Cell.PreChargeEndVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </Border>

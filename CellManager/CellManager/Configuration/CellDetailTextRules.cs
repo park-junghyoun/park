@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using CellManager.Models;
 
 namespace CellManager.Configuration
@@ -9,41 +11,17 @@ namespace CellManager.Configuration
     /// </summary>
     public static class CellDetailTextRules
     {
-        private static readonly IReadOnlyDictionary<string, TextFieldRule> Rules =
-            new Dictionary<string, TextFieldRule>(StringComparer.Ordinal)
-            {
-                [nameof(Cell.ModelName)] = new TextFieldRule(
-                    nameof(Cell.ModelName),
-                    "Model name",
-                    new TextRange(minLength: 1, maxLength: 100)),
-                [nameof(Cell.Manufacturer)] = new TextFieldRule(
-                    nameof(Cell.Manufacturer),
-                    "Manufacturer",
-                    new TextRange(minLength: 0, maxLength: 100)),
-                [nameof(Cell.SerialNumber)] = new TextFieldRule(
-                    nameof(Cell.SerialNumber),
-                    "Serial number",
-                    new TextRange(minLength: 0, maxLength: 100)),
-                [nameof(Cell.PartNumber)] = new TextFieldRule(
-                    nameof(Cell.PartNumber),
-                    "Part number",
-                    new TextRange(minLength: 0, maxLength: 100)),
-                [nameof(Cell.CellType)] = new TextFieldRule(
-                    nameof(Cell.CellType),
-                    "Cell type",
-                    new TextRange(minLength: 0, maxLength: 60)),
-                [nameof(Cell.ExpansionBehavior)] = new TextFieldRule(
-                    nameof(Cell.ExpansionBehavior),
-                    "Expansion behavior",
-                    new TextRange(minLength: 0, maxLength: 500)),
-            };
+        private static readonly Lazy<IReadOnlyDictionary<string, TextFieldRule>> RuleCache =
+            new(LoadRules, isThreadSafe: true);
 
-        public static int ModelNameMaxLength => Rules[nameof(Cell.ModelName)].Range.MaxLength;
-        public static int ManufacturerMaxLength => Rules[nameof(Cell.Manufacturer)].Range.MaxLength;
-        public static int SerialNumberMaxLength => Rules[nameof(Cell.SerialNumber)].Range.MaxLength;
-        public static int PartNumberMaxLength => Rules[nameof(Cell.PartNumber)].Range.MaxLength;
-        public static int CellTypeMaxLength => Rules[nameof(Cell.CellType)].Range.MaxLength;
-        public static int ExpansionBehaviorMaxLength => Rules[nameof(Cell.ExpansionBehavior)].Range.MaxLength;
+        private static IReadOnlyDictionary<string, TextFieldRule> Rules => RuleCache.Value;
+
+        public static int ModelNameMaxLength => GetRule(nameof(Cell.ModelName)).Range.MaxLength;
+        public static int ManufacturerMaxLength => GetRule(nameof(Cell.Manufacturer)).Range.MaxLength;
+        public static int SerialNumberMaxLength => GetRule(nameof(Cell.SerialNumber)).Range.MaxLength;
+        public static int PartNumberMaxLength => GetRule(nameof(Cell.PartNumber)).Range.MaxLength;
+        public static int CellTypeMaxLength => GetRule(nameof(Cell.CellType)).Range.MaxLength;
+        public static int ExpansionBehaviorMaxLength => GetRule(nameof(Cell.ExpansionBehavior)).Range.MaxLength;
 
         public static bool TryGetRule(string propertyName, out TextFieldRule rule)
         {
@@ -54,6 +32,31 @@ namespace CellManager.Configuration
             }
 
             return Rules.TryGetValue(propertyName, out rule);
+        }
+
+        public static TextFieldRule GetRule(string propertyName)
+        {
+            if (TryGetRule(propertyName, out var rule))
+            {
+                return rule;
+            }
+
+            throw new KeyNotFoundException($"No text rule defined for property '{propertyName}'.");
+        }
+
+        private static IReadOnlyDictionary<string, TextFieldRule> LoadRules()
+        {
+            var fields = CellDetailConstraintProvider.GetAllFields()
+                .Where(f => f.IsText)
+                .ToDictionary(
+                    f => f.Name,
+                    f => new TextFieldRule(
+                        f.Name,
+                        f.DisplayName,
+                        new TextRange(f.MinLength ?? 0, f.MaxLength ?? int.MaxValue)),
+                    StringComparer.Ordinal);
+
+            return fields;
         }
     }
 
@@ -98,8 +101,10 @@ namespace CellManager.Configuration
         public string DisplayName { get; }
         public TextRange Range { get; }
 
-        public string CreateLengthErrorMessage()
+        public string CreateLengthErrorMessage(string? currentValue)
         {
+            var length = string.IsNullOrEmpty(currentValue) ? 0 : currentValue.Length;
+
             if (Range.MaxLength == int.MaxValue)
             {
                 return string.Empty;
@@ -107,10 +112,61 @@ namespace CellManager.Configuration
 
             if (Range.MinLength > 0)
             {
-                return $"{DisplayName} must be between {Range.MinLength} and {Range.MaxLength} characters.";
+                if (Range.MinLength == Range.MaxLength)
+                {
+                    return string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} must be exactly {1} characters (current length: {2}).",
+                        DisplayName,
+                        Range.MinLength,
+                        length);
+                }
+
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0} must be between {1} and {2} characters (current length: {3}).",
+                    DisplayName,
+                    Range.MinLength,
+                    Range.MaxLength,
+                    length);
             }
 
-            return $"{DisplayName} must be {Range.MaxLength} characters or fewer.";
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "{0} must be {1} characters or fewer (current length: {2}).",
+                DisplayName,
+                Range.MaxLength,
+                length);
+        }
+
+        public string CreateRangeDescription()
+        {
+            if (Range.MaxLength == int.MaxValue && Range.MinLength == 0)
+            {
+                return string.Empty;
+            }
+
+            if (Range.MinLength == Range.MaxLength)
+            {
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Length: {0} characters",
+                    Range.MinLength);
+            }
+
+            if (Range.MinLength > 0)
+            {
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Length: {0}–{1} characters",
+                    Range.MinLength,
+                    Range.MaxLength);
+            }
+
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "Max length: {0} characters",
+                Range.MaxLength);
         }
     }
 }

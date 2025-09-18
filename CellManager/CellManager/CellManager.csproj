@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <DefineConstants>$(DefineConstants);CELL_MANAGER_WPF</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
     <None Include="ProtectionProfiles\**\*.json" CopyToOutputDirectory="Always" />
     <None Include="BoardDataProfiles\**\*.json" CopyToOutputDirectory="Always" />
     <None Include="Config\TestSetupProfileConstraints.json" CopyToOutputDirectory="Always" />
+    <None Include="Config\CellDetailConstraints.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>

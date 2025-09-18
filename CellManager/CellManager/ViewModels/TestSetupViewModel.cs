@@ -11,6 +11,7 @@ using CellManager.Messages;
 using CellManager.Models;
 using CellManager.Models.TestProfile;
 using CellManager.Services;
+using CellManager.ViewModels.TestSetup;
 using CellManager.Views.TestSetup;
 
 namespace CellManager.ViewModels
@@ -313,7 +314,17 @@ namespace CellManager.ViewModels
                     break;
             }
 
-            var window = new ProfileDetailWindow { DataContext = profile };
+            TestProfileDetailViewModel viewModel = profile switch
+            {
+                ChargeProfile cp => new TestProfileDetailViewModel<ChargeProfile>(TestProfileType.Charge, cp),
+                DischargeProfile dp => new TestProfileDetailViewModel<DischargeProfile>(TestProfileType.Discharge, dp),
+                RestProfile rp => new TestProfileDetailViewModel<RestProfile>(TestProfileType.Rest, rp),
+                OCVProfile op => new TestProfileDetailViewModel<OCVProfile>(TestProfileType.OCV, op),
+                ECMPulseProfile ep => new TestProfileDetailViewModel<ECMPulseProfile>(TestProfileType.ECM, ep),
+                _ => throw new ArgumentException("Unsupported profile type", nameof(profile))
+            };
+
+            var window = new ProfileDetailWindow { DataContext = viewModel };
             return window.ShowDialog() == true;
         }
 
