@@ -86,6 +86,12 @@ namespace CellManager.ViewModels
                 SelectedCell = m.SelectedCell;
             });
 
+            // CellLibraryViewModel selects the first item during its construction, but that
+            // happens before MainViewModel registers for CellSelectedMessage.  Propagate the
+            // current selection manually so the header and feature tabs reflect the toggle
+            // state shown in the library list when the application starts.
+            SelectedCell = cellLibraryVm.SelectedCell;
+
             WeakReferenceMessenger.Default.Register<CellAddedMessage>(this, (r, m) =>
             {
                 AvailableCells.Add(m.AddedCell);
