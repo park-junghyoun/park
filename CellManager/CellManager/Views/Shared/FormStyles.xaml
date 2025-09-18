@@ -49,8 +49,7 @@
 
     <Style x:Key="FormFieldStackStyle" TargetType="StackPanel">
         <Setter Property="Margin" Value="0,5,0,5"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="MaxWidth" Value="320"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
     </Style>
 
     <Thickness x:Key="FormControlMargin">0,5,0,5</Thickness>
