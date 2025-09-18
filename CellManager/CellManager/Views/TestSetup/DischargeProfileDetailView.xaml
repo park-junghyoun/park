@@ -111,8 +111,7 @@
 
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="Discharge Time" Style="{StaticResource TimeLabelStyle}"/>
                         <StackPanel Grid.Row="5" Grid.Column="1" Style="{StaticResource TimeFieldStyle}">
-                            <controls:TimeSpanEditor Margin="0"
-                                                     Hours="{Binding DischargeHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            <controls:TimeSpanEditor Hours="{Binding DischargeHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Minutes="{Binding DischargeMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Seconds="{Binding DischargeSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"

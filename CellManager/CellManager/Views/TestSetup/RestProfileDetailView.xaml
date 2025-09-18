@@ -35,8 +35,7 @@
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Rest Time" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
-                            <controls:TimeSpanEditor Margin="0"
-                                                     Hours="{Binding RestHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            <controls:TimeSpanEditor Hours="{Binding RestHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Minutes="{Binding RestMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Seconds="{Binding RestSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"

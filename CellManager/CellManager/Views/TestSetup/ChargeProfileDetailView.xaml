@@ -120,8 +120,7 @@
 
                         <TextBlock Grid.Row="6" Grid.Column="0" Text="Charge Time" Style="{StaticResource TimeLabelStyle}"/>
                         <StackPanel Grid.Row="6" Grid.Column="1" Style="{StaticResource TimeFieldStyle}">
-                            <controls:TimeSpanEditor Margin="0"
-                                                     Hours="{Binding ChargeHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                            <controls:TimeSpanEditor Hours="{Binding ChargeHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Minutes="{Binding ChargeMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                      Seconds="{Binding ChargeSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
