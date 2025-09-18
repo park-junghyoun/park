@@ -462,6 +462,12 @@ namespace CellManager.ViewModels
                     InsertStep(endTemplate, Math.Min(value.LoopEndIndex - 1, Sequence.Count));
                 UpdateLoopIndices();
             }
+            else
+            {
+                RepeatCount = 1;
+                LoopStartIndex = 0;
+                LoopEndIndex = 0;
+            }
             DeleteScheduleCommand.NotifyCanExecuteChanged();
         }
 
@@ -474,6 +480,9 @@ namespace CellManager.ViewModels
             SelectedSchedule = sched;
             Sequence.Clear();
             ScheduleName = sched.Name;
+            RepeatCount = 1;
+            LoopStartIndex = 0;
+            LoopEndIndex = 0;
         }
 
         /// <summary>Persists the current schedule to the repository and notifies listeners.</summary>
@@ -482,6 +491,7 @@ namespace CellManager.ViewModels
             if (SelectedSchedule == null) return;
             SelectedSchedule.Name = ScheduleName;
             SelectedSchedule.TestProfileIds = Sequence.Where(s => s.Kind == StepKind.Profile).Select(s => s.Id).ToList();
+            RepeatCount = Math.Max(1, RepeatCount);
             SelectedSchedule.RepeatCount = RepeatCount;
             SelectedSchedule.LoopStartIndex = LoopStartIndex;
             SelectedSchedule.LoopEndIndex = LoopEndIndex;
