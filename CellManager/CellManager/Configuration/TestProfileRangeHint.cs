@@ -504,27 +504,9 @@ namespace CellManager.Configuration
                     case byte b:
                         number = b;
                         return true;
-                    case double? nd when nd.HasValue:
-                        number = nd.Value;
-                        return true;
-                    case float? nf when nf.HasValue:
-                        number = nf.Value;
-                        return true;
-                    case decimal? nm when nm.HasValue:
-                        number = (double)nm.Value;
-                        return true;
-                    case int? ni when ni.HasValue:
-                        number = ni.Value;
-                        return true;
-                    case long? nl when nl.HasValue:
-                        number = nl.Value;
-                        return true;
-                    case short? ns when ns.HasValue:
-                        number = ns.Value;
-                        return true;
-                    case byte? nb when nb.HasValue:
-                        number = nb.Value;
-                        return true;
+                    case null:
+                        number = 0;
+                        return false;
                     default:
                         if (value is IConvertible convertible)
                         {

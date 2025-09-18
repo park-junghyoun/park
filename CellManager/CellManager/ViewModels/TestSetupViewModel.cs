@@ -314,7 +314,7 @@ namespace CellManager.ViewModels
                     break;
             }
 
-            var viewModel = profile switch
+            TestProfileDetailViewModel viewModel = profile switch
             {
                 ChargeProfile cp => new TestProfileDetailViewModel<ChargeProfile>(TestProfileType.Charge, cp),
                 DischargeProfile dp => new TestProfileDetailViewModel<DischargeProfile>(TestProfileType.Discharge, dp),
