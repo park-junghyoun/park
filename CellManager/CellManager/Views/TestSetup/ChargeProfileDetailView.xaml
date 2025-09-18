@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              xmlns:controls="clr-namespace:CellManager.Views.Controls"
-             xmlns:config="clr-namespace:CellManager.Configuration"
+             xmlns:config="clr-namespace:CellManager.Configuration;assembly=CellManager"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
     <Grid Margin="8">
@@ -59,7 +59,7 @@
         <TextBox Grid.Row="3" Grid.Column="1" Margin="4"
                  MaxLength="60"
                  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName=Name}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='Name'}"/>
         <Border Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="5" Text="Mode" Margin="4"/>
@@ -73,26 +73,26 @@
         <TextBlock Grid.Row="7" Text="Charge Current (A)" Margin="4"/>
         <TextBox Grid.Row="7" Grid.Column="1" Margin="4"
                  Text="{Binding ChargeCurrent, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName=ChargeCurrent}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCurrent'}"/>
         <Border Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="9" Text="Charge Voltage (V)" Margin="4"/>
         <TextBox Grid.Row="9" Grid.Column="1" Margin="4"
                  Text="{Binding ChargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName=ChargeCutoffVoltage}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCutoffVoltage'}"/>
         <Border Grid.Row="10" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="11" Text="Cutoff Current (A)" Margin="4"/>
         <TextBox Grid.Row="11" Grid.Column="1" Margin="4"
                  Text="{Binding CutoffCurrent, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName=CutoffCurrent}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='CutoffCurrent'}"/>
         <Border Grid.Row="12" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="13" Text="Capacity (mAh)" Margin="4" Style="{StaticResource CapacityVisibilityStyle}"/>
         <TextBox Grid.Row="13" Grid.Column="1" Margin="4"
                  Text="{Binding ChargeCapacityMah, UpdateSourceTrigger=PropertyChanged}"
                  Style="{StaticResource CapacityVisibilityStyle}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName=ChargeCapacityMah}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCapacityMah'}"/>
         <Border Grid.Row="14" Grid.ColumnSpan="2" Margin="0,4">
             <Border.Style>
                 <Style TargetType="Border" BasedOn="{StaticResource HDivider}">
@@ -113,7 +113,7 @@
                                  Seconds="{Binding ChargeSeconds, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="16" Grid.Column="1" Margin="4,0,4,4" Foreground="{DynamicResource MaterialDesignBodyLightBrush}"
                    FontSize="11"
-                   Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldNames=ChargeHours,ChargeMinutes,ChargeSeconds}"/>
+                   Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldNames='ChargeHours, ChargeMinutes, ChargeSeconds'}"/>
     </Grid>
 </UserControl>
 

@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              xmlns:controls="clr-namespace:CellManager.Views.Controls"
-             xmlns:config="clr-namespace:CellManager.Configuration"
+             xmlns:config="clr-namespace:CellManager.Configuration;assembly=CellManager"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
 
@@ -39,7 +39,7 @@
         <TextBox Grid.Row="3" Grid.Column="1" Margin="4"
                  MaxLength="60"
                  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName=Name}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName='Name'}"/>
         <Border Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="5" Text="Mode" Margin="4"/>
@@ -54,14 +54,14 @@
         <TextBlock Grid.Row="7" Text="Discharge Current (A)" Margin="4"/>
         <TextBox Grid.Row="7" Grid.Column="1" Margin="4"
                  Text="{Binding DischargeCurrent, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName=DischargeCurrent}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName='DischargeCurrent'}"/>
 
         <Border Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="9" Text="Cutoff Voltage (V)" Margin="4"/>
         <TextBox Grid.Row="9" Grid.Column="1" Margin="4"
                  Text="{Binding DischargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName=DischargeCutoffVoltage}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName='DischargeCutoffVoltage'}"/>
 
 
 
@@ -81,7 +81,7 @@
         </TextBlock>
         <TextBox Grid.Row="11" Grid.Column="1" Margin="4"
                  Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName=DischargeCapacityMah}">
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName='DischargeCapacityMah'}">
             <TextBox.Style>
                 <Style TargetType="TextBox">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -135,6 +135,6 @@
         </controls:TimeSpanEditor>
         <TextBlock Grid.Row="14" Grid.Column="1" Margin="4,0,4,4" Foreground="{DynamicResource MaterialDesignBodyLightBrush}"
                    FontSize="11"
-                   Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldNames=DischargeHours,DischargeMinutes,DischargeSeconds}"/>
+                   Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldNames='DischargeHours, DischargeMinutes, DischargeSeconds'}"/>
     </Grid>
 </UserControl>
