@@ -93,13 +93,8 @@ namespace CellManager.ViewModels
                 }
             });
 
-            // 초기 로드 + 기본 선택
+            // 초기 로드.  첫 실행 시에는 셀을 자동으로 선택하지 않는다.
             ExecuteLoadData();
-            if (SelectedCell == null && CellModels.Count > 0)
-            {
-                SelectedCell = CellModels[0];
-                WeakReferenceMessenger.Default.Send(new CellSelectedMessage(SelectedCell));
-            }
         }
 
         /// <summary>
