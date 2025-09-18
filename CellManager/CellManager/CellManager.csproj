@@ -19,6 +19,7 @@
     <None Include="ProtectionProfiles\**\*.json" CopyToOutputDirectory="Always" />
     <None Include="BoardDataProfiles\**\*.json" CopyToOutputDirectory="Always" />
     <None Include="Config\TestSetupProfileConstraints.json" CopyToOutputDirectory="Always" />
+    <None Include="Config\CellDetailConstraints.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>

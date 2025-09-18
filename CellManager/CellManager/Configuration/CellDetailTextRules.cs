@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using CellManager.Models;
 
 namespace CellManager.Configuration
@@ -10,41 +11,17 @@ namespace CellManager.Configuration
     /// </summary>
     public static class CellDetailTextRules
     {
-        private static readonly IReadOnlyDictionary<string, TextFieldRule> Rules =
-            new Dictionary<string, TextFieldRule>(StringComparer.Ordinal)
-            {
-                [nameof(Cell.ModelName)] = new TextFieldRule(
-                    nameof(Cell.ModelName),
-                    "Model name",
-                    new TextRange(minLength: 1, maxLength: 100)),
-                [nameof(Cell.Manufacturer)] = new TextFieldRule(
-                    nameof(Cell.Manufacturer),
-                    "Manufacturer",
-                    new TextRange(minLength: 0, maxLength: 100)),
-                [nameof(Cell.SerialNumber)] = new TextFieldRule(
-                    nameof(Cell.SerialNumber),
-                    "Serial number",
-                    new TextRange(minLength: 0, maxLength: 100)),
-                [nameof(Cell.PartNumber)] = new TextFieldRule(
-                    nameof(Cell.PartNumber),
-                    "Part number",
-                    new TextRange(minLength: 0, maxLength: 100)),
-                [nameof(Cell.CellType)] = new TextFieldRule(
-                    nameof(Cell.CellType),
-                    "Cell type",
-                    new TextRange(minLength: 0, maxLength: 60)),
-                [nameof(Cell.ExpansionBehavior)] = new TextFieldRule(
-                    nameof(Cell.ExpansionBehavior),
-                    "Expansion behavior",
-                    new TextRange(minLength: 0, maxLength: 500)),
-            };
+        private static readonly Lazy<IReadOnlyDictionary<string, TextFieldRule>> RuleCache =
+            new(LoadRules, isThreadSafe: true);
 
-        public static int ModelNameMaxLength => Rules[nameof(Cell.ModelName)].Range.MaxLength;
-        public static int ManufacturerMaxLength => Rules[nameof(Cell.Manufacturer)].Range.MaxLength;
-        public static int SerialNumberMaxLength => Rules[nameof(Cell.SerialNumber)].Range.MaxLength;
-        public static int PartNumberMaxLength => Rules[nameof(Cell.PartNumber)].Range.MaxLength;
-        public static int CellTypeMaxLength => Rules[nameof(Cell.CellType)].Range.MaxLength;
-        public static int ExpansionBehaviorMaxLength => Rules[nameof(Cell.ExpansionBehavior)].Range.MaxLength;
+        private static IReadOnlyDictionary<string, TextFieldRule> Rules => RuleCache.Value;
+
+        public static int ModelNameMaxLength => GetRule(nameof(Cell.ModelName)).Range.MaxLength;
+        public static int ManufacturerMaxLength => GetRule(nameof(Cell.Manufacturer)).Range.MaxLength;
+        public static int SerialNumberMaxLength => GetRule(nameof(Cell.SerialNumber)).Range.MaxLength;
+        public static int PartNumberMaxLength => GetRule(nameof(Cell.PartNumber)).Range.MaxLength;
+        public static int CellTypeMaxLength => GetRule(nameof(Cell.CellType)).Range.MaxLength;
+        public static int ExpansionBehaviorMaxLength => GetRule(nameof(Cell.ExpansionBehavior)).Range.MaxLength;
 
         public static bool TryGetRule(string propertyName, out TextFieldRule rule)
         {
@@ -65,6 +42,21 @@ namespace CellManager.Configuration
             }
 
             throw new KeyNotFoundException($"No text rule defined for property '{propertyName}'.");
+        }
+
+        private static IReadOnlyDictionary<string, TextFieldRule> LoadRules()
+        {
+            var fields = CellDetailConstraintProvider.GetAllFields()
+                .Where(f => f.IsText)
+                .ToDictionary(
+                    f => f.Name,
+                    f => new TextFieldRule(
+                        f.Name,
+                        f.DisplayName,
+                        new TextRange(f.MinLength ?? 0, f.MaxLength ?? int.MaxValue)),
+                    StringComparer.Ordinal);
+
+            return fields;
         }
     }
 

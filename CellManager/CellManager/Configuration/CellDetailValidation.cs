@@ -73,24 +73,30 @@ namespace CellManager.Configuration
 
             var normalizedColumnName = NormalizeColumnName(columnName);
 
-            return normalizedColumnName switch
+            if (string.Equals(normalizedColumnName, nameof(Cell.ModelName), StringComparison.Ordinal) &&
+                string.IsNullOrWhiteSpace(cell.ModelName))
             {
-                nameof(Cell.ModelName) =>
-                    string.IsNullOrWhiteSpace(cell.ModelName)
-                        ? "Model name is required"
-                        : ValidateStringLength(cell, normalizedColumnName),
-                nameof(Cell.Manufacturer) =>
-                    ValidateStringLength(cell, normalizedColumnName),
-                nameof(Cell.SerialNumber) =>
-                    ValidateStringLength(cell, normalizedColumnName),
-                nameof(Cell.PartNumber) =>
-                    ValidateStringLength(cell, normalizedColumnName),
-                nameof(Cell.CellType) =>
-                    ValidateStringLength(cell, normalizedColumnName),
-                nameof(Cell.ExpansionBehavior) =>
-                    ValidateStringLength(cell, normalizedColumnName),
-                _ => ValidateNumericRange(cell, normalizedColumnName),
-            };
+                return "Model name is required";
+            }
+
+            if (!CellDetailConstraintProvider.TryGetFieldConstraint(normalizedColumnName, out var constraint))
+            {
+                return string.Empty;
+            }
+
+            if (constraint.IsText)
+            {
+                var value = GetStringValue(cell, normalizedColumnName);
+                return constraint.CreateValidationError(value);
+            }
+
+            if (constraint.IsNumber)
+            {
+                var value = GetNumericValue(cell, normalizedColumnName);
+                return constraint.CreateValidationError(value);
+            }
+
+            return string.Empty;
         }
 
         private static string NormalizeColumnName(string? columnName)
@@ -104,28 +110,6 @@ namespace CellManager.Configuration
             return columnName.StartsWith(cellPrefix, StringComparison.Ordinal)
                 ? columnName.Substring(cellPrefix.Length)
                 : columnName;
-        }
-
-        private static string? ValidateStringLength(Cell cell, string propertyName)
-        {
-            if (!CellDetailTextRules.TryGetRule(propertyName, out var rule))
-            {
-                return null;
-            }
-
-            var value = GetStringValue(cell, propertyName);
-            return rule.Range.Contains(value) ? null : rule.CreateLengthErrorMessage(value);
-        }
-
-        private static string? ValidateNumericRange(Cell cell, string propertyName)
-        {
-            if (!CellDetailNumericRules.TryGetRule(propertyName, out var rule))
-            {
-                return null;
-            }
-
-            var value = GetNumericValue(cell, propertyName);
-            return rule.Range.Contains(value) ? null : rule.CreateRangeErrorMessage(value);
         }
 
         private static string GetStringValue(Cell cell, string propertyName) => propertyName switch

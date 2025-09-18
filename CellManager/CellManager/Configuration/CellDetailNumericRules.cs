@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using CellManager.Models;
 
 namespace CellManager.Configuration
@@ -10,114 +11,10 @@ namespace CellManager.Configuration
     /// </summary>
     public static class CellDetailNumericRules
     {
-        private static readonly IReadOnlyDictionary<string, NumericFieldRule> Rules =
-            new Dictionary<string, NumericFieldRule>(StringComparer.Ordinal)
-            {
-                [nameof(Cell.RatedCapacity)] = new NumericFieldRule(
-                    nameof(Cell.RatedCapacity),
-                    "Rated capacity (mAh)",
-                    new NumericRange(minValue: 1, maxValue: 1_000_000)),
-                [nameof(Cell.NominalVoltage)] = new NumericFieldRule(
-                    nameof(Cell.NominalVoltage),
-                    "Nominal voltage (mV)",
-                    new NumericRange(minValue: 1, maxValue: 10_000)),
-                [nameof(Cell.SelfDischarge)] = new NumericFieldRule(
-                    nameof(Cell.SelfDischarge),
-                    "Self-discharge (%/month)",
-                    new NumericRange(minValue: 0, maxValue: 100)),
-                [nameof(Cell.MaxVoltage)] = new NumericFieldRule(
-                    nameof(Cell.MaxVoltage),
-                    "Max voltage (mV)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.CycleLife)] = new NumericFieldRule(
-                    nameof(Cell.CycleLife),
-                    "Cycle life (cycles)",
-                    new NumericRange(minValue: 0, maxValue: 1_000_000)),
-                [nameof(Cell.InitialACImpedance)] = new NumericFieldRule(
-                    nameof(Cell.InitialACImpedance),
-                    "Initial AC impedance (mΩ)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.InitialDCResistance)] = new NumericFieldRule(
-                    nameof(Cell.InitialDCResistance),
-                    "Initial DC resistance (mΩ)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.EnergyWh)] = new NumericFieldRule(
-                    nameof(Cell.EnergyWh),
-                    "Energy (Wh)",
-                    new NumericRange(minValue: 0, maxValue: 100_000)),
-                [nameof(Cell.Weight)] = new NumericFieldRule(
-                    nameof(Cell.Weight),
-                    "Weight (g)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.Diameter)] = new NumericFieldRule(
-                    nameof(Cell.Diameter),
-                    "Diameter (mm)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.Thickness)] = new NumericFieldRule(
-                    nameof(Cell.Thickness),
-                    "Thickness (mm)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.Width)] = new NumericFieldRule(
-                    nameof(Cell.Width),
-                    "Width (mm)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.Height)] = new NumericFieldRule(
-                    nameof(Cell.Height),
-                    "Height (mm)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.ChargingVoltage)] = new NumericFieldRule(
-                    nameof(Cell.ChargingVoltage),
-                    "Charging voltage (mV)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.CutOffCurrent_Charge)] = new NumericFieldRule(
-                    nameof(Cell.CutOffCurrent_Charge),
-                    "Cut-off current (mA)",
-                    new NumericRange(minValue: 0, maxValue: 100_000)),
-                [nameof(Cell.MaxChargingCurrent)] = new NumericFieldRule(
-                    nameof(Cell.MaxChargingCurrent),
-                    "Max charging current (mA)",
-                    new NumericRange(minValue: 0, maxValue: 100_000)),
-                [nameof(Cell.MaxChargingTemp)] = new NumericFieldRule(
-                    nameof(Cell.MaxChargingTemp),
-                    "Max charging temperature (°C)",
-                    new NumericRange(minValue: -100, maxValue: 200)),
-                [nameof(Cell.ChargeTempHigh)] = new NumericFieldRule(
-                    nameof(Cell.ChargeTempHigh),
-                    "Charge temp high (°C)",
-                    new NumericRange(minValue: -100, maxValue: 200)),
-                [nameof(Cell.ChargeTempLow)] = new NumericFieldRule(
-                    nameof(Cell.ChargeTempLow),
-                    "Charge temp low (°C)",
-                    new NumericRange(minValue: -100, maxValue: 200)),
-                [nameof(Cell.DischargeCutOffVoltage)] = new NumericFieldRule(
-                    nameof(Cell.DischargeCutOffVoltage),
-                    "Discharge cut-off voltage (mV)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.MaxDischargingCurrent)] = new NumericFieldRule(
-                    nameof(Cell.MaxDischargingCurrent),
-                    "Max discharging current (mA)",
-                    new NumericRange(minValue: 0, maxValue: 100_000)),
-                [nameof(Cell.DischargeTempHigh)] = new NumericFieldRule(
-                    nameof(Cell.DischargeTempHigh),
-                    "Discharge temp high (°C)",
-                    new NumericRange(minValue: -100, maxValue: 200)),
-                [nameof(Cell.DischargeTempLow)] = new NumericFieldRule(
-                    nameof(Cell.DischargeTempLow),
-                    "Discharge temp low (°C)",
-                    new NumericRange(minValue: -100, maxValue: 200)),
-                [nameof(Cell.ConstantCurrent_PreCharge)] = new NumericFieldRule(
-                    nameof(Cell.ConstantCurrent_PreCharge),
-                    "Constant current (mA)",
-                    new NumericRange(minValue: 0, maxValue: 100_000)),
-                [nameof(Cell.PreChargeStartVoltage)] = new NumericFieldRule(
-                    nameof(Cell.PreChargeStartVoltage),
-                    "Pre-charge start voltage (mV)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-                [nameof(Cell.PreChargeEndVoltage)] = new NumericFieldRule(
-                    nameof(Cell.PreChargeEndVoltage),
-                    "Pre-charge end voltage (mV)",
-                    new NumericRange(minValue: 0, maxValue: 10_000)),
-            };
+        private static readonly Lazy<IReadOnlyDictionary<string, NumericFieldRule>> RuleCache =
+            new(LoadRules, isThreadSafe: true);
+
+        private static IReadOnlyDictionary<string, NumericFieldRule> Rules => RuleCache.Value;
 
         public static bool TryGetRule(string propertyName, out NumericFieldRule rule)
         {
@@ -138,6 +35,21 @@ namespace CellManager.Configuration
             }
 
             throw new KeyNotFoundException($"No numeric rule defined for property '{propertyName}'.");
+        }
+
+        private static IReadOnlyDictionary<string, NumericFieldRule> LoadRules()
+        {
+            var fields = CellDetailConstraintProvider.GetAllFields()
+                .Where(f => f.IsNumber)
+                .ToDictionary(
+                    f => f.Name,
+                    f => new NumericFieldRule(
+                        f.Name,
+                        f.DisplayName,
+                        new NumericRange(f.Min ?? double.NegativeInfinity, f.Max ?? double.PositiveInfinity)),
+                    StringComparer.Ordinal);
+
+            return fields;
         }
     }
 

@@ -1,0 +1,255 @@
+{
+  "version": "1.0",
+  "fields": [
+    {
+      "name": "ModelName",
+      "label": "Model name",
+      "type": "text",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    {
+      "name": "Manufacturer",
+      "label": "Manufacturer",
+      "type": "text",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    {
+      "name": "SerialNumber",
+      "label": "Serial number",
+      "type": "text",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    {
+      "name": "PartNumber",
+      "label": "Part number",
+      "type": "text",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    {
+      "name": "CellType",
+      "label": "Cell type",
+      "type": "text",
+      "minLength": 0,
+      "maxLength": 60
+    },
+    {
+      "name": "ExpansionBehavior",
+      "label": "Expansion behavior",
+      "type": "text",
+      "minLength": 0,
+      "maxLength": 500
+    },
+    {
+      "name": "RatedCapacity",
+      "label": "Rated capacity (mAh)",
+      "type": "number",
+      "min": 1,
+      "max": 1000000,
+      "unit": "mAh"
+    },
+    {
+      "name": "NominalVoltage",
+      "label": "Nominal voltage (mV)",
+      "type": "number",
+      "min": 1,
+      "max": 10000,
+      "unit": "mV"
+    },
+    {
+      "name": "SelfDischarge",
+      "label": "Self-discharge (%/month)",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%/month"
+    },
+    {
+      "name": "MaxVoltage",
+      "label": "Max voltage (mV)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mV"
+    },
+    {
+      "name": "CycleLife",
+      "label": "Cycle life (cycles)",
+      "type": "number",
+      "min": 0,
+      "max": 1000000,
+      "unit": "cycles"
+    },
+    {
+      "name": "InitialACImpedance",
+      "label": "Initial AC impedance (m\u03a9)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "m\u03a9"
+    },
+    {
+      "name": "InitialDCResistance",
+      "label": "Initial DC resistance (m\u03a9)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "m\u03a9"
+    },
+    {
+      "name": "EnergyWh",
+      "label": "Energy (Wh)",
+      "type": "number",
+      "min": 0,
+      "max": 100000,
+      "unit": "Wh"
+    },
+    {
+      "name": "Weight",
+      "label": "Weight (g)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "g"
+    },
+    {
+      "name": "Diameter",
+      "label": "Diameter (mm)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mm"
+    },
+    {
+      "name": "Thickness",
+      "label": "Thickness (mm)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mm"
+    },
+    {
+      "name": "Width",
+      "label": "Width (mm)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mm"
+    },
+    {
+      "name": "Height",
+      "label": "Height (mm)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mm"
+    },
+    {
+      "name": "ChargingVoltage",
+      "label": "Charging voltage (mV)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mV"
+    },
+    {
+      "name": "CutOffCurrent_Charge",
+      "label": "Cut-off current (mA)",
+      "type": "number",
+      "min": 0,
+      "max": 100000,
+      "unit": "mA"
+    },
+    {
+      "name": "MaxChargingCurrent",
+      "label": "Max charging current (mA)",
+      "type": "number",
+      "min": 0,
+      "max": 100000,
+      "unit": "mA"
+    },
+    {
+      "name": "MaxChargingTemp",
+      "label": "Max charging temperature (\u00b0C)",
+      "type": "number",
+      "min": -100,
+      "max": 200,
+      "unit": "\u00b0C"
+    },
+    {
+      "name": "ChargeTempHigh",
+      "label": "Charge temp high (\u00b0C)",
+      "type": "number",
+      "min": -100,
+      "max": 200,
+      "unit": "\u00b0C"
+    },
+    {
+      "name": "ChargeTempLow",
+      "label": "Charge temp low (\u00b0C)",
+      "type": "number",
+      "min": -100,
+      "max": 200,
+      "unit": "\u00b0C"
+    },
+    {
+      "name": "DischargeCutOffVoltage",
+      "label": "Discharge cut-off voltage (mV)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mV"
+    },
+    {
+      "name": "MaxDischargingCurrent",
+      "label": "Max discharging current (mA)",
+      "type": "number",
+      "min": 0,
+      "max": 100000,
+      "unit": "mA"
+    },
+    {
+      "name": "DischargeTempHigh",
+      "label": "Discharge temp high (\u00b0C)",
+      "type": "number",
+      "min": -100,
+      "max": 200,
+      "unit": "\u00b0C"
+    },
+    {
+      "name": "DischargeTempLow",
+      "label": "Discharge temp low (\u00b0C)",
+      "type": "number",
+      "min": -100,
+      "max": 200,
+      "unit": "\u00b0C"
+    },
+    {
+      "name": "ConstantCurrent_PreCharge",
+      "label": "Constant current (mA)",
+      "type": "number",
+      "min": 0,
+      "max": 100000,
+      "unit": "mA"
+    },
+    {
+      "name": "PreChargeStartVoltage",
+      "label": "Pre-charge start voltage (mV)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mV"
+    },
+    {
+      "name": "PreChargeEndVoltage",
+      "label": "Pre-charge end voltage (mV)",
+      "type": "number",
+      "min": 0,
+      "max": 10000,
+      "unit": "mV"
+    }
+  ]
+}

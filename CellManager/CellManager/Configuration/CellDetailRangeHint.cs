@@ -15,7 +15,9 @@ namespace CellManager.Configuration
                 return string.Empty;
             }
 
-            return CellDetailTextRules.GetRule(PropertyName).CreateRangeDescription();
+            return CellDetailConstraintProvider.TryGetFieldConstraint(PropertyName, out var constraint)
+                ? constraint.CreateDescription()
+                : string.Empty;
         }
     }
 
@@ -31,7 +33,9 @@ namespace CellManager.Configuration
                 return string.Empty;
             }
 
-            return CellDetailNumericRules.GetRule(PropertyName).CreateRangeDescription();
+            return CellDetailConstraintProvider.TryGetFieldConstraint(PropertyName, out var constraint)
+                ? constraint.CreateDescription()
+                : string.Empty;
         }
     }
 }
