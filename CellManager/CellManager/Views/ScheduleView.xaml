@@ -46,18 +46,25 @@
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Cell info status bar -->
-        <GroupBox Grid.Row="0" Margin="0" Padding="0">
+        <GroupBox Grid.Row="0" Margin="0,0,0,8" Padding="12">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Calendar" Width="20" Height="20" Margin="0,0,6,0"/>
+                    <TextBlock Text="Schedule" FontWeight="SemiBold" FontSize="16"/>
+                </StackPanel>
+            </GroupBox.Header>
+
             <TextBlock FontSize="14"
              TextWrapping="NoWrap"
              TextTrimming="CharacterEllipsis"
              VerticalAlignment="Center"
-             ToolTipService.ShowDuration="60000" Margin="20,0,0,0">
+             ToolTipService.ShowDuration="60000" Margin="0">
     <!-- 선택 셀: 타이틀(가장 강조) -->
     <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"
          FontWeight="SemiBold" Foreground="{StaticResource TitleBrush}"/>
