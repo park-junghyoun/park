@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:CellManager.ViewModels"
-        xmlns:config="clr-namespace:CellManager.Configuration;assembly=CellManager"
+        xmlns:config="clr-namespace:CellManager.Configuration"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Cell Details" Height="650" Width="800"

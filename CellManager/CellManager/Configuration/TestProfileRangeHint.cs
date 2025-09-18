@@ -10,7 +10,7 @@ using CellManager.Models.TestProfile;
 namespace CellManager.Configuration
 {
     [MarkupExtensionReturnType(typeof(string))]
-    public class TestProfileRangeHintExtension : MarkupExtension
+    public class TestProfileRangeHint : MarkupExtension
     {
         public TestProfileType ProfileType { get; set; }
         public string? FieldName { get; set; }

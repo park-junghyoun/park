@@ -4,7 +4,7 @@ using System.Windows.Markup;
 namespace CellManager.Configuration
 {
     [MarkupExtensionReturnType(typeof(string))]
-    public class CellDetailTextRangeHintExtension : MarkupExtension
+    public class CellDetailTextRangeHint : MarkupExtension
     {
         public string? PropertyName { get; set; }
 
@@ -20,7 +20,7 @@ namespace CellManager.Configuration
     }
 
     [MarkupExtensionReturnType(typeof(string))]
-    public class CellDetailNumericRangeHintExtension : MarkupExtension
+    public class CellDetailNumericRangeHint : MarkupExtension
     {
         public string? PropertyName { get; set; }
 
