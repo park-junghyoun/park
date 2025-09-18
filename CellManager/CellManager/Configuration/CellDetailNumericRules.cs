@@ -173,10 +173,11 @@ namespace CellManager.Configuration
         public string DisplayName { get; }
         public NumericRange Range { get; }
 
-        public string CreateRangeErrorMessage()
+        public string CreateRangeErrorMessage(double actualValue)
         {
             var minText = FormatValue(Range.MinValue);
             var maxText = FormatValue(Range.MaxValue);
+            var actualText = FormatValue(actualValue);
 
             if (double.IsNegativeInfinity(Range.MinValue) && double.IsPositiveInfinity(Range.MaxValue))
             {
@@ -185,23 +186,39 @@ namespace CellManager.Configuration
 
             if (double.IsNegativeInfinity(Range.MinValue))
             {
-                return string.Format(CultureInfo.CurrentCulture, "{0} must be {1} or less.", DisplayName, maxText);
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0} value {1} must be {2} or less.",
+                    DisplayName,
+                    actualText,
+                    maxText);
             }
 
             if (double.IsPositiveInfinity(Range.MaxValue))
             {
-                return string.Format(CultureInfo.CurrentCulture, "{0} must be {1} or greater.", DisplayName, minText);
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0} value {1} must be {2} or greater.",
+                    DisplayName,
+                    actualText,
+                    minText);
             }
 
             if (Range.MinValue.Equals(Range.MaxValue))
             {
-                return string.Format(CultureInfo.CurrentCulture, "{0} must be {1}.", DisplayName, minText);
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0} value {1} must be {2}.",
+                    DisplayName,
+                    actualText,
+                    minText);
             }
 
             return string.Format(
                 CultureInfo.CurrentCulture,
-                "{0} must be between {1} and {2}.",
+                "{0} value {1} must be between {2} and {3}.",
                 DisplayName,
+                actualText,
                 minText,
                 maxText);
         }

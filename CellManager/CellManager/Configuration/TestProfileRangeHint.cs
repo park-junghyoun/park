@@ -294,6 +294,7 @@ namespace CellManager.Configuration
             {
                 var text = value?.ToString() ?? string.Empty;
                 var label = Label ?? Name;
+                var lengthText = text.Length.ToString(CultureInfo.CurrentCulture);
 
                 if (string.IsNullOrEmpty(text))
                 {
@@ -301,8 +302,9 @@ namespace CellManager.Configuration
                     {
                         return string.Format(
                             CultureInfo.CurrentCulture,
-                            "{0} is required.",
-                            label);
+                            "{0} is required (current length: {1}).",
+                            label,
+                            lengthText);
                     }
 
                     return null;
@@ -314,16 +316,18 @@ namespace CellManager.Configuration
                     {
                         return string.Format(
                             CultureInfo.CurrentCulture,
-                            "{0} must be exactly {1} characters long.",
+                            "{0} must be exactly {1} characters long (current length: {2}).",
                             label,
-                            MinLength.Value);
+                            MinLength.Value,
+                            lengthText);
                     }
 
                     return string.Format(
                         CultureInfo.CurrentCulture,
-                        "{0} must be at least {1} characters long.",
+                        "{0} must be at least {1} characters long (current length: {2}).",
                         label,
-                        MinLength.Value);
+                        MinLength.Value,
+                        lengthText);
                 }
 
                 if (MaxLength.HasValue && text.Length > MaxLength.Value)
@@ -332,16 +336,18 @@ namespace CellManager.Configuration
                     {
                         return string.Format(
                             CultureInfo.CurrentCulture,
-                            "{0} must be exactly {1} characters long.",
+                            "{0} must be exactly {1} characters long (current length: {2}).",
                             label,
-                            MaxLength.Value);
+                            MaxLength.Value,
+                            lengthText);
                     }
 
                     return string.Format(
                         CultureInfo.CurrentCulture,
-                        "{0} must be {1} characters or fewer.",
+                        "{0} must be {1} characters or fewer (current length: {2}).",
                         label,
-                        MaxLength.Value);
+                        MaxLength.Value,
+                        lengthText);
                 }
 
                 return null;
@@ -404,13 +410,15 @@ namespace CellManager.Configuration
                 {
                     return string.Format(
                         CultureInfo.CurrentCulture,
-                        "{0} must be a real number.",
-                        Label ?? Name);
+                        "{0} must be a real number (current value: {1}).",
+                        Label ?? Name,
+                        number.ToString(CultureInfo.CurrentCulture));
                 }
 
                 var hasMin = Min.HasValue && !double.IsNegativeInfinity(Min.Value);
                 var hasMax = Max.HasValue && !double.IsPositiveInfinity(Max.Value);
                 var label = Label ?? Name;
+                var actualText = FormatNumber(number);
 
                 if (hasMin && hasMax)
                 {
@@ -420,15 +428,17 @@ namespace CellManager.Configuration
                         {
                             return string.Format(
                                 CultureInfo.CurrentCulture,
-                                "{0} must be {1}.",
+                                "{0} value {1} must be {2}.",
                                 label,
+                                actualText,
                                 FormatNumber(Min.Value));
                         }
 
                         return string.Format(
                             CultureInfo.CurrentCulture,
-                            "{0} must be between {1} and {2}.",
+                            "{0} value {1} must be between {2} and {3}.",
                             label,
+                            actualText,
                             FormatNumber(Min.Value),
                             FormatNumber(Max.Value));
                     }
@@ -440,8 +450,9 @@ namespace CellManager.Configuration
                 {
                     return string.Format(
                         CultureInfo.CurrentCulture,
-                        "{0} must be at least {1}.",
+                        "{0} value {1} must be at least {2}.",
                         label,
+                        actualText,
                         FormatNumber(Min.Value));
                 }
 
@@ -449,8 +460,9 @@ namespace CellManager.Configuration
                 {
                     return string.Format(
                         CultureInfo.CurrentCulture,
-                        "{0} must be {1} or less.",
+                        "{0} value {1} must be {2} or less.",
                         label,
+                        actualText,
                         FormatNumber(Max.Value));
                 }
 

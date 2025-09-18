@@ -157,7 +157,7 @@ namespace CellManager.ViewModels
             }
 
             var value = GetStringValue(propertyName);
-            return rule.Range.Contains(value) ? null : rule.CreateLengthErrorMessage();
+            return rule.Range.Contains(value) ? null : rule.CreateLengthErrorMessage(value);
         }
 
         private string ValidateNumericRange(string propertyName)
@@ -168,7 +168,7 @@ namespace CellManager.ViewModels
             }
 
             var value = GetNumericValue(propertyName);
-            return rule.Range.Contains(value) ? null : rule.CreateRangeErrorMessage();
+            return rule.Range.Contains(value) ? null : rule.CreateRangeErrorMessage(value);
         }
 
         private string GetStringValue(string propertyName) => propertyName switch

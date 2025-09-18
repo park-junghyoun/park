@@ -109,8 +109,10 @@ namespace CellManager.Configuration
         public string DisplayName { get; }
         public TextRange Range { get; }
 
-        public string CreateLengthErrorMessage()
+        public string CreateLengthErrorMessage(string? currentValue)
         {
+            var length = string.IsNullOrEmpty(currentValue) ? 0 : currentValue.Length;
+
             if (Range.MaxLength == int.MaxValue)
             {
                 return string.Empty;
@@ -118,10 +120,31 @@ namespace CellManager.Configuration
 
             if (Range.MinLength > 0)
             {
-                return $"{DisplayName} must be between {Range.MinLength} and {Range.MaxLength} characters.";
+                if (Range.MinLength == Range.MaxLength)
+                {
+                    return string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} must be exactly {1} characters (current length: {2}).",
+                        DisplayName,
+                        Range.MinLength,
+                        length);
+                }
+
+                return string.Format(
+                    CultureInfo.CurrentCulture,
+                    "{0} must be between {1} and {2} characters (current length: {3}).",
+                    DisplayName,
+                    Range.MinLength,
+                    Range.MaxLength,
+                    length);
             }
 
-            return $"{DisplayName} must be {Range.MaxLength} characters or fewer.";
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                "{0} must be {1} characters or fewer (current length: {2}).",
+                DisplayName,
+                Range.MaxLength,
+                length);
         }
 
         public string CreateRangeDescription()
