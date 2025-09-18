@@ -6,6 +6,7 @@
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              xmlns:controls="clr-namespace:CellManager.Views.Controls"
              xmlns:config="clr-namespace:CellManager.Configuration"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
     <UserControl.Resources>
         <Style x:Key="CapacityLabelStyle" TargetType="TextBlock" BasedOn="{StaticResource FormLabelTextStyle}">
@@ -71,9 +72,8 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}" MaxLength="60"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='Name'}"
                                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='Name'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Mode" Style="{StaticResource FormLabelTextStyle}"/>
@@ -89,33 +89,29 @@
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Charge Current (A)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCurrent'}"
                                      Text="{Binding ChargeCurrent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCurrent'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Charge Voltage (V)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCutoffVoltage'}"
                                      Text="{Binding ChargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCutoffVoltage'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Cutoff Current (A)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="4" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='CutoffCurrent'}"
                                      Text="{Binding CutoffCurrent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='CutoffCurrent'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="Capacity (mAh)" Style="{StaticResource CapacityLabelStyle}"/>
                         <StackPanel Grid.Row="5" Grid.Column="1" Style="{StaticResource CapacityFieldStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCapacityMah'}"
                                      Text="{Binding ChargeCapacityMah, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCapacityMah'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="6" Grid.Column="0" Text="Charge Time" Style="{StaticResource TimeLabelStyle}"/>

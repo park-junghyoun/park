@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
              xmlns:config="clr-namespace:CellManager.Configuration"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400">
     <ScrollViewer Margin="20">
         <StackPanel>
@@ -31,49 +32,43 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}" MaxLength="60"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='Name'}"
                                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='Name'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Qmax" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='Qmax'}"
                                      Text="{Binding Qmax, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='Qmax'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="SOC Step (%)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='SocStepPercent'}"
                                      Text="{Binding SocStepPercent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='SocStepPercent'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Discharge Current (A)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='DischargeCurrent_OCV'}"
                                      Text="{Binding DischargeCurrent_OCV, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='DischargeCurrent_OCV'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Rest Time (s)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="4" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='RestTime_OCV'}"
                                      Text="{Binding RestTime_OCV, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='RestTime_OCV'}"/>
                         </StackPanel>
 
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="Cutoff Voltage (V)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="5" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
+                                     materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='DischargeCutoffVoltage_OCV'}"
                                      Text="{Binding DischargeCutoffVoltage_OCV, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                            <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
-                                       Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='DischargeCutoffVoltage_OCV'}"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
