@@ -46,6 +46,10 @@ namespace CellManager.ViewModels
         partial void OnSelectedCellChanged(Cell value)
         {
             OnPropertyChanged(nameof(CurrentCell));
+            foreach (var cell in CellModels)
+            {
+                cell.IsActive = cell == value;
+            }
             UpdateCanExecutes();
         }
 
