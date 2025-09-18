@@ -9,6 +9,13 @@
         <Setter Property="materialDesign:ValidationAssist.OnlyShowOnFocus" Value="False"/>
     </Style>
 
+    <Style x:Key="ValidationComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="ToolTipService.IsEnabled" Value="False"/>
+        <Setter Property="materialDesign:ValidationAssist.UsePopup" Value="False"/>
+        <Setter Property="materialDesign:ValidationAssist.OnlyShowOnFocus" Value="False"/>
+    </Style>
+
     <Style TargetType="controls:TimeSpanEditor">
         <Setter Property="Margin" Value="0"/>
         <Setter Property="ToolTipService.IsEnabled" Value="False"/>
