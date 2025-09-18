@@ -10,10 +10,5 @@ namespace CellManager.Views.TestSetup
             InitializeComponent();
         }
 
-        private void OnSaveClick(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-            Close();
-        }
     }
 }

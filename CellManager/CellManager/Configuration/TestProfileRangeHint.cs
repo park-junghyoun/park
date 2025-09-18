@@ -82,7 +82,7 @@ namespace CellManager.Configuration
                 return result;
             }
 
-            var profile = constraints.Profiles.FirstOrDefault(p => string.Equals(p.Type, type.ToString(), StringComparison.OrdinalIgnoreCase));
+            var profile = constraints.FindProfile(type);
             if (profile == null)
             {
                 return result;
@@ -95,8 +95,7 @@ namespace CellManager.Configuration
                     continue;
                 }
 
-                var constraint = profile.Fields.FirstOrDefault(f => string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase));
-                if (constraint == null)
+                if (!profile.TryGetField(name, out var constraint))
                 {
                     continue;
                 }
@@ -109,6 +108,24 @@ namespace CellManager.Configuration
             }
 
             return result;
+        }
+
+        public static IReadOnlyList<string> GetFieldNames(TestProfileType type)
+        {
+            var profile = Cache.Value.FindProfile(type);
+            return profile?.FieldNames ?? Array.Empty<string>();
+        }
+
+        public static bool TryGetFieldConstraint(TestProfileType type, string fieldName, out FieldConstraint constraint)
+        {
+            constraint = null!;
+            if (string.IsNullOrWhiteSpace(fieldName))
+            {
+                return false;
+            }
+
+            var profile = Cache.Value.FindProfile(type);
+            return profile != null && profile.TryGetField(fieldName, out constraint);
         }
 
         private static ConstraintData Load()
@@ -139,12 +156,57 @@ namespace CellManager.Configuration
         internal sealed class ConstraintData
         {
             public List<ProfileConstraint> Profiles { get; set; } = new();
+
+            public ProfileConstraint? FindProfile(TestProfileType type)
+            {
+                if (Profiles.Count == 0)
+                {
+                    return null;
+                }
+
+                var typeName = type.ToString();
+                foreach (var profile in Profiles)
+                {
+                    if (string.Equals(profile.Type, typeName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return profile;
+                    }
+                }
+
+                return null;
+            }
         }
 
         internal sealed class ProfileConstraint
         {
             public string Type { get; set; } = string.Empty;
             public List<FieldConstraint> Fields { get; set; } = new();
+
+            private string[]? _fieldNames;
+            private Dictionary<string, FieldConstraint>? _fieldLookup;
+
+            public IReadOnlyList<string> FieldNames
+            {
+                get
+                {
+                    if (_fieldNames == null)
+                    {
+                        _fieldNames = Fields.Select(f => f.Name).Where(n => !string.IsNullOrWhiteSpace(n)).ToArray();
+                    }
+
+                    return _fieldNames;
+                }
+            }
+
+            public bool TryGetField(string fieldName, out FieldConstraint constraint)
+            {
+                _fieldLookup ??= Fields
+                    .Where(f => !string.IsNullOrWhiteSpace(f.Name))
+                    .GroupBy(f => f.Name, StringComparer.OrdinalIgnoreCase)
+                    .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
+
+                return _fieldLookup.TryGetValue(fieldName, out constraint);
+            }
         }
 
         internal sealed class FieldConstraint
@@ -173,6 +235,21 @@ namespace CellManager.Configuration
                 }
 
                 return string.Empty;
+            }
+
+            public string? CreateValidationError(object? value)
+            {
+                if (string.Equals(Type, "text", StringComparison.OrdinalIgnoreCase))
+                {
+                    return ValidateText(value);
+                }
+
+                if (string.Equals(Type, "number", StringComparison.OrdinalIgnoreCase))
+                {
+                    return ValidateNumber(value);
+                }
+
+                return null;
             }
 
             private string? CreateTextDescription()
@@ -211,6 +288,63 @@ namespace CellManager.Configuration
                     CultureInfo.CurrentCulture,
                     "Min length: {0} characters",
                     MinLength);
+            }
+
+            private string? ValidateText(object? value)
+            {
+                var text = value?.ToString() ?? string.Empty;
+                var label = Label ?? Name;
+
+                if (string.IsNullOrEmpty(text))
+                {
+                    if (MinLength.HasValue && MinLength.Value > 0)
+                    {
+                        return string.Format(
+                            CultureInfo.CurrentCulture,
+                            "{0} is required.",
+                            label);
+                    }
+
+                    return null;
+                }
+
+                if (MinLength.HasValue && text.Length < MinLength.Value)
+                {
+                    if (MaxLength.HasValue && MaxLength.Value == MinLength.Value)
+                    {
+                        return string.Format(
+                            CultureInfo.CurrentCulture,
+                            "{0} must be exactly {1} characters long.",
+                            label,
+                            MinLength.Value);
+                    }
+
+                    return string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} must be at least {1} characters long.",
+                        label,
+                        MinLength.Value);
+                }
+
+                if (MaxLength.HasValue && text.Length > MaxLength.Value)
+                {
+                    if (MinLength.HasValue && MinLength.Value == MaxLength.Value)
+                    {
+                        return string.Format(
+                            CultureInfo.CurrentCulture,
+                            "{0} must be exactly {1} characters long.",
+                            label,
+                            MaxLength.Value);
+                    }
+
+                    return string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} must be {1} characters or fewer.",
+                        label,
+                        MaxLength.Value);
+                }
+
+                return null;
             }
 
             private string? CreateNumberDescription()
@@ -254,6 +388,75 @@ namespace CellManager.Configuration
                     FormatNumber(Max!.Value));
             }
 
+            private string? ValidateNumber(object? value)
+            {
+                if (value is null)
+                {
+                    return null;
+                }
+
+                if (!TryConvertToDouble(value, out var number))
+                {
+                    return null;
+                }
+
+                if (double.IsNaN(number) || double.IsInfinity(number))
+                {
+                    return string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} must be a real number.",
+                        Label ?? Name);
+                }
+
+                var hasMin = Min.HasValue && !double.IsNegativeInfinity(Min.Value);
+                var hasMax = Max.HasValue && !double.IsPositiveInfinity(Max.Value);
+                var label = Label ?? Name;
+
+                if (hasMin && hasMax)
+                {
+                    if (number < Min!.Value || number > Max!.Value)
+                    {
+                        if (AreEqual(Min.Value, Max.Value))
+                        {
+                            return string.Format(
+                                CultureInfo.CurrentCulture,
+                                "{0} must be {1}.",
+                                label,
+                                FormatNumber(Min.Value));
+                        }
+
+                        return string.Format(
+                            CultureInfo.CurrentCulture,
+                            "{0} must be between {1} and {2}.",
+                            label,
+                            FormatNumber(Min.Value),
+                            FormatNumber(Max.Value));
+                    }
+
+                    return null;
+                }
+
+                if (hasMin && number < Min!.Value)
+                {
+                    return string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} must be at least {1}.",
+                        label,
+                        FormatNumber(Min.Value));
+                }
+
+                if (hasMax && number > Max!.Value)
+                {
+                    return string.Format(
+                        CultureInfo.CurrentCulture,
+                        "{0} must be {1} or less.",
+                        label,
+                        FormatNumber(Max.Value));
+                }
+
+                return null;
+            }
+
             private string FormatNumber(double value)
             {
                 if (string.Equals(Format, "integer", StringComparison.OrdinalIgnoreCase))
@@ -274,6 +477,72 @@ namespace CellManager.Configuration
             private static bool AreEqual(double left, double right)
             {
                 return Math.Abs(left - right) < 0.0000001;
+            }
+
+            private static bool TryConvertToDouble(object value, out double number)
+            {
+                switch (value)
+                {
+                    case double d:
+                        number = d;
+                        return true;
+                    case float f:
+                        number = f;
+                        return true;
+                    case decimal m:
+                        number = (double)m;
+                        return true;
+                    case int i:
+                        number = i;
+                        return true;
+                    case long l:
+                        number = l;
+                        return true;
+                    case short s:
+                        number = s;
+                        return true;
+                    case byte b:
+                        number = b;
+                        return true;
+                    case double? nd when nd.HasValue:
+                        number = nd.Value;
+                        return true;
+                    case float? nf when nf.HasValue:
+                        number = nf.Value;
+                        return true;
+                    case decimal? nm when nm.HasValue:
+                        number = (double)nm.Value;
+                        return true;
+                    case int? ni when ni.HasValue:
+                        number = ni.Value;
+                        return true;
+                    case long? nl when nl.HasValue:
+                        number = nl.Value;
+                        return true;
+                    case short? ns when ns.HasValue:
+                        number = ns.Value;
+                        return true;
+                    case byte? nb when nb.HasValue:
+                        number = nb.Value;
+                        return true;
+                    default:
+                        if (value is IConvertible convertible)
+                        {
+                            try
+                            {
+                                number = convertible.ToDouble(CultureInfo.CurrentCulture);
+                                return true;
+                            }
+                            catch
+                            {
+                                number = 0;
+                                return false;
+                            }
+                        }
+
+                        number = 0;
+                        return false;
+                }
             }
         }
     }

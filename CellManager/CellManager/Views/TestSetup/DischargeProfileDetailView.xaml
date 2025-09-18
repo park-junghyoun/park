@@ -70,7 +70,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}" MaxLength="60"
-                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName='Name'}"/>
                         </StackPanel>
@@ -88,7 +88,7 @@
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Discharge Current (A)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding DischargeCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding DischargeCurrent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName='DischargeCurrent'}"/>
                         </StackPanel>
@@ -96,7 +96,7 @@
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Cutoff Voltage (V)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding DischargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding DischargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName='DischargeCutoffVoltage'}"/>
                         </StackPanel>
@@ -104,7 +104,7 @@
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Capacity (mAh)" Style="{StaticResource CapacityLabelStyle}"/>
                         <StackPanel Grid.Row="4" Grid.Column="1" Style="{StaticResource CapacityFieldStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding DischargeCapacityMah, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldName='DischargeCapacityMah'}"/>
                         </StackPanel>
@@ -112,9 +112,9 @@
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="Discharge Time" Style="{StaticResource TimeLabelStyle}"/>
                         <StackPanel Grid.Row="5" Grid.Column="1" Style="{StaticResource TimeFieldStyle}">
                             <controls:TimeSpanEditor Margin="0"
-                                                     Hours="{Binding DischargeHours, UpdateSourceTrigger=PropertyChanged}"
-                                                     Minutes="{Binding DischargeMinutes, UpdateSourceTrigger=PropertyChanged}"
-                                                     Seconds="{Binding DischargeSeconds, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Hours="{Binding DischargeHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                     Minutes="{Binding DischargeMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                     Seconds="{Binding DischargeSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Discharge}, FieldNames='DischargeHours, DischargeMinutes, DischargeSeconds'}"/>
                         </StackPanel>

@@ -30,7 +30,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}" MaxLength="60"
-                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.ECM}, FieldName='Name'}"/>
                         </StackPanel>
@@ -38,7 +38,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Pulse Current (A)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding PulseCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding PulseCurrent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.ECM}, FieldName='PulseCurrent'}"/>
                         </StackPanel>
@@ -46,7 +46,7 @@
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Pulse Duration (ms)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding PulseDuration, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding PulseDuration, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.ECM}, FieldName='PulseDuration'}"/>
                         </StackPanel>
@@ -54,7 +54,7 @@
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Reset Time After Pulse (ms)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding ResetTimeAfterPulse, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding ResetTimeAfterPulse, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.ECM}, FieldName='ResetTimeAfterPulse'}"/>
                         </StackPanel>
@@ -62,7 +62,7 @@
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Sampling Rate (ms)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="4" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding SamplingRateMs, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SamplingRateMs, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.ECM}, FieldName='SamplingRateMs'}"/>
                         </StackPanel>

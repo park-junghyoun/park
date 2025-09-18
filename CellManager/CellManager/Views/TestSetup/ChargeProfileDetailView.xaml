@@ -71,7 +71,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}" MaxLength="60"
-                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='Name'}"/>
                         </StackPanel>
@@ -89,7 +89,7 @@
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Charge Current (A)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding ChargeCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding ChargeCurrent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCurrent'}"/>
                         </StackPanel>
@@ -97,7 +97,7 @@
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Charge Voltage (V)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding ChargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding ChargeCutoffVoltage, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCutoffVoltage'}"/>
                         </StackPanel>
@@ -105,7 +105,7 @@
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Cutoff Current (A)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="4" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding CutoffCurrent, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding CutoffCurrent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='CutoffCurrent'}"/>
                         </StackPanel>
@@ -113,7 +113,7 @@
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="Capacity (mAh)" Style="{StaticResource CapacityLabelStyle}"/>
                         <StackPanel Grid.Row="5" Grid.Column="1" Style="{StaticResource CapacityFieldStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding ChargeCapacityMah, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding ChargeCapacityMah, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldName='ChargeCapacityMah'}"/>
                         </StackPanel>
@@ -121,9 +121,9 @@
                         <TextBlock Grid.Row="6" Grid.Column="0" Text="Charge Time" Style="{StaticResource TimeLabelStyle}"/>
                         <StackPanel Grid.Row="6" Grid.Column="1" Style="{StaticResource TimeFieldStyle}">
                             <controls:TimeSpanEditor Margin="0"
-                                                     Hours="{Binding ChargeHours, UpdateSourceTrigger=PropertyChanged}"
-                                                     Minutes="{Binding ChargeMinutes, UpdateSourceTrigger=PropertyChanged}"
-                                                     Seconds="{Binding ChargeSeconds, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Hours="{Binding ChargeHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                     Minutes="{Binding ChargeMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                     Seconds="{Binding ChargeSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Charge}, FieldNames='ChargeHours, ChargeMinutes, ChargeSeconds'}"/>
                         </StackPanel>

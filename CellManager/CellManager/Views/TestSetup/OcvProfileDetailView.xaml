@@ -31,7 +31,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}" MaxLength="60"
-                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='Name'}"/>
                         </StackPanel>
@@ -39,7 +39,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Qmax" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding Qmax, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding Qmax, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='Qmax'}"/>
                         </StackPanel>
@@ -47,7 +47,7 @@
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="SOC Step (%)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="2" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding SocStepPercent, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding SocStepPercent, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='SocStepPercent'}"/>
                         </StackPanel>
@@ -55,7 +55,7 @@
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Discharge Current (A)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="3" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding DischargeCurrent_OCV, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding DischargeCurrent_OCV, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='DischargeCurrent_OCV'}"/>
                         </StackPanel>
@@ -63,7 +63,7 @@
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Rest Time (s)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="4" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding RestTime_OCV, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding RestTime_OCV, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='RestTime_OCV'}"/>
                         </StackPanel>
@@ -71,7 +71,7 @@
                         <TextBlock Grid.Row="5" Grid.Column="0" Text="Cutoff Voltage (V)" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="5" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}"
-                                     Text="{Binding DischargeCutoffVoltage_OCV, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding DischargeCutoffVoltage_OCV, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName='DischargeCutoffVoltage_OCV'}"/>
                         </StackPanel>

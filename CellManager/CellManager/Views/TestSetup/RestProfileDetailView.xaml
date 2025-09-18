@@ -28,7 +28,7 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="0" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <TextBox Style="{StaticResource ValidationTextBoxStyle}" MaxLength="60"
-                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Rest}, FieldName='Name'}"/>
                         </StackPanel>
@@ -36,9 +36,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Rest Time" Style="{StaticResource FormLabelTextStyle}"/>
                         <StackPanel Grid.Row="1" Grid.Column="1" Style="{StaticResource FormFieldStackStyle}">
                             <controls:TimeSpanEditor Margin="0"
-                                                     Hours="{Binding RestHours, UpdateSourceTrigger=PropertyChanged}"
-                                                     Minutes="{Binding RestMinutes, UpdateSourceTrigger=PropertyChanged}"
-                                                     Seconds="{Binding RestSeconds, UpdateSourceTrigger=PropertyChanged}"/>
+                                                     Hours="{Binding RestHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                     Minutes="{Binding RestMinutes, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                     Seconds="{Binding RestSeconds, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                             <TextBlock Style="{StaticResource RangeHintTextBlockStyle}"
                                        Text="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Rest}, FieldNames='RestHours, RestMinutes, RestSeconds'}"/>
                         </StackPanel>
