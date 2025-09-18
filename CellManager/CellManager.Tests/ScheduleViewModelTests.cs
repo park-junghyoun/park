@@ -79,6 +79,23 @@ namespace CellManager.Tests
         }
 
         [Fact]
+        public void InsertStep_IgnoresAdditionalLoopMarkers()
+        {
+            var vm = new ScheduleViewModel();
+            var loopGroup = vm.StepLibrary.First(g => g.Name == "Loop");
+            var start = loopGroup.Steps.First(s => s.Kind == StepKind.LoopStart);
+            var end = loopGroup.Steps.First(s => s.Kind == StepKind.LoopEnd);
+
+            vm.InsertStep(start, -1);
+            vm.InsertStep(start, -1);
+            vm.InsertStep(end, -1);
+            vm.InsertStep(end, -1);
+
+            Assert.Equal(1, vm.Sequence.Count(s => s.Kind == StepKind.LoopStart));
+            Assert.Equal(1, vm.Sequence.Count(s => s.Kind == StepKind.LoopEnd));
+        }
+
+        [Fact]
         public void SaveScheduleCommand_ClearsLoopIndices_WhenEndMissing()
         {
             var vm = new ScheduleViewModel();

@@ -379,6 +379,10 @@ namespace CellManager.ViewModels
         /// <summary>Inserts a copy of the provided template into the sequence at the given index.</summary>
         public void InsertStep(StepTemplate template, int index)
         {
+            if (template.Kind == StepKind.LoopStart && Sequence.Any(s => s.Kind == StepKind.LoopStart))
+                return;
+            if (template.Kind == StepKind.LoopEnd && Sequence.Any(s => s.Kind == StepKind.LoopEnd))
+                return;
             var clone = new StepTemplate
             {
                 Id = template.Id,
