@@ -1,0 +1,281 @@
+{
+  "version": "1.0",
+  "profiles": [
+    {
+      "type": "Charge",
+      "fields": [
+        {
+          "name": "Name",
+          "label": "Name",
+          "type": "text",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "name": "ChargeCurrent",
+          "label": "Charge Current (A)",
+          "type": "number",
+          "unit": "A",
+          "min": 0.0,
+          "max": 50.0,
+          "precision": 2
+        },
+        {
+          "name": "ChargeCutoffVoltage",
+          "label": "Charge Voltage (V)",
+          "type": "number",
+          "unit": "V",
+          "min": 0.0,
+          "max": 5.0,
+          "precision": 3
+        },
+        {
+          "name": "CutoffCurrent",
+          "label": "Cutoff Current (A)",
+          "type": "number",
+          "unit": "A",
+          "min": 0.0,
+          "max": 10.0,
+          "precision": 2
+        },
+        {
+          "name": "ChargeCapacityMah",
+          "label": "Capacity (mAh)",
+          "type": "number",
+          "unit": "mAh",
+          "min": 0.0,
+          "max": 20000.0,
+          "precision": 1
+        },
+        {
+          "name": "ChargeHours",
+          "label": "Charge Hours",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 23
+        },
+        {
+          "name": "ChargeMinutes",
+          "label": "Charge Minutes",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 59
+        },
+        {
+          "name": "ChargeSeconds",
+          "label": "Charge Seconds",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 59
+        }
+      ]
+    },
+    {
+      "type": "Discharge",
+      "fields": [
+        {
+          "name": "Name",
+          "label": "Name",
+          "type": "text",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "name": "DischargeCurrent",
+          "label": "Discharge Current (A)",
+          "type": "number",
+          "unit": "A",
+          "min": 0.0,
+          "max": 50.0,
+          "precision": 2
+        },
+        {
+          "name": "DischargeCutoffVoltage",
+          "label": "Cutoff Voltage (V)",
+          "type": "number",
+          "unit": "V",
+          "min": 0.0,
+          "max": 5.0,
+          "precision": 3
+        },
+        {
+          "name": "DischargeCapacityMah",
+          "label": "Capacity (mAh)",
+          "type": "number",
+          "unit": "mAh",
+          "min": 0.0,
+          "max": 20000.0,
+          "precision": 1
+        },
+        {
+          "name": "DischargeHours",
+          "label": "Discharge Hours",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 23
+        },
+        {
+          "name": "DischargeMinutes",
+          "label": "Discharge Minutes",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 59
+        },
+        {
+          "name": "DischargeSeconds",
+          "label": "Discharge Seconds",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 59
+        }
+      ]
+    },
+    {
+      "type": "Rest",
+      "fields": [
+        {
+          "name": "Name",
+          "label": "Name",
+          "type": "text",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "name": "RestHours",
+          "label": "Rest Hours",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 23
+        },
+        {
+          "name": "RestMinutes",
+          "label": "Rest Minutes",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 59
+        },
+        {
+          "name": "RestSeconds",
+          "label": "Rest Seconds",
+          "type": "number",
+          "format": "integer",
+          "min": 0,
+          "max": 59
+        }
+      ]
+    },
+    {
+      "type": "OCV",
+      "fields": [
+        {
+          "name": "Name",
+          "label": "Name",
+          "type": "text",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "name": "Qmax",
+          "label": "Qmax",
+          "type": "number",
+          "unit": "Ah",
+          "min": 0.0,
+          "max": 100.0,
+          "precision": 2
+        },
+        {
+          "name": "SocStepPercent",
+          "label": "SOC Step (%)",
+          "type": "number",
+          "unit": "%",
+          "min": 1.0,
+          "max": 100.0,
+          "precision": 1
+        },
+        {
+          "name": "DischargeCurrent_OCV",
+          "label": "Discharge Current (A)",
+          "type": "number",
+          "unit": "A",
+          "min": 0.0,
+          "max": 20.0,
+          "precision": 2
+        },
+        {
+          "name": "RestTime_OCV",
+          "label": "Rest Time (s)",
+          "type": "number",
+          "unit": "s",
+          "min": 0.0,
+          "max": 3600.0,
+          "precision": 1
+        },
+        {
+          "name": "DischargeCutoffVoltage_OCV",
+          "label": "Cutoff Voltage (V)",
+          "type": "number",
+          "unit": "V",
+          "min": 0.0,
+          "max": 5.0,
+          "precision": 3
+        }
+      ]
+    },
+    {
+      "type": "ECM",
+      "fields": [
+        {
+          "name": "Name",
+          "label": "Name",
+          "type": "text",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "name": "PulseCurrent",
+          "label": "Pulse Current (A)",
+          "type": "number",
+          "unit": "A",
+          "min": 0.0,
+          "max": 50.0,
+          "precision": 2
+        },
+        {
+          "name": "PulseDuration",
+          "label": "Pulse Duration (ms)",
+          "type": "number",
+          "unit": "ms",
+          "min": 0.0,
+          "max": 10000.0,
+          "precision": 1
+        },
+        {
+          "name": "ResetTimeAfterPulse",
+          "label": "Reset Time After Pulse (ms)",
+          "type": "number",
+          "unit": "ms",
+          "min": 0.0,
+          "max": 600000.0,
+          "precision": 1
+        },
+        {
+          "name": "SamplingRateMs",
+          "label": "Sampling Rate (ms)",
+          "type": "number",
+          "unit": "ms",
+          "min": 0.1,
+          "max": 1000.0,
+          "precision": 2
+        }
+      ]
+    }
+  ]
+}

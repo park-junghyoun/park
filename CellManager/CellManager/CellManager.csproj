@@ -18,6 +18,7 @@
   <ItemGroup>
     <None Include="ProtectionProfiles\**\*.json" CopyToOutputDirectory="Always" />
     <None Include="BoardDataProfiles\**\*.json" CopyToOutputDirectory="Always" />
+    <None Include="Config\TestSetupProfileConstraints.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <ItemGroup>
