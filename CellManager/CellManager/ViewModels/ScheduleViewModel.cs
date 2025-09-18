@@ -412,10 +412,35 @@ namespace CellManager.ViewModels
         /// <summary>Aggregates the duration of all steps to update the total runtime.</summary>
         private void UpdateTotalDuration()
         {
-            TotalDuration = new TimeSpan(Sequence.Sum(s => s.Duration.Ticks));
+            var totalTicks = Sequence.Sum(s => s.Duration.Ticks);
+
+            var repeatCount = Math.Max(1, RepeatCount);
+            if (repeatCount > 1)
+            {
+                var loopTicks = CalculateLoopSegmentTicksFromSequence();
+                if (loopTicks > 0)
+                    totalTicks += loopTicks * (repeatCount - 1);
+            }
+
+            TotalDuration = new TimeSpan(totalTicks);
             if (SelectedSchedule != null)
                 SelectedSchedule.EstimatedDuration = TotalDuration;
             UpdateLoopIndices();
+        }
+
+        /// <summary>Determines the total duration encompassed by the current loop markers.</summary>
+        private long CalculateLoopSegmentTicksFromSequence()
+        {
+            var loopStart = Sequence.IndexOf(Sequence.FirstOrDefault(s => s.Kind == StepKind.LoopStart));
+            var loopEnd = Sequence.IndexOf(Sequence.FirstOrDefault(s => s.Kind == StepKind.LoopEnd));
+
+            if (loopStart < 0 || loopEnd < 0 || loopEnd <= loopStart)
+                return 0;
+
+            return Sequence
+                .Skip(loopStart + 1)
+                .Take(loopEnd - loopStart - 1)
+                .Sum(s => s.Duration.Ticks);
         }
 
         /// <summary>Renumbers the steps to maintain human-readable ordering.</summary>
@@ -430,12 +455,58 @@ namespace CellManager.ViewModels
         {
             foreach (var sched in Schedules)
             {
-                var ticks = sched.TestProfileIds
+                var profileDurations = sched.TestProfileIds
                     .Select(id => StepLibrary.SelectMany(g => g.Steps)
-                        .FirstOrDefault(s => s.Id == id)?.Duration.Ticks ?? 0)
-                    .Sum();
+                        .FirstOrDefault(s => s.Id == id && s.Kind == StepKind.Profile)?.Duration.Ticks ?? 0)
+                    .ToList();
+
+                var ticks = profileDurations.Sum();
+
+                var repeatCount = Math.Max(1, sched.RepeatCount);
+                if (repeatCount > 1 && sched.LoopStartIndex > 0 && sched.LoopEndIndex > 0)
+                {
+                    var loopTicks = CalculateLoopSegmentTicks(profileDurations, sched.LoopStartIndex, sched.LoopEndIndex);
+                    if (loopTicks > 0)
+                        ticks += loopTicks * (repeatCount - 1);
+                }
+
                 sched.EstimatedDuration = new TimeSpan(ticks);
             }
+        }
+
+        /// <summary>Calculates the ticks contained between the loop markers for the supplied durations.</summary>
+        private static long CalculateLoopSegmentTicks(IList<long> profileDurations, int loopStartIndex, int loopEndIndex)
+        {
+            if (profileDurations.Count == 0 || loopStartIndex <= 0 || loopEndIndex <= loopStartIndex)
+                return 0;
+
+            var sequence = profileDurations.Select(d => (long?)d).ToList();
+
+            var startInsertIndex = Math.Min(loopStartIndex - 1, sequence.Count);
+            sequence.Insert(startInsertIndex, null);
+
+            var endInsertIndex = Math.Min(loopEndIndex - 1, sequence.Count);
+            sequence.Insert(endInsertIndex, null);
+
+            var startIndex = sequence.IndexOf(null);
+            if (startIndex < 0)
+                return 0;
+
+            var endIndex = sequence.FindIndex(startIndex + 1, value => value == null);
+            if (endIndex < 0)
+                endIndex = sequence.LastIndexOf(null);
+
+            if (endIndex <= startIndex)
+                return 0;
+
+            long loopTicks = 0;
+            for (var i = startIndex + 1; i < endIndex; i++)
+            {
+                if (sequence[i].HasValue)
+                    loopTicks += sequence[i]!.Value;
+            }
+
+            return loopTicks;
         }
 
         /// <summary>Updates cached indices for loop start and end markers in the sequence.</summary>
@@ -578,6 +649,11 @@ namespace CellManager.ViewModels
         partial void OnLoopEndIndexChanged(int value)
         {
             SaveScheduleCommand?.NotifyCanExecuteChanged();
+        }
+
+        partial void OnRepeatCountChanged(int value)
+        {
+            UpdateTotalDuration();
         }
     }
 }

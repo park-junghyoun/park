@@ -166,6 +166,24 @@ namespace CellManager.Tests
         }
 
         [Fact]
+        public void TotalDuration_IncludesLoopRepeatCount()
+        {
+            var vm = new ScheduleViewModel();
+            var loopGroup = vm.StepLibrary.First(g => g.Name == "Loop");
+            var start = loopGroup.Steps.First(s => s.Kind == StepKind.LoopStart);
+            var end = loopGroup.Steps.First(s => s.Kind == StepKind.LoopEnd);
+            var template = vm.StepLibrary.First(g => g.Name != "Loop").Steps.First();
+
+            vm.InsertStep(start, -1);
+            vm.InsertStep(template, -1);
+            vm.InsertStep(end, -1);
+
+            vm.RepeatCount = 3;
+
+            Assert.Equal(TimeSpan.FromHours(3), vm.TotalDuration);
+        }
+
+        [Fact]
         public void SelectedSchedule_TracksEstimatedDuration()
         {
             var vm = new ScheduleViewModel();
@@ -174,6 +192,25 @@ namespace CellManager.Tests
             vm.InsertStep(template, -1);
             vm.InsertStep(template, -1);
             Assert.Equal(TimeSpan.FromHours(2), vm.SelectedSchedule?.EstimatedDuration);
+        }
+
+        [Fact]
+        public void SelectedSchedule_TracksEstimatedDuration_WithLoopRepeatCount()
+        {
+            var vm = new ScheduleViewModel();
+            vm.AddScheduleCommand.Execute(null);
+            var loopGroup = vm.StepLibrary.First(g => g.Name == "Loop");
+            var start = loopGroup.Steps.First(s => s.Kind == StepKind.LoopStart);
+            var end = loopGroup.Steps.First(s => s.Kind == StepKind.LoopEnd);
+            var template = vm.StepLibrary.First(g => g.Name != "Loop").Steps.First();
+
+            vm.InsertStep(start, -1);
+            vm.InsertStep(template, -1);
+            vm.InsertStep(end, -1);
+
+            vm.RepeatCount = 4;
+
+            Assert.Equal(TimeSpan.FromHours(4), vm.SelectedSchedule?.EstimatedDuration);
         }
     }
 }
