@@ -30,7 +30,7 @@
         <TextBox Grid.Row="3" Grid.Column="1" Margin="4"
                  MaxLength="60"
                  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:TextFieldAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Rest}, FieldName=Name}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.Rest}, FieldName=Name}"/>
         <Border Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="5" Text="Rest Time" Margin="4"/>

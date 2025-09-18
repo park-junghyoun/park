@@ -36,36 +36,36 @@
         <TextBox Grid.Row="3" Grid.Column="1" Margin="4"
                  MaxLength="60"
                  Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:TextFieldAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=Name}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=Name}"/>
         <Border Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="5" Text="Qmax" Margin="4"/>
         <TextBox Grid.Row="5" Grid.Column="1" Margin="4"
                  Text="{Binding Qmax, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:TextFieldAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=Qmax}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=Qmax}"/>
         <Border Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="7" Text="SOC Step (%)" Margin="4"/>
         <TextBox Grid.Row="7" Grid.Column="1" Margin="4"
                  Text="{Binding SocStepPercent, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:TextFieldAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=SocStepPercent}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=SocStepPercent}"/>
         <Border Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="9" Text="Discharge Current (A)" Margin="4"/>
         <TextBox Grid.Row="9" Grid.Column="1" Margin="4"
                  Text="{Binding DischargeCurrent_OCV, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:TextFieldAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=DischargeCurrent_OCV}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=DischargeCurrent_OCV}"/>
         <Border Grid.Row="10" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="11" Text="Rest Time (s)" Margin="4"/>
         <TextBox Grid.Row="11" Grid.Column="1" Margin="4"
                  Text="{Binding RestTime_OCV, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:TextFieldAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=RestTime_OCV}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=RestTime_OCV}"/>
         <Border Grid.Row="12" Grid.ColumnSpan="2" Style="{StaticResource HDivider}" Margin="0,4"/>
 
         <TextBlock Grid.Row="13" Text="Cutoff Voltage (V)" Margin="4"/>
         <TextBox Grid.Row="13" Grid.Column="1" Margin="4"
                  Text="{Binding DischargeCutoffVoltage_OCV, UpdateSourceTrigger=PropertyChanged}"
-                 materialDesign:TextFieldAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=DischargeCutoffVoltage_OCV}"/>
+                 materialDesign:HintAssist.HelperText="{config:TestProfileRangeHint ProfileType={x:Static tp:TestProfileType.OCV}, FieldName=DischargeCutoffVoltage_OCV}"/>
     </Grid>
 </UserControl>
