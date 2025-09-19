@@ -64,6 +64,7 @@ namespace CellManager.ViewModels
         public RelayCommand SaveCellCommand { get; }
         public RelayCommand CancelEditCommand { get; }
         public RelayCommand<Cell> DeleteCellCommand { get; }
+        public RelayCommand<Cell> DuplicateCellCommand { get; }
         public RelayCommand<Cell> SelectCellCommand { get; }
         public RelayCommand<Cell> OpenDetailsCommand { get; }
 
@@ -76,6 +77,7 @@ namespace CellManager.ViewModels
             SaveCellCommand = new RelayCommand(SaveCurrent, () => EditingCell != null || SelectedCell != null);
             CancelEditCommand = new RelayCommand(CancelNew, () => EditingCell != null);
             DeleteCellCommand = new RelayCommand<Cell>(DeleteCell, c => EditingCell == null && c != null && c.Id > 0);
+            DuplicateCellCommand = new RelayCommand<Cell>(DuplicateCell, c => EditingCell == null && c != null && c.Id > 0);
 
             SelectCellCommand = new RelayCommand<Cell>(ExecuteSelectCell);
             OpenDetailsCommand = new RelayCommand<Cell>(ExecuteOpenDetails, c => c != null);
@@ -234,6 +236,54 @@ namespace CellManager.ViewModels
             UpdateCanExecutes();
         }
 
+        /// <summary>
+        ///     Creates a copy of the provided cell after gathering new identifying fields from the user.
+        /// </summary>
+        private void DuplicateCell(Cell cell)
+        {
+            if (cell == null || cell.Id <= 0) return;
+
+            var dialogVm = new DuplicateCellDialogViewModel
+            {
+                ModelName = string.IsNullOrWhiteSpace(cell.ModelName)
+                    ? string.Empty
+                    : $"{cell.ModelName} Copy",
+                SerialNumber = cell.SerialNumber ?? string.Empty,
+                PartNumber = cell.PartNumber ?? string.Empty
+            };
+
+            var dialog = new DuplicateCellDialog
+            {
+                Owner = Application.Current.MainWindow,
+                DataContext = dialogVm
+            };
+
+            var result = dialog.ShowDialog();
+            if (result != true) return;
+
+            var duplicate = new Cell(cell)
+            {
+                Id = 0,
+                ModelName = dialogVm.ModelName?.Trim() ?? string.Empty,
+                SerialNumber = dialogVm.SerialNumber?.Trim() ?? string.Empty,
+                PartNumber = dialogVm.PartNumber?.Trim() ?? string.Empty,
+                IsActive = false
+            };
+
+            _cellRepository.SaveCell(duplicate);
+            var newId = duplicate.Id;
+
+            ExecuteLoadData();
+
+            if (newId > 0)
+            {
+                SelectedCell = CellModels.FirstOrDefault(x => x.Id == newId);
+                WeakReferenceMessenger.Default.Send(new CellSelectedMessage(SelectedCell));
+            }
+
+            UpdateCanExecutes();
+        }
+
         // -------- 기타 --------
         /// <summary>
         ///     Handles selection toggles from the list view and synchronizes the active indicator flag.
@@ -290,6 +340,7 @@ namespace CellManager.ViewModels
             SaveCellCommand?.NotifyCanExecuteChanged();
             CancelEditCommand?.NotifyCanExecuteChanged();
             DeleteCellCommand?.NotifyCanExecuteChanged();
+            DuplicateCellCommand?.NotifyCanExecuteChanged();
         }
     }
 }
