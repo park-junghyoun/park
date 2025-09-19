@@ -48,6 +48,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -69,18 +70,15 @@
             </Grid>
         </materialDesign:Card>
 
-        <!-- Schedule calendar card -->
+        <!-- Schedule overview card -->
         <materialDesign:Card Grid.Row="1" Padding="16" Margin="0,0,0,8">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0" Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -109,7 +107,7 @@
                     </StackPanel>
                 </Grid>
 
-                <UniformGrid Grid.Row="1" Rows="2" Columns="2" Margin="0,20,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <UniformGrid Grid.Row="1" Rows="2" Columns="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6" Margin="0,0,16,16">
                         <StackPanel>
                             <TextBlock Text="Start" Foreground="#6B7280" FontSize="11"/>
@@ -148,35 +146,17 @@
                         </StackPanel>
                     </Border>
                 </UniformGrid>
+            </Grid>
+        </materialDesign:Card>
 
-                <Border Grid.Row="2" Margin="0,20,0,0" Padding="12" CornerRadius="6" BorderThickness="1">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="#F9FAFB"/>
-                            <Setter Property="BorderBrush" Value="#E5E7EB"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLoopValid}" Value="False">
-                                    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
-                                    <Setter Property="Background" Value="#FFF5F5"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <TextBlock Text="{Binding LoopSummaryText}" TextWrapping="Wrap">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="#1F2937"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsLoopValid}" Value="False">
-                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Border>
-
-                <Grid Grid.Row="3" Margin="0,20,0,0">
+        <!-- Schedule calendar card -->
+        <materialDesign:Card Grid.Row="2" Padding="16" Margin="0,0,0,8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                         <ItemsControl ItemsSource="{Binding CalendarDays}">
                             <ItemsControl.ItemsPanel>
@@ -249,7 +229,7 @@
                     </TextBlock>
                 </Grid>
 
-                <TextBlock Grid.Row="4" Margin="0,18,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
+                <TextBlock Grid.Row="1" Margin="0,18,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
                            Foreground="{DynamicResource MaterialDesignValidationErrorColor}" TextAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -274,7 +254,7 @@
         </materialDesign:Card>
 
         <!-- Main content -->
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="700"/>
