@@ -78,6 +78,16 @@ namespace CellManager.ViewModels
         [ObservableProperty] private TimeSpan _totalDuration;
         [ObservableProperty] private Cell? _selectedCell;
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(ScheduleStartDateTime))]
+        [NotifyPropertyChangedFor(nameof(ScheduleEndDateTime))]
+        private DateTime _scheduleStartDate = DateTime.Today;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(ScheduleStartDateTime))]
+        [NotifyPropertyChangedFor(nameof(ScheduleEndDateTime))]
+        private TimeSpan _scheduleStartTime = TimeSpan.FromHours(8);
+
         private string _scheduleSummaryText = string.Empty;
         public string ScheduleSummaryText
         {
@@ -98,6 +108,29 @@ namespace CellManager.ViewModels
             get => _isLoopValid;
             private set => SetProperty(ref _isLoopValid, value);
         }
+
+        public string LoopRangeDisplay
+        {
+            get
+            {
+                if (LoopStartIndex <= 0 || LoopEndIndex <= 0)
+                    return "Not set";
+                var range = $"{LoopStartIndex} → {LoopEndIndex}";
+                return IsLoopValid ? range : $"{range} (invalid)";
+            }
+        }
+
+        public DateTime ScheduleStartDateTime => ScheduleStartDate.Date + ScheduleStartTime;
+
+        public DateTime ScheduleEndDateTime => ScheduleStartDateTime + TotalDuration;
+
+        public DateTime? ScheduleStartTimePickerValue
+        {
+            get => DateTime.Today.Add(ScheduleStartTime);
+            set => ScheduleStartTime = (value ?? DateTime.Today).TimeOfDay;
+        }
+
+        public ObservableCollection<ScheduleCalendarDay> CalendarDays { get; } = new();
 
         public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
@@ -450,6 +483,7 @@ namespace CellManager.ViewModels
             UpdateLoopIndices();
             UpdateScheduleSummaryText();
             RefreshLoopSummary();
+            RefreshCalendarSchedule();
             OnPropertyChanged(nameof(CanSaveSchedule));
         }
 
@@ -675,6 +709,7 @@ namespace CellManager.ViewModels
             SaveScheduleCommand?.NotifyCanExecuteChanged();
             RefreshLoopSummary();
             OnPropertyChanged(nameof(CanSaveSchedule));
+            OnPropertyChanged(nameof(LoopRangeDisplay));
         }
 
         partial void OnLoopEndIndexChanged(int value)
@@ -682,11 +717,35 @@ namespace CellManager.ViewModels
             SaveScheduleCommand?.NotifyCanExecuteChanged();
             RefreshLoopSummary();
             OnPropertyChanged(nameof(CanSaveSchedule));
+            OnPropertyChanged(nameof(LoopRangeDisplay));
         }
 
         partial void OnRepeatCountChanged(int value)
         {
             UpdateTotalDuration();
+        }
+
+        partial void OnScheduleStartDateChanged(DateTime value)
+        {
+            _scheduleStartDate = value.Date;
+            UpdateScheduleSummaryText();
+            RefreshCalendarSchedule();
+            OnPropertyChanged(nameof(ScheduleStartDateTime));
+            OnPropertyChanged(nameof(ScheduleEndDateTime));
+        }
+
+        partial void OnScheduleStartTimeChanged(TimeSpan value)
+        {
+            UpdateScheduleSummaryText();
+            RefreshCalendarSchedule();
+            OnPropertyChanged(nameof(ScheduleStartDateTime));
+            OnPropertyChanged(nameof(ScheduleEndDateTime));
+            OnPropertyChanged(nameof(ScheduleStartTimePickerValue));
+        }
+
+        partial void OnTotalDurationChanged(TimeSpan value)
+        {
+            OnPropertyChanged(nameof(ScheduleEndDateTime));
         }
 
         private void UpdateScheduleSummaryText()
@@ -697,6 +756,9 @@ namespace CellManager.ViewModels
                 ? "00:00:00"
                 : TotalDuration.ToString("hh\\:mm\\:ss");
 
+            var startLabel = ScheduleStartDateTime.ToString("yyyy-MM-dd HH:mm");
+            var endLabel = ScheduleEndDateTime.ToString("yyyy-MM-dd HH:mm");
+
             var stepSummary = profileCount switch
             {
                 0 => "No profile steps configured",
@@ -704,7 +766,7 @@ namespace CellManager.ViewModels
                 _ => $"{profileCount} profile steps configured"
             };
 
-            ScheduleSummaryText = $"{stepSummary} • Total duration: {durationText} • Repeat count: {repeatCount}";
+            ScheduleSummaryText = $"{stepSummary} • Total duration: {durationText} • Repeat count: {repeatCount} • {startLabel} → {endLabel}";
         }
 
         private void UpdateLoopSummary(int displayStartIndex, int displayEndIndex, bool isValid)
@@ -731,11 +793,202 @@ namespace CellManager.ViewModels
 
             IsLoopValid = isValid;
             LoopSummaryText = summary;
+            OnPropertyChanged(nameof(LoopRangeDisplay));
         }
 
         private void RefreshLoopSummary()
         {
             TryGetNormalizedLoopBounds(out _, out _);
         }
+
+        private void RefreshCalendarSchedule()
+        {
+            CalendarDays.Clear();
+
+            var steps = BuildExecutionPlan().ToList();
+            if (!steps.Any())
+                return;
+
+            var current = ScheduleStartDateTime;
+            var dayMap = new Dictionary<DateTime, ScheduleCalendarDay>();
+
+            foreach (var step in steps)
+            {
+                var start = current;
+                var end = current + step.Duration;
+                var entry = new ScheduleCalendarEntry(
+                    step.Order,
+                    step.Name,
+                    start,
+                    end,
+                    step.Duration,
+                    step.IsLoopSegment,
+                    step.LoopIteration);
+
+                var key = start.Date;
+                if (!dayMap.TryGetValue(key, out var day))
+                {
+                    day = new ScheduleCalendarDay(key);
+                    dayMap.Add(key, day);
+                }
+
+                day.Entries.Add(entry);
+                current = end;
+            }
+
+            foreach (var day in dayMap.Values.OrderBy(d => d.Date))
+                CalendarDays.Add(day);
+        }
+
+        private IEnumerable<ExecutionStep> BuildExecutionPlan()
+        {
+            var results = new List<ExecutionStep>();
+            if (!Sequence.Any())
+                return results;
+
+            var loopStartIndex = Sequence.ToList().FindIndex(s => s.Kind == StepKind.LoopStart);
+            var loopEndIndex = Sequence.ToList().FindIndex(s => s.Kind == StepKind.LoopEnd);
+            var hasValidLoop = loopStartIndex >= 0 && loopEndIndex > loopStartIndex;
+
+            var beforeLoop = new List<StepTemplate>();
+            var loopSteps = new List<StepTemplate>();
+            var afterLoop = new List<StepTemplate>();
+
+            var encounteredLoopStart = false;
+            var encounteredLoopEnd = false;
+            var insideLoop = false;
+
+            foreach (var step in Sequence)
+            {
+                if (step.Kind == StepKind.LoopStart)
+                {
+                    encounteredLoopStart = true;
+                    insideLoop = true;
+                    continue;
+                }
+
+                if (step.Kind == StepKind.LoopEnd)
+                {
+                    encounteredLoopEnd = true;
+                    insideLoop = false;
+                    continue;
+                }
+
+                if (step.Kind != StepKind.Profile)
+                    continue;
+
+                if (!encounteredLoopStart)
+                {
+                    beforeLoop.Add(step);
+                }
+                else if (insideLoop || !encounteredLoopEnd)
+                {
+                    loopSteps.Add(step);
+                }
+                else
+                {
+                    afterLoop.Add(step);
+                }
+            }
+
+            var order = 1;
+
+            foreach (var step in beforeLoop)
+                results.Add(new ExecutionStep(order++, step.Name, step.Duration, false, 0));
+
+            if (loopSteps.Any())
+            {
+                var iterations = hasValidLoop ? Math.Max(1, RepeatCount) : 1;
+                for (var iteration = 1; iteration <= iterations; iteration++)
+                {
+                    foreach (var step in loopSteps)
+                        results.Add(new ExecutionStep(order++, step.Name, step.Duration, hasValidLoop, hasValidLoop ? iteration : 0));
+                }
+            }
+
+            foreach (var step in afterLoop)
+                results.Add(new ExecutionStep(order++, step.Name, step.Duration, false, 0));
+
+            return results;
+        }
+
+        private sealed class ExecutionStep
+        {
+            public ExecutionStep(int order, string name, TimeSpan duration, bool isLoopSegment, int loopIteration)
+            {
+                Order = order;
+                Name = name;
+                Duration = duration;
+                IsLoopSegment = isLoopSegment;
+                LoopIteration = loopIteration;
+            }
+
+            public int Order { get; }
+            public string Name { get; }
+            public TimeSpan Duration { get; }
+            public bool IsLoopSegment { get; }
+            public int LoopIteration { get; }
+        }
+    }
+
+    /// <summary>Represents a single day within the schedule calendar preview.</summary>
+    public class ScheduleCalendarDay
+    {
+        public ScheduleCalendarDay(DateTime date)
+        {
+            Date = date.Date;
+        }
+
+        public DateTime Date { get; }
+
+        public string Header => Date.ToString("yyyy-MM-dd (ddd)");
+
+        public ObservableCollection<ScheduleCalendarEntry> Entries { get; } = new();
+
+        public string TotalDurationText
+        {
+            get
+            {
+                if (!Entries.Any())
+                    return "Total for day: 00:00:00";
+                var ticks = Entries.Sum(e => e.Duration.Ticks);
+                return $"Total for day: {new TimeSpan(ticks):hh\\:mm\\:ss}";
+            }
+        }
+    }
+
+    /// <summary>Describes a scheduled step with concrete start and end timestamps.</summary>
+    public class ScheduleCalendarEntry
+    {
+        public ScheduleCalendarEntry(int order, string stepName, DateTime start, DateTime end, TimeSpan duration, bool isLoopSegment, int loopIteration)
+        {
+            Order = order;
+            StepName = stepName;
+            Start = start;
+            End = end;
+            Duration = duration;
+            IsLoopSegment = isLoopSegment;
+            LoopIteration = loopIteration;
+        }
+
+        public int Order { get; }
+        public string StepName { get; }
+        public DateTime Start { get; }
+        public DateTime End { get; }
+        public TimeSpan Duration { get; }
+        public bool IsLoopSegment { get; }
+        public int LoopIteration { get; }
+
+        public bool HasLoopIteration => IsLoopSegment && LoopIteration > 0;
+
+        public string StepLabel => $"#{Order} {StepName}";
+
+        public string StartDisplay => $"Start: {Start:yyyy-MM-dd HH:mm}";
+
+        public string EndDisplay => $"End: {End:yyyy-MM-dd HH:mm}";
+
+        public string DurationDisplay => $"Duration: {Duration:hh\\:mm\\:ss}";
+
+        public string LoopIterationDisplay => HasLoopIteration ? $"Loop iteration {LoopIteration}" : string.Empty;
     }
 }

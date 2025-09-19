@@ -212,5 +212,41 @@ namespace CellManager.Tests
 
             Assert.Equal(TimeSpan.FromHours(4), vm.SelectedSchedule?.EstimatedDuration);
         }
+
+        [Fact]
+        public void CalendarDays_ReflectSequenceOrder()
+        {
+            var vm = new ScheduleViewModel();
+            var template = vm.StepLibrary.First().Steps.First();
+            vm.InsertStep(template, -1);
+            vm.InsertStep(template, -1);
+
+            var entries = vm.CalendarDays.SelectMany(day => day.Entries).ToList();
+
+            Assert.Equal(2, entries.Count);
+            Assert.Equal(new[] { 1, 2 }, entries.Select(e => e.Order));
+            Assert.All(entries, e => Assert.False(e.IsLoopSegment));
+        }
+
+        [Fact]
+        public void CalendarDays_RepeatLoopSegmentPerIteration()
+        {
+            var vm = new ScheduleViewModel();
+            var loopGroup = vm.StepLibrary.First(g => g.Name == "Loop");
+            var start = loopGroup.Steps.First(s => s.Kind == StepKind.LoopStart);
+            var end = loopGroup.Steps.First(s => s.Kind == StepKind.LoopEnd);
+            var profile = vm.StepLibrary.First(g => g.Name != "Loop").Steps.First();
+
+            vm.InsertStep(start, -1);
+            vm.InsertStep(profile, -1);
+            vm.InsertStep(end, -1);
+            vm.RepeatCount = 3;
+
+            var loopEntries = vm.CalendarDays.SelectMany(day => day.Entries).ToList();
+
+            Assert.Equal(3, loopEntries.Count);
+            Assert.All(loopEntries, e => Assert.True(e.IsLoopSegment));
+            Assert.Equal(new[] { 1, 2, 3 }, loopEntries.Select(e => e.LoopIteration));
+        }
     }
 }
