@@ -225,11 +225,36 @@ namespace CellManager.ViewModels
 
             if (result == true)
             {
+                var wasSelected = SelectedCell?.Id == cell.Id;
+                var filteredBefore = FilteredCells.Cast<Cell>().ToList();
+                var filteredIndex = filteredBefore.IndexOf(cell);
+
                 _cellRepository.DeleteCell(cell);
                 ExecuteLoadData();
 
-                SelectedCell = (CellModels.Count > 0) ? CellModels[0] : null;
                 WeakReferenceMessenger.Default.Send(new CellDeletedMessage(cell));
+
+                if (wasSelected)
+                {
+                    var filteredAfter = FilteredCells.Cast<Cell>().ToList();
+
+                    if (filteredAfter.Count == 0)
+                    {
+                        SelectedCell = null;
+                        WeakReferenceMessenger.Default.Send(new CellSelectedMessage(null));
+                    }
+                    else
+                    {
+                        var targetIndex = filteredIndex >= 0
+                            ? Math.Clamp(filteredIndex, 0, filteredAfter.Count - 1)
+                            : 0;
+
+                        var nextSelection = filteredAfter[targetIndex];
+                        SelectedCell = nextSelection;
+                        WeakReferenceMessenger.Default.Send(new CellSelectedMessage(nextSelection));
+                    }
+                }
+
                 FilteredCells.Refresh();
             }
 
