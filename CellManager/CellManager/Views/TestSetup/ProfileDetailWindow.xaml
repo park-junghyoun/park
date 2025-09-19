@@ -4,7 +4,7 @@
         xmlns:tp="clr-namespace:CellManager.Models.TestProfile"
         xmlns:views="clr-namespace:CellManager.Views.TestSetup"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Profile Details" Height="500" Width="400" WindowStartupLocation="CenterOwner">
+        Title="Profile Details" Height="600" Width="500" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <DataTemplate DataType="{x:Type tp:ChargeProfile}">
             <views:ChargeProfileDetailView />
