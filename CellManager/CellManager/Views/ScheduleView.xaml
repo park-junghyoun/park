@@ -153,46 +153,23 @@
                     </StackPanel>
                 </Grid>
 
-                <UniformGrid Grid.Row="1" Rows="2" Columns="3" Margin="0,20,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <UniformGrid Grid.Row="1" Rows="2" Columns="2" Margin="0,20,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6" Margin="0,0,16,16">
                         <StackPanel>
                             <TextBlock Text="Start" Foreground="#6B7280" FontSize="11"/>
                             <TextBlock Text="{Binding ScheduleStartDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
-                    <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6" Margin="0,0,16,16">
+                    <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6" Margin="0,0,0,16">
                         <StackPanel>
                             <TextBlock Text="End" Foreground="#6B7280" FontSize="11"/>
                             <TextBlock Text="{Binding ScheduleEndDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
-                    <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6" Margin="0,0,0,16">
+                    <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6" Margin="0,0,16,0">
                         <StackPanel>
                             <TextBlock Text="Total Duration" Foreground="#6B7280" FontSize="11"/>
                             <TextBlock Text="{Binding TotalDuration, StringFormat={}{0:hh\\:mm\\:ss}}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-                    <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6" Margin="0,0,16,0">
-                        <StackPanel>
-                            <TextBlock Text="Repeat Count" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock Text="{Binding RepeatCount}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-                    <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6" Margin="0,0,16,0">
-                        <StackPanel>
-                            <TextBlock Text="Loop Range" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock Text="{Binding LoopRangeDisplay}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#111827"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsLoopValid}" Value="False">
-                                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
                         </StackPanel>
                     </Border>
                     <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6">
