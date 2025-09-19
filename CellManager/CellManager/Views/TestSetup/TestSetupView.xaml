@@ -166,6 +166,13 @@
                                                             <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
                                                         </MenuItem.Icon>
                                                     </MenuItem>
+                                                    <MenuItem Header="Duplicate"
+                                                              Command="{Binding PlacementTarget.Tag.DuplicateChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="ContentCopy" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                     <MenuItem Header="Delete"
                                                               Command="{Binding PlacementTarget.Tag.DeleteChargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
@@ -273,6 +280,13 @@
                                                             <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
                                                         </MenuItem.Icon>
                                                     </MenuItem>
+                                                    <MenuItem Header="Duplicate"
+                                                              Command="{Binding PlacementTarget.Tag.DuplicateDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="ContentCopy" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                     <MenuItem Header="Delete"
                                                               Command="{Binding PlacementTarget.Tag.DeleteDischargeProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
@@ -361,6 +375,13 @@
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                                         <MenuItem.Icon>
                                                             <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    <MenuItem Header="Duplicate"
+                                                              Command="{Binding PlacementTarget.Tag.DuplicateRestProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="ContentCopy" Width="16" Height="16"/>
                                                         </MenuItem.Icon>
                                                     </MenuItem>
                                                     <MenuItem Header="Delete"
@@ -453,6 +474,13 @@
                                                             <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
                                                         </MenuItem.Icon>
                                                     </MenuItem>
+                                                    <MenuItem Header="Duplicate"
+                                                              Command="{Binding PlacementTarget.Tag.DuplicateOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="ContentCopy" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
                                                     <MenuItem Header="Delete"
                                                               Command="{Binding PlacementTarget.Tag.DeleteOcvProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
@@ -541,6 +569,13 @@
                                                               CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                                                         <MenuItem.Icon>
                                                             <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                    <MenuItem Header="Duplicate"
+                                                              Command="{Binding PlacementTarget.Tag.DuplicateEcmProfileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                                        <MenuItem.Icon>
+                                                            <materialDesign:PackIcon Kind="ContentCopy" Width="16" Height="16"/>
                                                         </MenuItem.Icon>
                                                     </MenuItem>
                                                     <MenuItem Header="Delete"
