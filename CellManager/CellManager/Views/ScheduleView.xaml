@@ -114,80 +114,100 @@
         </materialDesign:Card>
 
         <!-- Schedule summary card -->
-        <materialDesign:Card Grid.Row="1" Padding="12" Margin="0,0,0,8">
-            <StackPanel>
+        <materialDesign:Card Grid.Row="1" Padding="16" Margin="0,0,0,8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="TimelineClock" Width="22" Height="22" Margin="0,0,8,0"/>
+                    <materialDesign:PackIcon Kind="CalendarClock" Width="22" Height="22" Margin="0,0,8,0"/>
                     <StackPanel>
                         <TextBlock Text="Schedule Overview" FontWeight="SemiBold" FontSize="15"/>
                         <TextBlock Text="{Binding ScheduleSummaryText}" Foreground="#6B7280" TextWrapping="Wrap"/>
                     </StackPanel>
                 </StackPanel>
 
-                <TextBlock Margin="30,8,0,0" Text="{Binding LoopSummaryText}" TextWrapping="Wrap">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="#374151"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsLoopValid}" Value="False">
-                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                <!-- Loop summary -->
+                <Border Grid.Row="1" Margin="0,12,0,0" Padding="12,8" CornerRadius="6" Background="#F9FAFB" BorderBrush="#E5E7EB" BorderThickness="1">
+                    <TextBlock Text="{Binding LoopSummaryText}" TextWrapping="Wrap" TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="#1F2937"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsLoopValid}" Value="False">
+                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Border>
 
-                <Grid Margin="0,12,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Calendar style quick facts -->
+                <Border Grid.Row="2" Margin="0,16,0,0" Padding="12" CornerRadius="8" BorderBrush="#E5E7EB" BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Schedule Snapshot" FontWeight="SemiBold" Foreground="#4B5563"/>
+                        <UniformGrid Grid.Row="1" Rows="2" Columns="2" Margin="0,12,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6">
+                                <StackPanel>
+                                    <TextBlock Text="Total Duration" Foreground="#6B7280" FontSize="11"/>
+                                    <TextBlock Text="{Binding TotalDuration, StringFormat={}{0:hh\\:mm\\:ss}}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6">
+                                <StackPanel>
+                                    <TextBlock Text="Repeat Count" Foreground="#6B7280" FontSize="11"/>
+                                    <TextBlock Text="{Binding RepeatCount}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6">
+                                <StackPanel>
+                                    <TextBlock Text="Loop Range" Foreground="#6B7280" FontSize="11"/>
+                                    <TextBlock FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} → {1}">
+                                                <Binding Path="LoopStartIndex"/>
+                                                <Binding Path="LoopEndIndex"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#FFFFFF" BorderBrush="#E5E7EB" BorderThickness="1" Padding="12" CornerRadius="6">
+                                <StackPanel>
+                                    <TextBlock Text="Save Status" Foreground="#6B7280" FontSize="11"/>
+                                    <TextBlock FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Ready"/>
+                                                <Setter Property="Foreground" Value="#059669"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CanSaveSchedule}" Value="False">
+                                                        <Setter Property="Text" Value="Blocked"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </UniformGrid>
+                    </Grid>
+                </Border>
 
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="Total Duration" Foreground="#6B7280" FontSize="12"/>
-                        <TextBlock Text="{Binding TotalDuration, StringFormat={}{0:hh\\:mm\\:ss}}" FontWeight="SemiBold"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1">
-                        <TextBlock Text="Repeat Count" Foreground="#6B7280" FontSize="12"/>
-                        <TextBlock Text="{Binding RepeatCount}" FontWeight="SemiBold"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="2">
-                        <TextBlock Text="Loop Range" Foreground="#6B7280" FontSize="12"/>
-                        <TextBlock FontWeight="SemiBold">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} → {1}">
-                                    <Binding Path="LoopStartIndex"/>
-                                    <Binding Path="LoopEndIndex"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="3">
-                        <TextBlock Text="Save Status" Foreground="#6B7280" FontSize="12"/>
-                        <TextBlock FontWeight="SemiBold">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="Ready"/>
-                                    <Setter Property="Foreground" Value="#059669"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CanSaveSchedule}" Value="False">
-                                            <Setter Property="Text" Value="Blocked"/>
-                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </StackPanel>
-                </Grid>
-
-                <TextBlock Margin="0,10,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
-                           Foreground="{DynamicResource MaterialDesignValidationErrorColor}">
+                <!-- Warning message -->
+                <TextBlock Grid.Row="3" Margin="0,14,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
+                           Foreground="{DynamicResource MaterialDesignValidationErrorColor}" TextAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -207,7 +227,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-            </StackPanel>
+            </Grid>
         </materialDesign:Card>
 
         <!-- Main content -->
