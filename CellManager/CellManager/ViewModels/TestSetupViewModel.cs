@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -47,22 +48,27 @@ namespace CellManager.ViewModels
         public RelayCommand AddChargeProfileCommand { get; }
         public RelayCommand<ChargeProfile> EditChargeProfileCommand { get; }
         public RelayCommand<ChargeProfile> DeleteChargeProfileCommand { get; }
+        public RelayCommand<ChargeProfile> DuplicateChargeProfileCommand { get; }
 
         public RelayCommand AddDischargeProfileCommand { get; }
         public RelayCommand<DischargeProfile> EditDischargeProfileCommand { get; }
         public RelayCommand<DischargeProfile> DeleteDischargeProfileCommand { get; }
+        public RelayCommand<DischargeProfile> DuplicateDischargeProfileCommand { get; }
 
         public RelayCommand AddRestProfileCommand { get; }
         public RelayCommand<RestProfile> EditRestProfileCommand { get; }
         public RelayCommand<RestProfile> DeleteRestProfileCommand { get; }
+        public RelayCommand<RestProfile> DuplicateRestProfileCommand { get; }
 
         public RelayCommand AddOcvProfileCommand { get; }
         public RelayCommand<OCVProfile> EditOcvProfileCommand { get; }
         public RelayCommand<OCVProfile> DeleteOcvProfileCommand { get; }
+        public RelayCommand<OCVProfile> DuplicateOcvProfileCommand { get; }
 
         public RelayCommand AddEcmProfileCommand { get; }
         public RelayCommand<ECMPulseProfile> EditEcmProfileCommand { get; }
         public RelayCommand<ECMPulseProfile> DeleteEcmProfileCommand { get; }
+        public RelayCommand<ECMPulseProfile> DuplicateEcmProfileCommand { get; }
 
         public TestSetupViewModel(
             IChargeProfileRepository chargeRepo,
@@ -80,22 +86,27 @@ namespace CellManager.ViewModels
             AddChargeProfileCommand = new RelayCommand(AddChargeProfile, () => SelectedCell?.Id > 0);
             EditChargeProfileCommand = new RelayCommand<ChargeProfile>(EditChargeProfile);
             DeleteChargeProfileCommand = new RelayCommand<ChargeProfile>(DeleteChargeProfile);
+            DuplicateChargeProfileCommand = new RelayCommand<ChargeProfile>(DuplicateChargeProfile);
 
             AddDischargeProfileCommand = new RelayCommand(AddDischargeProfile, () => SelectedCell?.Id > 0);
             EditDischargeProfileCommand = new RelayCommand<DischargeProfile>(EditDischargeProfile);
             DeleteDischargeProfileCommand = new RelayCommand<DischargeProfile>(DeleteDischargeProfile);
+            DuplicateDischargeProfileCommand = new RelayCommand<DischargeProfile>(DuplicateDischargeProfile);
 
             AddRestProfileCommand = new RelayCommand(AddRestProfile, () => SelectedCell?.Id > 0);
             EditRestProfileCommand = new RelayCommand<RestProfile>(EditRestProfile);
             DeleteRestProfileCommand = new RelayCommand<RestProfile>(DeleteRestProfile);
+            DuplicateRestProfileCommand = new RelayCommand<RestProfile>(DuplicateRestProfile);
 
             AddOcvProfileCommand = new RelayCommand(AddOcvProfile, () => SelectedCell?.Id > 0);
             EditOcvProfileCommand = new RelayCommand<OCVProfile>(EditOcvProfile);
             DeleteOcvProfileCommand = new RelayCommand<OCVProfile>(DeleteOcvProfile);
+            DuplicateOcvProfileCommand = new RelayCommand<OCVProfile>(DuplicateOcvProfile);
 
             AddEcmProfileCommand = new RelayCommand(AddEcmProfile, () => SelectedCell?.Id > 0);
             EditEcmProfileCommand = new RelayCommand<ECMPulseProfile>(EditEcmProfile);
             DeleteEcmProfileCommand = new RelayCommand<ECMPulseProfile>(DeleteEcmProfile);
+            DuplicateEcmProfileCommand = new RelayCommand<ECMPulseProfile>(DuplicateEcmProfile);
 
             WeakReferenceMessenger.Default.Register<CellSelectedMessage>(this, (r, m) =>
             {
@@ -148,6 +159,20 @@ namespace CellManager.ViewModels
             ReloadAllAndNotify();
         }
 
+        /// <summary>Creates a copy of an existing charge profile and persists it as a new record.</summary>
+        private void DuplicateChargeProfile(ChargeProfile profile)
+        {
+            if (profile == null || SelectedCell?.Id <= 0) return;
+
+            var copy = Clone(profile);
+            copy.Id = 0;
+            copy.DisplayId = GetNextProfileId();
+            copy.Name = GenerateCopyName(profile.Name, ChargeProfiles.Select(p => p.Name));
+
+            _chargeRepo.Save(copy, SelectedCell.Id);
+            ReloadAllAndNotify();
+        }
+
         /// <summary>Creates a new discharge profile and saves it if the dialog is confirmed.</summary>
         private void AddDischargeProfile()
         {
@@ -176,6 +201,20 @@ namespace CellManager.ViewModels
         {
             if (profile == null) return;
             _dischargeRepo.Delete(profile);
+            ReloadAllAndNotify();
+        }
+
+        /// <summary>Duplicates a discharge profile and saves it as a new entity.</summary>
+        private void DuplicateDischargeProfile(DischargeProfile profile)
+        {
+            if (profile == null || SelectedCell?.Id <= 0) return;
+
+            var copy = Clone(profile);
+            copy.Id = 0;
+            copy.DisplayId = GetNextProfileId();
+            copy.Name = GenerateCopyName(profile.Name, DischargeProfiles.Select(p => p.Name));
+
+            _dischargeRepo.Save(copy, SelectedCell.Id);
             ReloadAllAndNotify();
         }
 
@@ -210,6 +249,20 @@ namespace CellManager.ViewModels
             ReloadAllAndNotify();
         }
 
+        /// <summary>Creates a duplicated rest profile entry.</summary>
+        private void DuplicateRestProfile(RestProfile profile)
+        {
+            if (profile == null || SelectedCell?.Id <= 0) return;
+
+            var copy = Clone(profile);
+            copy.Id = 0;
+            copy.DisplayId = GetNextProfileId();
+            copy.Name = GenerateCopyName(profile.Name, RestProfiles.Select(p => p.Name));
+
+            _restRepo.Save(copy, SelectedCell.Id);
+            ReloadAllAndNotify();
+        }
+
         /// <summary>Initialises a new OCV profile and persists it.</summary>
         private void AddOcvProfile()
         {
@@ -241,6 +294,20 @@ namespace CellManager.ViewModels
             ReloadAllAndNotify();
         }
 
+        /// <summary>Copies an OCV profile and saves it under a new identifier.</summary>
+        private void DuplicateOcvProfile(OCVProfile profile)
+        {
+            if (profile == null || SelectedCell?.Id <= 0) return;
+
+            var copy = Clone(profile);
+            copy.Id = 0;
+            copy.DisplayId = GetNextProfileId();
+            copy.Name = GenerateCopyName(profile.Name, OcvProfiles.Select(p => p.Name));
+
+            _ocvRepo.Save(copy, SelectedCell.Id);
+            ReloadAllAndNotify();
+        }
+
         /// <summary>Creates an ECM pulse profile skeleton and saves it once confirmed.</summary>
         private void AddEcmProfile()
         {
@@ -269,6 +336,20 @@ namespace CellManager.ViewModels
         {
             if (profile == null) return;
             _ecmRepo.Delete(profile);
+            ReloadAllAndNotify();
+        }
+
+        /// <summary>Duplicates an ECM pulse profile and stores it for the selected cell.</summary>
+        private void DuplicateEcmProfile(ECMPulseProfile profile)
+        {
+            if (profile == null || SelectedCell?.Id <= 0) return;
+
+            var copy = Clone(profile);
+            copy.Id = 0;
+            copy.DisplayId = GetNextProfileId();
+            copy.Name = GenerateCopyName(profile.Name, EcmPulseProfiles.Select(p => p.Name));
+
+            _ecmRepo.Save(copy, SelectedCell.Id);
             ReloadAllAndNotify();
         }
 
@@ -363,6 +444,26 @@ namespace CellManager.ViewModels
         {
             if (SelectedCell?.Id > 0)
                 WeakReferenceMessenger.Default.Send(new TestProfilesUpdatedMessage(SelectedCell.Id));
+        }
+
+        /// <summary>Produces a descriptive name for duplicated profiles while avoiding collisions.</summary>
+        private static string GenerateCopyName(string? originalName, IEnumerable<string> existingNames)
+        {
+            var baseName = string.IsNullOrWhiteSpace(originalName) ? "Profile" : originalName.Trim();
+            var candidate = $"{baseName} Copy";
+            var suffix = 2;
+
+            var existing = existingNames
+                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Select(name => name.Trim())
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            while (existing.Contains(candidate))
+            {
+                candidate = $"{baseName} Copy {suffix++}";
+            }
+
+            return candidate;
         }
     }
 }
