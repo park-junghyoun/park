@@ -30,7 +30,6 @@ namespace CellManager.ViewModels
 
         [ObservableProperty] private string _boardStatus = "Disconnected";
         [ObservableProperty] private string _serverStatus = "Disconnected";
-        [ObservableProperty] private string _boardVersion = string.Empty;
         [ObservableProperty] private string _currentSchedule = string.Empty;
         [ObservableProperty] private string _currentProfile = string.Empty;
         [ObservableProperty] private string _testStatus = string.Empty;
@@ -61,7 +60,6 @@ namespace CellManager.ViewModels
             _scheduleVm = scheduleVm;
             _runVm = runVm;
             _serverStatusService = serverStatusService;
-            BoardVersion = settingsVm.FirmwareVersion;
 
             NavigationItems.Add(homeVm);
             NavigationItems.Add(cellLibraryVm);
@@ -104,12 +102,6 @@ namespace CellManager.ViewModels
                 if (target != null) AvailableCells.Remove(target);
                 if (SelectedCell?.Id == m.DeletedCell.Id) SelectedCell = null;
             });
-
-            WeakReferenceMessenger.Default.Register<BoardVersionChangedMessage>(this, (r, m) =>
-            {
-                BoardVersion = m.Version;
-            });
-
             WeakReferenceMessenger.Default.Register<ScheduleChangedMessage>(this, (r, m) =>
             {
                 CurrentSchedule = m.Schedule?.DisplayNameAndId ?? string.Empty;

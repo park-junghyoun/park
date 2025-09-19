@@ -155,10 +155,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-                    <Image Source="/Image/renesas.png" Height="30"
-               Stretch="Uniform"/>
-                    <materialDesign:PackIcon Kind="Information" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBlock Text="{Binding BoardVersion, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A', StringFormat='Version {0}'}" VerticalAlignment="Center"/>
+                    <Image Source="/Image/renesas.png" Height="30" Stretch="Uniform"/>
                 </StackPanel>
             </Grid>
         </Border>
