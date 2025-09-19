@@ -78,6 +78,27 @@ namespace CellManager.ViewModels
         [ObservableProperty] private TimeSpan _totalDuration;
         [ObservableProperty] private Cell? _selectedCell;
 
+        private string _scheduleSummaryText = string.Empty;
+        public string ScheduleSummaryText
+        {
+            get => _scheduleSummaryText;
+            private set => SetProperty(ref _scheduleSummaryText, value);
+        }
+
+        private string _loopSummaryText = string.Empty;
+        public string LoopSummaryText
+        {
+            get => _loopSummaryText;
+            private set => SetProperty(ref _loopSummaryText, value);
+        }
+
+        private bool _isLoopValid = true;
+        public bool IsLoopValid
+        {
+            get => _isLoopValid;
+            private set => SetProperty(ref _isLoopValid, value);
+        }
+
         public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
         public RelayCommand AddScheduleCommand { get; }
@@ -105,6 +126,7 @@ namespace CellManager.ViewModels
                 UpdateTotalDuration();
                 UpdateStepNumbers();
                 SaveScheduleCommand?.NotifyCanExecuteChanged();
+                OnPropertyChanged(nameof(CanSaveSchedule));
             };
 
             RemoveStepCommand = new RelayCommand<StepTemplate>(s => Sequence.Remove(s));
@@ -426,6 +448,9 @@ namespace CellManager.ViewModels
             if (SelectedSchedule != null)
                 SelectedSchedule.EstimatedDuration = TotalDuration;
             UpdateLoopIndices();
+            UpdateScheduleSummaryText();
+            RefreshLoopSummary();
+            OnPropertyChanged(nameof(CanSaveSchedule));
         }
 
         /// <summary>Determines the total duration encompassed by the current loop markers.</summary>
@@ -549,6 +574,7 @@ namespace CellManager.ViewModels
             }
             DeleteScheduleCommand.NotifyCanExecuteChanged();
             SaveScheduleCommand?.NotifyCanExecuteChanged();
+            OnPropertyChanged(nameof(CanSaveSchedule));
         }
 
         /// <summary>Creates a new blank schedule and selects it for editing.</summary>
@@ -626,6 +652,7 @@ namespace CellManager.ViewModels
             {
                 normalizedStartIndex = 0;
                 normalizedEndIndex = 0;
+                UpdateLoopSummary(loopStart + 1, loopEnd + 1, true);
                 return true;
             }
 
@@ -633,27 +660,82 @@ namespace CellManager.ViewModels
             {
                 normalizedStartIndex = 0;
                 normalizedEndIndex = 0;
+                UpdateLoopSummary(loopStart + 1, loopEnd + 1, false);
                 return false;
             }
 
             normalizedStartIndex = loopStart + 1;
             normalizedEndIndex = loopEnd + 1;
+            UpdateLoopSummary(normalizedStartIndex, normalizedEndIndex, true);
             return true;
         }
 
         partial void OnLoopStartIndexChanged(int value)
         {
             SaveScheduleCommand?.NotifyCanExecuteChanged();
+            RefreshLoopSummary();
+            OnPropertyChanged(nameof(CanSaveSchedule));
         }
 
         partial void OnLoopEndIndexChanged(int value)
         {
             SaveScheduleCommand?.NotifyCanExecuteChanged();
+            RefreshLoopSummary();
+            OnPropertyChanged(nameof(CanSaveSchedule));
         }
 
         partial void OnRepeatCountChanged(int value)
         {
             UpdateTotalDuration();
+        }
+
+        private void UpdateScheduleSummaryText()
+        {
+            var profileCount = Sequence.Count(s => s.Kind == StepKind.Profile);
+            var repeatCount = Math.Max(1, RepeatCount);
+            var durationText = TotalDuration == TimeSpan.Zero
+                ? "00:00:00"
+                : TotalDuration.ToString("hh\\:mm\\:ss");
+
+            var stepSummary = profileCount switch
+            {
+                0 => "No profile steps configured",
+                1 => "1 profile step configured",
+                _ => $"{profileCount} profile steps configured"
+            };
+
+            ScheduleSummaryText = $"{stepSummary} • Total duration: {durationText} • Repeat count: {repeatCount}";
+        }
+
+        private void UpdateLoopSummary(int displayStartIndex, int displayEndIndex, bool isValid)
+        {
+            var hasLoop = displayStartIndex > 0 && displayEndIndex > 0;
+            var repeatCount = Math.Max(1, RepeatCount);
+
+            string summary;
+            if (!hasLoop)
+            {
+                summary = repeatCount > 1
+                    ? $"Loop markers missing • Repeat count ignored ({repeatCount})"
+                    : "Loop markers not configured";
+            }
+            else if (!isValid)
+            {
+                summary = $"Loop start {displayStartIndex} must precede end {displayEndIndex}";
+            }
+            else
+            {
+                var repeatText = repeatCount > 1 ? $"repeats {repeatCount} times" : "no repetition";
+                summary = $"Loop range: {displayStartIndex} → {displayEndIndex} • {repeatText}";
+            }
+
+            IsLoopValid = isValid;
+            LoopSummaryText = summary;
+        }
+
+        private void RefreshLoopSummary()
+        {
+            TryGetNormalizedLoopBounds(out _, out _);
         }
     }
 }

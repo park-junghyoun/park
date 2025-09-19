@@ -47,6 +47,7 @@
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="15"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -112,8 +113,105 @@
             </Grid>
         </materialDesign:Card>
 
+        <!-- Schedule summary card -->
+        <materialDesign:Card Grid.Row="1" Padding="12" Margin="0,0,0,8">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="TimelineClock" Width="22" Height="22" Margin="0,0,8,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Schedule Overview" FontWeight="SemiBold" FontSize="15"/>
+                        <TextBlock Text="{Binding ScheduleSummaryText}" Foreground="#6B7280" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock Margin="30,8,0,0" Text="{Binding LoopSummaryText}" TextWrapping="Wrap">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="#374151"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoopValid}" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Total Duration" Foreground="#6B7280" FontSize="12"/>
+                        <TextBlock Text="{Binding TotalDuration, StringFormat={}{0:hh\\:mm\\:ss}}" FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Repeat Count" Foreground="#6B7280" FontSize="12"/>
+                        <TextBlock Text="{Binding RepeatCount}" FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Loop Range" Foreground="#6B7280" FontSize="12"/>
+                        <TextBlock FontWeight="SemiBold">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} → {1}">
+                                    <Binding Path="LoopStartIndex"/>
+                                    <Binding Path="LoopEndIndex"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3">
+                        <TextBlock Text="Save Status" Foreground="#6B7280" FontSize="12"/>
+                        <TextBlock FontWeight="SemiBold">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="Ready"/>
+                                    <Setter Property="Foreground" Value="#059669"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanSaveSchedule}" Value="False">
+                                            <Setter Property="Text" Value="Blocked"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignValidationErrorColor}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock Margin="0,10,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
+                           Foreground="{DynamicResource MaterialDesignValidationErrorColor}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Text" Value="Loop start index must come before the loop end index to save this schedule."/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding CanSaveSchedule}" Value="False"/>
+                                        <Condition Binding="{Binding IsLoopValid}" Value="False"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </MultiDataTrigger>
+                                <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </materialDesign:Card>
+
         <!-- Main content -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="700"/>
