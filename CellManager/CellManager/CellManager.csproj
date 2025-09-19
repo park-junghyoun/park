@@ -12,13 +12,13 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Config\" />
-    <Folder Include="Image\" />
     <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="ProtectionProfiles\**\*.json" CopyToOutputDirectory="Always" />
     <None Include="BoardDataProfiles\**\*.json" CopyToOutputDirectory="Always" />
+    <None Remove="Image\renesas.png" />
     <None Include="Config\TestSetupProfileConstraints.json" CopyToOutputDirectory="Always" />
     <None Include="Config\CellDetailConstraints.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
@@ -36,6 +36,10 @@
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="System.Data.SQLite" Version="2.0.1" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Image\renesas.png" />
   </ItemGroup>
 
 </Project>

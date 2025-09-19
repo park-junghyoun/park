@@ -114,10 +114,50 @@
 
                     <materialDesign:PackIcon Kind="Battery"  VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Text="{Binding SelectedCell.DisplayNameAndId, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No Cell Selected', FallbackValue='No Cell Selected'}" VerticalAlignment="Center" />
+                    <TextBlock FontSize="10"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center"
+                           ToolTipService.ShowDuration="60000" Margin="10,0,0,0">
+    <!-- 구분자 -->
+    <Run Text="• " Foreground="{StaticResource SepBrush}"/>
+
+    <!-- 메타: 레이블은 라이트 그레이, 값은 다크 그레이 -->
+    <Run Text="SN " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.SerialNumber}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="  • " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="Type " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.CellType}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="  • " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="MFR " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.Manufacturer}" Foreground="{StaticResource MetaValueBrush}"/>
+
+    <Run Text="  • " Foreground="{StaticResource SepBrush}"/>
+
+    <Run Text="Updated " Foreground="{StaticResource MetaLabelBrush}"/>
+    <Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm}}"
+         Foreground="{StaticResource MetaValueBrush}"/>
+
+    <!-- 전체 원문 툴팁(잘릴 때 대비) -->
+                        <TextBlock.ToolTip>
+                            <TextBlock>
+        <Run Text="  |  SN: "/><Run Text="{Binding SelectedCell.SerialNumber}"/>
+        <Run Text="  |  Type: "/><Run Text="{Binding SelectedCell.CellType}"/>
+        <Run Text="  |  MFR: "/><Run Text="{Binding SelectedCell.Manufacturer}"/>
+        <Run Text="  |  Updated: "/><Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+                            </TextBlock>
+                        </TextBlock.ToolTip>
+  </TextBlock>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-                    <materialDesign:PackIcon Kind="Information" />
+                    <Image Source="/Image/renesas.png" Height="30"
+               Stretch="Uniform"/>
+                    <materialDesign:PackIcon Kind="Information" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <TextBlock Text="{Binding BoardVersion, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='N/A', FallbackValue='N/A', StringFormat='Version {0}'}" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>

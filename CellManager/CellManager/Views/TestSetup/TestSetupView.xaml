@@ -27,49 +27,6 @@
                     </StackPanel>
                 </StackPanel>
 
-                <TextBlock Grid.Column="1" FontSize="14"
-                           TextWrapping="NoWrap"
-                           TextTrimming="CharacterEllipsis"
-                           VerticalAlignment="Center"
-                           ToolTipService.ShowDuration="60000" Margin="24,0,0,0">
-    <!-- 선택 셀: 타이틀(가장 강조) -->
-    <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"
-         FontWeight="SemiBold" Foreground="{StaticResource TitleBrush}"/>
-
-    <!-- 구분자 -->
-    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
-
-    <!-- 메타: 레이블은 라이트 그레이, 값은 다크 그레이 -->
-    <Run Text="SN " Foreground="{StaticResource MetaLabelBrush}"/>
-    <Run Text="{Binding SelectedCell.SerialNumber}" Foreground="{StaticResource MetaValueBrush}"/>
-
-    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
-
-    <Run Text="Type " Foreground="{StaticResource MetaLabelBrush}"/>
-    <Run Text="{Binding SelectedCell.CellType}" Foreground="{StaticResource MetaValueBrush}"/>
-
-    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
-
-    <Run Text="MFR " Foreground="{StaticResource MetaLabelBrush}"/>
-    <Run Text="{Binding SelectedCell.Manufacturer}" Foreground="{StaticResource MetaValueBrush}"/>
-
-    <Run Text="   •   " Foreground="{StaticResource SepBrush}"/>
-
-    <Run Text="Updated " Foreground="{StaticResource MetaLabelBrush}"/>
-    <Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm}}"
-         Foreground="{StaticResource MetaValueBrush}"/>
-
-    <!-- 전체 원문 툴팁(잘릴 때 대비) -->
-                    <TextBlock.ToolTip>
-                        <TextBlock>
-        <Run Text="{Binding SelectedCell.DisplayNameAndId, Mode=OneWay}"/>
-        <Run Text="  |  SN: "/><Run Text="{Binding SelectedCell.SerialNumber}"/>
-        <Run Text="  |  Type: "/><Run Text="{Binding SelectedCell.CellType}"/>
-        <Run Text="  |  MFR: "/><Run Text="{Binding SelectedCell.Manufacturer}"/>
-        <Run Text="  |  Updated: "/><Run Text="{Binding SelectedCell.LastUpdated, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
-                        </TextBlock>
-                    </TextBlock.ToolTip>
-  </TextBlock>
             </Grid>
         </materialDesign:Card>
         <DockPanel Grid.Row="2" >
