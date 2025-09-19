@@ -237,17 +237,36 @@ namespace CellManager.ViewModels
         }
 
         /// <summary>
-        ///     Creates a copy of the provided cell, resets identifying fields, and persists it as a new entry.
+        ///     Creates a copy of the provided cell after gathering new identifying fields from the user.
         /// </summary>
         private void DuplicateCell(Cell cell)
         {
             if (cell == null || cell.Id <= 0) return;
 
+            var dialogVm = new DuplicateCellDialogViewModel
+            {
+                ModelName = string.IsNullOrWhiteSpace(cell.ModelName)
+                    ? string.Empty
+                    : $"{cell.ModelName} Copy",
+                SerialNumber = cell.SerialNumber ?? string.Empty,
+                PartNumber = cell.PartNumber ?? string.Empty
+            };
+
+            var dialog = new DuplicateCellDialog
+            {
+                Owner = Application.Current.MainWindow,
+                DataContext = dialogVm
+            };
+
+            var result = dialog.ShowDialog();
+            if (result != true) return;
+
             var duplicate = new Cell(cell)
             {
                 Id = 0,
-                SerialNumber = string.Empty,
-                PartNumber = string.Empty,
+                ModelName = dialogVm.ModelName?.Trim() ?? string.Empty,
+                SerialNumber = dialogVm.SerialNumber?.Trim() ?? string.Empty,
+                PartNumber = dialogVm.PartNumber?.Trim() ?? string.Empty,
                 IsActive = false
             };
 
