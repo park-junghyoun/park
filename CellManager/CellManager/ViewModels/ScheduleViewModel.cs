@@ -76,6 +76,7 @@ namespace CellManager.ViewModels
         [ObservableProperty] private int _loopStartIndex;
         [ObservableProperty] private int _loopEndIndex;
         [ObservableProperty] private TimeSpan _totalDuration;
+        [ObservableProperty] private bool _isCalendarVisible = true;
         [ObservableProperty] private Cell? _selectedCell;
 
         [ObservableProperty]
@@ -131,6 +132,8 @@ namespace CellManager.ViewModels
         }
 
         public ObservableCollection<ScheduleCalendarDay> CalendarDays { get; } = new();
+
+        public string TotalDurationDisplay => DurationFormatting.ToHourString(TotalDuration);
 
         public RelayCommand<StepTemplate> RemoveStepCommand { get; }
         public RelayCommand SaveScheduleCommand { get; }
@@ -755,15 +758,14 @@ namespace CellManager.ViewModels
         partial void OnTotalDurationChanged(TimeSpan value)
         {
             OnPropertyChanged(nameof(ScheduleEndDateTime));
+            OnPropertyChanged(nameof(TotalDurationDisplay));
         }
 
         private void UpdateScheduleSummaryText()
         {
             var profileCount = Sequence.Count(s => s.Kind == StepKind.Profile);
             var repeatCount = Math.Max(1, RepeatCount);
-            var durationText = TotalDuration == TimeSpan.Zero
-                ? "00:00:00"
-                : TotalDuration.ToString("hh\\:mm\\:ss");
+            var durationText = DurationFormatting.ToHourString(TotalDuration);
 
             var startLabel = ScheduleStartDateTime.ToString("yyyy-MM-dd HH:mm");
             var endLabel = ScheduleEndDateTime.ToString("yyyy-MM-dd HH:mm");
@@ -959,9 +961,9 @@ namespace CellManager.ViewModels
             get
             {
                 if (!Entries.Any())
-                    return "Total for day: 00:00:00";
+                    return "00:00:00";
                 var ticks = Entries.Sum(e => e.Duration.Ticks);
-                return $"Total for day: {new TimeSpan(ticks):hh\\:mm\\:ss}";
+                return DurationFormatting.ToHourString(new TimeSpan(ticks));
             }
         }
     }
@@ -996,7 +998,7 @@ namespace CellManager.ViewModels
 
         public string EndDisplay => $"End: {End:yyyy-MM-dd HH:mm}";
 
-        public string DurationDisplay => $"Duration: {Duration:hh\\:mm\\:ss}";
+        public string DurationDisplay => $"Duration: {DurationFormatting.ToHourString(Duration)}";
 
         public string TimeRangeDisplay => $"{Start:HH:mm} – {End:HH:mm}";
 
@@ -1025,5 +1027,20 @@ namespace CellManager.ViewModels
         public string LoopIterationDisplay => HasLoopIteration ? $"Loop iteration {LoopIteration}" : string.Empty;
 
         public string LoopBadgeText => HasLoopIteration ? $"Loop #{LoopIteration}" : string.Empty;
+    }
+
+    internal static class DurationFormatting
+    {
+        public static string ToHourString(TimeSpan duration)
+        {
+            if (duration < TimeSpan.Zero)
+                return "-" + ToHourString(duration.Negate());
+
+            var totalHours = (long)duration.TotalHours;
+            var minutes = duration.Minutes;
+            var seconds = duration.Seconds;
+
+            return $"{totalHours:00}:{minutes:00}:{seconds:00}";
+        }
     }
 }

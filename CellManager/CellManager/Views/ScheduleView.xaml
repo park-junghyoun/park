@@ -10,6 +10,7 @@
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200">
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:IsNotLastItemConverter x:Key="IsNotLastItemConverter"/>
         <DataTemplate x:Key="StepTemplateItem">
             <TextBlock Margin="4" VerticalAlignment="Center" Cursor="SizeAll">
@@ -68,23 +69,23 @@
                 </StackPanel>
 
                 <Grid Grid.Column="1" Margin="24,0" VerticalAlignment="Center" HorizontalAlignment="Right">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <StackPanel Margin="0,0,16,0">
-                            <TextBlock Text="Start" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock Text="{Binding ScheduleStartDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="14" FontWeight="SemiBold"/>
-                        </StackPanel>
-                        <StackPanel Margin="0,0,16,0">
-                            <TextBlock Text="End" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock Text="{Binding ScheduleEndDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="14" FontWeight="SemiBold"/>
-                        </StackPanel>
-                        <StackPanel Margin="0,0,16,0">
-                            <TextBlock Text="Total Duration" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock Text="{Binding TotalDuration, StringFormat={}{0:hh\\:mm\\:ss}}" FontSize="14" FontWeight="SemiBold"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="Save Status" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock FontSize="14" FontWeight="SemiBold">
-                                <TextBlock.Style>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel Margin="0,0,16,0">
+                                <TextBlock Text="Start" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding ScheduleStartDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="14" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,16,0">
+                                <TextBlock Text="End" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding ScheduleEndDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="14" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,0,16,0">
+                                <TextBlock Text="Total Duration" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding TotalDurationDisplay}" FontSize="14" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Save Status" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock FontSize="14" FontWeight="SemiBold">
+                                    <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Text" Value="Ready"/>
                                         <Setter Property="Foreground" Value="#059669"/>
@@ -98,6 +99,12 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </StackPanel>
+                        <ToggleButton Margin="16,0,0,0" VerticalAlignment="Center" IsChecked="{Binding IsCalendarVisible}" Style="{DynamicResource MaterialDesignSwitchToggleButton}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="CalendarRange" Width="18" Height="18" Margin="0,0,6,0"/>
+                                <TextBlock Text="Calendar Preview" FontSize="12"/>
+                            </StackPanel>
+                        </ToggleButton>
                     </StackPanel>
                 </Grid>
 
@@ -582,129 +589,138 @@
             </GroupBox>
 
             <!-- Schedule calendar card -->
-            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="16" Margin="0,16,10,0">
+            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="16" Margin="0,16,10,0"
+                                  Visibility="{Binding IsCalendarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                            <ItemsControl ItemsSource="{Binding CalendarDays}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type vm:ScheduleCalendarDay}">
-                                        <materialDesign:Card MinWidth="260" MaxWidth="600" Margin="0,0,12,0" Padding="12" HorizontalAlignment="Left">
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
 
-                                                <TextBlock Grid.Row="0" Text="{Binding Header}" FontWeight="SemiBold" FontSize="14"/>
-                                                <TextBlock Grid.Row="1" Text="{Binding TotalDurationText}" Foreground="#6B7280" FontSize="11" Margin="0,2,0,0"/>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
+                        <materialDesign:PackIcon Kind="CalendarMonth" Width="24" Height="24" Margin="0,0,8,0"/>
+                        <TextBlock Text="Schedule Calendar" FontSize="16" FontWeight="SemiBold"/>
+                    </StackPanel>
 
-                                                <ItemsControl Grid.Row="2" ItemsSource="{Binding Entries}" Margin="0,12,0,0" AlternationCount="512" ClipToBounds="False">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <StackPanel Orientation="Vertical"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate DataType="{x:Type vm:ScheduleCalendarEntry}">
-                                                            <Border Margin="0,0,0,8"
-                                                                    Padding="10,6"
-                                                                    MinWidth="160"
-                                                                    MaxWidth="220"
-                                                                    CornerRadius="8"
-                                                                    BorderThickness="1">
-                                                                <Border.Style>
-                                                                    <Style TargetType="Border">
-                                                                        <Setter Property="Background" Value="#FFFFFF"/>
-                                                                        <Setter Property="BorderBrush" Value="#E5E7EB"/>
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding IsLoopSegment}" Value="True">
-                                                                                <Setter Property="BorderBrush" Value="#93C5FD"/>
-                                                                                <Setter Property="Background" Value="#F5FAFF"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </Border.Style>
-                                                                <Border.ToolTip>
+                    <Grid Grid.Row="1">
+                        <Border Background="#F9FAFB" CornerRadius="8">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="12">
+                                <ItemsControl ItemsSource="{Binding CalendarDays}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="7"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type vm:ScheduleCalendarDay}">
+                                            <Border Margin="6" Padding="10" Background="White" CornerRadius="8" BorderBrush="#E5E7EB" BorderThickness="1" MinWidth="160">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,8">
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding Date, StringFormat={}{0:MMM}}" FontSize="11" Foreground="#6B7280"/>
+                                                            <TextBlock Text="{Binding Date, StringFormat={}{0:dd}}" FontSize="20" FontWeight="SemiBold"/>
+                                                        </StackPanel>
+                                                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Date, StringFormat={}{0:dddd}}" FontSize="13" FontWeight="SemiBold" Foreground="#111827"/>
+                                                            <TextBlock Text="{Binding TotalDurationText, StringFormat=Total\: {0}}" FontSize="11" Foreground="#2563EB" Margin="0,2,0,0"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+
+                                                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Entries}" Margin="0,0,0,6" AlternationCount="512" ClipToBounds="False">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate DataType="{x:Type vm:ScheduleCalendarEntry}">
+                                                                <Border Margin="0,0,0,6" Padding="8" CornerRadius="6" BorderThickness="1" MinWidth="140">
+                                                                    <Border.Style>
+                                                                        <Style TargetType="Border">
+                                                                            <Setter Property="Background" Value="#FFFFFF"/>
+                                                                            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsLoopSegment}" Value="True">
+                                                                                    <Setter Property="BorderBrush" Value="#C7D2FE"/>
+                                                                                    <Setter Property="Background" Value="#EEF2FF"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Border.Style>
+                                                                    <Border.ToolTip>
+                                                                        <StackPanel>
+                                                                            <TextBlock Text="{Binding StartDisplay}"/>
+                                                                            <TextBlock Text="{Binding EndDisplay}"/>
+                                                                            <TextBlock Text="{Binding DurationDisplay}"/>
+                                                                            <TextBlock Text="{Binding LoopIterationDisplay}" Margin="0,4,0,0">
+                                                                                <TextBlock.Style>
+                                                                                    <Style TargetType="TextBlock">
+                                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding HasLoopIteration}" Value="True">
+                                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </TextBlock.Style>
+                                                                            </TextBlock>
+                                                                        </StackPanel>
+                                                                    </Border.ToolTip>
+
                                                                     <StackPanel>
-                                                                        <TextBlock Text="{Binding StartDisplay}"/>
-                                                                        <TextBlock Text="{Binding EndDisplay}"/>
-                                                                        <TextBlock Text="{Binding DurationDisplay}"/>
-                                                                        <TextBlock Text="{Binding LoopIterationDisplay}" Margin="0,4,0,0">
-                                                                            <TextBlock.Style>
-                                                                                <Style TargetType="TextBlock">
-                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                                                    <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding HasLoopIteration}" Value="True">
-                                                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                                                        </DataTrigger>
-                                                                                    </Style.Triggers>
-                                                                                </Style>
-                                                                            </TextBlock.Style>
-                                                                        </TextBlock>
-                                                                    </StackPanel>
-                                                                </Border.ToolTip>
+                                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                                            <Border Width="6" Height="6" CornerRadius="3" VerticalAlignment="Center" Margin="0,0,6,0">
+                                                                                <Border.Style>
+                                                                                    <Style TargetType="Border">
+                                                                                        <Setter Property="Background" Value="#2563EB"/>
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding IsLoopSegment}" Value="False">
+                                                                                                <Setter Property="Background" Value="#9CA3AF"/>
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Border.Style>
+                                                                            </Border>
+                                                                            <TextBlock Text="{Binding StepLabel}" FontWeight="SemiBold" FontSize="12" TextTrimming="CharacterEllipsis" MaxWidth="150"/>
+                                                                            <Border Background="#EEF2FF" Padding="4,1" CornerRadius="3" Margin="6,0,0,0">
+                                                                                <Border.Style>
+                                                                                    <Style TargetType="Border">
+                                                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding HasLoopIteration}" Value="True">
+                                                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </Border.Style>
+                                                                                <TextBlock Text="{Binding LoopBadgeText}" Foreground="#2563EB" FontSize="10" FontWeight="SemiBold"/>
+                                                                            </Border>
+                                                                        </StackPanel>
 
-                                                                <StackPanel>
-                                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                                        <Border Width="6" Height="6" CornerRadius="3" VerticalAlignment="Center" Margin="0,0,6,0">
-                                                                            <Border.Style>
-                                                                                <Style TargetType="Border">
-                                                                                    <Setter Property="Background" Value="#60A5FA"/>
-                                                                                    <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding IsLoopSegment}" Value="False">
-                                                                                            <Setter Property="Background" Value="#A1A1AA"/>
-                                                                                        </DataTrigger>
-                                                                                    </Style.Triggers>
-                                                                                </Style>
-                                                                            </Border.Style>
-                                                                        </Border>
-                                                                        <TextBlock Text="{Binding StepLabel}" FontWeight="SemiBold" FontSize="12" TextTrimming="CharacterEllipsis" MaxWidth="150"/>
-                                                                        <Border Background="#EEF2FF" Padding="4,1" CornerRadius="3" Margin="6,0,0,0">
-                                                                            <Border.Style>
-                                                                                <Style TargetType="Border">
-                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                                                    <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding HasLoopIteration}" Value="True">
-                                                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                                                        </DataTrigger>
-                                                                                    </Style.Triggers>
-                                                                                </Style>
-                                                                            </Border.Style>
-                                                                            <TextBlock Text="{Binding LoopBadgeText}" Foreground="#2563EB" FontSize="10" FontWeight="SemiBold"/>
-                                                                        </Border>
+                                                                        <TextBlock Text="{Binding TimeRangeDisplay}" Margin="0,6,0,0" FontSize="11" Foreground="#4B5563"/>
+                                                                        <TextBlock Text="{Binding DurationCompactDisplay}" Margin="0,2,0,0" FontSize="11" Foreground="#6B7280"/>
                                                                     </StackPanel>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
 
-                                                                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                                                        <materialDesign:PackIcon Kind="ClockOutline" Width="14" Height="14" Foreground="#6B7280" Margin="0,0,4,0"/>
-                                                                        <TextBlock Text="{Binding TimeRangeDisplay, Mode=OneWay}" Foreground="#1F2937" FontSize="11"/>
-                                                                    </StackPanel>
+                                                    <TextBlock Grid.Row="2" Text="{Binding Header}" FontSize="10" Foreground="#9CA3AF" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
 
-                                                                    <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
-                                                                        <materialDesign:PackIcon Kind="TimerOutline" Width="14" Height="14" Foreground="#6B7280" Margin="0,0,4,0"/>
-                                                                        <TextBlock Text="{Binding DurationCompactDisplay, Mode=OneWay}" Foreground="#4B5563" FontSize="11"/>
-                                                                    </StackPanel>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </Grid>
-                                        </materialDesign:Card>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
                         <TextBlock Text="Add profile steps to preview calendar timing." Foreground="#9CA3AF" FontStyle="Italic"
                                    HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock.Style>
@@ -720,7 +736,7 @@
                         </TextBlock>
                     </Grid>
 
-                    <TextBlock Grid.Row="1" Margin="0,18,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
+                    <TextBlock Grid.Row="2" Margin="0,18,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
                                Foreground="{DynamicResource MaterialDesignValidationErrorColor}" TextAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
