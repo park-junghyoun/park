@@ -989,6 +989,32 @@ namespace CellManager.ViewModels
 
         public string DurationDisplay => $"Duration: {Duration:hh\\:mm\\:ss}";
 
+        public string TimeRangeDisplay => $"{Start:HH:mm} – {End:HH:mm}";
+
+        public string DurationCompactDisplay
+        {
+            get
+            {
+                if (Duration == TimeSpan.Zero)
+                    return "0m";
+
+                var parts = new List<string>();
+
+                if (Duration.TotalHours >= 1)
+                    parts.Add($"{(int)Duration.TotalHours}h");
+
+                if (Duration.Minutes > 0)
+                    parts.Add($"{Duration.Minutes}m");
+
+                if (parts.Count == 0 && Duration.Seconds > 0)
+                    parts.Add($"{Duration.Seconds}s");
+
+                return string.Join(" ", parts);
+            }
+        }
+
         public string LoopIterationDisplay => HasLoopIteration ? $"Loop iteration {LoopIteration}" : string.Empty;
+
+        public string LoopBadgeText => HasLoopIteration ? $"Loop #{LoopIteration}" : string.Empty;
     }
 }
