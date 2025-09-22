@@ -52,85 +52,52 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <!-- Cell info status bar and compact overview -->
+        <materialDesign:Card Grid.Row="0" Margin="0,0,0,8" Padding="12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- Cell info status bar -->
-            <materialDesign:Card Grid.Column="0" Padding="16" Margin="0,0,12,0">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                     <materialDesign:PackIcon Kind="Calendar" Width="26" Height="26" Margin="0,0,12,0"/>
                     <StackPanel>
                         <TextBlock Text="Schedule" FontSize="20" FontWeight="Bold"/>
                         <TextBlock Text="Review the active cell details and assigned schedules." Foreground="#6B7280"/>
                     </StackPanel>
                 </StackPanel>
-            </materialDesign:Card>
 
-            <!-- Compact schedule overview -->
-            <materialDesign:Card Grid.Column="1" Padding="16" MinWidth="400" MaxWidth="520">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <Grid Grid.Column="1" Margin="24,0" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding ScheduleSummaryText}"
+                               Foreground="#6B7280"
+                               TextWrapping="NoWrap"
+                               TextTrimming="CharacterEllipsis"
+                               MaxWidth="260"/>
 
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="CalendarRange" Width="22" Height="22" Margin="0,0,8,0"/>
-                            <StackPanel>
-                                <TextBlock Text="Schedule Calendar" FontWeight="SemiBold" FontSize="15"/>
-                                <TextBlock Text="{Binding ScheduleSummaryText}" Foreground="#6B7280" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="16,0,0,0">
-                            <StackPanel Width="140">
-                                <TextBlock Text="Start Date" Foreground="#6B7280" FontSize="11"/>
-                                <DatePicker SelectedDate="{Binding ScheduleStartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            </StackPanel>
-                            <StackPanel Margin="12,0,0,0" Width="120">
-                                <TextBlock Text="Start Time" Foreground="#6B7280" FontSize="11"/>
-                                <xctk:TimePicker Value="{Binding ScheduleStartTimePickerValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 Format="Custom"
-                                                 FormatString="HH:mm"
-                                                 AllowSpin="True"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid Grid.Row="1" Margin="0,16,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <StackPanel Grid.Row="0" Grid.Column="0">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="24,0,0,0" VerticalAlignment="Center">
+                        <StackPanel Margin="0,0,16,0">
                             <TextBlock Text="Start" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock Text="{Binding ScheduleStartDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding ScheduleStartDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="14" FontWeight="SemiBold"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="0" Grid.Column="1">
+                        <StackPanel Margin="0,0,16,0">
                             <TextBlock Text="End" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock Text="{Binding ScheduleEndDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding ScheduleEndDateTime, StringFormat={}{0:yyyy-MM-dd HH:mm}}" FontSize="14" FontWeight="SemiBold"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,12,0,0">
+                        <StackPanel Margin="0,0,16,0">
                             <TextBlock Text="Total Duration" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock Text="{Binding TotalDuration, StringFormat={}{0:hh\\:mm\\:ss}}" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding TotalDuration, StringFormat={}{0:hh\\:mm\\:ss}}" FontSize="14" FontWeight="SemiBold"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,12,0,0">
+                        <StackPanel>
                             <TextBlock Text="Save Status" Foreground="#6B7280" FontSize="11"/>
-                            <TextBlock FontSize="16" FontWeight="SemiBold">
+                            <TextBlock FontSize="14" FontWeight="SemiBold">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Text" Value="Ready"/>
@@ -145,10 +112,24 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </StackPanel>
-                    </Grid>
+                    </StackPanel>
                 </Grid>
-            </materialDesign:Card>
-        </Grid>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Width="140">
+                        <TextBlock Text="Start Date" Foreground="#6B7280" FontSize="11"/>
+                        <DatePicker SelectedDate="{Binding ScheduleStartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Margin="12,0,0,0" Width="120">
+                        <TextBlock Text="Start Time" Foreground="#6B7280" FontSize="11"/>
+                        <xctk:TimePicker Value="{Binding ScheduleStartTimePickerValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         Format="Custom"
+                                         FormatString="HH:mm"
+                                         AllowSpin="True"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
 
         <!-- Schedule calendar card -->
         <materialDesign:Card Grid.Row="1" Padding="16" Margin="0,0,0,8">
