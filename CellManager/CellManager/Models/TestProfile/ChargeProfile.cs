@@ -83,7 +83,7 @@ namespace CellManager.Models.TestProfile
         {
             get
             {
-                var baseText = $"{ChargeCutoffVoltage} mV, {ChargeCurrent} mA, {CutoffCurrent} mA";
+                var baseText = $"{ChargeMode} , {ChargeCutoffVoltage} mV, {ChargeCurrent} mA, {CutoffCurrent} mA";
                 return ChargeMode switch
                 {
                     ChargeMode.ChargeByCapacity => $"{baseText}, {ChargeCapacityMah} mAh",

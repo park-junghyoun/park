@@ -56,6 +56,7 @@
         <materialDesign:Card Grid.Row="0" Margin="0,0,0,0">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -67,8 +68,14 @@
                         <TextBlock Text="Review the active cell details and assigned schedules." Foreground="#6B7280"/>
                     </StackPanel>
                 </StackPanel>
-
-                <Grid Grid.Column="1" Margin="24,0" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
+                    <CheckBox Margin="16,0,0,0" VerticalAlignment="Center" IsChecked="{Binding IsCalendarVisible}" Style="{DynamicResource MaterialDesignCheckBox}">
+                        <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Calendar" FontSize="12"/>
+                        </StackPanel>
+                    </CheckBox>
+                </StackPanel>
+                <Grid Grid.Column="2" Margin="24,0" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <StackPanel Margin="0,0,16,0">
                                 <TextBlock Text="Start" Foreground="#6B7280" FontSize="11"/>
@@ -82,10 +89,10 @@
                                 <TextBlock Text="Total Duration" Foreground="#6B7280" FontSize="11"/>
                                 <TextBlock Text="{Binding TotalDurationDisplay}" FontSize="14" FontWeight="SemiBold"/>
                             </StackPanel>
-                            <StackPanel>
-                                <TextBlock Text="Save Status" Foreground="#6B7280" FontSize="11"/>
-                                <TextBlock FontSize="14" FontWeight="SemiBold">
-                                    <TextBlock.Style>
+                        <StackPanel>
+                            <TextBlock Text="Save Status" Foreground="#6B7280" FontSize="11"/>
+                            <TextBlock FontSize="14" FontWeight="SemiBold">
+                                <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Text" Value="Ready"/>
                                         <Setter Property="Foreground" Value="#059669"/>
@@ -99,12 +106,6 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </StackPanel>
-                        <ToggleButton Margin="16,0,0,0" VerticalAlignment="Center" IsChecked="{Binding IsCalendarVisible}" Style="{DynamicResource MaterialDesignSwitchToggleButton}">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="CalendarRange" Width="18" Height="18" Margin="0,0,6,0"/>
-                                <TextBlock Text="Calendar Preview" FontSize="12"/>
-                            </StackPanel>
-                        </ToggleButton>
                     </StackPanel>
                 </Grid>
 
@@ -127,18 +128,13 @@
             <GroupBox Grid.Row="0" Grid.Column="0" Margin="0,7,0,0" MinWidth="300">
                 <DockPanel>
                     <Grid DockPanel.Dock="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <!-- 왼쪽: 아이콘+텍스트 -->
-                            <ColumnDefinition Width="Auto"/>
-                            <!-- 오른쪽: 버튼 -->
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Schedules List" FontWeight="Bold" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
+                            <TextBlock Grid.Column="0" Text="List" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        </StackPanel>
                         <Button Grid.Column="1" Width="32" Height="32" Padding="0"
                                 Command="{Binding AddScheduleCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
                                 Style="{StaticResource MaterialDesignToolButton}">
-                            <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E"
-                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E" />
                         </Button>
                     </Grid>
                     <ListView x:Name="ScheduleList" DockPanel.Dock="Bottom"
@@ -269,9 +265,7 @@
 
                     <!-- Schedule name, save button and total duration -->
                     <Grid Grid.Row="0" Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Sequence" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     </Grid>
                     <!-- Sequence list -->
                     <Grid Grid.Row="1" Margin="0,0,0,10">
@@ -283,9 +277,10 @@
                             <TextBlock Text="Script #" FontWeight="Bold" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
                             <TextBlock Text="{Binding SelectedSchedule.Ordering}" Margin="0,0,16,0" VerticalAlignment="Center" FontSize="13" FontWeight="Bold"/>
                             <TextBlock Text="Name:" Margin="0,0,8,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/>
-                            <TextBox Width="250" Margin="0,0,8,0" Text="{Binding ScheduleName}" Height="20">
+                            <TextBox Width="250" Margin="0,0,8,0" Text="{Binding ScheduleName}" Height="20" >
                                 <TextBox.Style>
-                                    <Style TargetType="TextBox">
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFilledTextBox}">
+                                        <Setter Property="Padding" Value="0"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
                                                 <Setter Property="IsEnabled" Value="False"/>
@@ -384,7 +379,7 @@
                                 </ListBox.Template>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <materialDesign:Card Margin="4" Padding="8" Cursor="SizeAll">
+                                        <materialDesign:Card Margin="0" Padding="5" Cursor="SizeAll">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
@@ -393,8 +388,8 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{Binding StepNumber}" FontWeight="Bold" Margin="0,0,8,0"/>
-                                                <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind}" Width="24" Height="24" Margin="0,0,8,0"/>
+                                                <TextBlock Text="{Binding StepNumber}" FontWeight="Bold" Margin="8,0,4,0" VerticalAlignment="Center"/>
+                                                <materialDesign:PackIcon Grid.Column="1" Kind="{Binding IconKind}" Width="30" Height="30" Margin="0,0,4,0"/>
                                                 <StackPanel Grid.Column="2">
                                                     <TextBlock>
                                                         <TextBlock.Style>
@@ -549,8 +544,7 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
-                        <materialDesign:PackIcon Kind="CalendarMonth" Width="24" Height="24" Margin="0,0,8,0"/>
-                        <TextBlock Text="Schedule Calendar" FontSize="16" FontWeight="SemiBold"/>
+                        <TextBlock Text="Calendar" FontSize="16" FontWeight="SemiBold"/>
                     </StackPanel>
 
                     <Grid Grid.Row="1">
@@ -658,9 +652,10 @@
                                                                                 <TextBlock Text="{Binding LoopBadgeText}" Foreground="#2563EB" FontSize="10" FontWeight="SemiBold"/>
                                                                             </Border>
                                                                         </StackPanel>
-
-                                                                        <TextBlock Text="{Binding TimeRangeDisplay}" Margin="0,6,0,0" FontSize="11" Foreground="#4B5563"/>
-                                                                        <TextBlock Text="{Binding DurationCompactDisplay}" Margin="0,2,0,0" FontSize="11" Foreground="#6B7280"/>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Text="{Binding TimeRangeDisplay}" Margin="0,0,0,0" FontSize="12" Foreground="#4B5563" VerticalAlignment="Center"/>
+                                                                            <TextBlock Text="{Binding DurationCompactDisplay}" Margin="5,0,0,0" FontSize="11" Foreground="#6B7280" VerticalAlignment="Center"/>
+                                                                        </StackPanel>
                                                                     </StackPanel>
                                                                 </Border>
                                                             </DataTemplate>
