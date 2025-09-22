@@ -12,6 +12,7 @@
              d:DataContext="{d:DesignInstance Type=viewModels:RunViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <converters:NullOrEmptyToPlaceholderConverter x:Key="NullOrEmptyToPlaceholderConverter"/>
+        <converters:LastItemConverter x:Key="LastItemConverter"/>
     </UserControl.Resources>
     <Grid Margin="12">
         <Grid.RowDefinitions>
@@ -274,20 +275,38 @@
             </StackPanel>
             </Grid>
 
-            <materialDesign:Card Grid.Row="1" Padding="16" Margin="0,12,0,0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Run logs" FontWeight="SemiBold" FontSize="15"/>
-                    <ListBox Grid.Row="1"
-                             ItemsSource="{Binding RunLogs}"
-                             Margin="0,12,0,0"
-                             MinHeight="220"
-                             BorderThickness="0"
-                             ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-                </Grid>
+            <materialDesign:Card Grid.Row="1" Margin="0,12,0,0" Padding="0">
+                <Expander ExpandDirection="Up">
+                    <Expander.Header>
+                        <Border Padding="16">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="FileDocumentOutline" Width="20" Height="20" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Run logs" FontWeight="SemiBold" FontSize="15"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1"
+                                           Margin="12,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="#6B7280"
+                                           TextTrimming="CharacterEllipsis"
+                                           Text="{Binding RunLogs, Converter={StaticResource LastItemConverter}, ConverterParameter='No log entries yet'}"/>
+                            </Grid>
+                        </Border>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Border BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" Padding="16">
+                            <ListBox ItemsSource="{Binding RunLogs}"
+                                     MinHeight="220"
+                                     BorderThickness="0"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     Background="Transparent"/>
+                        </Border>
+                    </Expander.Content>
+                </Expander>
             </materialDesign:Card>
         </Grid>
     </Grid>
