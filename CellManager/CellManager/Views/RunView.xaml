@@ -12,130 +12,302 @@
              d:DataContext="{d:DesignInstance Type=viewModels:RunViewModel, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <converters:NullOrEmptyToPlaceholderConverter x:Key="NullOrEmptyToPlaceholderConverter"/>
+        <converters:LastItemConverter x:Key="LastItemConverter"/>
     </UserControl.Resources>
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="350"/>
-        </Grid.ColumnDefinitions>
 
-        <!-- Header and schedule selection -->
-        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,12" Padding="12">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="240"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <materialDesign:PackIcon Kind="Play" Width="26" Height="26" Margin="0,0,12,0"/>
-                    <StackPanel>
-                        <TextBlock Text="Run" FontSize="20" FontWeight="Bold"/>
-                        <TextBlock Text="Prepare and control schedule execution." Foreground="#6B7280"/>
-                    </StackPanel>
+        <materialDesign:Card Grid.Row="0" Margin="0,0,0,8" Padding="12">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="Play" Width="26" Height="26" Margin="0,0,12,0"/>
+                <StackPanel>
+                    <TextBlock Text="Run" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Text="Prepare and monitor the active schedule." Foreground="#6B7280"/>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Margin="24,0,12,0" VerticalAlignment="Center">
-                    <TextBlock Text="Selected schedule" FontWeight="SemiBold"/>
-                    <TextBlock Text="{Binding SelectedSchedule.DisplayNameAndScript, TargetNullValue='No schedule selected'}" Foreground="#6B7280" TextWrapping="Wrap"/>
-                </StackPanel>
-                <ComboBox Grid.Column="2"
-                          ItemsSource="{Binding AvailableSchedules}"
-                          SelectedItem="{Binding SelectedSchedule}"
-                          DisplayMemberPath="DisplayNameAndScript"
-                          Margin="0"
-                          VerticalAlignment="Center"/>
-            </Grid>
+            </StackPanel>
         </materialDesign:Card>
 
-        <!-- Timeline preview and board status -->
-        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="300"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <GroupBox Grid.Column="0" Margin="0,0,12,0">
-                <StackPanel>
-                    <TextBlock Text="Timeline Preview" FontWeight="Bold" FontSize="15"/>
-                    <local:TimelinePreviewControl Steps="{Binding TimelineSteps}"/>
-                </StackPanel>
-            </GroupBox>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="1">
-                <StackPanel>
-                    <TextBlock Text="Board Status" FontWeight="Bold" FontSize="15"/>
-                    <TextBlock Text="{Binding BoardVoltage, StringFormat='Voltage: {0:F2} V'}" Margin="0,0,0,4"/>
-                    <TextBlock Text="{Binding BoardCurrent, StringFormat='Current: {0:F2} A'}" Margin="0,0,0,4"/>
-                    <TextBlock Text="{Binding BoardTemperature, StringFormat='Temperature: {0:F1} °C'}" Margin="0,0,0,4"/>
-                    <TextBlock Text="{Binding IsBoardConnected, StringFormat='Connected: {0}'}"/>
-                </StackPanel>
-            </GroupBox>
-        </Grid>
-
-        <!-- Controls and current step details -->
-        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,0,12">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="340"/>
-            </Grid.ColumnDefinitions>
-
-            <GroupBox Grid.Column="0" Margin="0,0,12,0">
-                <StackPanel>
-                    <TextBlock Text="Controls" FontWeight="Bold" FontSize="15"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4">
-                        <Button Content="Start" Command="{Binding StartCommand}" Style="{StaticResource PrimaryActionButton}" Margin="0,0,8,0"/>
-                        <Button Content="Pause"
-                                Command="{Binding PauseCommand}"
-                                Style="{StaticResource SecondaryActionButton}"
-                                Margin="0,0,8,0"/>
-                        <Button Content="Stop" Command="{Binding StopCommand}" Style="{StaticResource ErrorActionButton}"/>
-                        <ProgressBar Width="200" Height="18" Margin="16,0,0,0" Value="{Binding Progress}" Maximum="100"/>
+                <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                <materialDesign:Card Padding="16" Margin="0,0,0,8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="ClipboardList" Width="22" Height="22" Margin="0,0,8,0"/>
+                            <StackPanel>
+                                <TextBlock Text="Schedule" FontWeight="SemiBold" FontSize="15"/>
+                                <TextBlock Text="Select a schedule to review its details." Foreground="#6B7280"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <ComboBox ItemsSource="{Binding AvailableSchedules}"
+                                  SelectedItem="{Binding SelectedSchedule}"
+                                  DisplayMemberPath="DisplayNameAndScript"
+                                  Margin="0,12,0,0"
+                                  MinWidth="240"/>
+                        <UniformGrid Columns="3" Margin="0,16,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Script" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding SelectedSchedule.DisplayNameAndScript, FallbackValue='No schedule selected'}"
+                                           FontWeight="SemiBold"
+                                           TextTrimming="CharacterEllipsis"
+                                           ToolTip="{Binding SelectedSchedule.DisplayNameAndScript}"/>
+                            </StackPanel>
+                            <StackPanel Margin="12,0,0,0">
+                                <TextBlock Text="Steps" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding SelectedSchedule.TestProfileIds.Count, FallbackValue='-'}" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <StackPanel Margin="12,0,0,0">
+                                <TextBlock Text="Estimated" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding SelectedSchedule.EstimatedDuration, FallbackValue='-:--:--', StringFormat={}{0:hh\\:mm\\:ss}}"
+                                           FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </UniformGrid>
+                        <TextBlock Margin="0,12,0,0"
+                                   Foreground="#6B7280"
+                                   TextWrapping="Wrap">
+                            <Run Text="Notes: "/>
+                            <Run Text="{Binding SelectedSchedule.Notes, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='No additional notes', FallbackValue='No additional notes'}"/>
+                        </TextBlock>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0">
-                        <TextBlock Text="{Binding CurrentStep, StringFormat='Step: {0}'}" Margin="0,0,16,0"/>
-                        <TextBlock Text="{Binding ElapsedTime, StringFormat='Elapsed: {0:hh\\:mm\\:ss}'}" Margin="0,0,16,0"/>
-                        <TextBlock Text="{Binding RemainingTime, StringFormat='Remaining: {0:hh\\:mm\\:ss}'}"/>
-                    </StackPanel>
-                </StackPanel>
-            </GroupBox>
+                </materialDesign:Card>
 
-            <GroupBox Grid.Column="1" Margin="12,0,0,0">
-                <StackPanel>
-                    <TextBlock Text="Current Step" FontWeight="Bold" FontSize="15"/>
-                    <StackPanel Margin="0,8,0,0">
-                        <TextBlock Text="{Binding CurrentTimelineStep.Name, TargetNullValue='No active step'}" FontSize="14" FontWeight="SemiBold"/>
-                        <TextBlock Margin="0,4,0,0">
-                            <Run Text="Step: "/>
+                <materialDesign:Card Padding="16" Margin="0,0,0,8">
+                    <StackPanel>
+                        <TextBlock Text="Timeline preview" FontWeight="SemiBold" FontSize="15"/>
+                        <local:TimelinePreviewControl Steps="{Binding TimelineSteps}" Margin="0,12,0,0"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="Run metrics preview" FontWeight="SemiBold" FontSize="15"/>
+                        <TextBlock Margin="0,4,0,0" Foreground="#6B7280" TextWrapping="Wrap">
+                            Visualize recent readings at a glance. A compact trend graph will appear here when run telemetry is available.
+                        </TextBlock>
+                        <Grid Margin="0,12,0,0" Height="160">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="#F3F4F6" CornerRadius="6" Padding="12">
+                                <Grid>
+                                    <Polyline Points="0,110 30,90 60,95 90,70 120,85 150,60"
+                                              Stroke="#3B82F6"
+                                              StrokeThickness="2"
+                                              StrokeLineJoin="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"/>
+                                    <Polyline Points="0,130 30,120 60,105 90,95 120,90 150,75"
+                                              Stroke="#10B981"
+                                              StrokeThickness="2"
+                                              StrokeDashArray="4 2"
+                                              StrokeLineJoin="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"/>
+                                    <TextBlock HorizontalAlignment="Right"
+                                               VerticalAlignment="Bottom"
+                                               Foreground="#9CA3AF"
+                                               FontSize="11"
+                                               Text="Sample trend preview"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <materialDesign:Card Padding="16" Margin="0,0,0,8">
+                    <StackPanel>
+                        <TextBlock Text="Run status" FontWeight="SemiBold" FontSize="15"/>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Current step" Foreground="#6B7280"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding CurrentTimelineStep.Name, TargetNullValue='Waiting for schedule'}"
+                                       FontWeight="SemiBold"
+                                       TextAlignment="Right"/>
+                            <TextBlock Grid.Row="1" Text="Progress" Foreground="#6B7280" Margin="0,6,0,0"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+                                <TextBlock Text="{Binding Progress, StringFormat={}{0:F0}%}" FontWeight="SemiBold"/>
+                                <TextBlock Text="  •  Step " Foreground="#6B7280" Margin="4,0,0,0"/>
+                                <TextBlock Text="{Binding CurrentStep, StringFormat={}{0}}" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Grid>
+                        <ProgressBar Margin="0,12,0,0"
+                                     Height="6"
+                                     Minimum="0"
+                                     Maximum="100"
+                                     Value="{Binding Progress}"/>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                                    Content="Start"
+                                    Command="{Binding StartCommand}"
+                                    Style="{StaticResource PrimaryActionButton}"
+                                    Margin="0,0,8,0"
+                                    MinWidth="90"/>
+                            <Button Grid.Column="1"
+                                    Content="Pause"
+                                    Command="{Binding PauseCommand}"
+                                    Style="{StaticResource SecondaryActionButton}"
+                                    Margin="4,0,4,0"
+                                    MinWidth="90"/>
+                            <Button Grid.Column="2"
+                                    Content="Stop"
+                                    Command="{Binding StopCommand}"
+                                    Style="{StaticResource ErrorActionButton}"
+                                    Margin="8,0,0,0"
+                                    MinWidth="90"/>
+                        </Grid>
+                        <Grid Margin="0,16,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Step" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding CurrentStep, StringFormat={}{0}}" FontWeight="SemiBold" FontSize="14"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                <TextBlock Text="Elapsed" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding ElapsedTime, StringFormat={}{0:hh\\:mm\\:ss}}" FontWeight="SemiBold" FontSize="14"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Margin="12,0,0,0">
+                                <TextBlock Text="Remaining" Foreground="#6B7280" FontSize="11"/>
+                                <TextBlock Text="{Binding RemainingTime, StringFormat={}{0:hh\\:mm\\:ss}}" FontWeight="SemiBold" FontSize="14"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="16" Margin="0,0,0,8">
+                    <StackPanel>
+                        <TextBlock Text="Current step details" FontWeight="SemiBold" FontSize="15"/>
+                        <TextBlock Text="{Binding CurrentTimelineStep.Name, TargetNullValue='No active step', FallbackValue='No active step'}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Margin="0,12,0,0"/>
+                        <TextBlock Margin="0,6,0,0" Foreground="#6B7280">
+                            <Run Text="Step "/>
                             <Run Text="{Binding CurrentTimelineStep.StepNumber, TargetNullValue='-'}"/>
-                            <Run Text="   •   Profile ID: "/>
+                            <Run Text="  •  Profile ID "/>
                             <Run Text="{Binding CurrentTimelineStep.Id, TargetNullValue='-'}"/>
                         </TextBlock>
-                        <TextBlock Margin="0,4,0,0">
+                        <TextBlock Margin="0,4,0,0" Foreground="#6B7280">
                             <Run Text="Parameters: "/>
-                            <Run Text="{Binding CurrentTimelineStep.Parameters, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='-'}"/>
+                            <Run Text="{Binding CurrentTimelineStep.Parameters, Converter={StaticResource NullOrEmptyToPlaceholderConverter}, ConverterParameter='-', TargetNullValue='-'}"/>
                         </TextBlock>
-                        <TextBlock Margin="0,4,0,0">
+                        <TextBlock Margin="0,4,0,0" Foreground="#6B7280">
                             <Run Text="Duration: "/>
                             <Run Text="{Binding CurrentTimelineStep.Duration, TargetNullValue='-:--:--', StringFormat={}{0:hh\\:mm\\:ss}}"/>
                         </TextBlock>
                     </StackPanel>
-                </StackPanel>
-            </GroupBox>
-        </Grid>
+                </materialDesign:Card>
 
-        <!-- Run logs -->
-        <GroupBox Grid.Row="3" Grid.ColumnSpan="2">
-            <StackPanel>
-                <TextBlock Text="Run Logs" FontWeight="Bold" FontSize="15"/>
-                <ListBox ItemsSource="{Binding RunLogs}" Height="120"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                <materialDesign:Card Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="Board status" FontWeight="SemiBold" FontSize="15"/>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon Grid.Row="0" Grid.Column="0" Kind="FlashCircle" Width="20" Height="20"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="8,0,0,0" Text="{Binding BoardVoltage, StringFormat='Voltage: {0:F2} V'}"/>
+
+                            <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="CurrentAc" Width="20" Height="20" Margin="0,8,0,0"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Margin="8,8,0,0" Text="{Binding BoardCurrent, StringFormat='Current: {0:F2} A'}"/>
+
+                            <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Thermometer" Width="20" Height="20" Margin="0,8,0,0"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Margin="8,8,0,0" Text="{Binding BoardTemperature, StringFormat='Temperature: {0:F1} °C'}"/>
+
+                            <materialDesign:PackIcon Grid.Row="3" Grid.Column="0" Kind="LanConnect" Width="20" Height="20" Margin="0,8,0,0"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Margin="8,8,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="Connection: Disconnected"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsBoardConnected}" Value="True">
+                                                <Setter Property="Text" Value="Connection: Connected"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </StackPanel>
+                </materialDesign:Card>
             </StackPanel>
-        </GroupBox>
+            </Grid>
+
+            <materialDesign:Card Grid.Row="1" Margin="0,12,0,0" Padding="0">
+                <Expander ExpandDirection="Up">
+                    <Expander.Header>
+                        <Border Padding="16">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="FileDocumentOutline" Width="20" Height="20" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Run logs" FontWeight="SemiBold" FontSize="15"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1"
+                                           Margin="12,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="#6B7280"
+                                           TextTrimming="CharacterEllipsis"
+                                           Text="{Binding RunLogs, Converter={StaticResource LastItemConverter}, ConverterParameter='No log entries yet'}"/>
+                            </Grid>
+                        </Border>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Border BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" Padding="16">
+                            <ListBox ItemsSource="{Binding RunLogs}"
+                                     MinHeight="220"
+                                     BorderThickness="0"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     Background="Transparent"/>
+                        </Border>
+                    </Expander.Content>
+                </Expander>
+            </materialDesign:Card>
+        </Grid>
     </Grid>
 </UserControl>
