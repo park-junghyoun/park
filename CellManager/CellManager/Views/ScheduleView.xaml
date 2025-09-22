@@ -383,7 +383,7 @@
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" MinHeight="400"/>
-                <RowDefinition Height="*" MinHeight="240"/>
+                <RowDefinition x:Name="CalendarRowDefinition" Height="*" MinHeight="240"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
