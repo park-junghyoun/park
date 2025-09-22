@@ -559,7 +559,9 @@
                                            VerticalScrollBarVisibility="Auto"
                                            CanContentScroll="False"
                                            Padding="12">
-                                <ItemsControl ItemsSource="{Binding CalendarDays}">
+                                <ItemsControl ItemsSource="{Binding CalendarDays}"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <UniformGrid Columns="7"/>
