@@ -105,8 +105,19 @@
                             </Grid.RowDefinitions>
                             <Border Background="#F3F4F6" CornerRadius="6" Padding="12">
                                 <Grid>
-                                    <Polyline Points="0,110 30,90 60,95 90,70 120,85 150,60" Stroke="#3B82F6" StrokeThickness="2" StrokeLineJoin="Round" StrokeLineCap="Round"/>
-                                    <Polyline Points="0,130 30,120 60,105 90,95 120,90 150,75" Stroke="#10B981" StrokeThickness="2" StrokeDashArray="4 2" StrokeLineJoin="Round" StrokeLineCap="Round"/>
+                                    <Polyline Points="0,110 30,90 60,95 90,70 120,85 150,60"
+                                              Stroke="#3B82F6"
+                                              StrokeThickness="2"
+                                              StrokeLineJoin="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"/>
+                                    <Polyline Points="0,130 30,120 60,105 90,95 120,90 150,75"
+                                              Stroke="#10B981"
+                                              StrokeThickness="2"
+                                              StrokeDashArray="4 2"
+                                              StrokeLineJoin="Round"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"/>
                                     <TextBlock HorizontalAlignment="Right"
                                                VerticalAlignment="Bottom"
                                                Foreground="#9CA3AF"
