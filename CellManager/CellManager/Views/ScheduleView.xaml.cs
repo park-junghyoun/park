@@ -66,6 +66,11 @@ namespace CellManager.Views
             {
                 ResetCalendarScroll();
             }
+            else if (e.PropertyName == nameof(ScheduleViewModel.IsCalendarExpanded) &&
+                     _viewModel?.IsCalendarExpanded == true)
+            {
+                ResetCalendarScroll();
+            }
         }
 
         private void PagedCalendarDays_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

@@ -801,7 +801,7 @@
             </GroupBox>
 
             <!-- Schedule calendar card -->
-            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="16" Margin="0,16,10,0" MinHeight="240" ScrollViewer.CanContentScroll="True"
+            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="16" Margin="0,16,10,0" MinHeight="0" ScrollViewer.CanContentScroll="True"
                                   Visibility="{Binding IsCalendarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -817,7 +817,23 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="Calendar" FontSize="16" FontWeight="SemiBold"/>
+                            <ToggleButton Width="32" Height="32" Margin="0,0,8,0"
+                                          IsChecked="{Binding IsCalendarExpanded}"
+                                          Style="{StaticResource MaterialDesignToolButton}">
+                                <materialDesign:PackIcon Width="18" Height="18">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Kind" Value="ChevronUp"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}" Value="False">
+                                                    <Setter Property="Kind" Value="ChevronDown"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
+                            </ToggleButton>
+                            <TextBlock Text="Calendar" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <ToggleButton Content="Detailed" IsChecked="{Binding IsDetailedCalendarMode}" Style="{StaticResource CalendarToggleButtonStyle}"/>
@@ -835,6 +851,16 @@
                     </Grid>
 
                     <Grid Grid.Row="1">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCalendarExpanded}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
                         <Border Background="#F9FAFB" CornerRadius="8">
                             <ScrollViewer x:Name="CalendarScrollViewer"
                                            HorizontalScrollBarVisibility="Auto"
