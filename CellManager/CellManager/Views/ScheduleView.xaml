@@ -274,7 +274,7 @@
                         </Grid.ColumnDefinitions>
                     </Grid>
                     <!-- Sequence list -->
-                    <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <Grid Grid.Row="1" Margin="0,0,0,10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -376,7 +376,7 @@
                                             <ScrollViewer Focusable="False"
                                                           HorizontalScrollBarVisibility="Auto"
                                                           VerticalScrollBarVisibility="Auto"
-                                                          CanContentScroll="True">
+                                                          CanContentScroll="False">
                                                 <ItemsPresenter />
                                             </ScrollViewer>
                                         </Border>
@@ -557,7 +557,7 @@
                         <Border Background="#F9FAFB" CornerRadius="8">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                            VerticalScrollBarVisibility="Auto"
-                                           CanContentScroll="True"
+                                           CanContentScroll="False"
                                            Padding="12">
                                 <ItemsControl ItemsSource="{Binding CalendarDays}">
                                     <ItemsControl.ItemsPanel>
