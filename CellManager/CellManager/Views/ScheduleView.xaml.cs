@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using CellManager.ViewModels;
 
 namespace CellManager.Views
@@ -22,10 +25,63 @@ namespace CellManager.Views
         private InsertionAdorner? _insertionAdorner;
         private DragAdorner? _dragAdorner;
         private UIElement? _dragScope;
+        private ScheduleViewModel? _viewModel;
+        private INotifyCollectionChanged? _pagedCalendarSubscription;
 
         public ScheduleView()
         {
             InitializeComponent();
+            DataContextChanged += ScheduleView_DataContextChanged;
+        }
+
+        private void ScheduleView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue is ScheduleViewModel oldVm)
+            {
+                oldVm.PropertyChanged -= ViewModelOnPropertyChanged;
+                if (_pagedCalendarSubscription != null)
+                    _pagedCalendarSubscription.CollectionChanged -= PagedCalendarDays_CollectionChanged;
+            }
+
+            _viewModel = e.NewValue as ScheduleViewModel;
+            _pagedCalendarSubscription = null;
+
+            if (_viewModel != null)
+            {
+                _viewModel.PropertyChanged += ViewModelOnPropertyChanged;
+                if (_viewModel.PagedCalendarDays is INotifyCollectionChanged collection)
+                {
+                    _pagedCalendarSubscription = collection;
+                    collection.CollectionChanged += PagedCalendarDays_CollectionChanged;
+                }
+            }
+
+            ResetCalendarScroll();
+        }
+
+        private void ViewModelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ScheduleViewModel.CalendarMode) ||
+                e.PropertyName == nameof(ScheduleViewModel.CalendarPageIndex))
+            {
+                ResetCalendarScroll();
+            }
+        }
+
+        private void PagedCalendarDays_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            ResetCalendarScroll();
+        }
+
+        private void ResetCalendarScroll()
+        {
+            if (CalendarScrollViewer == null)
+                return;
+
+            CalendarScrollViewer.Dispatcher.BeginInvoke(() =>
+            {
+                CalendarScrollViewer.ScrollToHorizontalOffset(0);
+            }, DispatcherPriority.Background);
         }
 
         private void ProfileList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -39,6 +39,13 @@ namespace CellManager.ViewModels
         }
     }
 
+    /// <summary>Defines available calendar layouts.</summary>
+    public enum CalendarViewMode
+    {
+        DetailedList,
+        Timeline
+    }
+
     /// <summary>Grouping of step templates displayed within the library panel.</summary>
     public class StepGroup : ObservableObject
     {
@@ -132,6 +139,53 @@ namespace CellManager.ViewModels
         }
 
         public ObservableCollection<ScheduleCalendarDay> CalendarDays { get; } = new();
+        private readonly ObservableCollection<ScheduleCalendarDay> _pagedCalendarDays = new();
+        public ReadOnlyObservableCollection<ScheduleCalendarDay> PagedCalendarDays { get; }
+
+        [ObservableProperty]
+        private CalendarViewMode _calendarMode = CalendarViewMode.DetailedList;
+
+        [ObservableProperty]
+        private int _calendarPageIndex;
+
+        [ObservableProperty]
+        private int _calendarPageCount;
+
+        public string CalendarPageRangeText
+        {
+            get
+            {
+                if (!_pagedCalendarDays.Any())
+                    return "No scheduled days";
+
+                var start = _pagedCalendarDays.First().Date;
+                var end = _pagedCalendarDays.Last().Date;
+                if (start == end)
+                    return start.ToString("MMM dd, yyyy");
+
+                return $"{start:MMM dd, yyyy} – {end:MMM dd, yyyy}";
+            }
+        }
+
+        public bool IsDetailedCalendarMode
+        {
+            get => CalendarMode == CalendarViewMode.DetailedList;
+            set
+            {
+                if (value)
+                    CalendarMode = CalendarViewMode.DetailedList;
+            }
+        }
+
+        public bool IsTimelineCalendarMode
+        {
+            get => CalendarMode == CalendarViewMode.Timeline;
+            set
+            {
+                if (value)
+                    CalendarMode = CalendarViewMode.Timeline;
+            }
+        }
 
         public string TotalDurationDisplay => DurationFormatting.ToHourString(TotalDuration);
 
@@ -139,6 +193,8 @@ namespace CellManager.ViewModels
         public RelayCommand SaveScheduleCommand { get; }
         public RelayCommand AddScheduleCommand { get; }
         public RelayCommand<Schedule> DeleteScheduleCommand { get; }
+        public RelayCommand NextCalendarPageCommand { get; }
+        public RelayCommand PreviousCalendarPageCommand { get; }
 
         public ScheduleViewModel() : this(null, null, null, null, null, null) { }
 
@@ -157,6 +213,8 @@ namespace CellManager.ViewModels
             _ecmRepo = ecmRepo;
             _scheduleRepo = scheduleRepo;
 
+            PagedCalendarDays = new ReadOnlyObservableCollection<ScheduleCalendarDay>(_pagedCalendarDays);
+
             Sequence.CollectionChanged += (_, __) =>
             {
                 UpdateTotalDuration();
@@ -169,6 +227,8 @@ namespace CellManager.ViewModels
             SaveScheduleCommand = new RelayCommand(SaveSchedule, () => CanSaveSchedule);
             AddScheduleCommand = new RelayCommand(AddSchedule);
             DeleteScheduleCommand = new RelayCommand<Schedule>(DeleteSchedule, s => s != null);
+            NextCalendarPageCommand = new RelayCommand(NextCalendarPage, () => CalendarPageIndex < CalendarPageCount - 1);
+            PreviousCalendarPageCommand = new RelayCommand(PreviousCalendarPage, () => CalendarPageIndex > 0);
 
             if (_scheduleRepo == null)
             {
@@ -737,6 +797,22 @@ namespace CellManager.ViewModels
             UpdateTotalDuration();
         }
 
+        partial void OnCalendarModeChanged(CalendarViewMode value)
+        {
+            OnPropertyChanged(nameof(IsDetailedCalendarMode));
+            OnPropertyChanged(nameof(IsTimelineCalendarMode));
+        }
+
+        partial void OnCalendarPageIndexChanged(int value)
+        {
+            RefreshPagedCalendarDays();
+        }
+
+        partial void OnCalendarPageCountChanged(int value)
+        {
+            UpdateCalendarNavigationState();
+        }
+
         partial void OnScheduleStartDateChanged(DateTime value)
         {
             _scheduleStartDate = value.Date;
@@ -818,7 +894,10 @@ namespace CellManager.ViewModels
 
             var steps = BuildExecutionPlan().ToList();
             if (!steps.Any())
+            {
+                UpdateCalendarPagination(resetIndex: true);
                 return;
+            }
 
             var current = ScheduleStartDateTime;
             var dayMap = new Dictionary<DateTime, ScheduleCalendarDay>();
@@ -827,28 +906,154 @@ namespace CellManager.ViewModels
             {
                 var start = current;
                 var end = current + step.Duration;
-                var entry = new ScheduleCalendarEntry(
-                    step.Order,
-                    step.Name,
-                    start,
-                    end,
-                    step.Duration,
-                    step.IsLoopSegment,
-                    step.LoopIteration);
 
-                var key = start.Date;
-                if (!dayMap.TryGetValue(key, out var day))
+                foreach (var segment in SplitExecutionStepAcrossDays(start, end))
                 {
-                    day = new ScheduleCalendarDay(key);
-                    dayMap.Add(key, day);
+                    var segmentDuration = segment.End - segment.Start;
+                    var dayLength = TimeSpan.FromDays(1);
+                    var offsetPercent = Math.Clamp(((segment.Start - segment.DayStart).TotalMinutes / dayLength.TotalMinutes) * 100.0, 0, 100);
+                    var safeDuration = segmentDuration < TimeSpan.Zero ? TimeSpan.Zero : segmentDuration;
+                    var durationPercent = Math.Clamp((safeDuration.TotalMinutes / dayLength.TotalMinutes) * 100.0, 0, 100);
+
+                    var entry = new ScheduleCalendarEntry(
+                        step.Order,
+                        step.Name,
+                        segment.Start,
+                        segment.End,
+                        segmentDuration,
+                        step.IsLoopSegment,
+                        step.LoopIteration,
+                        offsetPercent,
+                        durationPercent);
+
+                    var key = segment.DayStart.Date;
+                    if (!dayMap.TryGetValue(key, out var day))
+                    {
+                        day = new ScheduleCalendarDay(key);
+                        dayMap.Add(key, day);
+                    }
+
+                    day.Entries.Add(entry);
                 }
 
-                day.Entries.Add(entry);
                 current = end;
             }
 
             foreach (var day in dayMap.Values.OrderBy(d => d.Date))
                 CalendarDays.Add(day);
+
+            UpdateCalendarPagination(resetIndex: true);
+        }
+
+        private void UpdateCalendarPagination(bool resetIndex)
+        {
+            var totalDays = CalendarDays.Count;
+            var totalPages = totalDays == 0 ? 0 : (int)Math.Ceiling(totalDays / 7d);
+            CalendarPageCount = totalPages;
+
+            int targetIndex;
+            if (totalPages == 0)
+            {
+                targetIndex = 0;
+            }
+            else if (resetIndex)
+            {
+                targetIndex = 0;
+            }
+            else
+            {
+                targetIndex = Math.Min(CalendarPageIndex, totalPages - 1);
+            }
+
+            targetIndex = Math.Max(0, targetIndex);
+
+            if (targetIndex != CalendarPageIndex)
+            {
+                CalendarPageIndex = targetIndex;
+                return;
+            }
+
+            RefreshPagedCalendarDays();
+        }
+
+        private void RefreshPagedCalendarDays()
+        {
+            _pagedCalendarDays.Clear();
+
+            if (CalendarPageCount == 0 || !CalendarDays.Any())
+            {
+                OnPropertyChanged(nameof(CalendarPageRangeText));
+                UpdateCalendarNavigationState();
+                return;
+            }
+
+            var startIndex = CalendarPageIndex * 7;
+            var days = CalendarDays.Skip(startIndex).Take(7);
+            foreach (var day in days)
+                _pagedCalendarDays.Add(day);
+
+            OnPropertyChanged(nameof(CalendarPageRangeText));
+            UpdateCalendarNavigationState();
+        }
+
+        private void UpdateCalendarNavigationState()
+        {
+            NextCalendarPageCommand?.NotifyCanExecuteChanged();
+            PreviousCalendarPageCommand?.NotifyCanExecuteChanged();
+        }
+
+        private void NextCalendarPage()
+        {
+            if (CalendarPageIndex < CalendarPageCount - 1)
+            {
+                CalendarPageIndex++;
+            }
+        }
+
+        private void PreviousCalendarPage()
+        {
+            if (CalendarPageIndex > 0)
+            {
+                CalendarPageIndex--;
+            }
+        }
+
+        private static IEnumerable<CalendarSegment> SplitExecutionStepAcrossDays(DateTime start, DateTime end)
+        {
+            if (end <= start)
+            {
+                yield return new CalendarSegment(start.Date, start, end);
+                yield break;
+            }
+
+            var currentStart = start;
+            while (currentStart < end)
+            {
+                var dayStart = currentStart.Date;
+                var dayEnd = dayStart.AddDays(1);
+                var segmentEnd = end < dayEnd ? end : dayEnd;
+
+                yield return new CalendarSegment(dayStart, currentStart, segmentEnd);
+
+                if (segmentEnd >= end)
+                    yield break;
+
+                currentStart = segmentEnd;
+            }
+        }
+
+        private readonly struct CalendarSegment
+        {
+            public CalendarSegment(DateTime dayStart, DateTime start, DateTime end)
+            {
+                DayStart = dayStart;
+                Start = start;
+                End = end;
+            }
+
+            public DateTime DayStart { get; }
+            public DateTime Start { get; }
+            public DateTime End { get; }
         }
 
         private IEnumerable<ExecutionStep> BuildExecutionPlan()
@@ -971,7 +1176,7 @@ namespace CellManager.ViewModels
     /// <summary>Describes a scheduled step with concrete start and end timestamps.</summary>
     public class ScheduleCalendarEntry
     {
-        public ScheduleCalendarEntry(int order, string stepName, DateTime start, DateTime end, TimeSpan duration, bool isLoopSegment, int loopIteration)
+        public ScheduleCalendarEntry(int order, string stepName, DateTime start, DateTime end, TimeSpan duration, bool isLoopSegment, int loopIteration, double startOffsetPercent, double durationPercent)
         {
             Order = order;
             StepName = stepName;
@@ -980,6 +1185,8 @@ namespace CellManager.ViewModels
             Duration = duration;
             IsLoopSegment = isLoopSegment;
             LoopIteration = loopIteration;
+            StartOffsetPercent = startOffsetPercent;
+            DurationPercent = durationPercent;
         }
 
         public int Order { get; }
@@ -989,6 +1196,9 @@ namespace CellManager.ViewModels
         public TimeSpan Duration { get; }
         public bool IsLoopSegment { get; }
         public int LoopIteration { get; }
+        public double StartOffsetPercent { get; }
+        public double DurationPercent { get; }
+        public double EndOffsetPercent => Math.Max(0, 100 - StartOffsetPercent - DurationPercent);
 
         public bool HasLoopIteration => IsLoopSegment && LoopIteration > 0;
 
