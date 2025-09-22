@@ -58,7 +58,6 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
@@ -115,19 +114,6 @@
                     </StackPanel>
                 </Grid>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <StackPanel Width="140">
-                        <TextBlock Text="Start Date" Foreground="#6B7280" FontSize="11"/>
-                        <DatePicker SelectedDate="{Binding ScheduleStartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </StackPanel>
-                    <StackPanel Margin="12,0,0,0" Width="120">
-                        <TextBlock Text="Start Time" Foreground="#6B7280" FontSize="11"/>
-                        <xctk:TimePicker Value="{Binding ScheduleStartTimePickerValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         Format="Custom"
-                                         FormatString="HH:mm"
-                                         AllowSpin="True"/>
-                    </StackPanel>
-                </StackPanel>
             </Grid>
         </materialDesign:Card>
 
@@ -548,8 +534,12 @@
 
 
             <!-- Step library -->
-            <GroupBox Grid.Column="2" Grid.RowSpan="2" Margin="0" Style="{x:Null}" BorderThickness="0">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <GroupBox Grid.Column="2" Margin="0" Style="{x:Null}" BorderThickness="0"
+                      VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              CanContentScroll="True"
+                              Padding="0,0,4,0">
                     <ItemsControl ItemsSource="{Binding StepLibrary}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>

@@ -81,12 +81,12 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ScheduleStartDateTime))]
         [NotifyPropertyChangedFor(nameof(ScheduleEndDateTime))]
-        private DateTime _scheduleStartDate = DateTime.Today;
+        private DateTime _scheduleStartDate = DateTime.Now.Date;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ScheduleStartDateTime))]
         [NotifyPropertyChangedFor(nameof(ScheduleEndDateTime))]
-        private TimeSpan _scheduleStartTime = TimeSpan.FromHours(8);
+        private TimeSpan _scheduleStartTime = DateTime.Now.TimeOfDay;
 
         private string _scheduleSummaryText = string.Empty;
         public string ScheduleSummaryText
@@ -191,6 +191,7 @@ namespace CellManager.ViewModels
             });
 
             UpdateTotalDuration();
+            ResetScheduleStartToNow();
         }
 
         /// <summary>Reloads the schedule and library data when the active cell changes.</summary>
@@ -487,6 +488,13 @@ namespace CellManager.ViewModels
             OnPropertyChanged(nameof(CanSaveSchedule));
         }
 
+        private void ResetScheduleStartToNow()
+        {
+            var now = DateTime.Now;
+            ScheduleStartDate = now.Date;
+            ScheduleStartTime = now.TimeOfDay;
+        }
+
         /// <summary>Determines the total duration encompassed by the current loop markers.</summary>
         private long CalculateLoopSegmentTicksFromSequence()
         {
@@ -609,6 +617,7 @@ namespace CellManager.ViewModels
             DeleteScheduleCommand.NotifyCanExecuteChanged();
             SaveScheduleCommand?.NotifyCanExecuteChanged();
             OnPropertyChanged(nameof(CanSaveSchedule));
+            ResetScheduleStartToNow();
         }
 
         /// <summary>Creates a new blank schedule and selects it for editing.</summary>
