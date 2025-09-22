@@ -373,7 +373,10 @@
                                 <ListBox.Template>
                                     <ControlTemplate TargetType="ListBox">
                                         <Border BorderBrush="#E5E7EB" BorderThickness="1" SnapsToDevicePixels="True">
-                                            <ScrollViewer Focusable="False" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
+                                            <ScrollViewer Focusable="False"
+                                                          HorizontalScrollBarVisibility="Auto"
+                                                          VerticalScrollBarVisibility="Auto"
+                                                          CanContentScroll="True">
                                                 <ItemsPresenter />
                                             </ScrollViewer>
                                         </Border>
@@ -552,7 +555,10 @@
 
                     <Grid Grid.Row="1">
                         <Border Background="#F9FAFB" CornerRadius="8">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="12">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                           VerticalScrollBarVisibility="Auto"
+                                           CanContentScroll="True"
+                                           Padding="12">
                                 <ItemsControl ItemsSource="{Binding CalendarDays}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
