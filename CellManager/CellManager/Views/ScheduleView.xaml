@@ -590,6 +590,7 @@
 
             <!-- Schedule calendar card -->
             <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="16" Margin="0,16,10,0"
+                                  MaxHeight="420"
                                   Visibility="{Binding IsCalendarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
