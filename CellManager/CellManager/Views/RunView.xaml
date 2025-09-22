@@ -30,12 +30,18 @@
         </materialDesign:Card>
 
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <StackPanel Grid.Column="0" Margin="0,0,12,0">
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Margin="0,0,12,0">
                 <materialDesign:Card Padding="16" Margin="0,0,0,8">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -85,19 +91,31 @@
                 </materialDesign:Card>
 
                 <materialDesign:Card Padding="16">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Run logs" FontWeight="SemiBold" FontSize="15"/>
-                        <ListBox Grid.Row="1"
-                                 ItemsSource="{Binding RunLogs}"
-                                 Margin="0,12,0,0"
-                                 MinHeight="220"
-                                 BorderThickness="0"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-                    </Grid>
+                    <StackPanel>
+                        <TextBlock Text="Run metrics preview" FontWeight="SemiBold" FontSize="15"/>
+                        <TextBlock Margin="0,4,0,0" Foreground="#6B7280" TextWrapping="Wrap">
+                            Visualize recent readings at a glance. A compact trend graph will appear here when run telemetry is available.
+                        </TextBlock>
+                        <Grid Margin="0,12,0,0" Height="160">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="#F3F4F6" CornerRadius="6" Padding="12">
+                                <Grid>
+                                    <Polyline Points="0,110 30,90 60,95 90,70 120,85 150,60" Stroke="#3B82F6" StrokeThickness="2" StrokeLineJoin="Round" StrokeLineCap="Round"/>
+                                    <Polyline Points="0,130 30,120 60,105 90,95 120,90 150,75" Stroke="#10B981" StrokeThickness="2" StrokeDashArray="4 2" StrokeLineJoin="Round" StrokeLineCap="Round"/>
+                                    <TextBlock HorizontalAlignment="Right"
+                                               VerticalAlignment="Bottom"
+                                               Foreground="#9CA3AF"
+                                               FontSize="11"
+                                               Text="Sample trend preview"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </StackPanel>
                 </materialDesign:Card>
             </StackPanel>
 
@@ -243,6 +261,23 @@
                     </StackPanel>
                 </materialDesign:Card>
             </StackPanel>
+            </Grid>
+
+            <materialDesign:Card Grid.Row="1" Padding="16" Margin="0,12,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Run logs" FontWeight="SemiBold" FontSize="15"/>
+                    <ListBox Grid.Row="1"
+                             ItemsSource="{Binding RunLogs}"
+                             Margin="0,12,0,0"
+                             MinHeight="220"
+                             BorderThickness="0"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                </Grid>
+            </materialDesign:Card>
         </Grid>
     </Grid>
 </UserControl>
