@@ -99,8 +99,8 @@
                                                 </materialDesign:PackIcon.Style>
                                             </materialDesign:PackIcon>
                                         </StackPanel>
-                                            <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
-                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
+                                            <TextBlock Text="{Binding TestSetupPreviewText}" FontSize="11" Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding TestSetupPreviewText}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -213,8 +213,8 @@
                                                 </materialDesign:PackIcon.Style>
                                             </materialDesign:PackIcon>
                                         </StackPanel>
-                                            <TextBlock Text="{Binding PreviewText}" FontSize="11" Margin="0,2,0,0"
-                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding PreviewText}"/>
+                                            <TextBlock Text="{Binding TestSetupPreviewText}" FontSize="11" Margin="0,2,0,0"
+                                                       TextTrimming="CharacterEllipsis" ToolTip="{Binding TestSetupPreviewText}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>

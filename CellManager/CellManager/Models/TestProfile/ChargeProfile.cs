@@ -18,26 +18,32 @@ namespace CellManager.Models.TestProfile
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private double _chargeCurrent;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private double _chargeCutoffVoltage;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private double _cutoffCurrent;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private ChargeMode _chargeMode;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private double? _chargeCapacityMah;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private TimeSpan _chargeTime;
 
         [ObservableProperty]
@@ -79,18 +85,25 @@ namespace CellManager.Models.TestProfile
         /// <summary>
         ///     Text displayed in the UI profile tree summarizing the key charge settings.
         /// </summary>
-        public string PreviewText
+        public string PreviewText => BuildPreviewText(includeChargeMode: true);
+
+        /// <summary>
+        ///     Alternate preview used in the test setup view that hides the charge mode portion.
+        /// </summary>
+        public string TestSetupPreviewText => BuildPreviewText(includeChargeMode: false);
+
+        private string BuildPreviewText(bool includeChargeMode)
         {
-            get
+            var baseText = includeChargeMode
+                ? $"{ChargeMode} , {ChargeCutoffVoltage} mV, {ChargeCurrent} mA, {CutoffCurrent} mA"
+                : $"{ChargeCutoffVoltage} mV, {ChargeCurrent} mA, {CutoffCurrent} mA";
+
+            return ChargeMode switch
             {
-                var baseText = $"{ChargeMode} , {ChargeCutoffVoltage} mV, {ChargeCurrent} mA, {CutoffCurrent} mA";
-                return ChargeMode switch
-                {
-                    ChargeMode.ChargeByCapacity => $"{baseText}, {ChargeCapacityMah} mAh",
-                    ChargeMode.ChargeByTime => $"{baseText}, {ChargeTime}",
-                    _ => baseText
-                };
-            }
+                ChargeMode.ChargeByCapacity => $"{baseText}, {ChargeCapacityMah} mAh",
+                ChargeMode.ChargeByTime => $"{baseText}, {ChargeTime}",
+                _ => baseText
+            };
         }
     }
 

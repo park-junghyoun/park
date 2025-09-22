@@ -29,18 +29,22 @@ namespace CellManager.Models.TestProfile
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private DischargeMode _dischargeMode;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private double _dischargeCurrent;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private double _dischargeCutoffVoltage;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private TimeSpan _dischargeTime;
 
         [ObservableProperty]
@@ -54,23 +58,31 @@ namespace CellManager.Models.TestProfile
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(PreviewText))]
+        [NotifyPropertyChangedFor(nameof(TestSetupPreviewText))]
         private double? _dischargeCapacityMah;
 
         /// <summary>
         ///     User-facing summary of the discharge configuration shown in the profile tree.
         /// </summary>
-        public string PreviewText
+        public string PreviewText => BuildPreviewText(includeDischargeMode: true);
+
+        /// <summary>
+        ///     Alternate preview used in the test setup view that hides the discharge mode portion.
+        /// </summary>
+        public string TestSetupPreviewText => BuildPreviewText(includeDischargeMode: false);
+
+        private string BuildPreviewText(bool includeDischargeMode)
         {
-            get
+            var baseText = includeDischargeMode
+                ? $"{DischargeMode} , {DischargeCutoffVoltage} mV, {DischargeCurrent} mA"
+                : $"{DischargeCutoffVoltage} mV, {DischargeCurrent} mA";
+
+            return DischargeMode switch
             {
-                var baseText = $"{DischargeMode} , {DischargeCutoffVoltage} mV, {DischargeCurrent} mA";
-                return DischargeMode switch
-                {
-                    DischargeMode.DischargeByCapacity => $"{baseText}, {DischargeCapacityMah} mAh",
-                    DischargeMode.DischargeByTime => $"{baseText}, {DischargeTime}",
-                    _ => baseText
-                };
-            }
+                DischargeMode.DischargeByCapacity => $"{baseText}, {DischargeCapacityMah} mAh",
+                DischargeMode.DischargeByTime => $"{baseText}, {DischargeTime}",
+                _ => baseText
+            };
         }
 
         partial void OnDischargeHoursChanged(int value) => UpdateDischargeTime();
