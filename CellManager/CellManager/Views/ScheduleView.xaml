@@ -68,7 +68,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <Grid Grid.Column="1" Margin="24,0" VerticalAlignment="Center">
+                <Grid Grid.Column="1" Margin="24,0" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -78,8 +78,7 @@
                                Text="{Binding ScheduleSummaryText}"
                                Foreground="#6B7280"
                                TextWrapping="NoWrap"
-                               TextTrimming="CharacterEllipsis"
-                               MaxWidth="260"/>
+                               TextTrimming="CharacterEllipsis"/>
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="24,0,0,0" VerticalAlignment="Center">
                         <StackPanel Margin="0,0,16,0">
@@ -281,8 +280,6 @@
                     <StackPanel Grid.Row="0" Margin="0,0,0,10">
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <TextBlock Text="Test Flow" FontWeight="Bold" FontSize="15"/>
-                            <TextBlock Text="{Binding TotalDuration, StringFormat='Total: {0:hh\\:mm\\:ss}'}"
-                               Margin="30,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                         <ItemsControl x:Name="TimelinePreview" ItemsSource="{Binding Sequence}"
                                   HorizontalAlignment="Stretch" ClipToBounds="True" Style="{x:Null}" AlternationCount="1000">
