@@ -548,7 +548,7 @@
 
 
             <!-- Step library -->
-            <GroupBox Grid.Column="2" Margin="0" Style="{x:Null}" BorderThickness="0">
+            <GroupBox Grid.Column="2" Grid.RowSpan="2" Margin="0" Style="{x:Null}" BorderThickness="0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding StepLibrary}">
                         <ItemsControl.ItemTemplate>
@@ -618,16 +618,16 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                             <ItemsControl ItemsSource="{Binding CalendarDays}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical"/>
+                                        <WrapPanel Orientation="Horizontal"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate DataType="{x:Type vm:ScheduleCalendarDay}">
-                                        <materialDesign:Card MinWidth="260" MaxWidth="600" Margin="0,0,0,12" Padding="12" HorizontalAlignment="Left">
+                                        <materialDesign:Card MinWidth="260" MaxWidth="600" Margin="0,0,12,0" Padding="12" HorizontalAlignment="Left">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto"/>
@@ -641,12 +641,12 @@
                                                 <ItemsControl Grid.Row="2" ItemsSource="{Binding Entries}" Margin="0,12,0,0" AlternationCount="512" ClipToBounds="False">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
-                                                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Top"/>
+                                                            <StackPanel Orientation="Vertical"/>
                                                         </ItemsPanelTemplate>
                                                     </ItemsControl.ItemsPanel>
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate DataType="{x:Type vm:ScheduleCalendarEntry}">
-                                                            <Border Margin="0,0,8,8"
+                                                            <Border Margin="0,0,0,8"
                                                                     Padding="10,6"
                                                                     MinWidth="160"
                                                                     MaxWidth="220"
