@@ -114,8 +114,8 @@
         <!-- Main content -->
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="400"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="2*" MinHeight="400"/>
+                <RowDefinition Height="*" MinHeight="240"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -539,7 +539,7 @@
             </GroupBox>
 
             <!-- Schedule calendar card -->
-            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="16" Margin="0,16,10,0" ScrollViewer.CanContentScroll="True"
+            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="16" Margin="0,16,10,0" MinHeight="240" ScrollViewer.CanContentScroll="True"
                                   Visibility="{Binding IsCalendarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid>
                     <Grid.RowDefinitions>
