@@ -219,9 +219,9 @@
                                                                         </Border>
                                                                     </DockPanel>
                                                                     <TextBlock Grid.Row="1" Foreground="#4B5563" FontSize="11">
-                                                                        <Run Text="{Binding TimeRangeDisplay}"/>
+                                                                        <Run Text="{Binding TimeRangeDisplay, Mode=OneWay}"/>
                                                                         <Run Text=" • "/>
-                                                                        <Run Text="{Binding DurationCompactDisplay}"/>
+                                                                        <Run Text="{Binding DurationCompactDisplay, Mode=OneWay}"/>
                                                                     </TextBlock>
                                                                 </Grid>
                                                             </Grid>
