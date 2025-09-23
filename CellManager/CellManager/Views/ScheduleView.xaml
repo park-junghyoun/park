@@ -10,7 +10,6 @@
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:IsNotLastItemConverter x:Key="IsNotLastItemConverter"/>
         <DataTemplate x:Key="StepTemplateItem">
             <TextBlock Margin="4" VerticalAlignment="Center" Cursor="SizeAll">
@@ -196,7 +195,7 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
@@ -335,13 +334,6 @@
                         <TextBlock Text="Review the active cell details and assigned schedules." Foreground="#6B7280"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Grid.Column="2" VerticalAlignment="Bottom">
-                    <CheckBox Margin="16,0,0,0" VerticalAlignment="Center" IsChecked="{Binding IsCalendarVisible}" Style="{DynamicResource MaterialDesignCheckBox}">
-                        <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Text="Calendar" FontSize="12"/>
-                        </StackPanel>
-                    </CheckBox>
-                </StackPanel>
                 <Grid Grid.Column="2" Margin="24,0" VerticalAlignment="Center" HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <StackPanel Margin="0,0,16,0">
@@ -383,7 +375,7 @@
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="400"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition x:Name="CalendarRowDefinition" Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -801,15 +793,15 @@
             </GroupBox>
 
             <!-- Schedule calendar card -->
-            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,12,10,0" Padding="0"
-                                  Visibility="{Binding IsCalendarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Expander ExpandDirection="Up" IsExpanded="{Binding IsCalendarExpanded}">
+            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,12,10,0" Padding="0" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Expander x:Name="CalendarExpander" ExpandDirection="Up" IsExpanded="{Binding IsCalendarExpanded, Mode=TwoWay}" VerticalAlignment="Stretch">
                     <Expander.Header>
                         <Border Padding="16">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -829,6 +821,23 @@
                                            FontWeight="SemiBold"
                                            Text="{Binding TotalDurationDisplay}"
                                            TextAlignment="Right"/>
+                                <materialDesign:PackIcon Grid.Column="3"
+                                                          Width="18"
+                                                          Height="18"
+                                                          Margin="12,0,0,0"
+                                                          VerticalAlignment="Center"
+                                                          Foreground="#4B5563">
+                                    <materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon">
+                                            <Setter Property="Kind" Value="ChevronDown"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType=Expander}}" Value="True">
+                                                    <Setter Property="Kind" Value="ChevronUp"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>
+                                </materialDesign:PackIcon>
                             </Grid>
                         </Border>
                     </Expander.Header>
@@ -837,7 +846,7 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
@@ -862,14 +871,14 @@
                                 </Grid>
 
                                 <Grid Grid.Row="1">
-                                    <Border Background="#F9FAFB" CornerRadius="8">
+                                    <Border Background="#F9FAFB" CornerRadius="8" VerticalAlignment="Stretch">
                                         <ScrollViewer x:Name="CalendarScrollViewer"
                                                       HorizontalScrollBarVisibility="Auto"
                                                       VerticalScrollBarVisibility="Auto"
                                                       CanContentScroll="False"
-                                                      MinHeight="320"
-                                                      Padding="12">
-                                            <ContentControl Content="{Binding}">
+                                                      Padding="12"
+                                                      VerticalAlignment="Stretch">
+                                            <ContentControl Content="{Binding}" VerticalAlignment="Stretch">
                                                 <ContentControl.Style>
                                                     <Style TargetType="ContentControl">
                                                         <Setter Property="ContentTemplate" Value="{StaticResource DetailedCalendarTemplate}"/>

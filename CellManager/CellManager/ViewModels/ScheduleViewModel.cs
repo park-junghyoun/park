@@ -83,7 +83,6 @@ namespace CellManager.ViewModels
         [ObservableProperty] private int _loopStartIndex;
         [ObservableProperty] private int _loopEndIndex;
         [ObservableProperty] private TimeSpan _totalDuration;
-        [ObservableProperty] private bool _isCalendarVisible = true;
         [ObservableProperty] private bool _isCalendarExpanded = true;
         [ObservableProperty] private Cell? _selectedCell;
 
