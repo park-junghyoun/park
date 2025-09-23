@@ -62,12 +62,17 @@
         </Style>
         <converters:PercentageToGridLengthConverter x:Key="PercentageToGridLengthConverter"/>
         <DataTemplate x:Key="DetailedCalendarTemplate" DataType="{x:Type vm:ScheduleViewModel}">
-            <ItemsControl ItemsSource="{Binding PagedCalendarDays}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ItemsControl ItemsSource="{Binding PagedCalendarDays}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="7"/>
+                        <UniformGrid Columns="7" HorizontalAlignment="Stretch"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type vm:ScheduleCalendarDay}">
                         <Border Margin="6" Padding="10" Background="White" CornerRadius="8" BorderBrush="#E5E7EB" BorderThickness="1" MinWidth="160">
@@ -177,7 +182,7 @@
             </ItemsControl>
         </DataTemplate>
         <DataTemplate x:Key="TimelineCalendarTemplate" DataType="{x:Type vm:ScheduleViewModel}">
-            <ItemsControl ItemsSource="{Binding PagedCalendarDays}">
+            <ItemsControl ItemsSource="{Binding PagedCalendarDays}" HorizontalAlignment="Stretch">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel/>
@@ -375,7 +380,7 @@
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="400"/>
-                <RowDefinition x:Name="CalendarRowDefinition" Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -793,8 +798,8 @@
             </GroupBox>
 
             <!-- Schedule calendar card -->
-            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,12,10,0" Padding="0" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <Expander x:Name="CalendarExpander" ExpandDirection="Up" IsExpanded="{Binding IsCalendarExpanded, Mode=TwoWay}" VerticalAlignment="Stretch">
+            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,12,0,0" Padding="0" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Expander x:Name="CalendarExpander" ExpandDirection="Up" IsExpanded="{Binding IsCalendarExpanded, Mode=TwoWay}" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                     <Expander.Header>
                         <Border Padding="16">
                             <Grid>
@@ -843,6 +848,16 @@
                     </Expander.Header>
                     <Expander.Content>
                         <Border BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" Padding="16,0,16,16">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="MinHeight" Value="0"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsCalendarExpanded}" Value="True">
+                                            <Setter Property="MinHeight" Value="320"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -878,7 +893,7 @@
                                                       CanContentScroll="False"
                                                       Padding="12"
                                                       VerticalAlignment="Stretch">
-                                            <ContentControl Content="{Binding}" VerticalAlignment="Stretch">
+                                            <ContentControl Content="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                                 <ContentControl.Style>
                                                     <Style TargetType="ContentControl">
                                                         <Setter Property="ContentTemplate" Value="{StaticResource DetailedCalendarTemplate}"/>

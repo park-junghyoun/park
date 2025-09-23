@@ -17,9 +17,6 @@ namespace CellManager.Views
     public partial class ScheduleView : UserControl
     {
         private const string DragSourceFormat = "ScheduleView_IsFromSequence";
-        private const double ExpandedCalendarMinHeight = 320d;
-        private static readonly GridLength ExpandedCalendarRowHeight = new GridLength(1, GridUnitType.Star);
-
         private Point _dragStart;
         private ItemsControl? _dragSourceList;
         private FrameworkElement? _dragItemContainer;
@@ -40,7 +37,6 @@ namespace CellManager.Views
         private void ScheduleView_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= ScheduleView_Loaded;
-            UpdateCalendarRowHeight(CalendarExpander?.IsExpanded ?? false);
         }
 
         private void ScheduleView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -64,8 +60,6 @@ namespace CellManager.Views
                     collection.CollectionChanged += PagedCalendarDays_CollectionChanged;
                 }
             }
-
-            UpdateCalendarRowHeight(_viewModel?.IsCalendarExpanded ?? CalendarExpander?.IsExpanded ?? false);
             ResetCalendarScroll();
         }
 
@@ -78,9 +72,7 @@ namespace CellManager.Views
             }
             else if (e.PropertyName == nameof(ScheduleViewModel.IsCalendarExpanded))
             {
-                var isExpanded = _viewModel?.IsCalendarExpanded ?? false;
-                UpdateCalendarRowHeight(isExpanded);
-                if (isExpanded)
+                if (_viewModel?.IsCalendarExpanded == true)
                 {
                     ResetCalendarScroll();
                 }
@@ -102,16 +94,6 @@ namespace CellManager.Views
                 CalendarScrollViewer.ScrollToHorizontalOffset(0);
             }, DispatcherPriority.Background);
         }
-
-        private void UpdateCalendarRowHeight(bool isExpanded)
-        {
-            if (CalendarRowDefinition == null)
-                return;
-
-            CalendarRowDefinition.Height = isExpanded ? ExpandedCalendarRowHeight : GridLength.Auto;
-            CalendarRowDefinition.MinHeight = isExpanded ? ExpandedCalendarMinHeight : 0;
-        }
-
         private void ProfileList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _dragStart = e.GetPosition(null);
