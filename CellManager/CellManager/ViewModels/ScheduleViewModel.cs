@@ -1008,17 +1008,17 @@ namespace CellManager.ViewModels
 
         private void UpdateCalendarViewportHeight()
         {
-            const double minimumHeight = 360;
-            const double maximumHeight = 1400;
+            const double minimumHeight = 480;
+            const double maximumHeight = 1800;
 
-            var baseHeight = CalendarMode == CalendarViewMode.Timeline ? 260 : 300;
-            var perEntryHeight = CalendarMode == CalendarViewMode.Timeline ? 72 : 108;
+            var baseHeight = CalendarMode == CalendarViewMode.Timeline ? 360 : 420;
+            var perEntryHeight = CalendarMode == CalendarViewMode.Timeline ? 96 : 132;
 
             var maxEntries = _pagedCalendarDays.Any()
                 ? _pagedCalendarDays.Max(day => day.Entries.Count)
                 : 0;
 
-            var calculated = baseHeight + (perEntryHeight * Math.Max(1, maxEntries));
+            var calculated = baseHeight + (perEntryHeight * Math.Max(0, maxEntries - 1));
             CalendarExpandedHeight = Math.Clamp(calculated, minimumHeight, maximumHeight);
         }
 

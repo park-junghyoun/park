@@ -378,29 +378,26 @@
 
         <!-- Main content -->
         <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="400"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="700"/>
-                <ColumnDefinition Width="350"/>
-            </Grid.ColumnDefinitions>
+            <Grid Margin="0,0,0,96">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="700"/>
+                    <ColumnDefinition Width="350"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- Schedule list -->
-            <GroupBox Grid.Row="0" Grid.Column="0" Margin="0,7,0,0" MinWidth="300">
-                <DockPanel>
-                    <Grid DockPanel.Dock="Top">
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
-                            <TextBlock Grid.Column="0" Text="List" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                        </StackPanel>
-                        <Button Grid.Column="1" Width="32" Height="32" Padding="0"
-                                Command="{Binding AddScheduleCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
-                                Style="{StaticResource MaterialDesignToolButton}">
-                            <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E" />
-                        </Button>
-                    </Grid>
+                <!-- Schedule list -->
+                <GroupBox Grid.Column="0" Margin="0,7,0,0" MinWidth="300" VerticalAlignment="Stretch">
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top">
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
+                                <TextBlock Grid.Column="0" Text="List" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                            <Button Grid.Column="1" Width="32" Height="32" Padding="0"
+                                    Command="{Binding AddScheduleCommand}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                    Style="{StaticResource MaterialDesignToolButton}">
+                                <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Foreground="#00589E" />
+                            </Button>
+                        </Grid>
                     <ListView x:Name="ScheduleList" DockPanel.Dock="Bottom"
                               ItemsSource="{Binding Schedules}"
                               SelectedItem="{Binding SelectedSchedule}"
@@ -516,105 +513,105 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </DockPanel>
-            </GroupBox>
+                    </DockPanel>
+                </GroupBox>
 
-            <!-- Sequence builder -->
-            <GroupBox Grid.Row="0" Grid.Column="1" Margin="10,7,10,0">
-                <Grid >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <!-- Schedule name, save button and total duration -->
-                    <Grid Grid.Row="0" Margin="0,0,0,10">
-                        <TextBlock Grid.Column="0" Text="Sequence" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    </Grid>
-                    <!-- Sequence list -->
-                    <Grid Grid.Row="1" Margin="0,0,0,10">
+                <!-- Sequence builder -->
+                <GroupBox Grid.Column="1" Margin="10,7,10,0" VerticalAlignment="Stretch">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0">
-                            <TextBlock Text="Script #" FontWeight="Bold" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding SelectedSchedule.Ordering}" Margin="0,0,16,0" VerticalAlignment="Center" FontSize="13" FontWeight="Bold"/>
-                            <TextBlock Text="Name:" Margin="0,0,8,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/>
-                            <TextBox Width="250" Margin="0,0,8,0" Text="{Binding ScheduleName}" Height="20" >
-                                <TextBox.Style>
-                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFilledTextBox}">
-                                        <Setter Property="Padding" Value="0"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
-                            <Button Command="{Binding SaveScheduleCommand}" Width="32" Height="32" Padding="0">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignToolButton}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                                <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Foreground="#00589E"
-                                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Button>
-                            <Border Margin="8,0">
-                                <Border.Style>
-                                    <Style TargetType="Border" BasedOn="{StaticResource VDivider}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding LoopStartIndex}" Value="0">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <TextBlock Text="Loop Count:"
-                                       Margin="8,0,4,0"
-                                       VerticalAlignment="Center"
-                                       FontWeight="Bold"
-                                       FontSize="13">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding LoopStartIndex}" Value="0">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <xctk:IntegerUpDown Width="70"
-                                                Height="28"
-                                                VerticalAlignment="Center"
-                                                Value="{Binding RepeatCount, Mode=TwoWay}"
-                                                Minimum="1"
-                                                HorizontalContentAlignment="Center">
-                                <xctk:IntegerUpDown.Style>
-                                    <Style TargetType="xctk:IntegerUpDown">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding LoopStartIndex}" Value="0">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </xctk:IntegerUpDown.Style>
-                            </xctk:IntegerUpDown>
-                        </StackPanel>
-                        <Grid Grid.Row="1">
+
+                    <!-- Schedule name, save button and total duration -->
+                        <Grid Grid.Row="0" Margin="0,0,0,10">
+                            <TextBlock Grid.Column="0" Text="Sequence" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        </Grid>
+                    <!-- Sequence list -->
+                        <Grid Grid.Row="1" Margin="0,0,0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" Grid.Row="0">
+                                <TextBlock Text="Script #" FontWeight="Bold" FontSize="13" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding SelectedSchedule.Ordering}" Margin="0,0,16,0" VerticalAlignment="Center" FontSize="13" FontWeight="Bold"/>
+                                <TextBlock Text="Name:" Margin="0,0,8,0" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/>
+                                <TextBox Width="250" Margin="0,0,8,0" Text="{Binding ScheduleName}" Height="20">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFilledTextBox}">
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                                <Button Command="{Binding SaveScheduleCommand}" Width="32" Height="32" Padding="0">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignToolButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <materialDesign:PackIcon Kind="ContentSave" Width="18" Height="18" Foreground="#00589E"
+                                                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                                <Border Margin="8,0">
+                                    <Border.Style>
+                                        <Style TargetType="Border" BasedOn="{StaticResource VDivider}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LoopStartIndex}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <TextBlock Text="Loop Count:"
+                                           Margin="8,0,4,0"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"
+                                           FontSize="13">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LoopStartIndex}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <xctk:IntegerUpDown Width="70"
+                                                    Height="28"
+                                                    VerticalAlignment="Center"
+                                                    Value="{Binding RepeatCount, Mode=TwoWay}"
+                                                    Minimum="1"
+                                                    HorizontalContentAlignment="Center">
+                                    <xctk:IntegerUpDown.Style>
+                                        <Style TargetType="xctk:IntegerUpDown">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding LoopStartIndex}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </xctk:IntegerUpDown.Style>
+                                </xctk:IntegerUpDown>
+                            </StackPanel>
+                            <Grid Grid.Row="1">
                             <ListBox x:Name="SequenceList" ItemsSource="{Binding Sequence}" AllowDrop="True" Width="Auto"
          PreviewMouseLeftButtonDown="ScheduleList_PreviewMouseLeftButtonDown"
          PreviewMouseLeftButtonUp="ScheduleList_PreviewMouseLeftButtonUp"
@@ -731,74 +728,74 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
+                            </Grid>
                         </Grid>
                     </Grid>
-
-                </Grid>
-            </GroupBox>
+                </GroupBox>
 
 
-            <!-- Step library -->
-            <GroupBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="0" Style="{x:Null}" BorderThickness="0"
+                <!-- Step library -->
+                <GroupBox Grid.Column="2" Margin="0" Style="{x:Null}" BorderThickness="0"
                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Disabled"
-                              CanContentScroll="True"
-                              Padding="0,0,4,0">
-                    <ItemsControl ItemsSource="{Binding StepLibrary}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <materialDesign:Card Margin="0,0,0,10" Padding="0">
-                                    <Expander IsExpanded="True">
-                                        <Expander.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center">
-                                                    <materialDesign:PackIcon.Style>
-                                                        <Style TargetType="materialDesign:PackIcon">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Name}" Value="Charge">
-                                                                    <Setter Property="Kind" Value="BatteryPlus"/>
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Name}" Value="Discharge">
-                                                                    <Setter Property="Kind" Value="BatteryMinus"/>
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Name}" Value="Rest">
-                                                                    <Setter Property="Kind" Value="BatteryEco"/>
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Name}" Value="OCV">
-                                                                    <Setter Property="Kind" Value="Aurora"/>
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Name}" Value="Loop">
-                                                                    <Setter Property="Kind" Value="Repeat"/>
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </materialDesign:PackIcon.Style>
-                                                </materialDesign:PackIcon>
-                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="Bold"/>
-                                            </StackPanel>
-                                        </Expander.Header>
-                                        <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  CanContentScroll="True"
+                                  Padding="0,0,4,0">
+                        <ItemsControl ItemsSource="{Binding StepLibrary}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <materialDesign:Card Margin="0,0,0,10" Padding="0">
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center">
+                                                        <materialDesign:PackIcon.Style>
+                                                            <Style TargetType="materialDesign:PackIcon">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Name}" Value="Charge">
+                                                                        <Setter Property="Kind" Value="BatteryPlus"/>
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Name}" Value="Discharge">
+                                                                        <Setter Property="Kind" Value="BatteryMinus"/>
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Name}" Value="Rest">
+                                                                        <Setter Property="Kind" Value="BatteryEco"/>
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Name}" Value="OCV">
+                                                                        <Setter Property="Kind" Value="Aurora"/>
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Name}" Value="Loop">
+                                                                        <Setter Property="Kind" Value="Repeat"/>
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </materialDesign:PackIcon.Style>
+                                                    </materialDesign:PackIcon>
+                                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsControl ItemsSource="{Binding Steps}" ItemTemplate="{StaticResource StepTemplateItem}"
                                                               Margin="45,-5,4,8"
                                                               PreviewMouseLeftButtonDown="ProfileList_PreviewMouseLeftButtonDown"
                                                               PreviewMouseLeftButtonUp="ProfileList_PreviewMouseLeftButtonUp"
                                                               PreviewMouseMove="ProfileList_PreviewMouseMove"/>
-                                    </Expander>
-                                </materialDesign:Card>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </GroupBox>
+                                        </Expander>
+                                    </materialDesign:Card>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </GroupBox>
+            </Grid>
 
             <!-- Schedule calendar card -->
-            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,12,0,0" Padding="0">
+            <materialDesign:Card Panel.ZIndex="10" Margin="0" Padding="0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                 <Expander ExpandDirection="Up"
                           IsExpanded="{Binding IsCalendarExpanded, Mode=TwoWay}">
                     <Expander.Header>
