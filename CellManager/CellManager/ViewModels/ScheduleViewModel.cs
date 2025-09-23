@@ -42,8 +42,7 @@ namespace CellManager.ViewModels
     /// <summary>Defines available calendar layouts.</summary>
     public enum CalendarViewMode
     {
-        DetailedList,
-        Timeline
+        DetailedList
     }
 
     /// <summary>Grouping of step templates displayed within the library panel.</summary>
@@ -175,16 +174,6 @@ namespace CellManager.ViewModels
             {
                 if (value)
                     CalendarMode = CalendarViewMode.DetailedList;
-            }
-        }
-
-        public bool IsTimelineCalendarMode
-        {
-            get => CalendarMode == CalendarViewMode.Timeline;
-            set
-            {
-                if (value)
-                    CalendarMode = CalendarViewMode.Timeline;
             }
         }
 
@@ -801,7 +790,6 @@ namespace CellManager.ViewModels
         partial void OnCalendarModeChanged(CalendarViewMode value)
         {
             OnPropertyChanged(nameof(IsDetailedCalendarMode));
-            OnPropertyChanged(nameof(IsTimelineCalendarMode));
             UpdateCalendarViewportHeight();
         }
 
@@ -1011,8 +999,8 @@ namespace CellManager.ViewModels
             const double minimumHeight = 480;
             const double maximumHeight = 1800;
 
-            var baseHeight = CalendarMode == CalendarViewMode.Timeline ? 360 : 420;
-            var perEntryHeight = CalendarMode == CalendarViewMode.Timeline ? 96 : 132;
+            const double baseHeight = 420;
+            const double perEntryHeight = 132;
 
             var maxEntries = _pagedCalendarDays.Any()
                 ? _pagedCalendarDays.Max(day => day.Entries.Count)

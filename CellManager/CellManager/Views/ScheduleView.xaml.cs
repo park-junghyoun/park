@@ -65,8 +65,7 @@ namespace CellManager.Views
 
         private void ViewModelOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ScheduleViewModel.CalendarMode) ||
-                e.PropertyName == nameof(ScheduleViewModel.CalendarPageIndex))
+            if (e.PropertyName == nameof(ScheduleViewModel.CalendarPageIndex))
             {
                 ResetCalendarScroll();
             }
