@@ -227,7 +227,7 @@
 
         <!-- Main content -->
         <Grid Grid.Row="2">
-            <Grid Margin="0,0,0,96">
+            <Grid Margin="0,0,0,65">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="700"/>
@@ -648,7 +648,7 @@
                 <Expander ExpandDirection="Up"
                           IsExpanded="{Binding IsCalendarExpanded, Mode=TwoWay}">
                     <Expander.Header>
-                        <Border Padding="16">
+                        <Border Height="25" >
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
