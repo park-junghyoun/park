@@ -882,7 +882,7 @@
                                     <Border Background="#F9FAFB" CornerRadius="8" VerticalAlignment="Stretch">
                                         <ScrollViewer x:Name="CalendarScrollViewer"
                                                       HorizontalScrollBarVisibility="Auto"
-                                                      VerticalScrollBarVisibility="Disabled"
+                                                      VerticalScrollBarVisibility="Auto"
                                                       CanContentScroll="False"
                                                       Padding="12"
                                                       VerticalAlignment="Stretch">

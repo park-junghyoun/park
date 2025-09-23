@@ -92,6 +92,7 @@ namespace CellManager.Views
             CalendarScrollViewer.Dispatcher.BeginInvoke(() =>
             {
                 CalendarScrollViewer.ScrollToHorizontalOffset(0);
+                CalendarScrollViewer.ScrollToVerticalOffset(0);
             }, DispatcherPriority.Background);
         }
         private void ProfileList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
