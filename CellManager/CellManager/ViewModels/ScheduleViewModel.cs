@@ -84,7 +84,7 @@ namespace CellManager.ViewModels
         [ObservableProperty] private int _loopEndIndex;
         [ObservableProperty] private TimeSpan _totalDuration;
         [ObservableProperty] private bool _isCalendarExpanded;
-        [ObservableProperty] private double _calendarExpandedHeight = 360;
+        [ObservableProperty] private double _calendarExpandedHeight = 420;
         [ObservableProperty] private Cell? _selectedCell;
 
         [ObservableProperty]
@@ -805,6 +805,12 @@ namespace CellManager.ViewModels
             UpdateCalendarViewportHeight();
         }
 
+        partial void OnIsCalendarExpandedChanged(bool value)
+        {
+            if (value)
+                UpdateCalendarViewportHeight();
+        }
+
         partial void OnCalendarPageIndexChanged(int value)
         {
             RefreshPagedCalendarDays();
@@ -1002,18 +1008,18 @@ namespace CellManager.ViewModels
 
         private void UpdateCalendarViewportHeight()
         {
-            const double minimumHeight = 320;
-            const double maximumHeight = 760;
-            const double baseHeight = 220;
-            var perEntryHeight = CalendarMode == CalendarViewMode.Timeline ? 56 : 84;
+            const double minimumHeight = 360;
+            const double maximumHeight = 1400;
+
+            var baseHeight = CalendarMode == CalendarViewMode.Timeline ? 260 : 300;
+            var perEntryHeight = CalendarMode == CalendarViewMode.Timeline ? 72 : 108;
 
             var maxEntries = _pagedCalendarDays.Any()
                 ? _pagedCalendarDays.Max(day => day.Entries.Count)
                 : 0;
 
-            var calculated = baseHeight + (perEntryHeight * maxEntries);
-            var clamped = Math.Clamp(calculated, minimumHeight, maximumHeight);
-            CalendarExpandedHeight = clamped;
+            var calculated = baseHeight + (perEntryHeight * Math.Max(1, maxEntries));
+            CalendarExpandedHeight = Math.Clamp(calculated, minimumHeight, maximumHeight);
         }
 
         private void UpdateCalendarNavigationState()
