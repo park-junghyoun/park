@@ -60,6 +60,34 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="ToggleButton" x:Key="CalendarHeaderToggleButtonStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="HeaderBorder" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="HeaderBorder" Property="Background" Value="#F3F4F6"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="HeaderBorder" Property="Background" Value="#E5E7EB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <converters:PercentageToGridLengthConverter x:Key="PercentageToGridLengthConverter"/>
         <DataTemplate x:Key="DetailedCalendarTemplate" DataType="{x:Type vm:ScheduleViewModel}">
             <ItemsControl ItemsSource="{Binding PagedCalendarDays}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -378,9 +406,19 @@
 
         <!-- Main content -->
         <Grid Grid.Row="2">
+            <Grid.Resources>
+                <Style x:Key="CalendarHostRowStyle" TargetType="RowDefinition">
+                    <Setter Property="Height" Value="Auto"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.IsCalendarExpanded, RelativeSource={RelativeSource AncestorType=Grid}}" Value="True">
+                            <Setter Property="Height" Value="*"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="400"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Style="{StaticResource CalendarHostRowStyle}"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -799,8 +837,15 @@
 
             <!-- Schedule calendar card -->
             <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,12,0,0" Padding="0" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <Expander x:Name="CalendarExpander" ExpandDirection="Up" IsExpanded="{Binding IsCalendarExpanded, Mode=TwoWay}" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                    <Expander.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ToggleButton Grid.Row="0"
+                                  IsChecked="{Binding IsCalendarExpanded, Mode=TwoWay}"
+                                  Style="{StaticResource CalendarHeaderToggleButtonStyle}">
                         <Border Padding="16">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -836,7 +881,7 @@
                                         <Style TargetType="materialDesign:PackIcon">
                                             <Setter Property="Kind" Value="ChevronDown"/>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType=Expander}}" Value="True">
+                                                <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}" Value="True">
                                                     <Setter Property="Kind" Value="ChevronUp"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -845,19 +890,21 @@
                                 </materialDesign:PackIcon>
                             </Grid>
                         </Border>
-                    </Expander.Header>
-                    <Expander.Content>
-                        <Border BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" Padding="16,0,16,16">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="MinHeight" Value="0"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsCalendarExpanded}" Value="True">
-                                            <Setter Property="MinHeight" Value="320"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
+                    </ToggleButton>
+
+                    <Grid Grid.Row="1">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCalendarExpanded}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+
+                        <Border BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" Padding="16,0,16,16" MinHeight="{Binding CalendarExpandedHeight}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -946,8 +993,8 @@
                                 </TextBlock>
                             </Grid>
                         </Border>
-                    </Expander.Content>
-                </Expander>
+                    </Grid>
+                </Grid>
             </materialDesign:Card>
         </Grid>
 

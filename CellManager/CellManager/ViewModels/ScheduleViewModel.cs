@@ -83,7 +83,8 @@ namespace CellManager.ViewModels
         [ObservableProperty] private int _loopStartIndex;
         [ObservableProperty] private int _loopEndIndex;
         [ObservableProperty] private TimeSpan _totalDuration;
-        [ObservableProperty] private bool _isCalendarExpanded = true;
+        [ObservableProperty] private bool _isCalendarExpanded;
+        [ObservableProperty] private double _calendarExpandedHeight = 360;
         [ObservableProperty] private Cell? _selectedCell;
 
         [ObservableProperty]
@@ -801,6 +802,7 @@ namespace CellManager.ViewModels
         {
             OnPropertyChanged(nameof(IsDetailedCalendarMode));
             OnPropertyChanged(nameof(IsTimelineCalendarMode));
+            UpdateCalendarViewportHeight();
         }
 
         partial void OnCalendarPageIndexChanged(int value)
@@ -984,6 +986,7 @@ namespace CellManager.ViewModels
             {
                 OnPropertyChanged(nameof(CalendarPageRangeText));
                 UpdateCalendarNavigationState();
+                UpdateCalendarViewportHeight();
                 return;
             }
 
@@ -994,6 +997,23 @@ namespace CellManager.ViewModels
 
             OnPropertyChanged(nameof(CalendarPageRangeText));
             UpdateCalendarNavigationState();
+            UpdateCalendarViewportHeight();
+        }
+
+        private void UpdateCalendarViewportHeight()
+        {
+            const double minimumHeight = 320;
+            const double maximumHeight = 760;
+            const double baseHeight = 220;
+            var perEntryHeight = CalendarMode == CalendarViewMode.Timeline ? 56 : 84;
+
+            var maxEntries = _pagedCalendarDays.Any()
+                ? _pagedCalendarDays.Max(day => day.Entries.Count)
+                : 0;
+
+            var calculated = baseHeight + (perEntryHeight * maxEntries);
+            var clamped = Math.Clamp(calculated, minimumHeight, maximumHeight);
+            CalendarExpandedHeight = clamped;
         }
 
         private void UpdateCalendarNavigationState()
