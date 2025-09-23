@@ -382,8 +382,8 @@
         <!-- Main content -->
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*" MinHeight="400"/>
-                <RowDefinition x:Name="CalendarRowDefinition" Height="*" MinHeight="240"/>
+                <RowDefinition Height="*" MinHeight="400"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -801,124 +801,129 @@
             </GroupBox>
 
             <!-- Schedule calendar card -->
-            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="16" Margin="0,16,10,0" MinHeight="0" ScrollViewer.CanContentScroll="True"
+            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,12,10,0" Padding="0"
                                   Visibility="{Binding IsCalendarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="0" Margin="0,0,0,12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <ToggleButton Width="32" Height="32" Margin="0,0,8,0"
-                                          IsChecked="{Binding IsCalendarExpanded}"
-                                          Style="{StaticResource MaterialDesignToolButton}">
-                                <materialDesign:PackIcon Width="18" Height="18">
-                                    <materialDesign:PackIcon.Style>
-                                        <Style TargetType="materialDesign:PackIcon">
-                                            <Setter Property="Kind" Value="ChevronUp"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}" Value="False">
-                                                    <Setter Property="Kind" Value="ChevronDown"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </materialDesign:PackIcon.Style>
-                                </materialDesign:PackIcon>
-                            </ToggleButton>
-                            <TextBlock Text="Calendar" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <ToggleButton Content="Detailed" IsChecked="{Binding IsDetailedCalendarMode}" Style="{StaticResource CalendarToggleButtonStyle}"/>
-                            <ToggleButton Content="Timeline" IsChecked="{Binding IsTimelineCalendarMode}" Style="{StaticResource CalendarToggleButtonStyle}"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Button Command="{Binding PreviousCalendarPageCommand}" Width="32" Height="32" Padding="0" Style="{StaticResource MaterialDesignToolButton}">
-                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18"/>
-                            </Button>
-                            <TextBlock Text="{Binding CalendarPageRangeText}" Margin="12,0" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#374151"/>
-                            <Button Command="{Binding NextCalendarPageCommand}" Width="32" Height="32" Padding="0" Style="{StaticResource MaterialDesignToolButton}">
-                                <materialDesign:PackIcon Kind="ChevronRight" Width="18" Height="18"/>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid Grid.Row="1">
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Setter Property="Visibility" Value="Visible"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCalendarExpanded}" Value="False">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-                        <Border Background="#F9FAFB" CornerRadius="8">
-                            <ScrollViewer x:Name="CalendarScrollViewer"
-                                           HorizontalScrollBarVisibility="Auto"
-                                           VerticalScrollBarVisibility="Auto"
-                                           CanContentScroll="False"
-                                           Padding="12">
-                                <ContentControl Content="{Binding}">
-                                    <ContentControl.Style>
-                                        <Style TargetType="ContentControl">
-                                            <Setter Property="ContentTemplate" Value="{StaticResource DetailedCalendarTemplate}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding CalendarMode}" Value="{x:Static vm:CalendarViewMode.Timeline}">
-                                                    <Setter Property="ContentTemplate" Value="{StaticResource TimelineCalendarTemplate}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ContentControl.Style>
-                                </ContentControl>
-                            </ScrollViewer>
+                <Expander ExpandDirection="Up" IsExpanded="{Binding IsCalendarExpanded}">
+                    <Expander.Header>
+                        <Border Padding="16">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="20" Height="20" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Calendar" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1"
+                                           Margin="12,0"
+                                           VerticalAlignment="Center"
+                                           Foreground="#6B7280"
+                                           FontSize="12"
+                                           Text="{Binding CalendarPageRangeText}"/>
+                                <TextBlock Grid.Column="2"
+                                           VerticalAlignment="Center"
+                                           Foreground="#2563EB"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Text="{Binding TotalDurationDisplay}"
+                                           TextAlignment="Right"/>
+                            </Grid>
                         </Border>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Border BorderBrush="#E5E7EB" BorderThickness="0,1,0,0" Padding="16,0,16,16">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                        <TextBlock Text="Add profile steps to preview calendar timing." Foreground="#9CA3AF" FontStyle="Italic"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CalendarDays.Count}" Value="0">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
+                                <Grid Grid.Row="0" Margin="0,16,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <ToggleButton Content="Detailed" IsChecked="{Binding IsDetailedCalendarMode}" Style="{StaticResource CalendarToggleButtonStyle}"/>
+                                        <ToggleButton Content="Timeline" IsChecked="{Binding IsTimelineCalendarMode}" Style="{StaticResource CalendarToggleButtonStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <Button Command="{Binding PreviousCalendarPageCommand}" Width="32" Height="32" Padding="0" Style="{StaticResource MaterialDesignToolButton}">
+                                            <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18"/>
+                                        </Button>
+                                        <TextBlock Text="{Binding CalendarPageRangeText}" Margin="12,0" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#374151"/>
+                                        <Button Command="{Binding NextCalendarPageCommand}" Width="32" Height="32" Padding="0" Style="{StaticResource MaterialDesignToolButton}">
+                                            <materialDesign:PackIcon Kind="ChevronRight" Width="18" Height="18"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
 
-                    <TextBlock Grid.Row="2" Margin="0,18,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
-                               Foreground="{DynamicResource MaterialDesignValidationErrorColor}" TextAlignment="Center">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Setter Property="Text" Value="Loop start index must come before the loop end index to save this schedule."/>
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding CanSaveSchedule}" Value="False"/>
-                                            <Condition Binding="{Binding IsLoopValid}" Value="False"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </MultiDataTrigger>
-                                    <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Border Background="#F9FAFB" CornerRadius="8">
+                                        <ScrollViewer x:Name="CalendarScrollViewer"
+                                                      HorizontalScrollBarVisibility="Auto"
+                                                      VerticalScrollBarVisibility="Auto"
+                                                      CanContentScroll="False"
+                                                      MinHeight="320"
+                                                      Padding="12">
+                                            <ContentControl Content="{Binding}">
+                                                <ContentControl.Style>
+                                                    <Style TargetType="ContentControl">
+                                                        <Setter Property="ContentTemplate" Value="{StaticResource DetailedCalendarTemplate}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding CalendarMode}" Value="{x:Static vm:CalendarViewMode.Timeline}">
+                                                                <Setter Property="ContentTemplate" Value="{StaticResource TimelineCalendarTemplate}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContentControl.Style>
+                                            </ContentControl>
+                                        </ScrollViewer>
+                                    </Border>
+
+                                    <TextBlock Text="Add profile steps to preview calendar timing." Foreground="#9CA3AF" FontStyle="Italic"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CalendarDays.Count}" Value="0">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+
+                                <TextBlock Grid.Row="2" Margin="0,18,0,0" FontWeight="SemiBold" TextWrapping="Wrap"
+                                           Foreground="{DynamicResource MaterialDesignValidationErrorColor}" TextAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Setter Property="Text" Value="Loop start index must come before the loop end index to save this schedule."/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding CanSaveSchedule}" Value="False"/>
+                                                        <Condition Binding="{Binding IsLoopValid}" Value="False"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding SelectedSchedule}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                    </Expander.Content>
+                </Expander>
             </materialDesign:Card>
         </Grid>
 
