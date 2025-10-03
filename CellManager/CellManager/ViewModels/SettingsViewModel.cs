@@ -115,8 +115,12 @@ namespace CellManager.ViewModels
 
         public RelayCommand ReadProtectionCommand { get; }
         public RelayCommand WriteProtectionCommand { get; }
+        public RelayCommand ImportProtectionCommand { get; }
+        public RelayCommand ExportProtectionCommand { get; }
         public RelayCommand ReadBoardDataCommand { get; }
         public RelayCommand WriteBoardDataCommand { get; }
+        public RelayCommand ImportBoardDataCommand { get; }
+        public RelayCommand ExportBoardDataCommand { get; }
         public RelayCommand ReadAdcValuesCommand { get; }
 
         private readonly Dictionary<string, List<ProtectionSetting>> _profiles = new();
@@ -129,6 +133,10 @@ namespace CellManager.ViewModels
             WriteProtectionCommand = new RelayCommand(WriteProtectionSettings, CanReadWriteProtection);
             ReadBoardDataCommand = new RelayCommand(ReadBoardDataSettings);
             WriteBoardDataCommand = new RelayCommand(WriteBoardDataSettings);
+            ImportBoardDataCommand = new RelayCommand(ImportBoardDataSettings);
+            ExportBoardDataCommand = new RelayCommand(ExportBoardDataSettings);
+            ImportProtectionCommand = new RelayCommand(ImportProtectionSettings, CanReadWriteProtection);
+            ExportProtectionCommand = new RelayCommand(ExportProtectionSettings, CanReadWriteProtection);
             ReadAdcValuesCommand = new RelayCommand(ReadAdcValues);
             ReadProtectionSettings();
             ReadBoardDataSettings();
@@ -166,15 +174,49 @@ namespace CellManager.ViewModels
             // Placeholder for writing logic
         }
 
+        private void ImportProtectionSettings()
+        {
+            if (!CanReadWriteProtection())
+            {
+                MessageBox.Show($"Unsupported firmware version. Supported versions: {string.Join(", ", SupportedFirmwareVersions)}");
+                return;
+            }
+
+            // Placeholder for import logic
+        }
+
+        private void ExportProtectionSettings()
+        {
+            if (!CanReadWriteProtection())
+            {
+                MessageBox.Show($"Unsupported firmware version. Supported versions: {string.Join(", ", SupportedFirmwareVersions)}");
+                return;
+            }
+
+            // Placeholder for export logic
+        }
+
         private void ReadAdcValues()
         {
             // Placeholder for reading ADC values from hardware
+        }
+
+        private void ImportBoardDataSettings()
+        {
+            // Placeholder for import logic
+        }
+
+        private void ExportBoardDataSettings()
+        {
+            // Placeholder for export logic
         }
 
         partial void OnFirmwareVersionChanged(string value)
         {
             ReadProtectionCommand.NotifyCanExecuteChanged();
             WriteProtectionCommand.NotifyCanExecuteChanged();
+            ImportProtectionCommand.NotifyCanExecuteChanged();
+            ExportProtectionCommand.NotifyCanExecuteChanged();
         }
     }
 
