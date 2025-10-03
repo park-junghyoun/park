@@ -84,19 +84,27 @@
                                     <StackPanel>
                                         <!-- ADC readings -->
                                         <materialDesign:Card Padding="16" Margin="0,0,0,16">
-                                            <StackPanel>
-                                                <TextBlock Text="ADC Readings"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                           Margin="0,0,0,8"/>
-                                                <Grid>
+                                            <Grid materialDesign:GridAssist.RowSpacing="16">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0"
+                                                           Text="ADC Readings"
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
+                                                <Grid Grid.Row="1"
+                                                      materialDesign:GridAssist.ColumnSpacing="16"
+                                                      VerticalAlignment="Center">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="Auto"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <Grid Grid.Column="0">
+                                                    <Grid Grid.Column="0"
+                                                          materialDesign:GridAssist.ColumnSpacing="12"
+                                                          materialDesign:GridAssist.RowSpacing="12">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="160"/>
                                                         </Grid.ColumnDefinitions>
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="Auto"/>
@@ -107,224 +115,249 @@
                                                         <TextBlock Grid.Row="0"
                                                                    Text="Cell Voltage"
                                                                    FontWeight="SemiBold"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="0,0,12,0"/>
+                                                                   VerticalAlignment="Center"/>
                                                         <TextBox Grid.Row="0"
                                                                  Grid.Column="1"
                                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                  materialDesign:HintAssist.Hint="ADC"
                                                                  Text="{Binding VoltageAdcValue}"
-                                                                 Width="160"
                                                                  IsReadOnly="True"/>
                                                         <TextBlock Grid.Row="1"
                                                                    Text="Pack Voltage"
                                                                    FontWeight="SemiBold"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="0,12,12,0"/>
+                                                                   VerticalAlignment="Center"/>
                                                         <TextBox Grid.Row="1"
                                                                  Grid.Column="1"
-                                                                 Margin="0,12,0,0"
                                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                  materialDesign:HintAssist.Hint="ADC"
                                                                  Text="{Binding PackVoltageAdcValue}"
-                                                                 Width="160"
                                                                  IsReadOnly="True"/>
                                                         <TextBlock Grid.Row="2"
                                                                    Text="Current"
                                                                    FontWeight="SemiBold"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="0,12,12,0"/>
+                                                                   VerticalAlignment="Center"/>
                                                         <TextBox Grid.Row="2"
                                                                  Grid.Column="1"
-                                                                 Margin="0,12,0,0"
                                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                  materialDesign:HintAssist.Hint="ADC"
                                                                  Text="{Binding CurrentAdcValue}"
-                                                                 Width="160"
                                                                  IsReadOnly="True"/>
                                                         <TextBlock Grid.Row="3"
                                                                    Text="Temperature"
                                                                    FontWeight="SemiBold"
-                                                                   VerticalAlignment="Center"
-                                                                   Margin="0,12,12,0"/>
+                                                                   VerticalAlignment="Center"/>
                                                         <TextBox Grid.Row="3"
                                                                  Grid.Column="1"
-                                                                 Margin="0,12,0,0"
                                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                  materialDesign:HintAssist.Hint="ADC"
                                                                  Text="{Binding TemperatureAdcValue}"
-                                                                 Width="160"
                                                                  IsReadOnly="True"/>
                                                     </Grid>
                                                     <Button Grid.Column="1"
                                                             Content="Read"
-                                                            Width="100"
-                                                            Margin="16,0,0,0"
+                                                            Width="110"
                                                             Command="{Binding ReadAdcValuesCommand}"
                                                             Style="{StaticResource SecondaryActionButton}"/>
                                                 </Grid>
-                                            </StackPanel>
+                                            </Grid>
                                         </materialDesign:Card>
 
                                         <!-- Voltage card -->
                                         <materialDesign:Card Padding="16" Margin="0,0,0,16">
-                                            <StackPanel>
+                                            <Grid materialDesign:GridAssist.RowSpacing="16">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
                                                 <TextBlock Text="Voltage"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                           Margin="0,0,0,8"/>
-                                                <TextBlock Text="Cell Voltage Low Side" FontWeight="Bold" Margin="0,16,0,0"/>
-                                                <Grid Margin="0,4,0,0">
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
+                                                <Grid Grid.Row="1"
+                                                      materialDesign:GridAssist.RowSpacing="12"
+                                                      materialDesign:GridAssist.ColumnSpacing="12">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="160"/>
+                                                        <ColumnDefinition Width="160"/>
                                                         <ColumnDefinition Width="Auto"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0"
+                                                               Text="Cell Voltage Low Side"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
-                                                             Text="{Binding VoltageLowReference}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <TextBox Grid.Column="1"
+                                                             Text="{Binding VoltageLowReference}"/>
+                                                    <TextBox Grid.Row="0"
+                                                             Grid.Column="2"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
-                                                             Text="{Binding VoltageLowResult}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <Button Grid.Column="2"
+                                                             Text="{Binding VoltageLowResult}"/>
+                                                    <Button Grid.Row="0"
+                                                            Grid.Column="3"
                                                             Content="Calibrate Low"
-                                                            Width="100"
+                                                            Width="120"
                                                             Style="{StaticResource SecondaryActionButton}"/>
-                                                </Grid>
-                                                <TextBlock Text="Cell Voltage High Side" FontWeight="Bold" Margin="0,16,0,0"/>
-                                                <Grid Margin="0,4,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+                                                    <TextBlock Grid.Row="1"
+                                                               Text="Cell Voltage High Side"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Row="1"
+                                                             Grid.Column="1"
+                                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
-                                                             Text="{Binding VoltageHighReference}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <TextBox Grid.Column="1"
+                                                             Text="{Binding VoltageHighReference}"/>
+                                                    <TextBox Grid.Row="1"
+                                                             Grid.Column="2"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
-                                                             Text="{Binding VoltageHighResult}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <Button Grid.Column="2"
+                                                             Text="{Binding VoltageHighResult}"/>
+                                                    <Button Grid.Row="1"
+                                                            Grid.Column="3"
                                                             Content="Calibrate High"
-                                                            Width="100"
+                                                            Width="120"
                                                             Style="{StaticResource SecondaryActionButton}"/>
-                                                </Grid>
-                                                <TextBlock Text="Pack Voltage Low Side" FontWeight="Bold" Margin="0,16,0,0"/>
-                                                <Grid Margin="0,4,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+                                                    <TextBlock Grid.Row="2"
+                                                               Text="Pack Voltage Low Side"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Row="2"
+                                                             Grid.Column="1"
+                                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
-                                                             Text="{Binding PackVoltageLowReference}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <TextBox Grid.Column="1"
+                                                             Text="{Binding PackVoltageLowReference}"/>
+                                                    <TextBox Grid.Row="2"
+                                                             Grid.Column="2"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
-                                                             Text="{Binding PackVoltageLowResult}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <Button Grid.Column="2"
+                                                             Text="{Binding PackVoltageLowResult}"/>
+                                                    <Button Grid.Row="2"
+                                                            Grid.Column="3"
                                                             Content="Calibrate Low"
-                                                            Width="100"
+                                                            Width="120"
                                                             Style="{StaticResource SecondaryActionButton}"/>
-                                                </Grid>
-                                                <TextBlock Text="Pack Voltage High Side" FontWeight="Bold" Margin="0,16,0,0"/>
-                                                <Grid Margin="0,4,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+
+                                                    <TextBlock Grid.Row="3"
+                                                               Text="Pack Voltage High Side"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Row="3"
+                                                             Grid.Column="1"
+                                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
-                                                             Text="{Binding PackVoltageHighReference}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <TextBox Grid.Column="1"
+                                                             Text="{Binding PackVoltageHighReference}"/>
+                                                    <TextBox Grid.Row="3"
+                                                             Grid.Column="2"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
-                                                             Text="{Binding PackVoltageHighResult}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <Button Grid.Column="2"
+                                                             Text="{Binding PackVoltageHighResult}"/>
+                                                    <Button Grid.Row="3"
+                                                            Grid.Column="3"
                                                             Content="Calibrate High"
-                                                            Width="100"
+                                                            Width="120"
                                                             Style="{StaticResource SecondaryActionButton}"/>
                                                 </Grid>
-                                            </StackPanel>
+                                            </Grid>
                                         </materialDesign:Card>
 
                                         <!-- Current card -->
                                         <materialDesign:Card Padding="16" Margin="0,0,0,16">
-                                            <StackPanel>
+                                            <Grid materialDesign:GridAssist.RowSpacing="16">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
                                                 <TextBlock Text="Current"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                           Margin="0,0,0,8"/>
-                                                <Grid Margin="0,16,0,0">
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
+                                                <Grid Grid.Row="1"
+                                                      materialDesign:GridAssist.ColumnSpacing="12"
+                                                      materialDesign:GridAssist.RowSpacing="12">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="160"/>
+                                                        <ColumnDefinition Width="160"/>
                                                         <ColumnDefinition Width="Auto"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto"/>
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
-                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                    <TextBlock Grid.Row="0"
+                                                               Text="Calibration"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mA]"
-                                                             Text="{Binding CurrentReference}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <TextBox Grid.Column="1"
+                                                             Text="{Binding CurrentReference}"/>
+                                                    <TextBox Grid.Row="0"
+                                                             Grid.Column="2"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
-                                                             Text="{Binding CurrentResult}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <Button Grid.Column="2"
+                                                             Text="{Binding CurrentResult}"/>
+                                                    <Button Grid.Row="0"
+                                                            Grid.Column="3"
                                                             Content="Calibrate"
-                                                            Width="100"
+                                                            Width="120"
                                                             Style="{StaticResource SecondaryActionButton}"/>
+                                                    <TextBlock Grid.Row="1"
+                                                               Text="Discharge"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"/>
                                                     <Button Grid.Row="1"
-                                                            Grid.Column="2"
+                                                            Grid.Column="3"
                                                             Content="Discharge"
-                                                            Width="100"
-                                                            Margin="0,8,0,0"
+                                                            Width="120"
                                                             Style="{StaticResource SecondaryActionButton}"/>
                                                 </Grid>
-                                            </StackPanel>
+                                            </Grid>
                                         </materialDesign:Card>
 
                                         <!-- Temperature card -->
                                         <materialDesign:Card Padding="16">
-                                            <StackPanel>
+                                            <Grid materialDesign:GridAssist.RowSpacing="16">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
                                                 <TextBlock Text="Temperature"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                           Margin="0,0,0,8"/>
-                                                <Grid Margin="0,16,0,0">
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
+                                                <Grid Grid.Row="1"
+                                                      materialDesign:GridAssist.ColumnSpacing="12">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="160"/>
+                                                        <ColumnDefinition Width="160"/>
                                                         <ColumnDefinition Width="Auto"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                             materialDesign:HintAssist.Hint="Reference [°C]"
-                                                             Text="{Binding TemperatureReference}"
-                                                             Width="140" Margin="0,0,8,0"/>
+                                                    <TextBlock Grid.Column="0"
+                                                               Text="Calibration"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"/>
                                                     <TextBox Grid.Column="1"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Reference [°C]"
+                                                             Text="{Binding TemperatureReference}"/>
+                                                    <TextBox Grid.Column="2"
+                                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
-                                                             Text="{Binding TemperatureResult}"
-                                                             Width="140" Margin="0,0,8,0"/>
-                                                    <Button Grid.Column="2"
+                                                             Text="{Binding TemperatureResult}"/>
+                                                    <Button Grid.Column="3"
                                                             Content="Set Temp"
-                                                            Width="100"
+                                                            Width="120"
                                                             Style="{StaticResource SecondaryActionButton}"/>
                                                 </Grid>
-                                            </StackPanel>
+                                            </Grid>
                                         </materialDesign:Card>
                                     </StackPanel>
                                 </StackPanel>
