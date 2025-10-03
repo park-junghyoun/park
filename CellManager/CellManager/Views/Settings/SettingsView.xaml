@@ -786,6 +786,50 @@
                                                  Text="{Binding FirmwareChecksum}"
                                                  HorizontalAlignment="Stretch"/>
                                 </Grid>
+
+                                <StackPanel Margin="0,8,0,0">
+                                    <TextBlock Text="Firmware Package"
+                                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                    <Grid Margin="0,8,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0"
+                                                 Text="{Binding FirmwareFilePath}"
+                                                 IsReadOnly="True"
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                 Margin="0,0,8,0"
+                                                 HorizontalAlignment="Stretch"
+                                                 MinWidth="200"/>
+                                        <Button Grid.Column="1"
+                                                Content="Browse"
+                                                Command="{Binding BrowseFirmwareFileCommand}"
+                                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                                MinWidth="96"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,16,0,0">
+                                    <TextBlock Text="Download Progress"
+                                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                    <ProgressBar Margin="0,8,0,0"
+                                                 Height="6"
+                                                 Value="{Binding FirmwareUpdateProgress}"
+                                                 Maximum="100"/>
+                                    <TextBlock Text="{Binding FirmwareUpdateStatus}"
+                                               Margin="0,8,0,0"
+                                               TextWrapping="Wrap"
+                                               Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="0,16,0,0"
+                                            HorizontalAlignment="Right">
+                                    <Button Content="Start Update"
+                                            Command="{Binding StartFirmwareUpdateCommand}"
+                                            Style="{StaticResource MaterialDesignContainedButton}"/>
+                                </StackPanel>
                             </StackPanel>
                         </materialDesign:Card>
                     </StackPanel>

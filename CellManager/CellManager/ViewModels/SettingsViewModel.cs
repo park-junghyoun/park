@@ -1,11 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace CellManager.ViewModels
 {
@@ -121,6 +124,18 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private string _firmwareChecksum = string.Empty;
 
+        [ObservableProperty]
+        private string _firmwareFilePath = string.Empty;
+
+        [ObservableProperty]
+        private double _firmwareUpdateProgress;
+
+        [ObservableProperty]
+        private string _firmwareUpdateStatus = "Awaiting firmware package";
+
+        [ObservableProperty]
+        private bool _isFirmwareUpdateInProgress;
+
         public ObservableCollection<BoardDataSetting> BoardDataSettings { get; } = new();
 
         public ObservableCollection<ProtectionSetting> ProtectionSettings { get; } = new();
@@ -134,6 +149,8 @@ namespace CellManager.ViewModels
         public RelayCommand ImportBoardDataCommand { get; }
         public RelayCommand ExportBoardDataCommand { get; }
         public RelayCommand ReadAdcValuesCommand { get; }
+        public RelayCommand BrowseFirmwareFileCommand { get; }
+        public AsyncRelayCommand StartFirmwareUpdateCommand { get; }
 
         private readonly Dictionary<string, List<ProtectionSetting>> _profiles = new();
         private readonly string _boardDataFilePath = Path.Combine(AppContext.BaseDirectory, "BoardDataProfiles", "1.0.json");
@@ -150,6 +167,8 @@ namespace CellManager.ViewModels
             ImportProtectionCommand = new RelayCommand(ImportProtectionSettings, CanReadWriteProtection);
             ExportProtectionCommand = new RelayCommand(ExportProtectionSettings, CanReadWriteProtection);
             ReadAdcValuesCommand = new RelayCommand(ReadAdcValues);
+            BrowseFirmwareFileCommand = new RelayCommand(BrowseFirmwareFile);
+            StartFirmwareUpdateCommand = new AsyncRelayCommand(StartFirmwareUpdateAsync, CanStartFirmwareUpdate);
             ReadProtectionSettings();
             ReadBoardDataSettings();
         }
@@ -157,6 +176,8 @@ namespace CellManager.ViewModels
         private IEnumerable<string> SupportedFirmwareVersions => _profiles.Keys;
 
         private bool CanReadWriteProtection() => _profiles.ContainsKey(FirmwareVersion);
+
+        private bool CanStartFirmwareUpdate() => !IsFirmwareUpdateInProgress && !string.IsNullOrWhiteSpace(FirmwareFilePath);
 
         /// <summary>Loads protection settings for the currently selected firmware version.</summary>
         private void ReadProtectionSettings()
@@ -223,12 +244,65 @@ namespace CellManager.ViewModels
             // Placeholder for export logic
         }
 
+        private void BrowseFirmwareFile()
+        {
+            var dialog = new OpenFileDialog
+            {
+                Title = "Select firmware package",
+                Filter = "Firmware packages (*.bin;*.hex)|*.bin;*.hex|All files (*.*)|*.*"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                FirmwareFilePath = dialog.FileName;
+                FirmwareUpdateStatus = "Firmware package selected. Ready to download.";
+            }
+        }
+
+        private async Task StartFirmwareUpdateAsync()
+        {
+            try
+            {
+                IsFirmwareUpdateInProgress = true;
+                FirmwareUpdateProgress = 0;
+                FirmwareUpdateStatus = "Starting firmware download...";
+
+                for (var step = 1; step <= 10; step++)
+                {
+                    FirmwareUpdateProgress = step * 10;
+                    FirmwareUpdateStatus = $"Downloading firmware... {FirmwareUpdateProgress:0}%";
+                    await Task.Delay(150);
+                }
+
+                FirmwareUpdateStatus = "Download complete. Ready to flash.";
+            }
+            catch (Exception ex)
+            {
+                FirmwareUpdateProgress = 0;
+                FirmwareUpdateStatus = $"Update failed: {ex.Message}";
+            }
+            finally
+            {
+                IsFirmwareUpdateInProgress = false;
+            }
+        }
+
         partial void OnFirmwareVersionChanged(string value)
         {
             ReadProtectionCommand.NotifyCanExecuteChanged();
             WriteProtectionCommand.NotifyCanExecuteChanged();
             ImportProtectionCommand.NotifyCanExecuteChanged();
             ExportProtectionCommand.NotifyCanExecuteChanged();
+        }
+
+        partial void OnFirmwareFilePathChanged(string value)
+        {
+            StartFirmwareUpdateCommand?.NotifyCanExecuteChanged();
+        }
+
+        partial void OnIsFirmwareUpdateInProgressChanged(bool value)
+        {
+            StartFirmwareUpdateCommand?.NotifyCanExecuteChanged();
         }
     }
 
