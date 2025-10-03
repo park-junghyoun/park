@@ -611,60 +611,65 @@
                                 </CollectionViewSource>
                             </materialDesign:Card.Resources>
                             <StackPanel>
-                                <TextBlock Text="Protection Settings Data"
-                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                               Margin="0,0,0,16"/>
-                                <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Right"
-                                                Margin="0,0,0,16">
-                                    <Button Command="{Binding ReadProtectionCommand}"
-                                                MinWidth="120"
-                                                Margin="0,0,8,0"
-                                                Style="{StaticResource SecondaryActionButton}">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <materialDesign:PackIcon Kind="Download"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         Margin="0,0,8,0"/>
-                                            <TextBlock Text="Read"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <Button Command="{Binding WriteProtectionCommand}"
-                                                MinWidth="120"
-                                                Margin="0,0,8,0"
-                                                Style="{StaticResource SecondaryActionButton}">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <materialDesign:PackIcon Kind="Upload"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         Margin="0,0,8,0"/>
-                                            <TextBlock Text="Write"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <Button Command="{Binding ImportProtectionCommand}"
-                                                MinWidth="120"
-                                                Margin="0,0,8,0"
-                                                Style="{StaticResource SecondaryActionButton}">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <materialDesign:PackIcon Kind="FileImport"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         Margin="0,0,8,0"/>
-                                            <TextBlock Text="Import"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <Button Command="{Binding ExportProtectionCommand}"
-                                                MinWidth="120"
-                                                Style="{StaticResource SecondaryActionButton}">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <materialDesign:PackIcon Kind="FileExport"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         Margin="0,0,8,0"/>
-                                            <TextBlock Text="Export"/>
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
+                                <DockPanel Height="60">
+                                    <TextBlock Text="Protection Settings Data"
+                                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                                   Margin="0,0,0,16"
+                                                   DockPanel.Dock="Left"/>
+                                    <StackPanel Orientation="Horizontal"
+                                                    DockPanel.Dock="Right"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Bottom"
+                                                    Margin="0,0,0,5">
+                                        <Button Command="{Binding ReadProtectionCommand}"
+                                                    MinWidth="120"
+                                                    Margin="0,0,8,0"
+                                                    Style="{StaticResource SecondaryActionButton}">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="Download"
+                                                                             Width="20"
+                                                                             Height="20"
+                                                                             Margin="0,0,8,0"/>
+                                                <TextBlock Text="Read"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Command="{Binding WriteProtectionCommand}"
+                                                    MinWidth="120"
+                                                    Margin="0,0,8,0"
+                                                    Style="{StaticResource SecondaryActionButton}">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="Upload"
+                                                                             Width="20"
+                                                                             Height="20"
+                                                                             Margin="0,0,8,0"/>
+                                                <TextBlock Text="Write"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Command="{Binding ImportProtectionCommand}"
+                                                    MinWidth="120"
+                                                    Margin="0,0,8,0"
+                                                    Style="{StaticResource SecondaryActionButton}">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="FileImport"
+                                                                             Width="20"
+                                                                             Height="20"
+                                                                             Margin="0,0,8,0"/>
+                                                <TextBlock Text="Import"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Command="{Binding ExportProtectionCommand}"
+                                                    MinWidth="120"
+                                                    Style="{StaticResource SecondaryActionButton}">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="FileExport"
+                                                                             Width="20"
+                                                                             Height="20"
+                                                                             Margin="0,0,8,0"/>
+                                                <TextBlock Text="Export"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </DockPanel>
                                 <DataGrid ItemsSource="{Binding Source={StaticResource ProtectionSettingsGrouped}}"
                                               AutoGenerateColumns="False"
                                               HeadersVisibility="Column"
