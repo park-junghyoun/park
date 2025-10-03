@@ -38,7 +38,22 @@ namespace CellManager.ViewModels
         private string _voltageHighResult = "0";
 
         [ObservableProperty]
+        private string _packVoltageLowReference = "1000";
+
+        [ObservableProperty]
+        private string _packVoltageLowResult = "0";
+
+        [ObservableProperty]
+        private string _packVoltageHighReference = "4000";
+
+        [ObservableProperty]
+        private string _packVoltageHighResult = "0";
+
+        [ObservableProperty]
         private string _voltageAdcValue = "0";
+
+        [ObservableProperty]
+        private string _packVoltageAdcValue = "0";
 
         [ObservableProperty]
         private string _currentReference = "500";
