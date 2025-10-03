@@ -109,6 +109,12 @@ namespace CellManager.ViewModels
         [ObservableProperty]
         private string _firmwareVersion = "1.0";
 
+        [ObservableProperty]
+        private string _firmwareSubVersion = string.Empty;
+
+        [ObservableProperty]
+        private string _firmwareChecksum = string.Empty;
+
         public ObservableCollection<BoardDataSetting> BoardDataSettings { get; } = new();
 
         public ObservableCollection<ProtectionSetting> ProtectionSettings { get; } = new();
