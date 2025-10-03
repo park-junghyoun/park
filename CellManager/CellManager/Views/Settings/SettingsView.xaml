@@ -696,23 +696,47 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem Header="Paths">
+                <TabItem Header="FW Update">
                     <ScrollViewer>
                         <StackPanel Margin="16">
                             <materialDesign:Card Margin="0,0,0,16" Padding="16">
                                 <StackPanel>
-                                    <TextBlock Text="Paths"
+                                    <TextBlock Text="Firmware Update"
                                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                                Margin="0,0,0,16"/>
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                             materialDesign:HintAssist.Hint="Data Export Path"
-                                             Text="{Binding DataExportPath}"
-                                             Margin="0,0,0,8"
-                                             HorizontalAlignment="Stretch"/>
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                             materialDesign:HintAssist.Hint="Profile Path"
-                                             Text="{Binding ProfilePath}"
-                                             HorizontalAlignment="Stretch"/>
+                                    <TextBlock Text="Provide the firmware metadata before starting an update."
+                                               Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                               Margin="0,0,0,16"/>
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBox Grid.Row="0"
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                 materialDesign:HintAssist.Hint="Firmware Version"
+                                                 Text="{Binding FirmwareVersion}"
+                                                 Margin="0,0,0,8"
+                                                 HorizontalAlignment="Stretch"/>
+
+                                        <TextBox Grid.Row="1"
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                 materialDesign:HintAssist.Hint="Firmware Sub Version"
+                                                 Text="{Binding FirmwareSubVersion}"
+                                                 Margin="0,0,0,8"
+                                                 HorizontalAlignment="Stretch"/>
+
+                                        <TextBox Grid.Row="2"
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                 materialDesign:HintAssist.Hint="Firmware Checksum"
+                                                 Text="{Binding FirmwareChecksum}"
+                                                 HorizontalAlignment="Stretch"/>
+                                    </Grid>
                                 </StackPanel>
                             </materialDesign:Card>
                         </StackPanel>
