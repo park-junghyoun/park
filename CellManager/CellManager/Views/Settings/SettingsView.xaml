@@ -75,8 +75,7 @@
             </TabControl.Resources>
             <TabItem Header="Board Calibration">
                 <ScrollViewer>
-                    <StackPanel Margin="16"
-                                materialDesign:StackPanelAssist.Spacing="16">
+                    <StackPanel Margin="16">
                         <materialDesign:Card Margin="0,0,0,16" Padding="16">
                             <StackPanel>
                                 <TextBlock Text="Board Calibration"
@@ -91,15 +90,14 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <StackPanel Grid.Column="0"
-                                                materialDesign:StackPanelAssist.Spacing="16">
+                                    <StackPanel Grid.Column="0" Margin="0,0,16,0">
                                         <!-- ADC readings -->
-                                        <materialDesign:Card Padding="16" Margin="0,0,16,16">
-                                            <StackPanel materialDesign:StackPanelAssist.Spacing="16">
+                                        <materialDesign:Card Padding="16" Margin="0,0,0,16">
+                                            <StackPanel>
                                                 <TextBlock Text="Board Information"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
-                                                <Grid materialDesign:GridAssist.RowSpacing="12"
-                                                      materialDesign:GridAssist.ColumnSpacing="12">
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                           Margin="0,0,0,16"/>
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="Auto"/>
@@ -116,10 +114,12 @@
                                                     <TextBlock Grid.Row="0"
                                                                Text="Cell Voltage"
                                                                FontWeight="SemiBold"
+                                                               Margin="0,0,16,8"
                                                                VerticalAlignment="Center"/>
                                                     <TextBox Grid.Row="0"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,8"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="ADC"
                                                              Text="{Binding VoltageAdcValue}"
@@ -127,6 +127,7 @@
                                                     <TextBox Grid.Row="0"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,0,8"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result [mV]"
                                                              Text="{Binding VoltageMeasurement}"
@@ -135,10 +136,12 @@
                                                     <TextBlock Grid.Row="1"
                                                                Text="Pack Voltage"
                                                                FontWeight="SemiBold"
+                                                               Margin="0,0,16,8"
                                                                VerticalAlignment="Center"/>
                                                     <TextBox Grid.Row="1"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,8"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="ADC"
                                                              Text="{Binding PackVoltageAdcValue}"
@@ -146,6 +149,7 @@
                                                     <TextBox Grid.Row="1"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,0,8"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result [mV]"
                                                              Text="{Binding PackVoltageMeasurement}"
@@ -154,10 +158,12 @@
                                                     <TextBlock Grid.Row="2"
                                                                Text="Current"
                                                                FontWeight="SemiBold"
+                                                               Margin="0,0,16,8"
                                                                VerticalAlignment="Center"/>
                                                     <TextBox Grid.Row="2"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,8"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="ADC"
                                                              Text="{Binding CurrentAdcValue}"
@@ -165,6 +171,7 @@
                                                     <TextBox Grid.Row="2"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,0,8"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result [mA]"
                                                              Text="{Binding CurrentMeasurement}"
@@ -173,10 +180,12 @@
                                                     <TextBlock Grid.Row="3"
                                                                Text="Temperature"
                                                                FontWeight="SemiBold"
+                                                               Margin="0,0,16,8"
                                                                VerticalAlignment="Center"/>
                                                     <TextBox Grid.Row="3"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,8"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="ADC"
                                                              Text="{Binding TemperatureAdcValue}"
@@ -184,6 +193,7 @@
                                                     <TextBox Grid.Row="3"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,0,8"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result [°C]"
                                                              Text="{Binding TemperatureMeasurement}"
@@ -194,6 +204,7 @@
                                                             Grid.ColumnSpan="2"
                                                             Content="Read"
                                                             Command="{Binding ReadAdcValuesCommand}"
+                                                            Margin="0,8,0,0"
                                                             Style="{StaticResource SecondaryActionButton}"
                                                             HorizontalAlignment="Stretch"/>
                                                 </Grid>
@@ -201,15 +212,14 @@
                                         </materialDesign:Card>
                                     </StackPanel>
 
-                                    <StackPanel Grid.Column="1"
-                                                materialDesign:StackPanelAssist.Spacing="16">
+                                    <StackPanel Grid.Column="1">
                                         <!-- Voltage card -->
                                         <materialDesign:Card Padding="16" Margin="16,0,0,16">
-                                            <StackPanel materialDesign:StackPanelAssist.Spacing="16">
+                                            <StackPanel>
                                                 <TextBlock Text="Voltage"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
-                                                <Grid materialDesign:GridAssist.RowSpacing="12"
-                                                      materialDesign:GridAssist.ColumnSpacing="12">
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                           Margin="0,0,0,16"/>
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="Auto"/>
@@ -226,16 +236,18 @@
                                                     <TextBlock Grid.Row="0"
                                                                Text="Cell Low Side"
                                                                FontWeight="SemiBold"
-                                                               VerticalAlignment="Center"/>
+                                                               Margin="0,0,16,12"/>
                                                     <TextBox Grid.Row="0"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,12"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
                                                              Text="{Binding VoltageLowReference}"/>
                                                     <TextBox Grid.Row="0"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,12"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding VoltageLowResult}"/>
@@ -243,21 +255,24 @@
                                                             Grid.Column="3"
                                                             Content="Calib"
                                                             MinWidth="120"
+                                                            Margin="0,0,0,12"
                                                             Style="{StaticResource SecondaryActionButton}"/>
 
                                                     <TextBlock Grid.Row="1"
                                                                Text="Cell High Side"
                                                                FontWeight="SemiBold"
-                                                               VerticalAlignment="Center"/>
+                                                               Margin="0,0,16,12"/>
                                                     <TextBox Grid.Row="1"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,12"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
                                                              Text="{Binding VoltageHighReference}"/>
                                                     <TextBox Grid.Row="1"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,12"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding VoltageHighResult}"/>
@@ -265,21 +280,24 @@
                                                             Grid.Column="3"
                                                             Content="Calib"
                                                             MinWidth="120"
+                                                            Margin="0,0,0,12"
                                                             Style="{StaticResource SecondaryActionButton}"/>
 
                                                     <TextBlock Grid.Row="2"
                                                                Text="Pack Low Side"
                                                                FontWeight="SemiBold"
-                                                               VerticalAlignment="Center"/>
+                                                               Margin="0,0,16,12"/>
                                                     <TextBox Grid.Row="2"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,12"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
                                                              Text="{Binding PackVoltageLowReference}"/>
                                                     <TextBox Grid.Row="2"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,12"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding PackVoltageLowResult}"/>
@@ -287,21 +305,24 @@
                                                             Grid.Column="3"
                                                             Content="Calib"
                                                             MinWidth="120"
+                                                            Margin="0,0,0,12"
                                                             Style="{StaticResource SecondaryActionButton}"/>
 
                                                     <TextBlock Grid.Row="3"
                                                                Text="Pack High Side"
                                                                FontWeight="SemiBold"
-                                                               VerticalAlignment="Center"/>
+                                                               Margin="0,0,16,0"/>
                                                     <TextBox Grid.Row="3"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,0"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
                                                              Text="{Binding PackVoltageHighReference}"/>
                                                     <TextBox Grid.Row="3"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,0"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding PackVoltageHighResult}"/>
@@ -313,13 +334,14 @@
                                                 </Grid>
                                             </StackPanel>
                                         </materialDesign:Card>
+
                                         <!-- Current card -->
                                         <materialDesign:Card Padding="16" Margin="16,0,0,16">
-                                            <StackPanel materialDesign:StackPanelAssist.Spacing="16">
+                                            <StackPanel>
                                                 <TextBlock Text="Current"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
-                                                <Grid materialDesign:GridAssist.RowSpacing="12"
-                                                      materialDesign:GridAssist.ColumnSpacing="12">
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                           Margin="0,0,0,16"/>
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="Auto"/>
@@ -332,18 +354,20 @@
                                                     </Grid.RowDefinitions>
 
                                                     <TextBlock Grid.Row="0"
-                                                               Text="Dishcarge"
+                                                               Text="Discharge"
                                                                FontWeight="SemiBold"
-                                                               VerticalAlignment="Center"/>
+                                                               Margin="0,0,16,12"/>
                                                     <TextBox Grid.Row="0"
                                                              Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,12"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mA]"
                                                              Text="{Binding CurrentReference}"/>
                                                     <TextBox Grid.Row="0"
                                                              Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,12"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding CurrentResult}"/>
@@ -351,12 +375,13 @@
                                                             Grid.Column="3"
                                                             Content="Calib"
                                                             MinWidth="120"
+                                                            Margin="0,0,0,12"
                                                             Style="{StaticResource SecondaryActionButton}"/>
 
                                                     <TextBlock Grid.Row="1"
-                                                               Text="0mA"
+                                                               Text="0 mA"
                                                                FontWeight="SemiBold"
-                                                               VerticalAlignment="Center"/>
+                                                               Margin="0,0,16,0"/>
                                                     <Button Grid.Row="1"
                                                             Grid.Column="1"
                                                             Grid.ColumnSpan="2"
@@ -369,11 +394,11 @@
 
                                         <!-- Temperature card -->
                                         <materialDesign:Card Padding="16" Margin="16,0,0,0">
-                                            <StackPanel materialDesign:StackPanelAssist.Spacing="16">
+                                            <StackPanel>
                                                 <TextBlock Text="Temperature"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
-                                                <Grid materialDesign:GridAssist.RowSpacing="12"
-                                                      materialDesign:GridAssist.ColumnSpacing="12">
+                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                           Margin="0,0,0,16"/>
+                                                <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="Auto"/>
@@ -383,14 +408,16 @@
 
                                                     <TextBlock Text="Calibration"
                                                                FontWeight="SemiBold"
-                                                               VerticalAlignment="Center"/>
+                                                               Margin="0,0,16,0"/>
                                                     <TextBox Grid.Column="1"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,0"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [°C]"
                                                              Text="{Binding TemperatureReference}"/>
                                                     <TextBox Grid.Column="2"
                                                              MinWidth="140"
+                                                             Margin="0,0,12,0"
                                                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding TemperatureResult}"/>
