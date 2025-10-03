@@ -26,787 +26,778 @@
         <TabControl Grid.Row="1" Margin="0,8,0,0"
                         Background="Transparent"
                         materialDesign:TabAssist.HasFilledTab="True">
-                <TabControl.Resources>
-                    <Style TargetType="TabItem">
-                        <Setter Property="Margin" Value="0,0,8,0"/>
-                        <Setter Property="Padding" Value="12,6"/>
-                        <Setter Property="Foreground" Value="{StaticResource HeaderForegroundBrush}"/>
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="TabItem">
-                                    <Border x:Name="Border"
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Margin" Value="0,0,8,0"/>
+                    <Setter Property="Padding" Value="12,6"/>
+                    <Setter Property="Foreground" Value="{StaticResource HeaderForegroundBrush}"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border x:Name="Border"
                                             Background="Transparent"
                                             CornerRadius="4"
                                             Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter x:Name="ContentSite"
+                                    <ContentPresenter x:Name="ContentSite"
                                                           VerticalAlignment="Center"
                                                           HorizontalAlignment="Center"
                                                           ContentSource="Header"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryMain}"/>
-                                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryHover}"/>
-                                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="#9E9E9E"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryMain}"/>
+                                        <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource PrimaryHover}"/>
+                                        <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="White"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="#9E9E9E"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
 
-                    <DataTemplate x:Key="SpecTextBoxTemplate">
-                        <TextBox Text="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </DataTemplate>
-                    <DataTemplate x:Key="SpecComboBoxTemplate">
-                        <ComboBox ItemsSource="{Binding Options}"
+                <DataTemplate x:Key="SpecTextBoxTemplate">
+                    <TextBox Text="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </DataTemplate>
+                <DataTemplate x:Key="SpecComboBoxTemplate">
+                    <ComboBox ItemsSource="{Binding Options}"
                                   SelectedItem="{Binding Spec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </DataTemplate>
-                    <converters:SpecTemplateSelector x:Key="SpecTemplateSelector"
+                </DataTemplate>
+                <converters:SpecTemplateSelector x:Key="SpecTemplateSelector"
                                                      TextBoxTemplate="{StaticResource SpecTextBoxTemplate}"
                                                      ComboBoxTemplate="{StaticResource SpecComboBoxTemplate}"/>
-                </TabControl.Resources>
-                <TabItem Header="Board Calibration">
-                    <ScrollViewer>
-                        <StackPanel Margin="16">
-                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                                <StackPanel>
-                                    <TextBlock Text="Board Calibration"
+            </TabControl.Resources>
+            <TabItem Header="Board Calibration">
+                <ScrollViewer>
+                    <StackPanel Margin="16">
+                        <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                            <StackPanel>
+                                <TextBlock Text="Board Calibration"
                                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                                Margin="0,0,0,16"/>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-                                        <StackPanel Grid.Column="0">
-                                            <!-- ADC readings -->
-                                            <materialDesign:Card Padding="16" Margin="0,0,16,16">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="Auto"/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Grid.Row="0"
-                                                               Text="ADC Readings"
+                                    <StackPanel Grid.Column="0">
+                                        <!-- ADC readings -->
+                                        <materialDesign:Card Padding="16" Margin="0,0,16,16">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0"
+                                                               Text="Board Information"
                                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                                                Margin="0,0,0,12"/>
-                                                    <Grid Grid.Row="1"
+                                                <Grid Grid.Row="1"
                                                           VerticalAlignment="Center">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid Grid.Column="0"
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid Grid.Column="0"
                                                               Margin="0,0,16,0">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="Auto"/>
-                                                                <RowDefinition Height="Auto"/>
-                                                            </Grid.RowDefinitions>
-                                                            <TextBlock Grid.Row="0"
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="100"/>
+                                                            <ColumnDefinition Width="46.64"/>
+                                                            <ColumnDefinition Width="160"/>
+                                                            <ColumnDefinition Width="160"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0"
                                                                        Text="Cell Voltage"
                                                                        FontWeight="SemiBold"
-                                                                       VerticalAlignment="Center"
-                                                                       Margin="0,0,0,8"/>
-                                                            <TextBox Grid.Row="0"
-                                                                     Grid.Column="1"
+                                                                       VerticalAlignment="Top"
+                                                                       Margin="0,17,160,0" Grid.ColumnSpan="3"/>
+                                                        <TextBox Grid.Row="0"
+                                                                     Grid.Column="2"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="ADC"
                                                                      Text="{Binding VoltageAdcValue}"
                                                                      IsReadOnly="True"
-                                                                     Margin="12,0,0,8"/>
-                                                            <TextBox Grid.Row="0"
-                                                                     Grid.Column="2"
+                                                                     Margin="12,0,160,8" Grid.ColumnSpan="2"/>
+                                                        <TextBox Grid.Row="0"
+                                                                     Grid.Column="3"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Result [mV]"
                                                                      Text="{Binding VoltageMeasurement}"
                                                                      IsReadOnly="True"
                                                                      Margin="12,0,0,8"/>
-                                                            <TextBlock Grid.Row="1"
+                                                        <TextBlock Grid.Row="1"
                                                                        Text="Pack Voltage"
                                                                        FontWeight="SemiBold"
-                                                                       VerticalAlignment="Center"
-                                                                       Margin="0,0,0,8"/>
-                                                            <TextBox Grid.Row="1"
-                                                                     Grid.Column="1"
+                                                                       VerticalAlignment="Top"
+                                                                       Margin="0,17,160,0" Grid.ColumnSpan="3"/>
+                                                        <TextBox Grid.Row="1"
+                                                                     Grid.Column="2"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="ADC"
                                                                      Text="{Binding PackVoltageAdcValue}"
                                                                      IsReadOnly="True"
-                                                                     Margin="12,0,0,8"/>
-                                                            <TextBox Grid.Row="1"
-                                                                     Grid.Column="2"
+                                                                     Margin="12,0,160,8" Grid.ColumnSpan="2"/>
+                                                        <TextBox Grid.Row="1"
+                                                                     Grid.Column="3"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Result [mV]"
                                                                      Text="{Binding PackVoltageMeasurement}"
                                                                      IsReadOnly="True"
                                                                      Margin="12,0,0,8"/>
-                                                            <TextBlock Grid.Row="2"
+                                                        <TextBlock Grid.Row="2"
                                                                        Text="Current"
                                                                        FontWeight="SemiBold"
-                                                                       VerticalAlignment="Center"
-                                                                       Margin="0,0,0,8"/>
-                                                            <TextBox Grid.Row="2"
-                                                                     Grid.Column="1"
+                                                                       VerticalAlignment="Top"
+                                                                       Margin="0,17,160,0" Grid.ColumnSpan="3"/>
+                                                        <TextBox Grid.Row="2"
+                                                                     Grid.Column="2"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="ADC"
                                                                      Text="{Binding CurrentAdcValue}"
                                                                      IsReadOnly="True"
-                                                                     Margin="12,0,0,8"/>
-                                                            <TextBox Grid.Row="2"
-                                                                     Grid.Column="2"
+                                                                     Margin="12,0,160,8" Grid.ColumnSpan="2"/>
+                                                        <TextBox Grid.Row="2"
+                                                                     Grid.Column="3"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Result [mA]"
                                                                      Text="{Binding CurrentMeasurement}"
                                                                      IsReadOnly="True"
                                                                      Margin="12,0,0,8"/>
-                                                            <TextBlock Grid.Row="3"
+                                                        <TextBlock Grid.Row="3"
                                                                        Text="Temperature"
                                                                        FontWeight="SemiBold"
                                                                        VerticalAlignment="Center"
-                                                                       Margin="0,0,0,0"/>
-                                                            <TextBox Grid.Row="3"
-                                                                     Grid.Column="1"
+                                                                       Margin="0,0,160,0" Grid.ColumnSpan="3"/>
+                                                        <TextBox Grid.Row="3"
+                                                                     Grid.Column="2"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="ADC"
                                                                      Text="{Binding TemperatureAdcValue}"
                                                                      IsReadOnly="True"
-                                                                     Margin="12,0,0,0"/>
-                                                            <TextBox Grid.Row="3"
-                                                                     Grid.Column="2"
+                                                                     Margin="12,0,160,0" Grid.ColumnSpan="2"/>
+                                                        <TextBox Grid.Row="3"
+                                                                     Grid.Column="3"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Result [°C]"
                                                                      Text="{Binding TemperatureMeasurement}"
                                                                      IsReadOnly="True"
                                                                      Margin="12,0,0,0"/>
-                                                        </Grid>
-                                                        <Button Grid.Column="1"
+                                                        <Button Grid.Row="4"
+                                                                     Grid.Column="2" Grid.ColumnSpan="2"
                                                                 Content="Read"
-                                                                MinWidth="120"
                                                                 Command="{Binding ReadAdcValuesCommand}"
                                                                 Style="{StaticResource SecondaryActionButton}"
-                                                                Margin="0"
+                                                                Margin="10,10,0,0"
                                                                 HorizontalAlignment="Stretch"/>
                                                     </Grid>
-                                                </Grid>
-                                            </materialDesign:Card>
 
-                                            <!-- Voltage card -->
-                                            <materialDesign:Card Padding="16" Margin="0,0,16,0">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="Auto"/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Text="Voltage"
+                                                </Grid>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1">
+                                        <!-- Voltage card -->
+                                        <materialDesign:Card Padding="16" Margin="16,0,0,16">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="Voltage"
                                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                                                Margin="0,0,0,12"/>
-                                                    <UniformGrid Grid.Row="1" Columns="1" Rows="4">
-                                                        <Grid Margin="0,0,0,12">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Text="Cell Voltage Low Side"
+                                                <Grid Grid.Row="1" VerticalAlignment="Center">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid Grid.Column="0" Margin="0,0,16,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="100"/>
+                                                            <ColumnDefinition Width="46.64"/>
+                                                            <ColumnDefinition Width="160"/>
+                                                            <ColumnDefinition Width="160"/>
+                                                            <ColumnDefinition Width="160"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Text="Cell Low Side" Grid.Row="0"
                                                                        FontWeight="SemiBold"
                                                                        VerticalAlignment="Center"/>
-                                                            <TextBox Grid.Column="1"
+                                                        <TextBox Grid.Column="2"  Grid.Row="0"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Reference [mV]"
                                                                      Text="{Binding VoltageLowReference}"
                                                                      Margin="12,0,0,0"/>
-                                                            <TextBox Grid.Column="2"
+                                                        <TextBox Grid.Column="3"  Grid.Row="0"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Result"
                                                                      Text="{Binding VoltageLowResult}"
                                                                      Margin="12,0,0,0"/>
-                                                            <Button Grid.Column="3"
-                                                                    Content="Calibrate Low"
+                                                        <Button Grid.Column="4" Grid.Row="0"
+                                                                    Content="Calib"
                                                                     MinWidth="120"
                                                                     Style="{StaticResource SecondaryActionButton}"
                                                                     Margin="12,0,0,0"/>
-                                                        </Grid>
-                                                        <Grid Margin="0,0,0,12">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Text="Cell Voltage High Side"
+
+                                                        <TextBlock Text="Cell High Side"  Grid.Row="1"
                                                                        FontWeight="SemiBold"
                                                                        VerticalAlignment="Center"/>
-                                                            <TextBox Grid.Column="1"
+                                                        <TextBox Grid.Column="2" Grid.Row="1"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Reference [mV]"
                                                                      Text="{Binding VoltageHighReference}"
                                                                      Margin="12,0,0,0"/>
-                                                            <TextBox Grid.Column="2"
+                                                        <TextBox Grid.Column="3" Grid.Row="1"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Result"
                                                                      Text="{Binding VoltageHighResult}"
                                                                      Margin="12,0,0,0"/>
-                                                            <Button Grid.Column="3"
-                                                                    Content="Calibrate High"
+                                                        <Button Grid.Column="4" Grid.Row="1"
+                                                                    Content="Calib"
                                                                     MinWidth="120"
                                                                     Style="{StaticResource SecondaryActionButton}"
                                                                     Margin="12,0,0,0"/>
-                                                        </Grid>
-                                                        <Grid Margin="0,0,0,12">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Text="Pack Voltage Low Side"
+
+                                                        <TextBlock Text="Pack Low Side" Grid.Row="2"
                                                                        FontWeight="SemiBold"
                                                                        VerticalAlignment="Center"/>
-                                                            <TextBox Grid.Column="1"
+                                                        <TextBox Grid.Column="2" Grid.Row="2"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Reference [mV]"
                                                                      Text="{Binding PackVoltageLowReference}"
                                                                      Margin="12,0,0,0"/>
-                                                            <TextBox Grid.Column="2"
+                                                        <TextBox Grid.Column="3" Grid.Row="2"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Result"
                                                                      Text="{Binding PackVoltageLowResult}"
                                                                      Margin="12,0,0,0"/>
-                                                            <Button Grid.Column="3"
-                                                                    Content="Calibrate Low"
+                                                        <Button Grid.Column="4" Grid.Row="2"
+                                                                    Content="Calib"
                                                                     MinWidth="120"
                                                                     Style="{StaticResource SecondaryActionButton}"
                                                                     Margin="12,0,0,0"/>
-                                                        </Grid>
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Text="Pack Voltage High Side"
+                                                        <TextBlock Text="Pack High Side" Grid.Row="3"
                                                                        FontWeight="SemiBold"
                                                                        VerticalAlignment="Center"/>
-                                                            <TextBox Grid.Column="1"
+                                                        <TextBox Grid.Column="2" Grid.Row="3"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Reference [mV]"
                                                                      Text="{Binding PackVoltageHighReference}"
                                                                      Margin="12,0,0,0"/>
-                                                            <TextBox Grid.Column="2"
+                                                        <TextBox Grid.Column="3" Grid.Row="3"
                                                                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                      materialDesign:HintAssist.Hint="Result"
                                                                      Text="{Binding PackVoltageHighResult}"
                                                                      Margin="12,0,0,0"/>
-                                                            <Button Grid.Column="3"
-                                                                    Content="Calibrate High"
+                                                        <Button Grid.Column="4" Grid.Row="3"
+                                                                    Content="Calib"
                                                                     MinWidth="120"
                                                                     Style="{StaticResource SecondaryActionButton}"
                                                                     Margin="12,0,0,0"/>
-                                                        </Grid>
-                                                    </UniformGrid>
+                                                    </Grid>
                                                 </Grid>
-                                            </materialDesign:Card>
-                                        </StackPanel>
-
-                                        <StackPanel Grid.Column="1">
-                                            <!-- Current card -->
-                                            <materialDesign:Card Padding="16" Margin="16,0,0,16">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="Auto"/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Text="Current"
+                                                </Grid>
+                                        </materialDesign:Card>
+                                        <!-- Current card -->
+                                        <materialDesign:Card Padding="16" Margin="16,0,0,16">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="Current"
                                                                Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                                                Margin="0,0,0,12"/>
-                                                    <UniformGrid Grid.Row="1" Columns="1" Rows="2">
-                                                        <Grid Margin="0,0,0,12">
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Text="Calibration"
-                                                                       FontWeight="SemiBold"
-                                                                       VerticalAlignment="Center"/>
-                                                            <TextBox Grid.Column="1"
-                                                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                                     materialDesign:HintAssist.Hint="Reference [mA]"
-                                                                     Text="{Binding CurrentReference}"
-                                                                     Margin="12,0,0,0"/>
-                                                            <TextBox Grid.Column="2"
-                                                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                                     materialDesign:HintAssist.Hint="Result"
-                                                                     Text="{Binding CurrentResult}"
-                                                                     Margin="12,0,0,0"/>
-                                                            <Button Grid.Column="3"
-                                                                    Content="Calibrate"
-                                                                    MinWidth="120"
-                                                                    Style="{StaticResource SecondaryActionButton}"
-                                                                    Margin="12,0,0,0"/>
-                                                        </Grid>
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="160"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock Text="Discharge"
-                                                                       FontWeight="SemiBold"
-                                                                       VerticalAlignment="Center"/>
-                                                            <Button Grid.Column="3"
-                                                                    Content="Discharge"
-                                                                    MinWidth="120"
-                                                                    Style="{StaticResource SecondaryActionButton}"
-                                                                    Margin="12,0,0,0"/>
-                                                        </Grid>
-                                                    </UniformGrid>
-                                                </Grid>
-                                            </materialDesign:Card>
-
-                                            <!-- Temperature card -->
-                                            <materialDesign:Card Padding="16" Margin="16,0,0,0">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="Auto"/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Text="Temperature"
-                                                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                               Margin="0,0,0,12"/>
-                                                    <Grid Grid.Row="1">
+                                                <UniformGrid Grid.Row="1" Columns="1" Rows="2">
+                                                    <Grid Margin="0,0,0,12">
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto"/>
                                                             <ColumnDefinition Width="160"/>
                                                             <ColumnDefinition Width="160"/>
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBlock Text="Calibration"
+                                                        <TextBlock Text="Dishcarge"
+                                                                       FontWeight="SemiBold"
+                                                                       VerticalAlignment="Center"/>
+                                                        <TextBox Grid.Column="1"
+                                                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                                     materialDesign:HintAssist.Hint="Reference [mA]"
+                                                                     Text="{Binding CurrentReference}"
+                                                                     Margin="12,0,0,0"/>
+                                                        <TextBox Grid.Column="2"
+                                                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                                     materialDesign:HintAssist.Hint="Result"
+                                                                     Text="{Binding CurrentResult}"
+                                                                     Margin="12,0,0,0"/>
+                                                        <Button Grid.Column="3"
+                                                                    Content="Calib"
+                                                                    MinWidth="120"
+                                                                    Style="{StaticResource SecondaryActionButton}"
+                                                                    Margin="12,0,0,0"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="160"/>
+                                                            <ColumnDefinition Width="160"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="0mA"
+                                                                       FontWeight="SemiBold"
+                                                                       VerticalAlignment="Center"/>
+                                                        <Button Grid.Column="1" Grid.ColumnSpan="2"
+                                                                    Content="Calib"
+                                                                    MinWidth="120"
+                                                                    Style="{StaticResource SecondaryActionButton}"
+                                                                    Margin="12,0,0,0"/>
+                                                    </Grid>
+                                                </UniformGrid>
+                                            </Grid>
+                                        </materialDesign:Card>
+
+                                        <!-- Temperature card -->
+                                        <materialDesign:Card Padding="16" Margin="16,0,0,0">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="Temperature"
+                                                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                               Margin="0,0,0,12"/>
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="160"/>
+                                                        <ColumnDefinition Width="160"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="Calibration"
                                                                    FontWeight="SemiBold"
                                                                    VerticalAlignment="Center"/>
-                                                        <TextBox Grid.Column="1"
+                                                    <TextBox Grid.Column="1"
                                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                  materialDesign:HintAssist.Hint="Reference [°C]"
                                                                  Text="{Binding TemperatureReference}"
                                                                  Margin="12,0,0,0"/>
-                                                        <TextBox Grid.Column="2"
+                                                    <TextBox Grid.Column="2"
                                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                  materialDesign:HintAssist.Hint="Result"
                                                                  Text="{Binding TemperatureResult}"
                                                                  Margin="12,0,0,0"/>
-                                                        <Button Grid.Column="3"
+                                                    <Button Grid.Column="3"
                                                                 Content="Set Temp"
                                                                 MinWidth="120"
                                                                 Style="{StaticResource SecondaryActionButton}"
                                                                 Margin="12,0,0,0"/>
-                                                    </Grid>
                                                 </Grid>
-                                            </materialDesign:Card>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Board Data">
+                <ScrollViewer>
+                    <StackPanel Margin="16">
+                        <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                            <materialDesign:Card.Resources>
+                                <CollectionViewSource x:Key="BoardDataSettingsGrouped" Source="{Binding BoardDataSettings}">
+                                    <CollectionViewSource.GroupDescriptions>
+                                        <PropertyGroupDescription PropertyName="Category" />
+                                    </CollectionViewSource.GroupDescriptions>
+                                </CollectionViewSource>
+                            </materialDesign:Card.Resources>
+                            <StackPanel>
+                                <TextBlock Text="Board Settings Data"
+                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                               Margin="0,0,0,16"/>
+                                <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Right"
+                                                Margin="0,0,0,16">
+                                    <Button Command="{Binding ReadBoardDataCommand}"
+                                                MinWidth="120"
+                                                Margin="0,0,8,0"
+                                                Style="{StaticResource SecondaryActionButton}">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="Download"
+                                                                         Width="20"
+                                                                         Height="20"
+                                                                         Margin="0,0,8,0"/>
+                                            <TextBlock Text="Read"/>
                                         </StackPanel>
-                                    </Grid>
+                                    </Button>
+                                    <Button Command="{Binding WriteBoardDataCommand}"
+                                                MinWidth="120"
+                                                Margin="0,0,8,0"
+                                                Style="{StaticResource SecondaryActionButton}">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="Upload"
+                                                                         Width="20"
+                                                                         Height="20"
+                                                                         Margin="0,0,8,0"/>
+                                            <TextBlock Text="Write"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Command="{Binding ImportBoardDataCommand}"
+                                                MinWidth="120"
+                                                Margin="0,0,8,0"
+                                                Style="{StaticResource SecondaryActionButton}">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="FileImport"
+                                                                         Width="20"
+                                                                         Height="20"
+                                                                         Margin="0,0,8,0"/>
+                                            <TextBlock Text="Import"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Command="{Binding ExportBoardDataCommand}"
+                                                MinWidth="120"
+                                                Style="{StaticResource SecondaryActionButton}">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="FileExport"
+                                                                         Width="20"
+                                                                         Height="20"
+                                                                         Margin="0,0,8,0"/>
+                                            <TextBlock Text="Export"/>
+                                        </StackPanel>
+                                    </Button>
                                 </StackPanel>
-                            </materialDesign:Card>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
-
-                <TabItem Header="Board Data">
-                    <ScrollViewer>
-                        <StackPanel Margin="16">
-                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                                <materialDesign:Card.Resources>
-                                    <CollectionViewSource x:Key="BoardDataSettingsGrouped" Source="{Binding BoardDataSettings}">
-                                        <CollectionViewSource.GroupDescriptions>
-                                            <PropertyGroupDescription PropertyName="Category" />
-                                        </CollectionViewSource.GroupDescriptions>
-                                    </CollectionViewSource>
-                                </materialDesign:Card.Resources>
-                                <StackPanel>
-                                    <TextBlock Text="Board Settings Data"
-                                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                               Margin="0,0,0,16"/>
-                                    <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Right"
-                                                Margin="0,0,0,16">
-                                        <Button Command="{Binding ReadBoardDataCommand}"
-                                                MinWidth="120"
-                                                Margin="0,0,8,0"
-                                                Style="{StaticResource SecondaryActionButton}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="Download"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         Margin="0,0,8,0"/>
-                                                <TextBlock Text="Read"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Command="{Binding WriteBoardDataCommand}"
-                                                MinWidth="120"
-                                                Margin="0,0,8,0"
-                                                Style="{StaticResource SecondaryActionButton}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="Upload"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         Margin="0,0,8,0"/>
-                                                <TextBlock Text="Write"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Command="{Binding ImportBoardDataCommand}"
-                                                MinWidth="120"
-                                                Margin="0,0,8,0"
-                                                Style="{StaticResource SecondaryActionButton}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="FileImport"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         Margin="0,0,8,0"/>
-                                                <TextBlock Text="Import"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Command="{Binding ExportBoardDataCommand}"
-                                                MinWidth="120"
-                                                Style="{StaticResource SecondaryActionButton}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="FileExport"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         Margin="0,0,8,0"/>
-                                                <TextBlock Text="Export"/>
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>
-                                    <DataGrid ItemsSource="{Binding Source={StaticResource BoardDataSettingsGrouped}}"
+                                <DataGrid ItemsSource="{Binding Source={StaticResource BoardDataSettingsGrouped}}"
                                               AutoGenerateColumns="False"
                                               HeadersVisibility="Column"
                                               CanUserAddRows="False"
                                               Margin="0,0,0,16">
-                                        <DataGrid.Columns>
-                                            <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Parameter}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Header="Spec" CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Spec}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Header="Unit">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Unit}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                                <DataGridTemplateColumn.CellEditingTemplate>
-                                                    <DataTemplate>
-                                                        <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellEditingTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Header="Description" IsReadOnly="True">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Description}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                        </DataGrid.Columns>
-                                        <DataGrid.GroupStyle>
-                                            <GroupStyle>
-                                                <GroupStyle.HeaderTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                                                    </DataTemplate>
-                                                </GroupStyle.HeaderTemplate>
-                                            </GroupStyle>
-                                        </DataGrid.GroupStyle>
-                                    </DataGrid>
-                                </StackPanel>
-                            </materialDesign:Card>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Parameter}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Spec" CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Spec}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Unit">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Unit}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Description" IsReadOnly="True">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Description}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                    <DataGrid.GroupStyle>
+                                        <GroupStyle>
+                                            <GroupStyle.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                                </DataTemplate>
+                                            </GroupStyle.HeaderTemplate>
+                                        </GroupStyle>
+                                    </DataGrid.GroupStyle>
+                                </DataGrid>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
 
-                <TabItem Header="Protection">
-                    <ScrollViewer>
-                        <StackPanel Margin="16">
-                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                                <materialDesign:Card.Resources>
-                                    <CollectionViewSource x:Key="ProtectionSettingsGrouped" Source="{Binding ProtectionSettings}">
-                                        <CollectionViewSource.GroupDescriptions>
-                                            <PropertyGroupDescription PropertyName="Category" />
-                                        </CollectionViewSource.GroupDescriptions>
-                                    </CollectionViewSource>
-                                </materialDesign:Card.Resources>
-                                <StackPanel>
-                                    <TextBlock Text="Protection Settings Data"
+            <TabItem Header="Protection">
+                <ScrollViewer>
+                    <StackPanel Margin="16">
+                        <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                            <materialDesign:Card.Resources>
+                                <CollectionViewSource x:Key="ProtectionSettingsGrouped" Source="{Binding ProtectionSettings}">
+                                    <CollectionViewSource.GroupDescriptions>
+                                        <PropertyGroupDescription PropertyName="Category" />
+                                    </CollectionViewSource.GroupDescriptions>
+                                </CollectionViewSource>
+                            </materialDesign:Card.Resources>
+                            <StackPanel>
+                                <TextBlock Text="Protection Settings Data"
                                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                                Margin="0,0,0,16"/>
-                                    <StackPanel Orientation="Horizontal"
+                                <StackPanel Orientation="Horizontal"
                                                 HorizontalAlignment="Right"
                                                 Margin="0,0,0,16">
-                                        <Button Command="{Binding ReadProtectionCommand}"
+                                    <Button Command="{Binding ReadProtectionCommand}"
                                                 MinWidth="120"
                                                 Margin="0,0,8,0"
                                                 Style="{StaticResource SecondaryActionButton}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="Download"
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="Download"
                                                                          Width="20"
                                                                          Height="20"
                                                                          Margin="0,0,8,0"/>
-                                                <TextBlock Text="Read"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Command="{Binding WriteProtectionCommand}"
+                                            <TextBlock Text="Read"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Command="{Binding WriteProtectionCommand}"
                                                 MinWidth="120"
                                                 Margin="0,0,8,0"
                                                 Style="{StaticResource SecondaryActionButton}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="Upload"
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="Upload"
                                                                          Width="20"
                                                                          Height="20"
                                                                          Margin="0,0,8,0"/>
-                                                <TextBlock Text="Write"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Command="{Binding ImportProtectionCommand}"
+                                            <TextBlock Text="Write"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Command="{Binding ImportProtectionCommand}"
                                                 MinWidth="120"
                                                 Margin="0,0,8,0"
                                                 Style="{StaticResource SecondaryActionButton}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="FileImport"
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="FileImport"
                                                                          Width="20"
                                                                          Height="20"
                                                                          Margin="0,0,8,0"/>
-                                                <TextBlock Text="Import"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Button Command="{Binding ExportProtectionCommand}"
+                                            <TextBlock Text="Import"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Command="{Binding ExportProtectionCommand}"
                                                 MinWidth="120"
                                                 Style="{StaticResource SecondaryActionButton}">
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="FileExport"
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="FileExport"
                                                                          Width="20"
                                                                          Height="20"
                                                                          Margin="0,0,8,0"/>
-                                                <TextBlock Text="Export"/>
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>
-                                    <DataGrid ItemsSource="{Binding Source={StaticResource ProtectionSettingsGrouped}}"
+                                            <TextBlock Text="Export"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                                <DataGrid ItemsSource="{Binding Source={StaticResource ProtectionSettingsGrouped}}"
                                               AutoGenerateColumns="False"
                                               HeadersVisibility="Column"
                                               CanUserAddRows="False"
                                               Margin="0,0,0,16">
-                                        <DataGrid.Columns>
-                                            <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Parameter}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Header="Spec"
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="Parameter Name" IsReadOnly="True">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Parameter}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Spec"
                                                                     CellEditingTemplateSelector="{StaticResource SpecTemplateSelector}">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Spec}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Header="Unit">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Unit}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                                <DataGridTemplateColumn.CellEditingTemplate>
-                                                    <DataTemplate>
-                                                        <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellEditingTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Header="Description" IsReadOnly="True">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Description}"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                        </DataGrid.Columns>
-                                        <DataGrid.GroupStyle>
-                                            <GroupStyle>
-                                                <GroupStyle.HeaderTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                                                    </DataTemplate>
-                                                </GroupStyle.HeaderTemplate>
-                                            </GroupStyle>
-                                        </DataGrid.GroupStyle>
-                                    </DataGrid>
-                                </StackPanel>
-                            </materialDesign:Card>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Spec}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Unit">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Unit}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Description" IsReadOnly="True">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Description}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                    <DataGrid.GroupStyle>
+                                        <GroupStyle>
+                                            <GroupStyle.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                                </DataTemplate>
+                                            </GroupStyle.HeaderTemplate>
+                                        </GroupStyle>
+                                    </DataGrid.GroupStyle>
+                                </DataGrid>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
 
-                <TabItem Header="System">
-                    <ScrollViewer>
-                        <StackPanel Margin="16">
-                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                                <StackPanel>
-                                    <TextBlock Text="System Settings"
+            <TabItem Header="System">
+                <ScrollViewer>
+                    <StackPanel Margin="16">
+                        <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                            <StackPanel>
+                                <TextBlock Text="System Settings"
                                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                                Margin="0,0,0,16"/>
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                              materialDesign:HintAssist.Hint="Board Port"
                                              Text="{Binding BoardPort}"
                                              Width="200"/>
-                                </StackPanel>
-                            </materialDesign:Card>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
 
-                <TabItem Header="FW Update">
-                    <ScrollViewer>
-                        <StackPanel Margin="16">
-                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                                <StackPanel>
-                                    <TextBlock Text="Firmware Update"
+            <TabItem Header="FW Update">
+                <ScrollViewer>
+                    <StackPanel Margin="16">
+                        <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                            <StackPanel>
+                                <TextBlock Text="Firmware Update"
                                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                                Margin="0,0,0,16"/>
-                                    <TextBlock Text="Provide the firmware metadata before starting an update."
+                                <TextBlock Text="Provide the firmware metadata before starting an update."
                                                Style="{StaticResource MaterialDesignBody2TextBlock}"
                                                Margin="0,0,0,16"/>
-                                    <Grid Margin="0,0,0,8">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                <Grid Margin="0,0,0,8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        <TextBox Grid.Row="0"
+                                    <TextBox Grid.Row="0"
                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                  materialDesign:HintAssist.Hint="Firmware Version"
                                                  Text="{Binding FirmwareVersion}"
                                                  Margin="0,0,0,8"
                                                  HorizontalAlignment="Stretch"/>
 
-                                        <TextBox Grid.Row="1"
+                                    <TextBox Grid.Row="1"
                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                  materialDesign:HintAssist.Hint="Firmware Sub Version"
                                                  Text="{Binding FirmwareSubVersion}"
                                                  Margin="0,0,0,8"
                                                  HorizontalAlignment="Stretch"/>
 
-                                        <TextBox Grid.Row="2"
+                                    <TextBox Grid.Row="2"
                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                  materialDesign:HintAssist.Hint="Firmware Checksum"
                                                  Text="{Binding FirmwareChecksum}"
                                                  HorizontalAlignment="Stretch"/>
-                                    </Grid>
-                                </StackPanel>
-                            </materialDesign:Card>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+                                </Grid>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
 
-                <TabItem Header="Features">
-                    <ScrollViewer>
-                        <StackPanel Margin="16">
-                            <materialDesign:Card Margin="0,0,0,16" Padding="16">
-                                <StackPanel>
-                                    <TextBlock Text="Features"
+            <TabItem Header="Features">
+                <ScrollViewer>
+                    <StackPanel Margin="16">
+                        <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                            <StackPanel>
+                                <TextBlock Text="Features"
                                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                                Margin="0,0,0,16"/>
-                                    <Grid Margin="0,8,0,0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                <Grid Margin="0,8,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Row="0"
+                                    <TextBlock Grid.Row="0"
                                                    Text="Advanced Features"
                                                    VerticalAlignment="Center"/>
-                                        <ToggleButton Grid.Row="0"
+                                    <ToggleButton Grid.Row="0"
                                                       Grid.Column="1"
                                                       Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                                       IsChecked="{Binding EnableAdvancedFeatures}"
                                                       Margin="16,0,0,0"/>
 
-                                        <TextBlock Grid.Row="1"
+                                    <TextBlock Grid.Row="1"
                                                    Text="Dark Theme"
                                                    VerticalAlignment="Center"
                                                    Margin="0,8,0,0"/>
-                                        <ToggleButton Grid.Row="1"
+                                    <ToggleButton Grid.Row="1"
                                                       Grid.Column="1"
                                                       Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                                       IsChecked="{Binding EnableDarkTheme}"
                                                       Margin="16,8,0,0"/>
 
-                                        <TextBlock Grid.Row="2"
+                                    <TextBlock Grid.Row="2"
                                                    Text="Notifications"
                                                    VerticalAlignment="Center"
                                                    Margin="0,8,0,0"/>
-                                        <ToggleButton Grid.Row="2"
+                                    <ToggleButton Grid.Row="2"
                                                       Grid.Column="1"
                                                       Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                                       IsChecked="{Binding EnableNotifications}"
                                                       Margin="16,8,0,0"/>
 
-                                        <TextBlock Grid.Row="3"
+                                    <TextBlock Grid.Row="3"
                                                    Text="Auto Updates"
                                                    VerticalAlignment="Center"
                                                    Margin="0,8,0,0"/>
-                                        <ToggleButton Grid.Row="3"
+                                    <ToggleButton Grid.Row="3"
                                                       Grid.Column="1"
                                                       Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                                       IsChecked="{Binding EnableAutoUpdates}"
                                                       Margin="16,8,0,0"/>
-                            </Grid>
-                                </StackPanel>
-                            </materialDesign:Card>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+                                </Grid>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>
