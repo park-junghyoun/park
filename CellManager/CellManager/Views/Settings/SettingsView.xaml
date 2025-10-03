@@ -105,6 +105,7 @@
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="Auto"/>
                                                             <ColumnDefinition Width="160"/>
+                                                            <ColumnDefinition Width="160"/>
                                                         </Grid.ColumnDefinitions>
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="Auto"/>
@@ -124,6 +125,13 @@
                                                                  Text="{Binding VoltageAdcValue}"
                                                                  IsReadOnly="True"
                                                                  Margin="12,0,0,8"/>
+                                                        <TextBox Grid.Row="0"
+                                                                 Grid.Column="2"
+                                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                                 materialDesign:HintAssist.Hint="Result [mV]"
+                                                                 Text="{Binding VoltageMeasurement}"
+                                                                 IsReadOnly="True"
+                                                                 Margin="12,0,0,8"/>
                                                         <TextBlock Grid.Row="1"
                                                                    Text="Pack Voltage"
                                                                    FontWeight="SemiBold"
@@ -134,6 +142,13 @@
                                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                  materialDesign:HintAssist.Hint="ADC"
                                                                  Text="{Binding PackVoltageAdcValue}"
+                                                                 IsReadOnly="True"
+                                                                 Margin="12,0,0,8"/>
+                                                        <TextBox Grid.Row="1"
+                                                                 Grid.Column="2"
+                                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                                 materialDesign:HintAssist.Hint="Result [mV]"
+                                                                 Text="{Binding PackVoltageMeasurement}"
                                                                  IsReadOnly="True"
                                                                  Margin="12,0,0,8"/>
                                                         <TextBlock Grid.Row="2"
@@ -148,6 +163,13 @@
                                                                  Text="{Binding CurrentAdcValue}"
                                                                  IsReadOnly="True"
                                                                  Margin="12,0,0,8"/>
+                                                        <TextBox Grid.Row="2"
+                                                                 Grid.Column="2"
+                                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                                 materialDesign:HintAssist.Hint="Result [mA]"
+                                                                 Text="{Binding CurrentMeasurement}"
+                                                                 IsReadOnly="True"
+                                                                 Margin="12,0,0,8"/>
                                                         <TextBlock Grid.Row="3"
                                                                    Text="Temperature"
                                                                    FontWeight="SemiBold"
@@ -158,6 +180,13 @@
                                                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                                  materialDesign:HintAssist.Hint="ADC"
                                                                  Text="{Binding TemperatureAdcValue}"
+                                                                 IsReadOnly="True"
+                                                                 Margin="12,0,0,0"/>
+                                                        <TextBox Grid.Row="3"
+                                                                 Grid.Column="2"
+                                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                                 materialDesign:HintAssist.Hint="Result [°C]"
+                                                                 Text="{Binding TemperatureMeasurement}"
                                                                  IsReadOnly="True"
                                                                  Margin="12,0,0,0"/>
                                                     </Grid>

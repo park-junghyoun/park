@@ -56,6 +56,12 @@ namespace CellManager.ViewModels
         private string _packVoltageAdcValue = "0";
 
         [ObservableProperty]
+        private string _voltageMeasurement = "0";
+
+        [ObservableProperty]
+        private string _packVoltageMeasurement = "0";
+
+        [ObservableProperty]
         private string _currentReference = "500";
 
         [ObservableProperty]
@@ -65,6 +71,9 @@ namespace CellManager.ViewModels
         private string _currentAdcValue = "0";
 
         [ObservableProperty]
+        private string _currentMeasurement = "0";
+
+        [ObservableProperty]
         private string _temperatureReference = "25";
 
         [ObservableProperty]
@@ -72,6 +81,9 @@ namespace CellManager.ViewModels
 
         [ObservableProperty]
         private string _temperatureAdcValue = "0";
+
+        [ObservableProperty]
+        private string _temperatureMeasurement = "0";
 
         // Default paths
         [ObservableProperty]
