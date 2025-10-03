@@ -90,6 +90,7 @@ namespace CellManager.ViewModels
         public RelayCommand WriteProtectionCommand { get; }
         public RelayCommand ReadBoardDataCommand { get; }
         public RelayCommand WriteBoardDataCommand { get; }
+        public RelayCommand ReadAdcValuesCommand { get; }
 
         private readonly Dictionary<string, List<ProtectionSetting>> _profiles = new();
         private readonly string _boardDataFilePath = Path.Combine(AppContext.BaseDirectory, "BoardDataProfiles", "1.0.json");
@@ -101,6 +102,7 @@ namespace CellManager.ViewModels
             WriteProtectionCommand = new RelayCommand(WriteProtectionSettings, CanReadWriteProtection);
             ReadBoardDataCommand = new RelayCommand(ReadBoardDataSettings);
             WriteBoardDataCommand = new RelayCommand(WriteBoardDataSettings);
+            ReadAdcValuesCommand = new RelayCommand(ReadAdcValues);
             ReadProtectionSettings();
             ReadBoardDataSettings();
         }
@@ -135,6 +137,11 @@ namespace CellManager.ViewModels
             }
 
             // Placeholder for writing logic
+        }
+
+        private void ReadAdcValues()
+        {
+            // Placeholder for reading ADC values from hardware
         }
 
         partial void OnFirmwareVersionChanged(string value)
