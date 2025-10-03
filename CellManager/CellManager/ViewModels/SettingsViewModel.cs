@@ -38,16 +38,25 @@ namespace CellManager.ViewModels
         private string _voltageHighResult = "0";
 
         [ObservableProperty]
+        private string _voltageAdcValue = "0";
+
+        [ObservableProperty]
         private string _currentReference = "500";
 
         [ObservableProperty]
         private string _currentResult = "0";
 
         [ObservableProperty]
+        private string _currentAdcValue = "0";
+
+        [ObservableProperty]
         private string _temperatureReference = "25";
 
         [ObservableProperty]
         private string _temperatureResult = "0";
+
+        [ObservableProperty]
+        private string _temperatureAdcValue = "0";
 
         // Default paths
         [ObservableProperty]

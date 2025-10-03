@@ -81,86 +81,151 @@
                                     <TextBlock Text="Board Calibration"
                                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                                Margin="0,0,0,16"/>
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel>
                                         <!-- Voltage card -->
-                                        <materialDesign:Card Padding="16" Width="300" Margin="0,0,16,0">
+                                        <materialDesign:Card Padding="16" Margin="0,0,0,16">
                                             <StackPanel>
                                                 <TextBlock Text="Voltage"
                                                            Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                                            Margin="0,0,0,8"/>
-                                                <TextBlock Text="Low Side" FontWeight="Bold"/>
-                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                                    <TextBlock Text="ADC"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"
+                                                               Width="80"/>
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Value"
+                                                             Text="{Binding VoltageAdcValue}"
+                                                             Width="160"
+                                                             IsReadOnly="True"/>
+                                                </StackPanel>
+                                                <TextBlock Text="Low Side" FontWeight="Bold" Margin="0,16,0,0"/>
+                                                <Grid Margin="0,4,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
                                                     <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
                                                              Text="{Binding VoltageLowReference}"
-                                                             Width="120" Margin="0,0,8,0"/>
-                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             Width="140" Margin="0,0,8,0"/>
+                                                    <TextBox Grid.Column="1"
+                                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding VoltageLowResult}"
-                                                             Width="120"/>
-                                                </StackPanel>
-                                                <TextBlock Text="High Side" FontWeight="Bold" Margin="0,8,0,0"/>
-                                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                             Width="140" Margin="0,0,8,0"/>
+                                                    <Button Grid.Column="2"
+                                                            Content="Calibrate Low"
+                                                            Width="100"
+                                                            Style="{StaticResource SecondaryActionButton}"/>
+                                                </Grid>
+                                                <TextBlock Text="High Side" FontWeight="Bold" Margin="0,16,0,0"/>
+                                                <Grid Margin="0,4,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
                                                     <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mV]"
                                                              Text="{Binding VoltageHighReference}"
-                                                             Width="120" Margin="0,0,8,0"/>
-                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             Width="140" Margin="0,0,8,0"/>
+                                                    <TextBox Grid.Column="1"
+                                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding VoltageHighResult}"
-                                                             Width="120"/>
-                                                </StackPanel>
+                                                             Width="140" Margin="0,0,8,0"/>
+                                                    <Button Grid.Column="2"
+                                                            Content="Calibrate High"
+                                                            Width="100"
+                                                            Style="{StaticResource SecondaryActionButton}"/>
+                                                </Grid>
                                             </StackPanel>
                                         </materialDesign:Card>
 
                                         <!-- Current card -->
-                                        <materialDesign:Card Padding="16" Width="260" Margin="0,0,16,0">
+                                        <materialDesign:Card Padding="16" Margin="0,0,0,16">
                                             <StackPanel>
-                                                <TextBlock Text="Current"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                           Margin="0,0,0,8"/>
-                                                <StackPanel Orientation="Horizontal">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="Current"
+                                                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                               Margin="0,0,8,0"/>
+                                                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0">
+                                                        <Button Content="Calibrate"
+                                                                Width="100"
+                                                                Margin="0,0,8,0"
+                                                                Style="{StaticResource SecondaryActionButton}"/>
+                                                        <Button Content="Discharge"
+                                                                Width="100"
+                                                                Style="{StaticResource SecondaryActionButton}"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                                    <TextBlock Text="ADC"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"
+                                                               Width="80"/>
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Value"
+                                                             Text="{Binding CurrentAdcValue}"
+                                                             Width="160"
+                                                             IsReadOnly="True"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
                                                     <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [mA]"
                                                              Text="{Binding CurrentReference}"
-                                                             Width="120" Margin="0,0,8,0"/>
+                                                             Width="140" Margin="0,0,8,0"/>
                                                     <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding CurrentResult}"
-                                                             Width="120"/>
-                                                </StackPanel>
-                                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                                    <Button Content="Calibrate"
-                                                            Width="80"
-                                                            Margin="0,0,8,0"
-                                                            Style="{StaticResource SecondaryActionButton}"/>
-                                                    <Button Content="Discharge"
-                                                            Width="80"
-                                                            Style="{StaticResource SecondaryActionButton}"/>
+                                                             Width="140"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </materialDesign:Card>
 
                                         <!-- Temperature card -->
-                                        <materialDesign:Card Padding="16" Width="260">
+                                        <materialDesign:Card Padding="16">
                                             <StackPanel>
-                                                <TextBlock Text="Temperature"
-                                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                                           Margin="0,0,0,8"/>
-                                                <StackPanel Orientation="Horizontal">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="Temperature"
+                                                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                                               Margin="0,0,8,0"/>
+                                                    <Button Grid.Column="1"
+                                                            Content="Set Temp"
+                                                            Width="100"
+                                                            Style="{StaticResource SecondaryActionButton}"/>
+                                                </Grid>
+                                                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                                    <TextBlock Text="ADC"
+                                                               FontWeight="SemiBold"
+                                                               VerticalAlignment="Center"
+                                                               Width="80"/>
+                                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                             materialDesign:HintAssist.Hint="Value"
+                                                             Text="{Binding TemperatureAdcValue}"
+                                                             Width="160"
+                                                             IsReadOnly="True"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
                                                     <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Reference [°C]"
                                                              Text="{Binding TemperatureReference}"
-                                                             Width="120" Margin="0,0,8,0"/>
+                                                             Width="140" Margin="0,0,8,0"/>
                                                     <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                                              materialDesign:HintAssist.Hint="Result"
                                                              Text="{Binding TemperatureResult}"
-                                                             Width="120"/>
+                                                             Width="140"/>
                                                 </StackPanel>
-                                                <Button Content="Set Temp"
-                                                        Width="80"
-                                                        Margin="0,8,0,0"
-                                                        Style="{StaticResource SecondaryActionButton}"/>
                                             </StackPanel>
                                         </materialDesign:Card>
                                     </StackPanel>
