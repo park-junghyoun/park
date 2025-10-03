@@ -38,16 +38,52 @@ namespace CellManager.ViewModels
         private string _voltageHighResult = "0";
 
         [ObservableProperty]
+        private string _packVoltageLowReference = "1000";
+
+        [ObservableProperty]
+        private string _packVoltageLowResult = "0";
+
+        [ObservableProperty]
+        private string _packVoltageHighReference = "4000";
+
+        [ObservableProperty]
+        private string _packVoltageHighResult = "0";
+
+        [ObservableProperty]
+        private string _voltageAdcValue = "0";
+
+        [ObservableProperty]
+        private string _packVoltageAdcValue = "0";
+
+        [ObservableProperty]
+        private string _voltageMeasurement = "0";
+
+        [ObservableProperty]
+        private string _packVoltageMeasurement = "0";
+
+        [ObservableProperty]
         private string _currentReference = "500";
 
         [ObservableProperty]
         private string _currentResult = "0";
 
         [ObservableProperty]
+        private string _currentAdcValue = "0";
+
+        [ObservableProperty]
+        private string _currentMeasurement = "0";
+
+        [ObservableProperty]
         private string _temperatureReference = "25";
 
         [ObservableProperty]
         private string _temperatureResult = "0";
+
+        [ObservableProperty]
+        private string _temperatureAdcValue = "0";
+
+        [ObservableProperty]
+        private string _temperatureMeasurement = "0";
 
         // Default paths
         [ObservableProperty]
@@ -81,6 +117,7 @@ namespace CellManager.ViewModels
         public RelayCommand WriteProtectionCommand { get; }
         public RelayCommand ReadBoardDataCommand { get; }
         public RelayCommand WriteBoardDataCommand { get; }
+        public RelayCommand ReadAdcValuesCommand { get; }
 
         private readonly Dictionary<string, List<ProtectionSetting>> _profiles = new();
         private readonly string _boardDataFilePath = Path.Combine(AppContext.BaseDirectory, "BoardDataProfiles", "1.0.json");
@@ -92,6 +129,7 @@ namespace CellManager.ViewModels
             WriteProtectionCommand = new RelayCommand(WriteProtectionSettings, CanReadWriteProtection);
             ReadBoardDataCommand = new RelayCommand(ReadBoardDataSettings);
             WriteBoardDataCommand = new RelayCommand(WriteBoardDataSettings);
+            ReadAdcValuesCommand = new RelayCommand(ReadAdcValues);
             ReadProtectionSettings();
             ReadBoardDataSettings();
         }
@@ -126,6 +164,11 @@ namespace CellManager.ViewModels
             }
 
             // Placeholder for writing logic
+        }
+
+        private void ReadAdcValues()
+        {
+            // Placeholder for reading ADC values from hardware
         }
 
         partial void OnFirmwareVersionChanged(string value)
