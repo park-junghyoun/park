@@ -26,28 +26,28 @@ namespace CellManager.ViewModels
 
         // Calibration placeholders
         [ObservableProperty]
-        private string _voltageLowReference = "1000";
+        private string _voltageLowReference = "2000";
 
         [ObservableProperty]
-        private string _voltageLowResult = "0";
+        private string _voltageLowResult = "Wait";
 
         [ObservableProperty]
         private string _voltageHighReference = "4000";
 
         [ObservableProperty]
-        private string _voltageHighResult = "0";
+        private string _voltageHighResult = "Wait";
 
         [ObservableProperty]
-        private string _packVoltageLowReference = "1000";
+        private string _packVoltageLowReference = "2000";
 
         [ObservableProperty]
-        private string _packVoltageLowResult = "0";
+        private string _packVoltageLowResult = "Wait";
 
         [ObservableProperty]
         private string _packVoltageHighReference = "4000";
 
         [ObservableProperty]
-        private string _packVoltageHighResult = "0";
+        private string _packVoltageHighResult = "Wait";
 
         [ObservableProperty]
         private string _voltageAdcValue = "0";
@@ -62,10 +62,16 @@ namespace CellManager.ViewModels
         private string _packVoltageMeasurement = "0";
 
         [ObservableProperty]
-        private string _currentReference = "500";
+        private string _currentReference = "1000";
 
         [ObservableProperty]
-        private string _currentResult = "0";
+        private string _currentResult = "Wait";
+
+        [ObservableProperty]
+        private string _curr0AReference = "0";
+
+        [ObservableProperty]
+        private string _curr0AResult = "Wait";
 
         [ObservableProperty]
         private string _currentAdcValue = "0";
@@ -77,7 +83,7 @@ namespace CellManager.ViewModels
         private string _temperatureReference = "25";
 
         [ObservableProperty]
-        private string _temperatureResult = "0";
+        private string _temperatureResult = "Wait";
 
         [ObservableProperty]
         private string _temperatureAdcValue = "0";
