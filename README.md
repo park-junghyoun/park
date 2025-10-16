@@ -10,13 +10,13 @@ dotnet restore CellManager/CellManager.sln
 ```
 
 ## Build (Debug)
-Use the default framework-dependent build for local debugging:
+If you want the fastest local build (framework-dependent), disable the self-contained settings temporarily:
 ```bash
-dotnet build CellManager/CellManager.sln
+dotnet build CellManager/CellManager.sln -c Debug /p:SelfContained=false /p:PublishSingleFile=false
 ```
 
 ## Publish Single-File Release
-The Release configuration is pre-configured to produce a **single executable** that embeds every managed and native dependency *and* the required .NET runtime for `win-x64`. The published `CellManager.exe` can therefore run on target machines that do **not** have any version of the .NET Framework or .NET Runtime installed.
+The project is now configured to emit a **single executable** that embeds every managed and native dependency *and* the required .NET runtime for `win-x64`. Whenever you build or publish without overriding the defaults, the produced `CellManager.exe` can run on machines that do **not** have any version of the .NET Framework or .NET Runtime installed.
 
 ### Command-line publish
 Run the following from the repository root:
@@ -29,6 +29,8 @@ CellManager/CellManager/bin/Release/net8.0-windows/win-x64/publish/CellManager.e
 ```
 Only that executable (and any content files you intentionally copy next to it) needs to be distributed.
 
+> ❗ **Check the file size** – a self-contained single file will be well over 100 MB. If you see an output that is only a few megabytes, you are still looking at a framework-dependent build. Clean the `bin`/`obj` folders and republish to get the bundled executable.
+
 ### Visual Studio publish profile
 When using Visual Studio, select the **SelfContainedWinX64** publish profile. It writes the finished package to:
 ```
@@ -36,6 +38,6 @@ CellManager/CellManager/bin/Publish/SelfContainedWinX64/CellManager.exe
 ```
 This profile enforces the same single-file, self-contained settings as the command-line publish, so the output runs without installing any .NET runtime.
 
-> 💡 Only the published output is self-contained. The build output in `bin/Release/net8.0-windows` (or any Debug build) still expects the .NET runtime to be present and is meant for local development.
+> 💡 The default configuration now prefers the self-contained single-file output. If you need a lightweight framework-dependent build (for example, faster Debug iterations), pass `/p:SelfContained=false /p:PublishSingleFile=false` on your `build` command.
 
 If you need to publish for a different runtime, override the runtime identifier (e.g., `-r win-x86`) and adjust self-contained options as necessary.
