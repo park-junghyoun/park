@@ -9,6 +9,31 @@
     <DefineConstants>$(DefineConstants);CELL_MANAGER_WPF</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <SelfContained Condition="'$(SelfContained)' == ''">true</SelfContained>
+    <PublishSingleFile Condition="'$(PublishSingleFile)' == ''">true</PublishSingleFile>
+    <IncludeAllContentForSelfExtract Condition="'$(IncludeAllContentForSelfExtract)' == ''">true</IncludeAllContentForSelfExtract>
+    <IncludeNativeLibrariesForSelfExtract Condition="'$(IncludeNativeLibrariesForSelfExtract)' == ''">true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile Condition="'$(EnableCompressionInSingleFile)' == ''">true</EnableCompressionInSingleFile>
+    <PublishReadyToRun Condition="'$(PublishReadyToRun)' == ''">true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <Target Name="CopySelfContainedExecutable" AfterTargets="Publish">
+    <PropertyGroup>
+      <SingleFilePublish>$(PublishDir)$(AssemblyName).exe</SingleFilePublish>
+      <DistributionDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\dist\'))</DistributionDirectory>
+    </PropertyGroup>
+    <ItemGroup Condition="Exists('$(SingleFilePublish)')">
+      <PublishedSingleFile Include="$(SingleFilePublish)" />
+    </ItemGroup>
+    <MakeDir Directories="$(DistributionDirectory)" Condition="'@(PublishedSingleFile)' != ''" />
+    <Copy SourceFiles="@(PublishedSingleFile)"
+          DestinationFolder="$(DistributionDirectory)"
+          SkipUnchangedFiles="true"
+          Condition="'@(PublishedSingleFile)' != ''" />
+  </Target>
+
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Config\" />
